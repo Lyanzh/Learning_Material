@@ -1,0 +1,453 @@
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"lptmr.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.time_delay_ms,"ax",%progbits
+  18              		.align	2
+  19              		.global	time_delay_ms
+  20              		.code	16
+  21              		.thumb_func
+  23              	time_delay_ms:
+  24              	.LFB0:
+  25              		.file 1 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr/lptmr.
+   1:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c **** /*
+   2:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****  * File:        lptmr.c
+   3:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****  * Purpose:     Provide common low power timer functions
+   4:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****  *
+   5:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****  * Notes:       Right now only function provided is used
+   6:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****  *              to generate a delay in ms. This driver
+   7:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****  *              could be expanded to include more functions
+   8:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****  *              in the future.
+   9:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****  *
+  10:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****  */
+  11:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c **** 
+  12:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c **** 
+  13:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c **** #include "common.h"
+  14:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c **** #include "lptmr.h"
+  15:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c **** 
+  16:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c **** 
+  17:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c **** extern int re_init_clk;
+  18:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c **** extern int clock_freq_hz;
+  19:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c **** 
+  20:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c **** /********************************************************************/
+  21:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c **** /*
+  22:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****  * Initialize the low power time to provide a delay measured in ms.
+  23:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****  *
+  24:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****  *
+  25:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****  * Parameters:
+  26:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****  *  count_val   number of ms to delay
+  27:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****  *
+  28:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****  * Returns:
+  29:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****  * None
+  30:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****  */
+  31:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c **** void time_delay_ms(unsigned int count_val)
+  32:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c **** {
+  26              		.loc 1 32 0
+  27              		.cfi_startproc
+  28 0000 80B5     		push	{r7, lr}
+  29              	.LCFI0:
+  30              		.cfi_def_cfa_offset 8
+  31              		.cfi_offset 7, -8
+  32              		.cfi_offset 14, -4
+  33 0002 82B0     		sub	sp, sp, #8
+  34              	.LCFI1:
+  35              		.cfi_def_cfa_offset 16
+  36 0004 00AF     		add	r7, sp, #0
+  37              	.LCFI2:
+  38              		.cfi_def_cfa_register 7
+  39 0006 7860     		str	r0, [r7, #4]
+  33:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****   /* Make sure the clock to the LPTMR is enabled */
+  34:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****   SIM_SCGC5|=SIM_SCGC5_LPTMR_MASK;
+  40              		.loc 1 34 0
+  41 0008 134A     		ldr	r2, .L4
+  42 000a 1349     		ldr	r1, .L4
+  43 000c 134B     		ldr	r3, .L4+4
+  44 000e CB58     		ldr	r3, [r1, r3]
+  45 0010 0121     		mov	r1, #1
+  46 0012 1943     		orr	r1, r3
+  47 0014 114B     		ldr	r3, .L4+4
+  48 0016 D150     		str	r1, [r2, r3]
+  35:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c **** 
+  36:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****   /* Reset LPTMR settings */
+  37:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****   LPTMR0_CSR=0;
+  49              		.loc 1 37 0
+  50 0018 114B     		ldr	r3, .L4+8
+  51 001a 0022     		mov	r2, #0
+  52 001c 1A60     		str	r2, [r3]
+  38:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c **** 
+  39:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****   /* Set the compare value to the number of ms to delay */
+  40:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****   LPTMR0_CMR = count_val;
+  53              		.loc 1 40 0
+  54 001e 104B     		ldr	r3, .L4+8
+  55 0020 7A68     		ldr	r2, [r7, #4]
+  56 0022 9A60     		str	r2, [r3, #8]
+  41:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c **** 
+  42:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****   /* Set up LPTMR to use 1kHz LPO with no prescaler as its clock source */
+  43:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****   LPTMR0_PSR = LPTMR_PSR_PCS(1)|LPTMR_PSR_PBYP_MASK;
+  57              		.loc 1 43 0
+  58 0024 0E4B     		ldr	r3, .L4+8
+  59 0026 0522     		mov	r2, #5
+  60 0028 5A60     		str	r2, [r3, #4]
+  44:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c **** 
+  45:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****   /* Start the timer */
+  46:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****   LPTMR0_CSR |= LPTMR_CSR_TEN_MASK;
+  61              		.loc 1 46 0
+  62 002a 0D4B     		ldr	r3, .L4+8
+  63 002c 0C4A     		ldr	r2, .L4+8
+  64 002e 1268     		ldr	r2, [r2]
+  65 0030 0121     		mov	r1, #1
+  66 0032 0A43     		orr	r2, r1
+  67 0034 1A60     		str	r2, [r3]
+  47:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c **** 
+  48:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****   /* Wait for counter to reach compare value */
+  49:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****   while (!(LPTMR0_CSR & LPTMR_CSR_TCF_MASK));
+  68              		.loc 1 49 0
+  69 0036 C046     		mov	r8, r8
+  70              	.L2:
+  71              		.loc 1 49 0 is_stmt 0
+  72 0038 094B     		ldr	r3, .L4+8
+  73 003a 1A68     		ldr	r2, [r3]
+  74 003c 8023     		mov	r3, #128
+  75 003e 1340     		and	r3, r2
+  76 0040 FAD0     		beq	.L2
+  50:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c **** 
+  51:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****   /* Disable counter and Clear Timer Compare Flag */
+  52:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****   LPTMR0_CSR &= ~LPTMR_CSR_TEN_MASK;
+  77              		.loc 1 52 0 is_stmt 1
+  78 0042 074B     		ldr	r3, .L4+8
+  79 0044 064A     		ldr	r2, .L4+8
+  80 0046 1268     		ldr	r2, [r2]
+  81 0048 0121     		mov	r1, #1
+  82 004a 8A43     		bic	r2, r1
+  83 004c 1A60     		str	r2, [r3]
+  53:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c **** 
+  54:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****   return;
+  84              		.loc 1 54 0
+  85 004e C046     		mov	r8, r8
+  55:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c **** }
+  86              		.loc 1 55 0
+  87 0050 BD46     		mov	sp, r7
+  88 0052 02B0     		add	sp, sp, #8
+  89              		@ sp needed for prologue
+  90 0054 80BD     		pop	{r7, pc}
+  91              	.L5:
+  92 0056 C046     		.align	2
+  93              	.L4:
+  94 0058 00700440 		.word	1074032640
+  95 005c 38100000 		.word	4152
+  96 0060 00000440 		.word	1074003968
+  97              		.cfi_endproc
+  98              	.LFE0:
+ 100              		.section	.rodata
+ 101              		.align	2
+ 102              	.LC0:
+ 103 0000 0A2A2A2A 		.ascii	"\012****LPT ISR entered*****\015\000"
+ 103      2A4C5054 
+ 103      20495352 
+ 103      20656E74 
+ 103      65726564 
+ 104              		.section	.text.lptmr_isr,"ax",%progbits
+ 105              		.align	2
+ 106              		.global	lptmr_isr
+ 107              		.code	16
+ 108              		.thumb_func
+ 110              	lptmr_isr:
+ 111              	.LFB1:
+  56:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c **** 
+  57:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c **** void lptmr_isr(void)
+  58:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c **** {
+ 112              		.loc 1 58 0
+ 113              		.cfi_startproc
+ 114 0000 80B5     		push	{r7, lr}
+ 115              	.LCFI3:
+ 116              		.cfi_def_cfa_offset 8
+ 117              		.cfi_offset 7, -8
+ 118              		.cfi_offset 14, -4
+ 119 0002 00AF     		add	r7, sp, #0
+ 120              	.LCFI4:
+ 121              		.cfi_def_cfa_register 7
+  59:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****   GPIOB_PSOR = 0x00080000;           // clear Port B 19 indicate wakeup
+ 122              		.loc 1 59 0
+ 123 0004 094B     		ldr	r3, .L7
+ 124 0006 8022     		mov	r2, #128
+ 125 0008 1203     		lsl	r2, r2, #12
+ 126 000a 5A60     		str	r2, [r3, #4]
+  60:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c **** 
+  61:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****   printf("\n****LPT ISR entered*****\r\n");
+ 127              		.loc 1 61 0
+ 128 000c 084B     		ldr	r3, .L7+4
+ 129 000e 181C     		mov	r0, r3
+ 130 0010 FFF7FEFF 		bl	puts
+  62:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c **** 
+  63:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****   // enable timer
+  64:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****   // enable interrupts
+  65:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****   // clear the flag
+  66:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****   LPTMR0_CSR |=  LPTMR_CSR_TCF_MASK;   // write 1 to TCF to clear the LPT timer compare flag
+ 131              		.loc 1 66 0
+ 132 0014 074B     		ldr	r3, .L7+8
+ 133 0016 074A     		ldr	r2, .L7+8
+ 134 0018 1268     		ldr	r2, [r2]
+ 135 001a 8021     		mov	r1, #128
+ 136 001c 0A43     		orr	r2, r1
+ 137 001e 1A60     		str	r2, [r3]
+  67:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****   LPTMR0_CSR = ( LPTMR_CSR_TEN_MASK | LPTMR_CSR_TIE_MASK | LPTMR_CSR_TCF_MASK  );
+ 138              		.loc 1 67 0
+ 139 0020 044B     		ldr	r3, .L7+8
+ 140 0022 C122     		mov	r2, #193
+ 141 0024 1A60     		str	r2, [r3]
+  68:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****    
+  69:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c **** 
+  70:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c **** }
+ 142              		.loc 1 70 0
+ 143 0026 BD46     		mov	sp, r7
+ 144              		@ sp needed for prologue
+ 145 0028 80BD     		pop	{r7, pc}
+ 146              	.L8:
+ 147 002a C046     		.align	2
+ 148              	.L7:
+ 149 002c 40F00F40 		.word	1074786368
+ 150 0030 00000000 		.word	.LC0
+ 151 0034 00000440 		.word	1074003968
+ 152              		.cfi_endproc
+ 153              	.LFE1:
+ 155              		.section	.rodata
+ 156 001b 00       		.align	2
+ 157              	.LC2:
+ 158 001c 0A204C50 		.ascii	"\012 LPTMR Clock source is the MCGIRCLK \012\015\000"
+ 158      544D5220 
+ 158      436C6F63 
+ 158      6B20736F 
+ 158      75726365 
+ 159              		.align	2
+ 160              	.LC4:
+ 161 0044 0A204C50 		.ascii	"\012 LPTMR Clock source is the LPOCLK \012\015\000"
+ 161      544D5220 
+ 161      436C6F63 
+ 161      6B20736F 
+ 161      75726365 
+ 162 006a 0000     		.align	2
+ 163              	.LC6:
+ 164 006c 0A204C50 		.ascii	"\012 LPTMR Clock source is the ERCLK32 \012\015\000"
+ 164      544D5220 
+ 164      436C6F63 
+ 164      6B20736F 
+ 164      75726365 
+ 165 0093 00       		.align	2
+ 166              	.LC8:
+ 167 0094 0A204C50 		.ascii	"\012 LPTMR Clock source is the OSCERCLK \012\015\000"
+ 167      544D5220 
+ 167      436C6F63 
+ 167      6B20736F 
+ 167      75726365 
+ 168              		.section	.text.lptmr_init,"ax",%progbits
+ 169              		.align	2
+ 170              		.global	lptmr_init
+ 171              		.code	16
+ 172              		.thumb_func
+ 174              	lptmr_init:
+ 175              	.LFB2:
+  71:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c **** /*******************************************************************************
+  72:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c **** *
+  73:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c **** *   PROCEDURE NAME:
+  74:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c **** *       lptmr_init -
+  75:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c **** *
+  76:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c **** *******************************************************************************/
+  77:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c **** void lptmr_init(int count, int clock_source)
+  78:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c **** {
+ 176              		.loc 1 78 0
+ 177              		.cfi_startproc
+ 178 0000 80B5     		push	{r7, lr}
+ 179              	.LCFI5:
+ 180              		.cfi_def_cfa_offset 8
+ 181              		.cfi_offset 7, -8
+ 182              		.cfi_offset 14, -4
+ 183 0002 82B0     		sub	sp, sp, #8
+ 184              	.LCFI6:
+ 185              		.cfi_def_cfa_offset 16
+ 186 0004 00AF     		add	r7, sp, #0
+ 187              	.LCFI7:
+ 188              		.cfi_def_cfa_register 7
+ 189 0006 7860     		str	r0, [r7, #4]
+ 190 0008 3960     		str	r1, [r7]
+  79:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****     SIM_SCGC5 |= SIM_SCGC5_LPTMR_MASK;
+ 191              		.loc 1 79 0
+ 192 000a 294A     		ldr	r2, .L14
+ 193 000c 2849     		ldr	r1, .L14
+ 194 000e 294B     		ldr	r3, .L14+4
+ 195 0010 CB58     		ldr	r3, [r1, r3]
+ 196 0012 0121     		mov	r1, #1
+ 197 0014 1943     		orr	r1, r3
+ 198 0016 274B     		ldr	r3, .L14+4
+ 199 0018 D150     		str	r1, [r2, r3]
+  80:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****     SIM_SCGC6 |= SIM_SCGC6_RTC_MASK;
+ 200              		.loc 1 80 0
+ 201 001a 254A     		ldr	r2, .L14
+ 202 001c 2449     		ldr	r1, .L14
+ 203 001e 264B     		ldr	r3, .L14+8
+ 204 0020 CB58     		ldr	r3, [r1, r3]
+ 205 0022 8021     		mov	r1, #128
+ 206 0024 8905     		lsl	r1, r1, #22
+ 207 0026 1943     		orr	r1, r3
+ 208 0028 234B     		ldr	r3, .L14+8
+ 209 002a D150     		str	r1, [r2, r3]
+  81:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****     SIM_SOPT1 |= SIM_SOPT1_OSC32KSEL(2); // ERCLK32 is RTC OSC CLOCK
+ 210              		.loc 1 81 0
+ 211 002c 204B     		ldr	r3, .L14
+ 212 002e 204A     		ldr	r2, .L14
+ 213 0030 1268     		ldr	r2, [r2]
+ 214 0032 8021     		mov	r1, #128
+ 215 0034 0903     		lsl	r1, r1, #12
+ 216 0036 0A43     		orr	r2, r1
+ 217 0038 1A60     		str	r2, [r3]
+  82:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c **** 
+  83:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****     RTC_CR |= RTC_CR_OSCE_MASK |
+ 218              		.loc 1 83 0
+ 219 003a 204B     		ldr	r3, .L14+12
+ 220 003c 1F4A     		ldr	r2, .L14+12
+ 221 003e 1269     		ldr	r2, [r2, #16]
+ 222 0040 B021     		mov	r1, #176
+ 223 0042 0901     		lsl	r1, r1, #4
+ 224 0044 0A43     		orr	r2, r1
+ 225 0046 1A61     		str	r2, [r3, #16]
+  84:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****               RTC_CR_CLKO_MASK |
+  85:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****               RTC_CR_SC8P_MASK  ;
+  86:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c **** 
+  87:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****     LPTMR0_PSR = ( LPTMR_PSR_PRESCALE(0) // 0000 is div 2
+ 226              		.loc 1 87 0
+ 227 0048 1D4B     		ldr	r3, .L14+16
+  88:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****                  | LPTMR_PSR_PBYP_MASK  // LPO feeds directly to LPT
+  89:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****                  | LPTMR_PSR_PCS(clock_source)) ; // use the choice of clock
+ 228              		.loc 1 89 0
+ 229 004a 3968     		ldr	r1, [r7]
+ 230 004c 0322     		mov	r2, #3
+ 231 004e 0A40     		and	r2, r1
+ 232 0050 0421     		mov	r1, #4
+ 233 0052 0A43     		orr	r2, r1
+  87:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****     LPTMR0_PSR = ( LPTMR_PSR_PRESCALE(0) // 0000 is div 2
+ 234              		.loc 1 87 0
+ 235 0054 5A60     		str	r2, [r3, #4]
+  90:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****     if (clock_source== 0)
+ 236              		.loc 1 90 0
+ 237 0056 3B68     		ldr	r3, [r7]
+ 238 0058 002B     		cmp	r3, #0
+ 239 005a 03D1     		bne	.L10
+  91:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****       printf("\n LPTMR Clock source is the MCGIRCLK \n\r");
+ 240              		.loc 1 91 0
+ 241 005c 194B     		ldr	r3, .L14+20
+ 242 005e 181C     		mov	r0, r3
+ 243 0060 FFF7FEFF 		bl	printf
+ 244              	.L10:
+  92:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****     if (clock_source== 1)
+ 245              		.loc 1 92 0
+ 246 0064 3B68     		ldr	r3, [r7]
+ 247 0066 012B     		cmp	r3, #1
+ 248 0068 03D1     		bne	.L11
+  93:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****       printf("\n LPTMR Clock source is the LPOCLK \n\r");
+ 249              		.loc 1 93 0
+ 250 006a 174B     		ldr	r3, .L14+24
+ 251 006c 181C     		mov	r0, r3
+ 252 006e FFF7FEFF 		bl	printf
+ 253              	.L11:
+  94:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****     if (clock_source== 2)
+ 254              		.loc 1 94 0
+ 255 0072 3B68     		ldr	r3, [r7]
+ 256 0074 022B     		cmp	r3, #2
+ 257 0076 03D1     		bne	.L12
+  95:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****       printf("\n LPTMR Clock source is the ERCLK32 \n\r");
+ 258              		.loc 1 95 0
+ 259 0078 144B     		ldr	r3, .L14+28
+ 260 007a 181C     		mov	r0, r3
+ 261 007c FFF7FEFF 		bl	printf
+ 262              	.L12:
+  96:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****     if (clock_source== 3)
+ 263              		.loc 1 96 0
+ 264 0080 3B68     		ldr	r3, [r7]
+ 265 0082 032B     		cmp	r3, #3
+ 266 0084 03D1     		bne	.L13
+  97:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****       printf("\n LPTMR Clock source is the OSCERCLK \n\r");
+ 267              		.loc 1 97 0
+ 268 0086 124B     		ldr	r3, .L14+32
+ 269 0088 181C     		mov	r0, r3
+ 270 008a FFF7FEFF 		bl	printf
+ 271              	.L13:
+  98:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****              
+  99:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****     LPTMR0_CMR = LPTMR_CMR_COMPARE(count);  //Set compare value
+ 272              		.loc 1 99 0
+ 273 008e 0C4B     		ldr	r3, .L14+16
+ 274 0090 7A68     		ldr	r2, [r7, #4]
+ 275 0092 1204     		lsl	r2, r2, #16
+ 276 0094 120C     		lsr	r2, r2, #16
+ 277 0096 9A60     		str	r2, [r3, #8]
+ 100:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c **** 
+ 101:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****     LPTMR0_CSR =(  LPTMR_CSR_TCF_MASK   // Clear any pending interrupt
+ 278              		.loc 1 101 0
+ 279 0098 094B     		ldr	r3, .L14+16
+ 280 009a C022     		mov	r2, #192
+ 281 009c 1A60     		str	r2, [r3]
+ 102:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****                  | LPTMR_CSR_TIE_MASK   // LPT interrupt enabled
+ 103:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****                  | LPTMR_CSR_TPS(0)     //TMR pin select
+ 104:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****                  |!LPTMR_CSR_TPP_MASK   //TMR Pin polarity
+ 105:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****                  |!LPTMR_CSR_TFC_MASK   // Timer Free running counter is reset whenever TMR counter
+ 106:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****                  |!LPTMR_CSR_TMS_MASK   //LPTMR0 as Timer
+ 107:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****                 );
+ 108:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c ****     LPTMR0_CSR |= LPTMR_CSR_TEN_MASK;   //Turn on LPT and start counting
+ 282              		.loc 1 108 0
+ 283 009e 084B     		ldr	r3, .L14+16
+ 284 00a0 074A     		ldr	r2, .L14+16
+ 285 00a2 1268     		ldr	r2, [r2]
+ 286 00a4 0121     		mov	r1, #1
+ 287 00a6 0A43     		orr	r2, r1
+ 288 00a8 1A60     		str	r2, [r3]
+ 109:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr\lptmr.c **** }
+ 289              		.loc 1 109 0
+ 290 00aa BD46     		mov	sp, r7
+ 291 00ac 02B0     		add	sp, sp, #8
+ 292              		@ sp needed for prologue
+ 293 00ae 80BD     		pop	{r7, pc}
+ 294              	.L15:
+ 295              		.align	2
+ 296              	.L14:
+ 297 00b0 00700440 		.word	1074032640
+ 298 00b4 38100000 		.word	4152
+ 299 00b8 3C100000 		.word	4156
+ 300 00bc 00D00340 		.word	1073991680
+ 301 00c0 00000440 		.word	1074003968
+ 302 00c4 1C000000 		.word	.LC2
+ 303 00c8 44000000 		.word	.LC4
+ 304 00cc 6C000000 		.word	.LC6
+ 305 00d0 94000000 		.word	.LC8
+ 306              		.cfi_endproc
+ 307              	.LFE2:
+ 309              		.text
+ 310              	.Letext0:
+ 311              		.file 2 "C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint"
+ 312              		.file 3 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu/headers/MKL46Z4.
+DEFINED SYMBOLS
+                            *ABS*:00000000 lptmr.c
+C:\Users\b01252\AppData\Local\Temp\cceFbM0Z.s:18     .text.time_delay_ms:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\cceFbM0Z.s:23     .text.time_delay_ms:00000000 time_delay_ms
+C:\Users\b01252\AppData\Local\Temp\cceFbM0Z.s:94     .text.time_delay_ms:00000058 $d
+C:\Users\b01252\AppData\Local\Temp\cceFbM0Z.s:101    .rodata:00000000 $d
+C:\Users\b01252\AppData\Local\Temp\cceFbM0Z.s:105    .text.lptmr_isr:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\cceFbM0Z.s:110    .text.lptmr_isr:00000000 lptmr_isr
+C:\Users\b01252\AppData\Local\Temp\cceFbM0Z.s:149    .text.lptmr_isr:0000002c $d
+C:\Users\b01252\AppData\Local\Temp\cceFbM0Z.s:169    .text.lptmr_init:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\cceFbM0Z.s:174    .text.lptmr_init:00000000 lptmr_init
+C:\Users\b01252\AppData\Local\Temp\cceFbM0Z.s:297    .text.lptmr_init:000000b0 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+puts
+printf

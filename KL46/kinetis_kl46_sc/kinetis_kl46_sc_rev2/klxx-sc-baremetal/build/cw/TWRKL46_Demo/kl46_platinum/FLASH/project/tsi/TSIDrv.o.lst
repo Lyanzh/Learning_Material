@@ -1,0 +1,1435 @@
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"TSIDrv.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.comm	Electrode1,1,1
+  18              		.comm	Electrode2,1,1
+  19              		.global	total_electrode
+  20              		.section	.data.total_electrode,"aw",%progbits
+  23              	total_electrode:
+  24 0000 02       		.byte	2
+  25              		.global	elec_array
+  26              		.section	.data.elec_array,"aw",%progbits
+  27              		.align	2
+  30              	elec_array:
+  31 0000 09       		.byte	9
+  32 0001 0A       		.byte	10
+  33 0002 00       		.byte	0
+  34 0003 01       		.byte	1
+  35 0004 02       		.byte	2
+  36 0005 03       		.byte	3
+  37 0006 04       		.byte	4
+  38 0007 05       		.byte	5
+  39 0008 06       		.byte	6
+  40 0009 07       		.byte	7
+  41 000a 08       		.byte	8
+  42 000b 0B       		.byte	11
+  43 000c 0C       		.byte	12
+  44 000d 0D       		.byte	13
+  45 000e 0E       		.byte	14
+  46 000f 0F       		.byte	15
+  47              		.comm	gu16TSICount,32,4
+  48              		.comm	gu16Baseline,32,4
+  49              		.global	gu16Threshold
+  50              		.section	.data.gu16Threshold,"aw",%progbits
+  51              		.align	2
+  54              	gu16Threshold:
+  55 0000 A000     		.short	160
+  56 0002 A000     		.short	160
+  57 0004 A000     		.short	160
+  58 0006 A000     		.short	160
+  59 0008 A000     		.short	160
+  60 000a A000     		.short	160
+  61 000c A000     		.short	160
+  62 000e 6400     		.short	100
+  63 0010 6400     		.short	100
+  64 0012 6400     		.short	100
+  65 0014 6400     		.short	100
+  66 0016 6400     		.short	100
+  67 0018 6400     		.short	100
+  68 001a 6400     		.short	100
+  69 001c 6400     		.short	100
+  70 001e 6400     		.short	100
+  71              		.comm	gu16Delta,32,4
+  72              		.comm	ongoing_elec,1,1
+  73              		.global	end_flag
+  74              		.section	.data.end_flag,"aw",%progbits
+  77              	end_flag:
+  78 0000 01       		.byte	1
+  79              		.global	SliderPercentegePosition
+  80              		.section	.bss.SliderPercentegePosition,"aw",%nobits
+  81              		.align	2
+  84              	SliderPercentegePosition:
+  85 0000 0000     		.space	2
+  86              		.global	SliderDistancePosition
+  87 0002 0000     		.section	.bss.SliderDistancePosition,"aw",%nobits
+  88              		.align	2
+  91              	SliderDistancePosition:
+  92 0000 0000     		.space	2
+  93              		.global	AbsolutePercentegePosition
+  94 0002 0000     		.section	.bss.AbsolutePercentegePosition,"aw",%nobits
+  97              	AbsolutePercentegePosition:
+  98 0000 00       		.space	1
+  99              		.global	AbsoluteDistancePosition
+ 100              		.section	.bss.AbsoluteDistancePosition,"aw",%nobits
+ 103              	AbsoluteDistancePosition:
+ 104 0000 00       		.space	1
+ 105              		.section	.text.TSI_SelfCalibration,"ax",%progbits
+ 106              		.align	2
+ 107              		.global	TSI_SelfCalibration
+ 108              		.code	16
+ 109              		.thumb_func
+ 111              	TSI_SelfCalibration:
+ 112              	.LFB0:
+ 113              		.file 1 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Dem
+   1:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** #include "TSIDrv.h"
+   2:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** 
+   3:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** 
+   4:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** uint8 Electrode1;
+   5:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** uint8 Electrode2;
+   6:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** 
+   7:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** uint8 total_electrode = TOTAL_ELECTRODE;
+   8:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** uint8 elec_array[16]={ELECTRODE0,ELECTRODE1,ELECTRODE2,ELECTRODE3,ELECTRODE4,ELECTRODE5,
+   9:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** 		                ELECTRODE6,ELECTRODE7,ELECTRODE8,ELECTRODE9,ELECTRODE10,ELECTRODE11,
+  10:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** 		                ELECTRODE12,ELECTRODE13,ELECTRODE14,ELECTRODE15};
+  11:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** uint16 gu16TSICount[16];
+  12:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** uint16 gu16Baseline[16];
+  13:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** uint16 gu16Threshold[16]={THRESHOLD0,THRESHOLD1,THRESHOLD2,THRESHOLD3,THRESHOLD4,THRESHOLD5,
+  14:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****                                 THRESHOLD6,THRESHOLD7,THRESHOLD8,THRESHOLD9,THRESHOLD10,THRESHOLD11
+  15:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****                                 THRESHOLD12,THRESHOLD13,THRESHOLD14,THRESHOLD15};
+  16:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** uint16 gu16Delta[16];
+  17:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** uint8 ongoing_elec;
+  18:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** 
+  19:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** uint8 end_flag = TRUE;
+  20:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** 
+  21:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** uint8 SliderPercentegePosition[2] = {NO_TOUCH,NO_TOUCH};
+  22:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** uint8 SliderDistancePosition[2] = {NO_TOUCH,NO_TOUCH};
+  23:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** 
+  24:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** 
+  25:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** uint8 AbsolutePercentegePosition = NO_TOUCH;
+  26:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** uint8 AbsoluteDistancePosition = NO_TOUCH;
+  27:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** 
+  28:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** 
+  29:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** void TSI_SelfCalibration(void)
+  30:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** {
+ 114              		.loc 1 30 0
+ 115              		.cfi_startproc
+ 116 0000 80B5     		push	{r7, lr}
+ 117              	.LCFI0:
+ 118              		.cfi_def_cfa_offset 8
+ 119              		.cfi_offset 7, -8
+ 120              		.cfi_offset 14, -4
+ 121 0002 82B0     		sub	sp, sp, #8
+ 122              	.LCFI1:
+ 123              		.cfi_def_cfa_offset 16
+ 124 0004 00AF     		add	r7, sp, #0
+ 125              	.LCFI2:
+ 126              		.cfi_def_cfa_register 7
+  31:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   unsigned char cnt;
+  32:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   unsigned char trigger_backup;
+  33:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   
+  34:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   
+  35:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   TSI0_GENCS |= TSI_GENCS_EOSF_MASK;      // Clear End of Scan Flag 
+ 127              		.loc 1 35 0
+ 128 0006 404B     		ldr	r3, .L9
+ 129 0008 3F4A     		ldr	r2, .L9
+ 130 000a 1268     		ldr	r2, [r2]
+ 131 000c 0421     		mov	r1, #4
+ 132 000e 0A43     		orr	r2, r1
+ 133 0010 1A60     		str	r2, [r3]
+  36:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   TSI0_GENCS &= ~TSI_GENCS_TSIEN_MASK;    // Disable TSI module
+ 134              		.loc 1 36 0
+ 135 0012 3D4B     		ldr	r3, .L9
+ 136 0014 3C4A     		ldr	r2, .L9
+ 137 0016 1268     		ldr	r2, [r2]
+ 138 0018 8021     		mov	r1, #128
+ 139 001a 8A43     		bic	r2, r1
+ 140 001c 1A60     		str	r2, [r3]
+  37:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   
+  38:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   if(TSI0_GENCS & TSI_GENCS_STM_MASK)     // Back-up TSI Trigger mode from Application 
+ 141              		.loc 1 38 0
+ 142 001e 3A4B     		ldr	r3, .L9
+ 143 0020 1A68     		ldr	r2, [r3]
+ 144 0022 1023     		mov	r3, #16
+ 145 0024 1340     		and	r3, r2
+ 146 0026 03D0     		beq	.L2
+  39:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****        trigger_backup = TRUE;
+ 147              		.loc 1 39 0
+ 148 0028 BB1D     		add	r3, r7, #6
+ 149 002a 0122     		mov	r2, #1
+ 150 002c 1A70     		strb	r2, [r3]
+ 151 002e 02E0     		b	.L3
+ 152              	.L2:
+  40:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   else
+  41:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****        trigger_backup = FALSE;
+ 153              		.loc 1 41 0
+ 154 0030 BB1D     		add	r3, r7, #6
+ 155 0032 0022     		mov	r2, #0
+ 156 0034 1A70     		strb	r2, [r3]
+ 157              	.L3:
+  42:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   
+  43:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   TSI0_GENCS &= ~TSI_GENCS_STM_MASK;      // Use SW trigger
+ 158              		.loc 1 43 0
+ 159 0036 344B     		ldr	r3, .L9
+ 160 0038 334A     		ldr	r2, .L9
+ 161 003a 1268     		ldr	r2, [r2]
+ 162 003c 1021     		mov	r1, #16
+ 163 003e 8A43     		bic	r2, r1
+ 164 0040 1A60     		str	r2, [r3]
+  44:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   TSI0_GENCS &= ~TSI_GENCS_TSIIEN_MASK;    // Enable TSI interrupts
+ 165              		.loc 1 44 0
+ 166 0042 314B     		ldr	r3, .L9
+ 167 0044 304A     		ldr	r2, .L9
+ 168 0046 1268     		ldr	r2, [r2]
+ 169 0048 4021     		mov	r1, #64
+ 170 004a 8A43     		bic	r2, r1
+ 171 004c 1A60     		str	r2, [r3]
+  45:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   
+  46:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   TSI0_GENCS |= TSI_GENCS_TSIEN_MASK;     // Enable TSI module
+ 172              		.loc 1 46 0
+ 173 004e 2E4B     		ldr	r3, .L9
+ 174 0050 2D4A     		ldr	r2, .L9
+ 175 0052 1268     		ldr	r2, [r2]
+ 176 0054 8021     		mov	r1, #128
+ 177 0056 0A43     		orr	r2, r1
+ 178 0058 1A60     		str	r2, [r3]
+  47:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   
+  48:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   for(cnt=0; cnt < total_electrode; cnt++)  // Get Counts when Electrode not pressed
+ 179              		.loc 1 48 0
+ 180 005a FB1D     		add	r3, r7, #7
+ 181 005c 0022     		mov	r2, #0
+ 182 005e 1A70     		strb	r2, [r3]
+ 183 0060 26E0     		b	.L4
+ 184              	.L6:
+  49:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   {
+  50:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****     TSI0_DATA = ((elec_array[cnt] << TSI_DATA_TSICH_SHIFT) );
+ 185              		.loc 1 50 0
+ 186 0062 294B     		ldr	r3, .L9
+ 187 0064 FA1D     		add	r2, r7, #7
+ 188 0066 1278     		ldrb	r2, [r2]
+ 189 0068 2849     		ldr	r1, .L9+4
+ 190 006a 8A5C     		ldrb	r2, [r1, r2]
+ 191 006c 1207     		lsl	r2, r2, #28
+ 192 006e 5A60     		str	r2, [r3, #4]
+  51:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****     TSI0_DATA |= TSI_DATA_SWTS_MASK;
+ 193              		.loc 1 51 0
+ 194 0070 254B     		ldr	r3, .L9
+ 195 0072 254A     		ldr	r2, .L9
+ 196 0074 5268     		ldr	r2, [r2, #4]
+ 197 0076 8021     		mov	r1, #128
+ 198 0078 C903     		lsl	r1, r1, #15
+ 199 007a 0A43     		orr	r2, r1
+ 200 007c 5A60     		str	r2, [r3, #4]
+  52:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****     while(!(TSI0_GENCS & TSI_GENCS_EOSF_MASK));
+ 201              		.loc 1 52 0
+ 202 007e C046     		mov	r8, r8
+ 203              	.L5:
+ 204              		.loc 1 52 0 is_stmt 0
+ 205 0080 214B     		ldr	r3, .L9
+ 206 0082 1A68     		ldr	r2, [r3]
+ 207 0084 0423     		mov	r3, #4
+ 208 0086 1340     		and	r3, r2
+ 209 0088 FAD0     		beq	.L5
+  53:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****     TSI0_GENCS |= TSI_GENCS_EOSF_MASK;
+ 210              		.loc 1 53 0 is_stmt 1
+ 211 008a 1F4B     		ldr	r3, .L9
+ 212 008c 1E4A     		ldr	r2, .L9
+ 213 008e 1268     		ldr	r2, [r2]
+ 214 0090 0421     		mov	r1, #4
+ 215 0092 0A43     		orr	r2, r1
+ 216 0094 1A60     		str	r2, [r3]
+  54:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****     gu16Baseline[cnt] = (TSI0_DATA & TSI_DATA_TSICNT_MASK); 
+ 217              		.loc 1 54 0
+ 218 0096 FB1D     		add	r3, r7, #7
+ 219 0098 1A78     		ldrb	r2, [r3]
+ 220 009a 1B4B     		ldr	r3, .L9
+ 221 009c 5B68     		ldr	r3, [r3, #4]
+ 222 009e 99B2     		uxth	r1, r3
+ 223 00a0 1B4B     		ldr	r3, .L9+8
+ 224 00a2 5200     		lsl	r2, r2, #1
+ 225 00a4 D152     		strh	r1, [r2, r3]
+  48:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   for(cnt=0; cnt < total_electrode; cnt++)  // Get Counts when Electrode not pressed
+ 226              		.loc 1 48 0
+ 227 00a6 FB1D     		add	r3, r7, #7
+ 228 00a8 FA1D     		add	r2, r7, #7
+ 229 00aa 1278     		ldrb	r2, [r2]
+ 230 00ac 0132     		add	r2, r2, #1
+ 231 00ae 1A70     		strb	r2, [r3]
+ 232              	.L4:
+  48:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   for(cnt=0; cnt < total_electrode; cnt++)  // Get Counts when Electrode not pressed
+ 233              		.loc 1 48 0 is_stmt 0
+ 234 00b0 184B     		ldr	r3, .L9+12
+ 235 00b2 1B78     		ldrb	r3, [r3]
+ 236 00b4 FA1D     		add	r2, r7, #7
+ 237 00b6 1278     		ldrb	r2, [r2]
+ 238 00b8 9A42     		cmp	r2, r3
+ 239 00ba D2D3     		bcc	.L6
+  55:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   }
+  56:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   
+  57:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   TSI0_GENCS &= ~TSI_GENCS_TSIEN_MASK;    // Disable TSI module
+ 240              		.loc 1 57 0 is_stmt 1
+ 241 00bc 124B     		ldr	r3, .L9
+ 242 00be 124A     		ldr	r2, .L9
+ 243 00c0 1268     		ldr	r2, [r2]
+ 244 00c2 8021     		mov	r1, #128
+ 245 00c4 8A43     		bic	r2, r1
+ 246 00c6 1A60     		str	r2, [r3]
+  58:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   TSI0_GENCS |= TSI_GENCS_TSIIEN_MASK;     // Enale TSI interrupt
+ 247              		.loc 1 58 0
+ 248 00c8 0F4B     		ldr	r3, .L9
+ 249 00ca 0F4A     		ldr	r2, .L9
+ 250 00cc 1268     		ldr	r2, [r2]
+ 251 00ce 4021     		mov	r1, #64
+ 252 00d0 0A43     		orr	r2, r1
+ 253 00d2 1A60     		str	r2, [r3]
+  59:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   if(trigger_backup)                      // Restore trigger mode
+ 254              		.loc 1 59 0
+ 255 00d4 BB1D     		add	r3, r7, #6
+ 256 00d6 1B78     		ldrb	r3, [r3]
+ 257 00d8 002B     		cmp	r3, #0
+ 258 00da 06D0     		beq	.L7
+  60:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****     TSI0_GENCS |= TSI_GENCS_STM_MASK;
+ 259              		.loc 1 60 0
+ 260 00dc 0A4B     		ldr	r3, .L9
+ 261 00de 0A4A     		ldr	r2, .L9
+ 262 00e0 1268     		ldr	r2, [r2]
+ 263 00e2 1021     		mov	r1, #16
+ 264 00e4 0A43     		orr	r2, r1
+ 265 00e6 1A60     		str	r2, [r3]
+ 266 00e8 05E0     		b	.L8
+ 267              	.L7:
+  61:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   else
+  62:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****     TSI0_GENCS &= ~TSI_GENCS_STM_MASK;
+ 268              		.loc 1 62 0
+ 269 00ea 074B     		ldr	r3, .L9
+ 270 00ec 064A     		ldr	r2, .L9
+ 271 00ee 1268     		ldr	r2, [r2]
+ 272 00f0 1021     		mov	r1, #16
+ 273 00f2 8A43     		bic	r2, r1
+ 274 00f4 1A60     		str	r2, [r3]
+ 275              	.L8:
+  63:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   
+  64:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   
+  65:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   
+  66:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   
+  67:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   
+  68:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****    TSI0_DATA = ((elec_array[0]<<TSI_DATA_TSICH_SHIFT) );
+ 276              		.loc 1 68 0
+ 277 00f6 044B     		ldr	r3, .L9
+ 278 00f8 044A     		ldr	r2, .L9+4
+ 279 00fa 1278     		ldrb	r2, [r2]
+ 280 00fc 1207     		lsl	r2, r2, #28
+ 281 00fe 5A60     		str	r2, [r3, #4]
+  69:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   
+  70:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****    // TSI0_GENCS |= TSI_GENCS_TSIEN_MASK;     // Enable TSI module 
+  71:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****    // TSI0_DATA |= TSI_DATA_SWTS_MASK;      //LPP software scan initialized in application 
+  72:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   
+  73:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** }
+ 282              		.loc 1 73 0
+ 283 0100 BD46     		mov	sp, r7
+ 284 0102 02B0     		add	sp, sp, #8
+ 285              		@ sp needed for prologue
+ 286 0104 80BD     		pop	{r7, pc}
+ 287              	.L10:
+ 288 0106 C046     		.align	2
+ 289              	.L9:
+ 290 0108 00500440 		.word	1074024448
+ 291 010c 00000000 		.word	elec_array
+ 292 0110 00000000 		.word	gu16Baseline
+ 293 0114 00000000 		.word	total_electrode
+ 294              		.cfi_endproc
+ 295              	.LFE0:
+ 297              		.section	.text.vfn_start_tsi_scan,"ax",%progbits
+ 298              		.align	2
+ 299              		.global	vfn_start_tsi_scan
+ 300              		.code	16
+ 301              		.thumb_func
+ 303              	vfn_start_tsi_scan:
+ 304              	.LFB1:
+  74:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** 
+  75:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** 
+  76:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** void vfn_start_tsi_scan(void)
+  77:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** {
+ 305              		.loc 1 77 0
+ 306              		.cfi_startproc
+ 307 0000 80B5     		push	{r7, lr}
+ 308              	.LCFI3:
+ 309              		.cfi_def_cfa_offset 8
+ 310              		.cfi_offset 7, -8
+ 311              		.cfi_offset 14, -4
+ 312 0002 00AF     		add	r7, sp, #0
+ 313              	.LCFI4:
+ 314              		.cfi_def_cfa_register 7
+  78:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   TSI0_GENCS |= TSI_GENCS_TSIEN_MASK;     // Enable TSI module 
+ 315              		.loc 1 78 0
+ 316 0004 074B     		ldr	r3, .L12
+ 317 0006 074A     		ldr	r2, .L12
+ 318 0008 1268     		ldr	r2, [r2]
+ 319 000a 8021     		mov	r1, #128
+ 320 000c 0A43     		orr	r2, r1
+ 321 000e 1A60     		str	r2, [r3]
+  79:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   TSI0_DATA |= TSI_DATA_SWTS_MASK;      //LPP software scan initialized in application 
+ 322              		.loc 1 79 0
+ 323 0010 044B     		ldr	r3, .L12
+ 324 0012 044A     		ldr	r2, .L12
+ 325 0014 5268     		ldr	r2, [r2, #4]
+ 326 0016 8021     		mov	r1, #128
+ 327 0018 C903     		lsl	r1, r1, #15
+ 328 001a 0A43     		orr	r2, r1
+ 329 001c 5A60     		str	r2, [r3, #4]
+  80:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** }
+ 330              		.loc 1 80 0
+ 331 001e BD46     		mov	sp, r7
+ 332              		@ sp needed for prologue
+ 333 0020 80BD     		pop	{r7, pc}
+ 334              	.L13:
+ 335 0022 C046     		.align	2
+ 336              	.L12:
+ 337 0024 00500440 		.word	1074024448
+ 338              		.cfi_endproc
+ 339              	.LFE1:
+ 341              		.section	.text.TSI_Init,"ax",%progbits
+ 342              		.align	2
+ 343              		.global	TSI_Init
+ 344              		.code	16
+ 345              		.thumb_func
+ 347              	TSI_Init:
+ 348              	.LFB2:
+  81:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** 
+  82:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** void TSI_Init (void)
+  83:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** {
+ 349              		.loc 1 83 0
+ 350              		.cfi_startproc
+ 351 0000 80B5     		push	{r7, lr}
+ 352              	.LCFI5:
+ 353              		.cfi_def_cfa_offset 8
+ 354              		.cfi_offset 7, -8
+ 355              		.cfi_offset 14, -4
+ 356 0002 00AF     		add	r7, sp, #0
+ 357              	.LCFI6:
+ 358              		.cfi_def_cfa_register 7
+  84:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   SIM_SCGC5 |= SIM_SCGC5_TSI_MASK;  // Enable clock gating for TSI
+ 359              		.loc 1 84 0
+ 360 0004 104A     		ldr	r2, .L15
+ 361 0006 1049     		ldr	r1, .L15
+ 362 0008 104B     		ldr	r3, .L15+4
+ 363 000a CB58     		ldr	r3, [r1, r3]
+ 364 000c 2021     		mov	r1, #32
+ 365 000e 1943     		orr	r1, r3
+ 366 0010 0E4B     		ldr	r3, .L15+4
+ 367 0012 D150     		str	r1, [r2, r3]
+  85:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   
+  86:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   /* Enable proper GPIO as TSI channels */
+  87:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   PORTB_PCR17 =  PORT_PCR_MUX(0);   // PTA1 as TSI channel 2
+ 368              		.loc 1 87 0
+ 369 0014 0E4B     		ldr	r3, .L15+8
+ 370 0016 0022     		mov	r2, #0
+ 371 0018 5A64     		str	r2, [r3, #68]
+  88:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   PORTB_PCR16 =  PORT_PCR_MUX(0);   // PTA2 as TSI channel 3
+ 372              		.loc 1 88 0
+ 373 001a 0D4B     		ldr	r3, .L15+8
+ 374 001c 0022     		mov	r2, #0
+ 375 001e 1A64     		str	r2, [r3, #64]
+  89:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** 
+  90:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   enable_irq(TSI_irq_no);
+ 376              		.loc 1 90 0
+ 377 0020 1A20     		mov	r0, #26
+ 378 0022 FFF7FEFF 		bl	enable_irq
+  91:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   
+  92:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   TSI0_GENCS |= (TSI_GENCS_ESOR_MASK
+ 379              		.loc 1 92 0
+ 380 0026 0B4B     		ldr	r3, .L15+12
+ 381 0028 0A4A     		ldr	r2, .L15+12
+ 382 002a 1268     		ldr	r2, [r2]
+ 383 002c 0A49     		ldr	r1, .L15+16
+ 384 002e 0A43     		orr	r2, r1
+ 385 0030 1A60     		str	r2, [r3]
+  93:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****                    | TSI_GENCS_MODE(0)
+  94:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****                    | TSI_GENCS_REFCHRG(4)
+  95:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****                    | TSI_GENCS_DVOLT(0)
+  96:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****                    | TSI_GENCS_EXTCHRG(7)  
+  97:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****                    | TSI_GENCS_PS(4)
+  98:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****                    | TSI_GENCS_NSCN(11)
+  99:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****                    | TSI_GENCS_TSIIEN_MASK 
+ 100:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****                    | TSI_GENCS_STPE_MASK
+ 101:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****                    //| TSI_GENCS_STM_MASK     //Trigger for the module 0=Sofware 
+ 102:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****                    );
+ 103:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   
+ 104:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   TSI0_GENCS |= TSI_GENCS_TSIEN_MASK; 
+ 386              		.loc 1 104 0
+ 387 0032 084B     		ldr	r3, .L15+12
+ 388 0034 074A     		ldr	r2, .L15+12
+ 389 0036 1268     		ldr	r2, [r2]
+ 390 0038 8021     		mov	r1, #128
+ 391 003a 0A43     		orr	r2, r1
+ 392 003c 1A60     		str	r2, [r3]
+ 105:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   
+ 106:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   TSI_SelfCalibration();
+ 393              		.loc 1 106 0
+ 394 003e FFF7FEFF 		bl	TSI_SelfCalibration
+ 107:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** }
+ 395              		.loc 1 107 0
+ 396 0042 BD46     		mov	sp, r7
+ 397              		@ sp needed for prologue
+ 398 0044 80BD     		pop	{r7, pc}
+ 399              	.L16:
+ 400 0046 C046     		.align	2
+ 401              	.L15:
+ 402 0048 00700440 		.word	1074032640
+ 403 004c 38100000 		.word	4152
+ 404 0050 00A00440 		.word	1074044928
+ 405 0054 00500440 		.word	1074024448
+ 406 0058 608B8710 		.word	277318496
+ 407              		.cfi_endproc
+ 408              	.LFE2:
+ 410              		.section	.text.change_electrode,"ax",%progbits
+ 411              		.align	2
+ 412              		.global	change_electrode
+ 413              		.code	16
+ 414              		.thumb_func
+ 416              	change_electrode:
+ 417              	.LFB3:
+ 108:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** 
+ 109:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** 
+ 110:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** void change_electrode(void)
+ 111:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** {
+ 418              		.loc 1 111 0
+ 419              		.cfi_startproc
+ 420 0000 80B5     		push	{r7, lr}
+ 421              	.LCFI7:
+ 422              		.cfi_def_cfa_offset 8
+ 423              		.cfi_offset 7, -8
+ 424              		.cfi_offset 14, -4
+ 425 0002 82B0     		sub	sp, sp, #8
+ 426              	.LCFI8:
+ 427              		.cfi_def_cfa_offset 16
+ 428 0004 00AF     		add	r7, sp, #0
+ 429              	.LCFI9:
+ 430              		.cfi_def_cfa_register 7
+ 112:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****     int16_t u16temp_delta;
+ 113:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****     
+ 114:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****     gu16TSICount[ongoing_elec] = (TSI0_DATA & TSI_DATA_TSICNT_MASK);          // Save Counts for cu
+ 431              		.loc 1 114 0
+ 432 0006 294B     		ldr	r3, .L23
+ 433 0008 1B78     		ldrb	r3, [r3]
+ 434 000a 1A1C     		mov	r2, r3
+ 435 000c 284B     		ldr	r3, .L23+4
+ 436 000e 5B68     		ldr	r3, [r3, #4]
+ 437 0010 99B2     		uxth	r1, r3
+ 438 0012 284B     		ldr	r3, .L23+8
+ 439 0014 5200     		lsl	r2, r2, #1
+ 440 0016 D152     		strh	r1, [r2, r3]
+ 115:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****     u16temp_delta = gu16TSICount[ongoing_elec] - gu16Baseline[ongoing_elec];  // Obtains Counts Del
+ 441              		.loc 1 115 0
+ 442 0018 244B     		ldr	r3, .L23
+ 443 001a 1B78     		ldrb	r3, [r3]
+ 444 001c 1A1C     		mov	r2, r3
+ 445 001e 254B     		ldr	r3, .L23+8
+ 446 0020 5200     		lsl	r2, r2, #1
+ 447 0022 D25A     		ldrh	r2, [r2, r3]
+ 448 0024 214B     		ldr	r3, .L23
+ 449 0026 1B78     		ldrb	r3, [r3]
+ 450 0028 191C     		mov	r1, r3
+ 451 002a 234B     		ldr	r3, .L23+12
+ 452 002c 4900     		lsl	r1, r1, #1
+ 453 002e CB5A     		ldrh	r3, [r1, r3]
+ 454 0030 D31A     		sub	r3, r2, r3
+ 455 0032 9AB2     		uxth	r2, r3
+ 456 0034 BB1D     		add	r3, r7, #6
+ 457 0036 1A80     		strh	r2, [r3]
+ 116:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****     if( u16temp_delta < 0)
+ 458              		.loc 1 116 0
+ 459 0038 BB1D     		add	r3, r7, #6
+ 460 003a 0022     		mov	r2, #0
+ 461 003c 9B5E     		ldrsh	r3, [r3, r2]
+ 462 003e 002B     		cmp	r3, #0
+ 463 0040 07DA     		bge	.L18
+ 117:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****             gu16Delta[ongoing_elec] = 0;
+ 464              		.loc 1 117 0
+ 465 0042 1A4B     		ldr	r3, .L23
+ 466 0044 1B78     		ldrb	r3, [r3]
+ 467 0046 1A1C     		mov	r2, r3
+ 468 0048 1C4B     		ldr	r3, .L23+16
+ 469 004a 5200     		lsl	r2, r2, #1
+ 470 004c 0021     		mov	r1, #0
+ 471 004e D152     		strh	r1, [r2, r3]
+ 472 0050 07E0     		b	.L19
+ 473              	.L18:
+ 118:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****     else
+ 119:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****             gu16Delta[ongoing_elec] = u16temp_delta;
+ 474              		.loc 1 119 0
+ 475 0052 164B     		ldr	r3, .L23
+ 476 0054 1B78     		ldrb	r3, [r3]
+ 477 0056 1A1C     		mov	r2, r3
+ 478 0058 BB1D     		add	r3, r7, #6
+ 479 005a 1988     		ldrh	r1, [r3]
+ 480 005c 174B     		ldr	r3, .L23+16
+ 481 005e 5200     		lsl	r2, r2, #1
+ 482 0060 D152     		strh	r1, [r2, r3]
+ 483              	.L19:
+ 120:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****     
+ 121:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****     if(total_electrode > 1)  //Change Electrode to Scan
+ 484              		.loc 1 121 0
+ 485 0062 174B     		ldr	r3, .L23+20
+ 486 0064 1B78     		ldrb	r3, [r3]
+ 487 0066 012B     		cmp	r3, #1
+ 488 0068 1DD9     		bls	.L17
+ 122:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****     {
+ 123:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****             if((total_electrode-1) > ongoing_elec) ongoing_elec++;
+ 489              		.loc 1 123 0
+ 490 006a 154B     		ldr	r3, .L23+20
+ 491 006c 1B78     		ldrb	r3, [r3]
+ 492 006e 5A1E     		sub	r2, r3, #1
+ 493 0070 0E4B     		ldr	r3, .L23
+ 494 0072 1B78     		ldrb	r3, [r3]
+ 495 0074 9A42     		cmp	r2, r3
+ 496 0076 06DD     		ble	.L21
+ 497              		.loc 1 123 0 is_stmt 0
+ 498 0078 0C4B     		ldr	r3, .L23
+ 499 007a 1B78     		ldrb	r3, [r3]
+ 500 007c 0133     		add	r3, r3, #1
+ 501 007e DAB2     		uxtb	r2, r3
+ 502 0080 0A4B     		ldr	r3, .L23
+ 503 0082 1A70     		strb	r2, [r3]
+ 504 0084 02E0     		b	.L22
+ 505              	.L21:
+ 124:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****             else   ongoing_elec = 0;
+ 506              		.loc 1 124 0 is_stmt 1
+ 507 0086 094B     		ldr	r3, .L23
+ 508 0088 0022     		mov	r2, #0
+ 509 008a 1A70     		strb	r2, [r3]
+ 510              	.L22:
+ 125:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****             
+ 126:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****             TSI0_DATA = ((elec_array[ongoing_elec]<<TSI_DATA_TSICH_SHIFT) );
+ 511              		.loc 1 126 0
+ 512 008c 084B     		ldr	r3, .L23+4
+ 513 008e 074A     		ldr	r2, .L23
+ 514 0090 1278     		ldrb	r2, [r2]
+ 515 0092 0C49     		ldr	r1, .L23+24
+ 516 0094 8A5C     		ldrb	r2, [r1, r2]
+ 517 0096 1207     		lsl	r2, r2, #28
+ 518 0098 5A60     		str	r2, [r3, #4]
+ 127:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** ///            TSI0_DATA |= TSI_DATA_SWTS_MASK;   //LPP initialized in application for multiplexing
+ 128:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****             TSI0_GENCS &= ~TSI_GENCS_TSIEN_MASK;     // Enable TSI module
+ 519              		.loc 1 128 0
+ 520 009a 054B     		ldr	r3, .L23+4
+ 521 009c 044A     		ldr	r2, .L23+4
+ 522 009e 1268     		ldr	r2, [r2]
+ 523 00a0 8021     		mov	r1, #128
+ 524 00a2 8A43     		bic	r2, r1
+ 525 00a4 1A60     		str	r2, [r3]
+ 526              	.L17:
+ 129:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****     }
+ 130:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** }
+ 527              		.loc 1 130 0
+ 528 00a6 BD46     		mov	sp, r7
+ 529 00a8 02B0     		add	sp, sp, #8
+ 530              		@ sp needed for prologue
+ 531 00aa 80BD     		pop	{r7, pc}
+ 532              	.L24:
+ 533              		.align	2
+ 534              	.L23:
+ 535 00ac 00000000 		.word	ongoing_elec
+ 536 00b0 00500440 		.word	1074024448
+ 537 00b4 00000000 		.word	gu16TSICount
+ 538 00b8 00000000 		.word	gu16Baseline
+ 539 00bc 00000000 		.word	gu16Delta
+ 540 00c0 00000000 		.word	total_electrode
+ 541 00c4 00000000 		.word	elec_array
+ 542              		.cfi_endproc
+ 543              	.LFE3:
+ 545              		.section	.text.TSI_SimpleApp,"ax",%progbits
+ 546              		.align	2
+ 547              		.global	TSI_SimpleApp
+ 548              		.code	16
+ 549              		.thumb_func
+ 551              	TSI_SimpleApp:
+ 552              	.LFB4:
+ 131:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** 
+ 132:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** void TSI_SimpleApp (void)
+ 133:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** {
+ 553              		.loc 1 133 0
+ 554              		.cfi_startproc
+ 555 0000 80B5     		push	{r7, lr}
+ 556              	.LCFI10:
+ 557              		.cfi_def_cfa_offset 8
+ 558              		.cfi_offset 7, -8
+ 559              		.cfi_offset 14, -4
+ 560 0002 00AF     		add	r7, sp, #0
+ 561              	.LCFI11:
+ 562              		.cfi_def_cfa_register 7
+ 563 0004 00E0     		b	.L28
+ 564              	.L29:
+ 134:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****    while(1)
+ 135:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   {
+ 136:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****       if(end_flag)
+ 137:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****       {
+ 138:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****          end_flag = FALSE;
+ 139:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****          if(gu16Delta[0] > gu16Threshold[0])
+ 140:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****           
+ 141:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****            __nop();
+ 142:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****            
+ 143:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****         
+ 144:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****          if(gu16Delta[1] > gu16Threshold[1])
+ 145:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****         __nop();
+ 146:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****           
+ 147:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****       }
+ 148:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   } 
+ 565              		.loc 1 148 0
+ 566 0006 C046     		mov	r8, r8
+ 567              	.L28:
+ 136:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****       if(end_flag)
+ 568              		.loc 1 136 0
+ 569 0008 0A4B     		ldr	r3, .L30
+ 570 000a 1B78     		ldrb	r3, [r3]
+ 571 000c 002B     		cmp	r3, #0
+ 572 000e FAD0     		beq	.L29
+ 138:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****          end_flag = FALSE;
+ 573              		.loc 1 138 0
+ 574 0010 084B     		ldr	r3, .L30
+ 575 0012 0022     		mov	r2, #0
+ 576 0014 1A70     		strb	r2, [r3]
+ 139:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****          if(gu16Delta[0] > gu16Threshold[0])
+ 577              		.loc 1 139 0
+ 578 0016 084B     		ldr	r3, .L30+4
+ 579 0018 1A88     		ldrh	r2, [r3]
+ 580 001a 084B     		ldr	r3, .L30+8
+ 581 001c 1B88     		ldrh	r3, [r3]
+ 582 001e 9A42     		cmp	r2, r3
+ 583 0020 00D9     		bls	.L27
+ 141:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****            __nop();
+ 584              		.loc 1 141 0
+ 585              	@ 141 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/t
+ 586 0022 C046     		NOP
+ 587              	@ 0 "" 2
+ 588              		.code	16
+ 589              	.L27:
+ 144:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****          if(gu16Delta[1] > gu16Threshold[1])
+ 590              		.loc 1 144 0
+ 591 0024 044B     		ldr	r3, .L30+4
+ 592 0026 5A88     		ldrh	r2, [r3, #2]
+ 593 0028 044B     		ldr	r3, .L30+8
+ 594 002a 5B88     		ldrh	r3, [r3, #2]
+ 595 002c 9A42     		cmp	r2, r3
+ 596 002e EAD9     		bls	.L29
+ 145:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****         __nop();
+ 597              		.loc 1 145 0
+ 598              	@ 145 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/t
+ 599 0030 C046     		NOP
+ 600              	@ 0 "" 2
+ 601              		.loc 1 148 0
+ 602              		.code	16
+ 603 0032 E8E7     		b	.L29
+ 604              	.L31:
+ 605              		.align	2
+ 606              	.L30:
+ 607 0034 00000000 		.word	end_flag
+ 608 0038 00000000 		.word	gu16Delta
+ 609 003c 00000000 		.word	gu16Threshold
+ 610              		.cfi_endproc
+ 611              	.LFE4:
+ 613              		.section	.rodata
+ 614              		.align	2
+ 615              	.LC15:
+ 616 0000 20506572 		.ascii	" Percentage = %d %           Distance = %d mm      "
+ 616      63656E74 
+ 616      61676520 
+ 616      3D202564 
+ 616      20252020 
+ 617 0033 20202020 		.ascii	"    \015\000"
+ 617      0D00
+ 618              		.global	__aeabi_idiv
+ 619 0039 000000   		.section	.text.TSI_SliderApp,"ax",%progbits
+ 620              		.align	2
+ 621              		.global	TSI_SliderApp
+ 622              		.code	16
+ 623              		.thumb_func
+ 625              	TSI_SliderApp:
+ 626              	.LFB5:
+ 149:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** }
+ 150:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** 
+ 151:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** 
+ 152:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** void TSI_SliderApp (void)
+ 153:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** {
+ 627              		.loc 1 153 0
+ 628              		.cfi_startproc
+ 629 0000 80B5     		push	{r7, lr}
+ 630              	.LCFI12:
+ 631              		.cfi_def_cfa_offset 8
+ 632              		.cfi_offset 7, -8
+ 633              		.cfi_offset 14, -4
+ 634 0002 00AF     		add	r7, sp, #0
+ 635              	.LCFI13:
+ 636              		.cfi_def_cfa_register 7
+ 637 0004 00E0     		b	.L38
+ 638              	.L39:
+ 154:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   while(1)
+ 155:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   {
+ 156:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** 
+ 157:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****       if(end_flag)
+ 158:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****       {    
+ 159:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****         printf(" Percentage = %d %           Distance = %d mm          \r", AbsolutePercentegePosit
+ 160:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****         
+ 161:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****         end_flag = FALSE;
+ 162:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****          
+ 163:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****          
+ 164:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****          if((gu16Delta[0] > gu16Threshold[0])||(gu16Delta[1] > gu16Threshold[1]))
+ 165:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****          {
+ 166:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****            SliderPercentegePosition[0] = (gu16Delta[0]*100)/(gu16Delta[0]+gu16Delta[1]);
+ 167:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****            
+ 168:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****            SliderPercentegePosition[1] = (gu16Delta[1]*100)/(gu16Delta[0]+gu16Delta[1]);
+ 169:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****            
+ 170:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****            SliderDistancePosition[0] = (SliderPercentegePosition[0]* SLIDER_LENGTH)/100;
+ 171:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****              
+ 172:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****            SliderDistancePosition[1] = (SliderPercentegePosition[1]* SLIDER_LENGTH)/100;
+ 173:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****            
+ 174:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****           AbsolutePercentegePosition = ((100 - SliderPercentegePosition[0]) + SliderPercentegePosit
+ 175:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****           AbsoluteDistancePosition = ((SLIDER_LENGTH - SliderDistancePosition[0]) + SliderDistanceP
+ 176:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****            
+ 177:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****          }else
+ 178:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****          {
+ 179:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****             SliderPercentegePosition[0] = NO_TOUCH;  
+ 180:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****             SliderPercentegePosition[1] = NO_TOUCH; 
+ 181:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****             SliderDistancePosition[0] = NO_TOUCH; 
+ 182:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****             SliderDistancePosition[1] = NO_TOUCH; 
+ 183:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****             AbsolutePercentegePosition = NO_TOUCH; 
+ 184:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****             AbsoluteDistancePosition = NO_TOUCH; 
+ 185:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****          }
+ 186:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****          
+ 187:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****       }
+ 188:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****     
+ 189:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   } 
+ 639              		.loc 1 189 0
+ 640 0006 C046     		mov	r8, r8
+ 641              	.L38:
+ 157:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****       if(end_flag)
+ 642              		.loc 1 157 0
+ 643 0008 474B     		ldr	r3, .L40
+ 644 000a 1B78     		ldrb	r3, [r3]
+ 645 000c 002B     		cmp	r3, #0
+ 646 000e FAD0     		beq	.L39
+ 159:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****         printf(" Percentage = %d %           Distance = %d mm          \r", AbsolutePercentegePosit
+ 647              		.loc 1 159 0
+ 648 0010 464B     		ldr	r3, .L40+4
+ 649 0012 1B78     		ldrb	r3, [r3]
+ 650 0014 1A1C     		mov	r2, r3
+ 651 0016 464B     		ldr	r3, .L40+8
+ 652 0018 1B78     		ldrb	r3, [r3]
+ 653 001a 4649     		ldr	r1, .L40+12
+ 654 001c 081C     		mov	r0, r1
+ 655 001e 111C     		mov	r1, r2
+ 656 0020 1A1C     		mov	r2, r3
+ 657 0022 FFF7FEFF 		bl	printf
+ 161:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****         end_flag = FALSE;
+ 658              		.loc 1 161 0
+ 659 0026 404B     		ldr	r3, .L40
+ 660 0028 0022     		mov	r2, #0
+ 661 002a 1A70     		strb	r2, [r3]
+ 164:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****          if((gu16Delta[0] > gu16Threshold[0])||(gu16Delta[1] > gu16Threshold[1]))
+ 662              		.loc 1 164 0
+ 663 002c 424B     		ldr	r3, .L40+16
+ 664 002e 1A88     		ldrh	r2, [r3]
+ 665 0030 424B     		ldr	r3, .L40+20
+ 666 0032 1B88     		ldrh	r3, [r3]
+ 667 0034 9A42     		cmp	r2, r3
+ 668 0036 05D8     		bhi	.L34
+ 164:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****          if((gu16Delta[0] > gu16Threshold[0])||(gu16Delta[1] > gu16Threshold[1]))
+ 669              		.loc 1 164 0 is_stmt 0
+ 670 0038 3F4B     		ldr	r3, .L40+16
+ 671 003a 5A88     		ldrh	r2, [r3, #2]
+ 672 003c 3F4B     		ldr	r3, .L40+20
+ 673 003e 5B88     		ldrh	r3, [r3, #2]
+ 674 0040 9A42     		cmp	r2, r3
+ 675 0042 5ED9     		bls	.L35
+ 676              	.L34:
+ 166:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****            SliderPercentegePosition[0] = (gu16Delta[0]*100)/(gu16Delta[0]+gu16Delta[1]);
+ 677              		.loc 1 166 0 is_stmt 1
+ 678 0044 3C4B     		ldr	r3, .L40+16
+ 679 0046 1B88     		ldrh	r3, [r3]
+ 680 0048 6422     		mov	r2, #100
+ 681 004a 5A43     		mul	r2, r3
+ 682 004c 3A4B     		ldr	r3, .L40+16
+ 683 004e 1B88     		ldrh	r3, [r3]
+ 684 0050 191C     		mov	r1, r3
+ 685 0052 394B     		ldr	r3, .L40+16
+ 686 0054 5B88     		ldrh	r3, [r3, #2]
+ 687 0056 CB18     		add	r3, r1, r3
+ 688 0058 101C     		mov	r0, r2
+ 689 005a 191C     		mov	r1, r3
+ 690 005c FFF7FEFF 		bl	__aeabi_idiv
+ 691 0060 031C     		mov	r3, r0
+ 692 0062 DAB2     		uxtb	r2, r3
+ 693 0064 364B     		ldr	r3, .L40+24
+ 694 0066 1A70     		strb	r2, [r3]
+ 168:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****            SliderPercentegePosition[1] = (gu16Delta[1]*100)/(gu16Delta[0]+gu16Delta[1]);
+ 695              		.loc 1 168 0
+ 696 0068 334B     		ldr	r3, .L40+16
+ 697 006a 5B88     		ldrh	r3, [r3, #2]
+ 698 006c 6422     		mov	r2, #100
+ 699 006e 5A43     		mul	r2, r3
+ 700 0070 314B     		ldr	r3, .L40+16
+ 701 0072 1B88     		ldrh	r3, [r3]
+ 702 0074 191C     		mov	r1, r3
+ 703 0076 304B     		ldr	r3, .L40+16
+ 704 0078 5B88     		ldrh	r3, [r3, #2]
+ 705 007a CB18     		add	r3, r1, r3
+ 706 007c 101C     		mov	r0, r2
+ 707 007e 191C     		mov	r1, r3
+ 708 0080 FFF7FEFF 		bl	__aeabi_idiv
+ 709 0084 031C     		mov	r3, r0
+ 710 0086 DAB2     		uxtb	r2, r3
+ 711 0088 2D4B     		ldr	r3, .L40+24
+ 712 008a 5A70     		strb	r2, [r3, #1]
+ 170:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****            SliderDistancePosition[0] = (SliderPercentegePosition[0]* SLIDER_LENGTH)/100;
+ 713              		.loc 1 170 0
+ 714 008c 2C4B     		ldr	r3, .L40+24
+ 715 008e 1B78     		ldrb	r3, [r3]
+ 716 0090 1A1C     		mov	r2, r3
+ 717 0092 131C     		mov	r3, r2
+ 718 0094 9B00     		lsl	r3, r3, #2
+ 719 0096 9B18     		add	r3, r3, r2
+ 720 0098 DB00     		lsl	r3, r3, #3
+ 721 009a 181C     		mov	r0, r3
+ 722 009c 6421     		mov	r1, #100
+ 723 009e FFF7FEFF 		bl	__aeabi_idiv
+ 724 00a2 031C     		mov	r3, r0
+ 725 00a4 DAB2     		uxtb	r2, r3
+ 726 00a6 274B     		ldr	r3, .L40+28
+ 727 00a8 1A70     		strb	r2, [r3]
+ 172:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****            SliderDistancePosition[1] = (SliderPercentegePosition[1]* SLIDER_LENGTH)/100;
+ 728              		.loc 1 172 0
+ 729 00aa 254B     		ldr	r3, .L40+24
+ 730 00ac 5B78     		ldrb	r3, [r3, #1]
+ 731 00ae 1A1C     		mov	r2, r3
+ 732 00b0 131C     		mov	r3, r2
+ 733 00b2 9B00     		lsl	r3, r3, #2
+ 734 00b4 9B18     		add	r3, r3, r2
+ 735 00b6 DB00     		lsl	r3, r3, #3
+ 736 00b8 181C     		mov	r0, r3
+ 737 00ba 6421     		mov	r1, #100
+ 738 00bc FFF7FEFF 		bl	__aeabi_idiv
+ 739 00c0 031C     		mov	r3, r0
+ 740 00c2 DAB2     		uxtb	r2, r3
+ 741 00c4 1F4B     		ldr	r3, .L40+28
+ 742 00c6 5A70     		strb	r2, [r3, #1]
+ 174:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****           AbsolutePercentegePosition = ((100 - SliderPercentegePosition[0]) + SliderPercentegePosit
+ 743              		.loc 1 174 0
+ 744 00c8 1D4B     		ldr	r3, .L40+24
+ 745 00ca 1B78     		ldrb	r3, [r3]
+ 746 00cc 6422     		mov	r2, #100
+ 747 00ce D21A     		sub	r2, r2, r3
+ 748 00d0 1B4B     		ldr	r3, .L40+24
+ 749 00d2 5B78     		ldrb	r3, [r3, #1]
+ 750 00d4 D318     		add	r3, r2, r3
+ 751 00d6 002B     		cmp	r3, #0
+ 752 00d8 00DA     		bge	.L36
+ 753 00da 0133     		add	r3, r3, #1
+ 754              	.L36:
+ 755 00dc 5B10     		asr	r3, r3, #1
+ 756 00de DAB2     		uxtb	r2, r3
+ 757 00e0 124B     		ldr	r3, .L40+4
+ 758 00e2 1A70     		strb	r2, [r3]
+ 175:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****           AbsoluteDistancePosition = ((SLIDER_LENGTH - SliderDistancePosition[0]) + SliderDistanceP
+ 759              		.loc 1 175 0
+ 760 00e4 174B     		ldr	r3, .L40+28
+ 761 00e6 1B78     		ldrb	r3, [r3]
+ 762 00e8 2822     		mov	r2, #40
+ 763 00ea D21A     		sub	r2, r2, r3
+ 764 00ec 154B     		ldr	r3, .L40+28
+ 765 00ee 5B78     		ldrb	r3, [r3, #1]
+ 766 00f0 D318     		add	r3, r2, r3
+ 767 00f2 002B     		cmp	r3, #0
+ 768 00f4 00DA     		bge	.L37
+ 769 00f6 0133     		add	r3, r3, #1
+ 770              	.L37:
+ 771 00f8 5B10     		asr	r3, r3, #1
+ 772 00fa DAB2     		uxtb	r2, r3
+ 773 00fc 0C4B     		ldr	r3, .L40+8
+ 774 00fe 1A70     		strb	r2, [r3]
+ 775              		.loc 1 189 0
+ 776 0100 81E7     		b	.L39
+ 777              	.L35:
+ 179:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****             SliderPercentegePosition[0] = NO_TOUCH;  
+ 778              		.loc 1 179 0
+ 779 0102 0F4B     		ldr	r3, .L40+24
+ 780 0104 0022     		mov	r2, #0
+ 781 0106 1A70     		strb	r2, [r3]
+ 180:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****             SliderPercentegePosition[1] = NO_TOUCH; 
+ 782              		.loc 1 180 0
+ 783 0108 0D4B     		ldr	r3, .L40+24
+ 784 010a 0022     		mov	r2, #0
+ 785 010c 5A70     		strb	r2, [r3, #1]
+ 181:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****             SliderDistancePosition[0] = NO_TOUCH; 
+ 786              		.loc 1 181 0
+ 787 010e 0D4B     		ldr	r3, .L40+28
+ 788 0110 0022     		mov	r2, #0
+ 789 0112 1A70     		strb	r2, [r3]
+ 182:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****             SliderDistancePosition[1] = NO_TOUCH; 
+ 790              		.loc 1 182 0
+ 791 0114 0B4B     		ldr	r3, .L40+28
+ 792 0116 0022     		mov	r2, #0
+ 793 0118 5A70     		strb	r2, [r3, #1]
+ 183:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****             AbsolutePercentegePosition = NO_TOUCH; 
+ 794              		.loc 1 183 0
+ 795 011a 044B     		ldr	r3, .L40+4
+ 796 011c 0022     		mov	r2, #0
+ 797 011e 1A70     		strb	r2, [r3]
+ 184:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****             AbsoluteDistancePosition = NO_TOUCH; 
+ 798              		.loc 1 184 0
+ 799 0120 034B     		ldr	r3, .L40+8
+ 800 0122 0022     		mov	r2, #0
+ 801 0124 1A70     		strb	r2, [r3]
+ 802              		.loc 1 189 0
+ 803 0126 6EE7     		b	.L39
+ 804              	.L41:
+ 805              		.align	2
+ 806              	.L40:
+ 807 0128 00000000 		.word	end_flag
+ 808 012c 00000000 		.word	AbsolutePercentegePosition
+ 809 0130 00000000 		.word	AbsoluteDistancePosition
+ 810 0134 00000000 		.word	.LC15
+ 811 0138 00000000 		.word	gu16Delta
+ 812 013c 00000000 		.word	gu16Threshold
+ 813 0140 00000000 		.word	SliderPercentegePosition
+ 814 0144 00000000 		.word	SliderDistancePosition
+ 815              		.cfi_endproc
+ 816              	.LFE5:
+ 818              		.section	.text.TSI_Electrode_detection,"ax",%progbits
+ 819              		.align	2
+ 820              		.global	TSI_Electrode_detection
+ 821              		.code	16
+ 822              		.thumb_func
+ 824              	TSI_Electrode_detection:
+ 825              	.LFB6:
+ 190:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** }
+ 191:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** 
+ 192:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** 
+ 193:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** void TSI_Electrode_detection(void)
+ 194:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** {
+ 826              		.loc 1 194 0
+ 827              		.cfi_startproc
+ 828 0000 80B5     		push	{r7, lr}
+ 829              	.LCFI14:
+ 830              		.cfi_def_cfa_offset 8
+ 831              		.cfi_offset 7, -8
+ 832              		.cfi_offset 14, -4
+ 833 0002 00AF     		add	r7, sp, #0
+ 834              	.LCFI15:
+ 835              		.cfi_def_cfa_register 7
+ 195:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****        if(end_flag)
+ 836              		.loc 1 195 0
+ 837 0004 114B     		ldr	r3, .L47
+ 838 0006 1B78     		ldrb	r3, [r3]
+ 839 0008 002B     		cmp	r3, #0
+ 840 000a 1CD0     		beq	.L42
+ 196:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****       {
+ 197:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****          end_flag = FALSE;
+ 841              		.loc 1 197 0
+ 842 000c 0F4B     		ldr	r3, .L47
+ 843 000e 0022     		mov	r2, #0
+ 844 0010 1A70     		strb	r2, [r3]
+ 198:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****          if(gu16Delta[0] > gu16Threshold[0])  Electrode1 = 1; else Electrode1=0;
+ 845              		.loc 1 198 0
+ 846 0012 0F4B     		ldr	r3, .L47+4
+ 847 0014 1A88     		ldrh	r2, [r3]
+ 848 0016 0F4B     		ldr	r3, .L47+8
+ 849 0018 1B88     		ldrh	r3, [r3]
+ 850 001a 9A42     		cmp	r2, r3
+ 851 001c 03D9     		bls	.L44
+ 852              		.loc 1 198 0 is_stmt 0
+ 853 001e 0E4B     		ldr	r3, .L47+12
+ 854 0020 0122     		mov	r2, #1
+ 855 0022 1A70     		strb	r2, [r3]
+ 856 0024 02E0     		b	.L45
+ 857              	.L44:
+ 858              		.loc 1 198 0
+ 859 0026 0C4B     		ldr	r3, .L47+12
+ 860 0028 0022     		mov	r2, #0
+ 861 002a 1A70     		strb	r2, [r3]
+ 862              	.L45:
+ 199:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****         
+ 200:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****          if(gu16Delta[1] > gu16Threshold[1])
+ 863              		.loc 1 200 0 is_stmt 1
+ 864 002c 084B     		ldr	r3, .L47+4
+ 865 002e 5A88     		ldrh	r2, [r3, #2]
+ 866 0030 084B     		ldr	r3, .L47+8
+ 867 0032 5B88     		ldrh	r3, [r3, #2]
+ 868 0034 9A42     		cmp	r2, r3
+ 869 0036 03D9     		bls	.L46
+ 201:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****                  Electrode2 = 1; else Electrode2=0;
+ 870              		.loc 1 201 0
+ 871 0038 084B     		ldr	r3, .L47+16
+ 872 003a 0122     		mov	r2, #1
+ 873 003c 1A70     		strb	r2, [r3]
+ 874 003e 02E0     		b	.L42
+ 875              	.L46:
+ 876 0040 064B     		ldr	r3, .L47+16
+ 877 0042 0022     		mov	r2, #0
+ 878 0044 1A70     		strb	r2, [r3]
+ 879              	.L42:
+ 202:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****       }
+ 203:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****  
+ 204:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** }
+ 880              		.loc 1 204 0
+ 881 0046 BD46     		mov	sp, r7
+ 882              		@ sp needed for prologue
+ 883 0048 80BD     		pop	{r7, pc}
+ 884              	.L48:
+ 885 004a C046     		.align	2
+ 886              	.L47:
+ 887 004c 00000000 		.word	end_flag
+ 888 0050 00000000 		.word	gu16Delta
+ 889 0054 00000000 		.word	gu16Threshold
+ 890 0058 00000000 		.word	Electrode1
+ 891 005c 00000000 		.word	Electrode2
+ 892              		.cfi_endproc
+ 893              	.LFE6:
+ 895              		.section	.text.TSI_SliderRead,"ax",%progbits
+ 896              		.align	2
+ 897              		.global	TSI_SliderRead
+ 898              		.code	16
+ 899              		.thumb_func
+ 901              	TSI_SliderRead:
+ 902              	.LFB7:
+ 205:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** 
+ 206:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** 
+ 207:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** /*
+ 208:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****  TSI_Sliderread
+ 209:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****    return  AbsolutePercentegePosition  0-100  or if not 
+ 210:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****           AbsoluteDistancePosition
+ 211:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** 
+ 212:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** */
+ 213:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** 
+ 214:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** void TSI_SliderRead(void )
+ 215:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** {
+ 903              		.loc 1 215 0
+ 904              		.cfi_startproc
+ 905 0000 80B5     		push	{r7, lr}
+ 906              	.LCFI16:
+ 907              		.cfi_def_cfa_offset 8
+ 908              		.cfi_offset 7, -8
+ 909              		.cfi_offset 14, -4
+ 910 0002 00AF     		add	r7, sp, #0
+ 911              	.LCFI17:
+ 912              		.cfi_def_cfa_register 7
+ 216:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****      if(end_flag)
+ 913              		.loc 1 216 0
+ 914 0004 434B     		ldr	r3, .L55
+ 915 0006 1B78     		ldrb	r3, [r3]
+ 916 0008 002B     		cmp	r3, #0
+ 917 000a 00D1     		bne	.LCB726
+ 918 000c 7FE0     		b	.L49	@long jump
+ 919              	.LCB726:
+ 217:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****       {    
+ 218:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****        // printf(" Percentage = %d %           Distance = %d mm          \r", AbsolutePercentegePos
+ 219:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****         end_flag = FALSE;
+ 920              		.loc 1 219 0
+ 921 000e 414B     		ldr	r3, .L55
+ 922 0010 0022     		mov	r2, #0
+ 923 0012 1A70     		strb	r2, [r3]
+ 220:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** 
+ 221:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****         if((gu16Delta[0] > gu16Threshold[0])||(gu16Delta[1] > gu16Threshold[1]))
+ 924              		.loc 1 221 0
+ 925 0014 404B     		ldr	r3, .L55+4
+ 926 0016 1A88     		ldrh	r2, [r3]
+ 927 0018 404B     		ldr	r3, .L55+8
+ 928 001a 1B88     		ldrh	r3, [r3]
+ 929 001c 9A42     		cmp	r2, r3
+ 930 001e 05D8     		bhi	.L51
+ 931              		.loc 1 221 0 is_stmt 0
+ 932 0020 3D4B     		ldr	r3, .L55+4
+ 933 0022 5A88     		ldrh	r2, [r3, #2]
+ 934 0024 3D4B     		ldr	r3, .L55+8
+ 935 0026 5B88     		ldrh	r3, [r3, #2]
+ 936 0028 9A42     		cmp	r2, r3
+ 937 002a 5ED9     		bls	.L52
+ 938              	.L51:
+ 222:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****          {
+ 223:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****            SliderPercentegePosition[0] = (gu16Delta[0]*100)/(gu16Delta[0]+gu16Delta[1]);
+ 939              		.loc 1 223 0 is_stmt 1
+ 940 002c 3A4B     		ldr	r3, .L55+4
+ 941 002e 1B88     		ldrh	r3, [r3]
+ 942 0030 6422     		mov	r2, #100
+ 943 0032 5A43     		mul	r2, r3
+ 944 0034 384B     		ldr	r3, .L55+4
+ 945 0036 1B88     		ldrh	r3, [r3]
+ 946 0038 191C     		mov	r1, r3
+ 947 003a 374B     		ldr	r3, .L55+4
+ 948 003c 5B88     		ldrh	r3, [r3, #2]
+ 949 003e CB18     		add	r3, r1, r3
+ 950 0040 101C     		mov	r0, r2
+ 951 0042 191C     		mov	r1, r3
+ 952 0044 FFF7FEFF 		bl	__aeabi_idiv
+ 953 0048 031C     		mov	r3, r0
+ 954 004a DAB2     		uxtb	r2, r3
+ 955 004c 344B     		ldr	r3, .L55+12
+ 956 004e 1A70     		strb	r2, [r3]
+ 224:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****            
+ 225:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****            SliderPercentegePosition[1] = (gu16Delta[1]*100)/(gu16Delta[0]+gu16Delta[1]);
+ 957              		.loc 1 225 0
+ 958 0050 314B     		ldr	r3, .L55+4
+ 959 0052 5B88     		ldrh	r3, [r3, #2]
+ 960 0054 6422     		mov	r2, #100
+ 961 0056 5A43     		mul	r2, r3
+ 962 0058 2F4B     		ldr	r3, .L55+4
+ 963 005a 1B88     		ldrh	r3, [r3]
+ 964 005c 191C     		mov	r1, r3
+ 965 005e 2E4B     		ldr	r3, .L55+4
+ 966 0060 5B88     		ldrh	r3, [r3, #2]
+ 967 0062 CB18     		add	r3, r1, r3
+ 968 0064 101C     		mov	r0, r2
+ 969 0066 191C     		mov	r1, r3
+ 970 0068 FFF7FEFF 		bl	__aeabi_idiv
+ 971 006c 031C     		mov	r3, r0
+ 972 006e DAB2     		uxtb	r2, r3
+ 973 0070 2B4B     		ldr	r3, .L55+12
+ 974 0072 5A70     		strb	r2, [r3, #1]
+ 226:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****            
+ 227:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****            SliderDistancePosition[0] = (SliderPercentegePosition[0]* SLIDER_LENGTH)/100;
+ 975              		.loc 1 227 0
+ 976 0074 2A4B     		ldr	r3, .L55+12
+ 977 0076 1B78     		ldrb	r3, [r3]
+ 978 0078 1A1C     		mov	r2, r3
+ 979 007a 131C     		mov	r3, r2
+ 980 007c 9B00     		lsl	r3, r3, #2
+ 981 007e 9B18     		add	r3, r3, r2
+ 982 0080 DB00     		lsl	r3, r3, #3
+ 983 0082 181C     		mov	r0, r3
+ 984 0084 6421     		mov	r1, #100
+ 985 0086 FFF7FEFF 		bl	__aeabi_idiv
+ 986 008a 031C     		mov	r3, r0
+ 987 008c DAB2     		uxtb	r2, r3
+ 988 008e 254B     		ldr	r3, .L55+16
+ 989 0090 1A70     		strb	r2, [r3]
+ 228:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****              
+ 229:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****            SliderDistancePosition[1] = (SliderPercentegePosition[1]* SLIDER_LENGTH)/100;
+ 990              		.loc 1 229 0
+ 991 0092 234B     		ldr	r3, .L55+12
+ 992 0094 5B78     		ldrb	r3, [r3, #1]
+ 993 0096 1A1C     		mov	r2, r3
+ 994 0098 131C     		mov	r3, r2
+ 995 009a 9B00     		lsl	r3, r3, #2
+ 996 009c 9B18     		add	r3, r3, r2
+ 997 009e DB00     		lsl	r3, r3, #3
+ 998 00a0 181C     		mov	r0, r3
+ 999 00a2 6421     		mov	r1, #100
+ 1000 00a4 FFF7FEFF 		bl	__aeabi_idiv
+ 1001 00a8 031C     		mov	r3, r0
+ 1002 00aa DAB2     		uxtb	r2, r3
+ 1003 00ac 1D4B     		ldr	r3, .L55+16
+ 1004 00ae 5A70     		strb	r2, [r3, #1]
+ 230:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****            
+ 231:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****           AbsolutePercentegePosition = ((100 - SliderPercentegePosition[0]) + SliderPercentegePosit
+ 1005              		.loc 1 231 0
+ 1006 00b0 1B4B     		ldr	r3, .L55+12
+ 1007 00b2 1B78     		ldrb	r3, [r3]
+ 1008 00b4 6422     		mov	r2, #100
+ 1009 00b6 D21A     		sub	r2, r2, r3
+ 1010 00b8 194B     		ldr	r3, .L55+12
+ 1011 00ba 5B78     		ldrb	r3, [r3, #1]
+ 1012 00bc D318     		add	r3, r2, r3
+ 1013 00be 002B     		cmp	r3, #0
+ 1014 00c0 00DA     		bge	.L53
+ 1015 00c2 0133     		add	r3, r3, #1
+ 1016              	.L53:
+ 1017 00c4 5B10     		asr	r3, r3, #1
+ 1018 00c6 DAB2     		uxtb	r2, r3
+ 1019 00c8 174B     		ldr	r3, .L55+20
+ 1020 00ca 1A70     		strb	r2, [r3]
+ 232:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****           AbsoluteDistancePosition = ((SLIDER_LENGTH - SliderDistancePosition[0]) + SliderDistanceP
+ 1021              		.loc 1 232 0
+ 1022 00cc 154B     		ldr	r3, .L55+16
+ 1023 00ce 1B78     		ldrb	r3, [r3]
+ 1024 00d0 2822     		mov	r2, #40
+ 1025 00d2 D21A     		sub	r2, r2, r3
+ 1026 00d4 134B     		ldr	r3, .L55+16
+ 1027 00d6 5B78     		ldrb	r3, [r3, #1]
+ 1028 00d8 D318     		add	r3, r2, r3
+ 1029 00da 002B     		cmp	r3, #0
+ 1030 00dc 00DA     		bge	.L54
+ 1031 00de 0133     		add	r3, r3, #1
+ 1032              	.L54:
+ 1033 00e0 5B10     		asr	r3, r3, #1
+ 1034 00e2 DAB2     		uxtb	r2, r3
+ 1035 00e4 114B     		ldr	r3, .L55+24
+ 1036 00e6 1A70     		strb	r2, [r3]
+ 1037 00e8 11E0     		b	.L49
+ 1038              	.L52:
+ 233:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****            
+ 234:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****          }else
+ 235:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****          {
+ 236:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****             SliderPercentegePosition[0] = NO_TOUCH;  
+ 1039              		.loc 1 236 0
+ 1040 00ea 0D4B     		ldr	r3, .L55+12
+ 1041 00ec 0022     		mov	r2, #0
+ 1042 00ee 1A70     		strb	r2, [r3]
+ 237:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****             SliderPercentegePosition[1] = NO_TOUCH; 
+ 1043              		.loc 1 237 0
+ 1044 00f0 0B4B     		ldr	r3, .L55+12
+ 1045 00f2 0022     		mov	r2, #0
+ 1046 00f4 5A70     		strb	r2, [r3, #1]
+ 238:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****             SliderDistancePosition[0] = NO_TOUCH; 
+ 1047              		.loc 1 238 0
+ 1048 00f6 0B4B     		ldr	r3, .L55+16
+ 1049 00f8 0022     		mov	r2, #0
+ 1050 00fa 1A70     		strb	r2, [r3]
+ 239:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****             SliderDistancePosition[1] = NO_TOUCH; 
+ 1051              		.loc 1 239 0
+ 1052 00fc 094B     		ldr	r3, .L55+16
+ 1053 00fe 0022     		mov	r2, #0
+ 1054 0100 5A70     		strb	r2, [r3, #1]
+ 240:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****             AbsolutePercentegePosition = NO_TOUCH; 
+ 1055              		.loc 1 240 0
+ 1056 0102 094B     		ldr	r3, .L55+20
+ 1057 0104 0022     		mov	r2, #0
+ 1058 0106 1A70     		strb	r2, [r3]
+ 241:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****             AbsoluteDistancePosition = NO_TOUCH; 
+ 1059              		.loc 1 241 0
+ 1060 0108 084B     		ldr	r3, .L55+24
+ 1061 010a 0022     		mov	r2, #0
+ 1062 010c 1A70     		strb	r2, [r3]
+ 1063              	.L49:
+ 242:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****          }
+ 243:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****       }
+ 244:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****  
+ 245:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** }
+ 1064              		.loc 1 245 0
+ 1065 010e BD46     		mov	sp, r7
+ 1066              		@ sp needed for prologue
+ 1067 0110 80BD     		pop	{r7, pc}
+ 1068              	.L56:
+ 1069 0112 C046     		.align	2
+ 1070              	.L55:
+ 1071 0114 00000000 		.word	end_flag
+ 1072 0118 00000000 		.word	gu16Delta
+ 1073 011c 00000000 		.word	gu16Threshold
+ 1074 0120 00000000 		.word	SliderPercentegePosition
+ 1075 0124 00000000 		.word	SliderDistancePosition
+ 1076 0128 00000000 		.word	AbsolutePercentegePosition
+ 1077 012c 00000000 		.word	AbsoluteDistancePosition
+ 1078              		.cfi_endproc
+ 1079              	.LFE7:
+ 1081              		.section	.text.TSI0_IRQHandler,"ax",%progbits
+ 1082              		.align	2
+ 1083              		.global	TSI0_IRQHandler
+ 1084              		.code	16
+ 1085              		.thumb_func
+ 1087              	TSI0_IRQHandler:
+ 1088              	.LFB8:
+ 246:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** 
+ 247:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** 
+ 248:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** 
+ 249:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** void TSI0_IRQHandler(void)
+ 250:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** {
+ 1089              		.loc 1 250 0
+ 1090              		.cfi_startproc
+ 1091 0000 80B5     		push	{r7, lr}
+ 1092              	.LCFI18:
+ 1093              		.cfi_def_cfa_offset 8
+ 1094              		.cfi_offset 7, -8
+ 1095              		.cfi_offset 14, -4
+ 1096 0002 00AF     		add	r7, sp, #0
+ 1097              	.LCFI19:
+ 1098              		.cfi_def_cfa_register 7
+ 251:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   end_flag = TRUE;
+ 1099              		.loc 1 251 0
+ 1100 0004 064B     		ldr	r3, .L58
+ 1101 0006 0122     		mov	r2, #1
+ 1102 0008 1A70     		strb	r2, [r3]
+ 252:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   TSI0_GENCS |= TSI_GENCS_EOSF_MASK; // Clear End of Scan Flag
+ 1103              		.loc 1 252 0
+ 1104 000a 064B     		ldr	r3, .L58+4
+ 1105 000c 054A     		ldr	r2, .L58+4
+ 1106 000e 1268     		ldr	r2, [r2]
+ 1107 0010 0421     		mov	r1, #4
+ 1108 0012 0A43     		orr	r2, r1
+ 1109 0014 1A60     		str	r2, [r3]
+ 253:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c ****   change_electrode();
+ 1110              		.loc 1 253 0
+ 1111 0016 FFF7FEFF 		bl	change_electrode
+ 254:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** 
+ 255:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi\TSIDrv.c **** }...
+ 1112              		.loc 1 255 0
+ 1113 001a BD46     		mov	sp, r7
+ 1114              		@ sp needed for prologue
+ 1115 001c 80BD     		pop	{r7, pc}
+ 1116              	.L59:
+ 1117 001e C046     		.align	2
+ 1118              	.L58:
+ 1119 0020 00000000 		.word	end_flag
+ 1120 0024 00500440 		.word	1074024448
+ 1121              		.cfi_endproc
+ 1122              	.LFE8:
+ 1124              		.text
+ 1125              	.Letext0:
+ 1126              		.file 2 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu/arm_cm0.h"
+ 1127              		.file 3 "C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint"
+ 1128              		.file 4 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu/headers/MKL46Z4.
+DEFINED SYMBOLS
+                            *ABS*:00000000 TSIDrv.c
+                            *COM*:00000001 Electrode1
+                            *COM*:00000001 Electrode2
+C:\Users\b01252\AppData\Local\Temp\cc6cQTQk.s:23     .data.total_electrode:00000000 total_electrode
+C:\Users\b01252\AppData\Local\Temp\cc6cQTQk.s:30     .data.elec_array:00000000 elec_array
+C:\Users\b01252\AppData\Local\Temp\cc6cQTQk.s:27     .data.elec_array:00000000 $d
+                            *COM*:00000020 gu16TSICount
+                            *COM*:00000020 gu16Baseline
+C:\Users\b01252\AppData\Local\Temp\cc6cQTQk.s:54     .data.gu16Threshold:00000000 gu16Threshold
+C:\Users\b01252\AppData\Local\Temp\cc6cQTQk.s:51     .data.gu16Threshold:00000000 $d
+                            *COM*:00000020 gu16Delta
+                            *COM*:00000001 ongoing_elec
+C:\Users\b01252\AppData\Local\Temp\cc6cQTQk.s:77     .data.end_flag:00000000 end_flag
+C:\Users\b01252\AppData\Local\Temp\cc6cQTQk.s:84     .bss.SliderPercentegePosition:00000000 SliderPercentegePosition
+C:\Users\b01252\AppData\Local\Temp\cc6cQTQk.s:81     .bss.SliderPercentegePosition:00000000 $d
+C:\Users\b01252\AppData\Local\Temp\cc6cQTQk.s:91     .bss.SliderDistancePosition:00000000 SliderDistancePosition
+C:\Users\b01252\AppData\Local\Temp\cc6cQTQk.s:88     .bss.SliderDistancePosition:00000000 $d
+C:\Users\b01252\AppData\Local\Temp\cc6cQTQk.s:97     .bss.AbsolutePercentegePosition:00000000 AbsolutePercentegePosition
+C:\Users\b01252\AppData\Local\Temp\cc6cQTQk.s:98     .bss.AbsolutePercentegePosition:00000000 $d
+C:\Users\b01252\AppData\Local\Temp\cc6cQTQk.s:103    .bss.AbsoluteDistancePosition:00000000 AbsoluteDistancePosition
+C:\Users\b01252\AppData\Local\Temp\cc6cQTQk.s:104    .bss.AbsoluteDistancePosition:00000000 $d
+C:\Users\b01252\AppData\Local\Temp\cc6cQTQk.s:106    .text.TSI_SelfCalibration:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\cc6cQTQk.s:111    .text.TSI_SelfCalibration:00000000 TSI_SelfCalibration
+C:\Users\b01252\AppData\Local\Temp\cc6cQTQk.s:290    .text.TSI_SelfCalibration:00000108 $d
+C:\Users\b01252\AppData\Local\Temp\cc6cQTQk.s:298    .text.vfn_start_tsi_scan:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\cc6cQTQk.s:303    .text.vfn_start_tsi_scan:00000000 vfn_start_tsi_scan
+C:\Users\b01252\AppData\Local\Temp\cc6cQTQk.s:337    .text.vfn_start_tsi_scan:00000024 $d
+C:\Users\b01252\AppData\Local\Temp\cc6cQTQk.s:342    .text.TSI_Init:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\cc6cQTQk.s:347    .text.TSI_Init:00000000 TSI_Init
+C:\Users\b01252\AppData\Local\Temp\cc6cQTQk.s:402    .text.TSI_Init:00000048 $d
+C:\Users\b01252\AppData\Local\Temp\cc6cQTQk.s:411    .text.change_electrode:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\cc6cQTQk.s:416    .text.change_electrode:00000000 change_electrode
+C:\Users\b01252\AppData\Local\Temp\cc6cQTQk.s:535    .text.change_electrode:000000ac $d
+C:\Users\b01252\AppData\Local\Temp\cc6cQTQk.s:546    .text.TSI_SimpleApp:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\cc6cQTQk.s:551    .text.TSI_SimpleApp:00000000 TSI_SimpleApp
+C:\Users\b01252\AppData\Local\Temp\cc6cQTQk.s:607    .text.TSI_SimpleApp:00000034 $d
+C:\Users\b01252\AppData\Local\Temp\cc6cQTQk.s:614    .rodata:00000000 $d
+C:\Users\b01252\AppData\Local\Temp\cc6cQTQk.s:620    .text.TSI_SliderApp:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\cc6cQTQk.s:625    .text.TSI_SliderApp:00000000 TSI_SliderApp
+C:\Users\b01252\AppData\Local\Temp\cc6cQTQk.s:807    .text.TSI_SliderApp:00000128 $d
+C:\Users\b01252\AppData\Local\Temp\cc6cQTQk.s:819    .text.TSI_Electrode_detection:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\cc6cQTQk.s:824    .text.TSI_Electrode_detection:00000000 TSI_Electrode_detection
+C:\Users\b01252\AppData\Local\Temp\cc6cQTQk.s:887    .text.TSI_Electrode_detection:0000004c $d
+C:\Users\b01252\AppData\Local\Temp\cc6cQTQk.s:896    .text.TSI_SliderRead:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\cc6cQTQk.s:901    .text.TSI_SliderRead:00000000 TSI_SliderRead
+C:\Users\b01252\AppData\Local\Temp\cc6cQTQk.s:1071   .text.TSI_SliderRead:00000114 $d
+C:\Users\b01252\AppData\Local\Temp\cc6cQTQk.s:1082   .text.TSI0_IRQHandler:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\cc6cQTQk.s:1087   .text.TSI0_IRQHandler:00000000 TSI0_IRQHandler
+C:\Users\b01252\AppData\Local\Temp\cc6cQTQk.s:1119   .text.TSI0_IRQHandler:00000020 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+enable_irq
+__aeabi_idiv
+printf

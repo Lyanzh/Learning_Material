@@ -1,0 +1,1331 @@
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"vectors.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.global	__vector_table
+  18              		.section	.vectortable,"a",%progbits
+  19              		.align	2
+  22              	__vector_table:
+  23 0000 00000000 		.word	_estack
+  24 0004 00000000 		.word	__startup
+  25 0008 00000000 		.word	NMI_isr
+  26 000c 00000000 		.word	default_isr
+  27 0010 00000000 		.word	default_isr
+  28 0014 00000000 		.word	default_isr
+  29 0018 00000000 		.word	default_isr
+  30 001c 00000000 		.word	default_isr
+  31 0020 00000000 		.word	default_isr
+  32 0024 00000000 		.word	default_isr
+  33 0028 00000000 		.word	default_isr
+  34 002c 00000000 		.word	default_isr
+  35 0030 00000000 		.word	default_isr
+  36 0034 00000000 		.word	default_isr
+  37 0038 00000000 		.word	default_isr
+  38 003c 00000000 		.word	default_isr
+  39 0040 00000000 		.word	default_isr
+  40 0044 00000000 		.word	default_isr
+  41 0048 00000000 		.word	default_isr
+  42 004c 00000000 		.word	default_isr
+  43 0050 00000000 		.word	default_isr
+  44 0054 00000000 		.word	default_isr
+  45 0058 00000000 		.word	default_isr
+  46 005c 00000000 		.word	default_isr
+  47 0060 00000000 		.word	default_isr
+  48 0064 00000000 		.word	default_isr
+  49 0068 00000000 		.word	default_isr
+  50 006c 00000000 		.word	default_isr
+  51 0070 00000000 		.word	default_isr
+  52 0074 00000000 		.word	default_isr
+  53 0078 00000000 		.word	default_isr
+  54 007c 00000000 		.word	default_isr
+  55 0080 00000000 		.word	default_isr
+  56 0084 00000000 		.word	default_isr
+  57 0088 00000000 		.word	default_isr
+  58 008c 00000000 		.word	default_isr
+  59 0090 00000000 		.word	RTC_IRQHandler
+  60 0094 00000000 		.word	RTC_Seconds_IRQHandler
+  61 0098 00000000 		.word	PIT_IRQHandler
+  62 009c 00000000 		.word	default_isr
+  63 00a0 00000000 		.word	USB0_IRQHandler
+  64 00a4 00000000 		.word	default_isr
+  65 00a8 00000000 		.word	TSI0_IRQHandler
+  66 00ac 00000000 		.word	default_isr
+  67 00b0 00000000 		.word	default_isr
+  68 00b4 00000000 		.word	default_isr
+  69 00b8 00000000 		.word	abort_isr
+  70 00bc 00000000 		.word	default_isr
+  71 00c0 FFFFFFFF 		.word	-1
+  72 00c4 FFFFFFFF 		.word	-1
+  73 00c8 FFFFFFFF 		.word	-1
+  74 00cc FFFFFFFF 		.word	-1
+  75 00d0 FFFFFFFF 		.word	-1
+  76 00d4 FFFFFFFF 		.word	-1
+  77 00d8 FFFFFFFF 		.word	-1
+  78 00dc FFFFFFFF 		.word	-1
+  79 00e0 FFFFFFFF 		.word	-1
+  80 00e4 FFFFFFFF 		.word	-1
+  81 00e8 FFFFFFFF 		.word	-1
+  82 00ec FFFFFFFF 		.word	-1
+  83 00f0 FFFFFFFF 		.word	-1
+  84 00f4 FFFFFFFF 		.word	-1
+  85 00f8 FFFFFFFF 		.word	-1
+  86 00fc FFFFFFFF 		.word	-1
+  87 0100 FFFFFFFF 		.word	-1
+  88 0104 FFFFFFFF 		.word	-1
+  89 0108 FFFFFFFF 		.word	-1
+  90 010c FFFFFFFF 		.word	-1
+  91 0110 FFFFFFFF 		.word	-1
+  92 0114 FFFFFFFF 		.word	-1
+  93 0118 FFFFFFFF 		.word	-1
+  94 011c FFFFFFFF 		.word	-1
+  95 0120 FFFFFFFF 		.word	-1
+  96 0124 FFFFFFFF 		.word	-1
+  97 0128 FFFFFFFF 		.word	-1
+  98 012c FFFFFFFF 		.word	-1
+  99 0130 FFFFFFFF 		.word	-1
+ 100 0134 FFFFFFFF 		.word	-1
+ 101 0138 FFFFFFFF 		.word	-1
+ 102 013c FFFFFFFF 		.word	-1
+ 103 0140 FFFFFFFF 		.word	-1
+ 104 0144 FFFFFFFF 		.word	-1
+ 105 0148 FFFFFFFF 		.word	-1
+ 106 014c FFFFFFFF 		.word	-1
+ 107 0150 FFFFFFFF 		.word	-1
+ 108 0154 FFFFFFFF 		.word	-1
+ 109 0158 FFFFFFFF 		.word	-1
+ 110 015c FFFFFFFF 		.word	-1
+ 111 0160 FFFFFFFF 		.word	-1
+ 112 0164 FFFFFFFF 		.word	-1
+ 113 0168 FFFFFFFF 		.word	-1
+ 114 016c FFFFFFFF 		.word	-1
+ 115 0170 FFFFFFFF 		.word	-1
+ 116 0174 FFFFFFFF 		.word	-1
+ 117 0178 FFFFFFFF 		.word	-1
+ 118 017c FFFFFFFF 		.word	-1
+ 119 0180 FFFFFFFF 		.word	-1
+ 120 0184 FFFFFFFF 		.word	-1
+ 121 0188 FFFFFFFF 		.word	-1
+ 122 018c FFFFFFFF 		.word	-1
+ 123 0190 FFFFFFFF 		.word	-1
+ 124 0194 FFFFFFFF 		.word	-1
+ 125 0198 FFFFFFFF 		.word	-1
+ 126 019c FFFFFFFF 		.word	-1
+ 127 01a0 FFFFFFFF 		.word	-1
+ 128 01a4 FFFFFFFF 		.word	-1
+ 129 01a8 FFFFFFFF 		.word	-1
+ 130 01ac FFFFFFFF 		.word	-1
+ 131 01b0 FFFFFFFF 		.word	-1
+ 132 01b4 FFFFFFFF 		.word	-1
+ 133 01b8 FFFFFFFF 		.word	-1
+ 134 01bc FFFFFFFF 		.word	-1
+ 135 01c0 FFFFFFFF 		.word	-1
+ 136 01c4 FFFFFFFF 		.word	-1
+ 137 01c8 FFFFFFFF 		.word	-1
+ 138 01cc FFFFFFFF 		.word	-1
+ 139 01d0 FFFFFFFF 		.word	-1
+ 140 01d4 FFFFFFFF 		.word	-1
+ 141 01d8 FFFFFFFF 		.word	-1
+ 142 01dc FFFFFFFF 		.word	-1
+ 143 01e0 FFFFFFFF 		.word	-1
+ 144 01e4 FFFFFFFF 		.word	-1
+ 145 01e8 FFFFFFFF 		.word	-1
+ 146 01ec FFFFFFFF 		.word	-1
+ 147 01f0 FFFFFFFF 		.word	-1
+ 148 01f4 FFFFFFFF 		.word	-1
+ 149 01f8 FFFFFFFF 		.word	-1
+ 150 01fc FFFFFFFF 		.word	-1
+ 151 0200 FFFFFFFF 		.word	-1
+ 152 0204 FFFFFFFF 		.word	-1
+ 153 0208 FFFFFFFF 		.word	-1
+ 154 020c FFFFFFFF 		.word	-1
+ 155 0210 FFFFFFFF 		.word	-1
+ 156 0214 FFFFFFFF 		.word	-1
+ 157 0218 FFFFFFFF 		.word	-1
+ 158 021c FFFFFFFF 		.word	-1
+ 159 0220 FFFFFFFF 		.word	-1
+ 160 0224 FFFFFFFF 		.word	-1
+ 161 0228 FFFFFFFF 		.word	-1
+ 162 022c FFFFFFFF 		.word	-1
+ 163 0230 FFFFFFFF 		.word	-1
+ 164 0234 FFFFFFFF 		.word	-1
+ 165 0238 FFFFFFFF 		.word	-1
+ 166 023c FFFFFFFF 		.word	-1
+ 167 0240 FFFFFFFF 		.word	-1
+ 168 0244 FFFFFFFF 		.word	-1
+ 169 0248 FFFFFFFF 		.word	-1
+ 170 024c FFFFFFFF 		.word	-1
+ 171 0250 FFFFFFFF 		.word	-1
+ 172 0254 FFFFFFFF 		.word	-1
+ 173 0258 FFFFFFFF 		.word	-1
+ 174 025c FFFFFFFF 		.word	-1
+ 175 0260 FFFFFFFF 		.word	-1
+ 176 0264 FFFFFFFF 		.word	-1
+ 177 0268 FFFFFFFF 		.word	-1
+ 178 026c FFFFFFFF 		.word	-1
+ 179 0270 FFFFFFFF 		.word	-1
+ 180 0274 FFFFFFFF 		.word	-1
+ 181 0278 FFFFFFFF 		.word	-1
+ 182 027c FFFFFFFF 		.word	-1
+ 183 0280 FFFFFFFF 		.word	-1
+ 184 0284 FFFFFFFF 		.word	-1
+ 185 0288 FFFFFFFF 		.word	-1
+ 186 028c FFFFFFFF 		.word	-1
+ 187 0290 FFFFFFFF 		.word	-1
+ 188 0294 FFFFFFFF 		.word	-1
+ 189 0298 FFFFFFFF 		.word	-1
+ 190 029c FFFFFFFF 		.word	-1
+ 191 02a0 FFFFFFFF 		.word	-1
+ 192 02a4 FFFFFFFF 		.word	-1
+ 193 02a8 FFFFFFFF 		.word	-1
+ 194 02ac FFFFFFFF 		.word	-1
+ 195 02b0 FFFFFFFF 		.word	-1
+ 196 02b4 FFFFFFFF 		.word	-1
+ 197 02b8 FFFFFFFF 		.word	-1
+ 198 02bc FFFFFFFF 		.word	-1
+ 199 02c0 FFFFFFFF 		.word	-1
+ 200 02c4 FFFFFFFF 		.word	-1
+ 201 02c8 FFFFFFFF 		.word	-1
+ 202 02cc FFFFFFFF 		.word	-1
+ 203 02d0 FFFFFFFF 		.word	-1
+ 204 02d4 FFFFFFFF 		.word	-1
+ 205 02d8 FFFFFFFF 		.word	-1
+ 206 02dc FFFFFFFF 		.word	-1
+ 207 02e0 FFFFFFFF 		.word	-1
+ 208 02e4 FFFFFFFF 		.word	-1
+ 209 02e8 FFFFFFFF 		.word	-1
+ 210 02ec FFFFFFFF 		.word	-1
+ 211 02f0 FFFFFFFF 		.word	-1
+ 212 02f4 FFFFFFFF 		.word	-1
+ 213 02f8 FFFFFFFF 		.word	-1
+ 214 02fc FFFFFFFF 		.word	-1
+ 215 0300 FFFFFFFF 		.word	-1
+ 216 0304 FFFFFFFF 		.word	-1
+ 217 0308 FFFFFFFF 		.word	-1
+ 218 030c FFFFFFFF 		.word	-1
+ 219 0310 FFFFFFFF 		.word	-1
+ 220 0314 FFFFFFFF 		.word	-1
+ 221 0318 FFFFFFFF 		.word	-1
+ 222 031c FFFFFFFF 		.word	-1
+ 223 0320 FFFFFFFF 		.word	-1
+ 224 0324 FFFFFFFF 		.word	-1
+ 225 0328 FFFFFFFF 		.word	-1
+ 226 032c FFFFFFFF 		.word	-1
+ 227 0330 FFFFFFFF 		.word	-1
+ 228 0334 FFFFFFFF 		.word	-1
+ 229 0338 FFFFFFFF 		.word	-1
+ 230 033c FFFFFFFF 		.word	-1
+ 231 0340 FFFFFFFF 		.word	-1
+ 232 0344 FFFFFFFF 		.word	-1
+ 233 0348 FFFFFFFF 		.word	-1
+ 234 034c FFFFFFFF 		.word	-1
+ 235 0350 FFFFFFFF 		.word	-1
+ 236 0354 FFFFFFFF 		.word	-1
+ 237 0358 FFFFFFFF 		.word	-1
+ 238 035c FFFFFFFF 		.word	-1
+ 239 0360 FFFFFFFF 		.word	-1
+ 240 0364 FFFFFFFF 		.word	-1
+ 241 0368 FFFFFFFF 		.word	-1
+ 242 036c FFFFFFFF 		.word	-1
+ 243 0370 FFFFFFFF 		.word	-1
+ 244 0374 FFFFFFFF 		.word	-1
+ 245 0378 FFFFFFFF 		.word	-1
+ 246 037c FFFFFFFF 		.word	-1
+ 247 0380 FFFFFFFF 		.word	-1
+ 248 0384 FFFFFFFF 		.word	-1
+ 249 0388 FFFFFFFF 		.word	-1
+ 250 038c FFFFFFFF 		.word	-1
+ 251 0390 FFFFFFFF 		.word	-1
+ 252 0394 FFFFFFFF 		.word	-1
+ 253 0398 FFFFFFFF 		.word	-1
+ 254 039c FFFFFFFF 		.word	-1
+ 255 03a0 FFFFFFFF 		.word	-1
+ 256 03a4 FFFFFFFF 		.word	-1
+ 257 03a8 FFFFFFFF 		.word	-1
+ 258 03ac FFFFFFFF 		.word	-1
+ 259 03b0 FFFFFFFF 		.word	-1
+ 260 03b4 FFFFFFFF 		.word	-1
+ 261 03b8 FFFFFFFF 		.word	-1
+ 262 03bc FFFFFFFF 		.word	-1
+ 263 03c0 FFFFFFFF 		.word	-1
+ 264 03c4 FFFFFFFF 		.word	-1
+ 265 03c8 FFFFFFFF 		.word	-1
+ 266 03cc FFFFFFFF 		.word	-1
+ 267 03d0 FFFFFFFF 		.word	-1
+ 268 03d4 FFFFFFFF 		.word	-1
+ 269 03d8 FFFFFFFF 		.word	-1
+ 270 03dc FFFFFFFF 		.word	-1
+ 271 03e0 FFFFFFFF 		.word	-1
+ 272 03e4 FFFFFFFF 		.word	-1
+ 273 03e8 FFFFFFFF 		.word	-1
+ 274 03ec FFFFFFFF 		.word	-1
+ 275 03f0 FFFFFFFF 		.word	-1
+ 276 03f4 FFFFFFFF 		.word	-1
+ 277 03f8 FFFFFFFF 		.word	-1
+ 278 03fc FFFFFFFF 		.word	-1
+ 279              		.global	flash_config
+ 280              		.section	.cfmconfig,"a",%progbits
+ 281              		.align	2
+ 284              	flash_config:
+ 285 0000 FFFFFFFF 		.word	-1
+ 286 0004 FFFFFFFF 		.word	-1
+ 287 0008 FFFFFFFF 		.word	-1
+ 288 000c FEFFFFFF 		.word	-2
+ 289              		.section	.rodata
+ 290              		.align	2
+ 291              	.LC0:
+ 292 0000 0A2A2A2A 		.ascii	"\012****default_isr entered on vector %d*****\015\012"
+ 292      2A646566 
+ 292      61756C74 
+ 292      5F697372 
+ 292      20656E74 
+ 293 002c 0A00     		.ascii	"\012\000"
+ 294              		.section	.text.default_isr,"ax",%progbits
+ 295              		.align	2
+ 296              		.global	default_isr
+ 297              		.code	16
+ 298              		.thumb_func
+ 300              	default_isr:
+ 301              	.LFB0:
+ 302              		.file 1 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu/vectors.c"
+   1:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** /******************************************************************************
+   2:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** * File:    vectors.c
+   3:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** *
+   4:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** * Purpose: Configure interrupt vector table for Kinetis.
+   5:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** ******************************************************************************/
+   6:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** 
+   7:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** #include "vectors.h"
+   8:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** #include "isr.h"
+   9:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** #include "common.h"
+  10:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** 
+  11:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** /******************************************************************************
+  12:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** * Vector Table
+  13:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** ******************************************************************************/
+  14:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** typedef void (*vector_entry)(void);
+  15:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** 
+  16:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** #if (defined(KEIL))
+  17:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** const vector_entry  __vector_table[] = //@ ".intvec" =
+  18:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** #elif (defined(IAR))
+  19:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** #pragma location = ".intvec"
+  20:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** const vector_entry  __vector_table[] = //@ ".intvec" =
+  21:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** #elif (defined(CW))
+  22:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** const vector_entry __attribute__ ((section(".vectortable"))) __vector_table[] = //@ ".intvec" =
+  23:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** #endif
+  24:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** {
+  25:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_000,           /* Initial SP           */
+  26:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_001,           /* Initial PC           */
+  27:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_002,
+  28:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_003, 
+  29:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_004,
+  30:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_005,
+  31:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_006,
+  32:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_007,
+  33:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_008,
+  34:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_009,
+  35:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_010,
+  36:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_011,
+  37:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_012,
+  38:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_013,
+  39:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_014,
+  40:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_015,
+  41:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_016,
+  42:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_017,
+  43:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_018,
+  44:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_019,
+  45:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_020,
+  46:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_021,
+  47:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_022,
+  48:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_023,
+  49:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_024,
+  50:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_025,
+  51:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_026,
+  52:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_027,
+  53:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_028,
+  54:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_029,
+  55:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_030,
+  56:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_031,
+  57:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_032,
+  58:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_033,
+  59:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_034,
+  60:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_035,
+  61:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_036,
+  62:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_037,
+  63:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_038,
+  64:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_039,
+  65:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_040,
+  66:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_041,
+  67:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_042,
+  68:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_043,
+  69:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_044,
+  70:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_045,
+  71:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_046,
+  72:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_047,
+  73:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+  74:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+  75:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+  76:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+  77:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+  78:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+  79:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+  80:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+  81:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+  82:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+  83:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+  84:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+  85:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+  86:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+  87:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+  88:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+  89:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+  90:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+  91:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+  92:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+  93:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+  94:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+  95:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+  96:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+  97:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+  98:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+  99:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 100:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 101:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 102:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 103:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 104:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 105:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 106:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 107:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 108:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 109:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 110:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 111:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 112:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 113:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 114:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 115:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 116:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 117:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 118:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 119:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 120:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 121:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 122:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 123:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 124:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 125:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 126:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 127:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 128:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 129:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 130:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 131:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 132:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 133:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 134:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 135:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 136:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 137:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 138:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 139:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 140:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 141:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 142:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 143:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 144:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 145:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 146:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 147:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 148:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 149:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 150:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 151:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 152:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 153:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 154:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 155:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 156:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 157:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 158:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 159:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 160:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 161:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 162:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 163:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 164:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 165:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 166:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 167:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 168:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 169:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 170:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 171:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 172:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 173:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 174:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 175:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 176:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 177:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 178:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 179:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 180:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 181:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 182:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 183:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 184:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 185:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 186:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 187:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 188:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 189:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 190:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 191:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 192:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 193:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 194:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 195:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 196:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 197:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 198:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 199:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 200:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 201:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 202:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 203:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 204:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 205:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 206:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 207:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 208:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 209:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 210:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 211:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 212:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 213:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 214:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 215:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 216:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 217:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 218:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 219:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 220:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 221:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 222:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 223:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 224:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 225:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 226:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 227:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 228:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 229:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 230:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 231:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 232:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 233:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 234:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 235:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 236:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 237:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 238:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 239:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 240:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 241:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 242:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 243:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 244:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 245:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 246:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 247:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 248:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 249:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 250:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 251:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 252:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 253:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 254:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 255:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 256:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 257:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 258:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 259:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 260:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 261:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 262:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 263:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 264:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 265:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 266:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 267:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 268:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 269:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 270:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 271:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 272:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 273:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 274:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 275:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 276:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 277:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 278:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 279:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 280:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    VECTOR_PADDING,
+ 281:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** #ifndef CW
+ 282:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    CONFIG_1,
+ 283:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    CONFIG_2,
+ 284:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    CONFIG_3,
+ 285:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    CONFIG_4,
+ 286:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** #endif
+ 287:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** 
+ 288:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** };
+ 289:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** 
+ 290:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** #if (defined(CW))
+ 291:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** const vector_entry __attribute__ ((section(".cfmconfig"))) flash_config[] = //@ ".intvec" =
+ 292:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** {
+ 293:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** 	   CONFIG_1,
+ 294:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** 	   CONFIG_2,
+ 295:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** 	   CONFIG_3,
+ 296:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** 	   CONFIG_4,
+ 297:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** 	
+ 298:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** };
+ 299:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** #endif
+ 300:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** // VECTOR_TABLE end
+ 301:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** /******************************************************************************
+ 302:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** * default_isr(void)
+ 303:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** *
+ 304:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** * Default ISR definition.
+ 305:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** *
+ 306:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** * In:  n/a
+ 307:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** * Out: n/a
+ 308:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** ******************************************************************************/
+ 309:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** void default_isr(void)
+ 310:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** {
+ 303              		.loc 1 310 0
+ 304              		.cfi_startproc
+ 305 0000 80B5     		push	{r7, lr}
+ 306              	.LCFI0:
+ 307              		.cfi_def_cfa_offset 8
+ 308              		.cfi_offset 7, -8
+ 309              		.cfi_offset 14, -4
+ 310 0002 00AF     		add	r7, sp, #0
+ 311              	.LCFI1:
+ 312              		.cfi_def_cfa_register 7
+ 311:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    #define VECTORNUM                     (*(volatile uint32_t*)(0xE000ED04))
+ 312:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** 
+ 313:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    printf("\n****default_isr entered on vector %d*****\r\n\n",VECTORNUM);
+ 313              		.loc 1 313 0
+ 314 0004 044B     		ldr	r3, .L3
+ 315 0006 1B68     		ldr	r3, [r3]
+ 316 0008 044A     		ldr	r2, .L3+4
+ 317 000a 101C     		mov	r0, r2
+ 318 000c 191C     		mov	r1, r3
+ 319 000e FFF7FEFF 		bl	printf
+ 314:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    return;
+ 320              		.loc 1 314 0
+ 321 0012 C046     		mov	r8, r8
+ 315:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** }
+ 322              		.loc 1 315 0
+ 323 0014 BD46     		mov	sp, r7
+ 324              		@ sp needed for prologue
+ 325 0016 80BD     		pop	{r7, pc}
+ 326              	.L4:
+ 327              		.align	2
+ 328              	.L3:
+ 329 0018 04ED00E0 		.word	-536810236
+ 330 001c 00000000 		.word	.LC0
+ 331              		.cfi_endproc
+ 332              	.LFE0:
+ 334              		.section	.text.NMI_isr,"ax",%progbits
+ 335              		.align	2
+ 336              		.global	NMI_isr
+ 337              		.code	16
+ 338              		.thumb_func
+ 340              	NMI_isr:
+ 341              	.LFB1:
+ 316:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** 
+ 317:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** 
+ 318:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** 
+ 319:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** /******************************************************************************
+ 320:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** * default_isr(void)
+ 321:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** *
+ 322:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** * Default ISR definition.
+ 323:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** *
+ 324:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** * In:  n/a
+ 325:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** * Out: n/a
+ 326:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** ******************************************************************************/
+ 327:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** void NMI_isr(void)
+ 328:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** {
+ 342              		.loc 1 328 0
+ 343              		.cfi_startproc
+ 344 0000 80B5     		push	{r7, lr}
+ 345              	.LCFI2:
+ 346              		.cfi_def_cfa_offset 8
+ 347              		.cfi_offset 7, -8
+ 348              		.cfi_offset 14, -4
+ 349 0002 00AF     		add	r7, sp, #0
+ 350              	.LCFI3:
+ 351              		.cfi_def_cfa_register 7
+ 329:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****   (void)SCB_ICSR;
+ 352              		.loc 1 329 0
+ 353 0004 084A     		ldr	r2, .L6
+ 354 0006 094B     		ldr	r3, .L6+4
+ 355 0008 D358     		ldr	r3, [r2, r3]
+ 330:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    
+ 331:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****              SIM_SCGC5 |= (SIM_SCGC5_PORTA_MASK
+ 356              		.loc 1 331 0
+ 357 000a 094A     		ldr	r2, .L6+8
+ 358 000c 0849     		ldr	r1, .L6+8
+ 359 000e 094B     		ldr	r3, .L6+12
+ 360 0010 CB58     		ldr	r3, [r1, r3]
+ 361 0012 F821     		mov	r1, #248
+ 362 0014 8901     		lsl	r1, r1, #6
+ 363 0016 1943     		orr	r1, r3
+ 364 0018 064B     		ldr	r3, .L6+12
+ 365 001a D150     		str	r1, [r2, r3]
+ 332:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****                       | SIM_SCGC5_PORTB_MASK
+ 333:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****                       | SIM_SCGC5_PORTC_MASK
+ 334:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****                       | SIM_SCGC5_PORTD_MASK
+ 335:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****                       | SIM_SCGC5_PORTE_MASK );
+ 336:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****   
+ 337:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****  //  printf("\n****NMI_isr entered ");
+ 338:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****     /* Configure the PTA4 pin for its GPIO function */
+ 339:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****     PORTA_PCR4 = PORT_PCR_MUX(0x1) | PORT_PCR_PE_MASK | PORT_PCR_PS_MASK; // GPIO is alt1 function 
+ 366              		.loc 1 339 0
+ 367 001c 064B     		ldr	r3, .L6+16
+ 368 001e 074A     		ldr	r2, .L6+20
+ 369 0020 1A61     		str	r2, [r3, #16]
+ 340:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    
+ 341:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****   
+ 342:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** }
+ 370              		.loc 1 342 0
+ 371 0022 BD46     		mov	sp, r7
+ 372              		@ sp needed for prologue
+ 373 0024 80BD     		pop	{r7, pc}
+ 374              	.L7:
+ 375 0026 C046     		.align	2
+ 376              	.L6:
+ 377 0028 00E000E0 		.word	-536813568
+ 378 002c 040D0000 		.word	3332
+ 379 0030 00700440 		.word	1074032640
+ 380 0034 38100000 		.word	4152
+ 381 0038 00900440 		.word	1074040832
+ 382 003c 03010000 		.word	259
+ 383              		.cfi_endproc
+ 384              	.LFE1:
+ 386              		.section	.rodata
+ 387 002e 0000     		.align	2
+ 388              	.LC2:
+ 389 0030 0A2A2A2A 		.ascii	"\012****Abort button interrupt****\012\000"
+ 389      2A41626F 
+ 389      72742062 
+ 389      7574746F 
+ 389      6E20696E 
+ 390              		.section	.text.abort_isr,"ax",%progbits
+ 391              		.align	2
+ 392              		.global	abort_isr
+ 393              		.code	16
+ 394              		.thumb_func
+ 396              	abort_isr:
+ 397              	.LFB2:
+ 343:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** 
+ 344:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** 
+ 345:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** 
+ 346:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** 
+ 347:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** 
+ 348:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** 
+ 349:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** /******************************************************************************/
+ 350:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** /* Generic interrupt handler for the PTA4 GPIO interrupt connected to an 
+ 351:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****  * abort switch. 
+ 352:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****  * NOTE: For true abort operation this handler should be modified
+ 353:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****  * to jump to the main process instead of executing a return.
+ 354:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****  */
+ 355:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** void abort_isr(void)
+ 356:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** {
+ 398              		.loc 1 356 0
+ 399              		.cfi_startproc
+ 400 0000 80B5     		push	{r7, lr}
+ 401              	.LCFI4:
+ 402              		.cfi_def_cfa_offset 8
+ 403              		.cfi_offset 7, -8
+ 404              		.cfi_offset 14, -4
+ 405 0002 00AF     		add	r7, sp, #0
+ 406              	.LCFI5:
+ 407              		.cfi_def_cfa_register 7
+ 357:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    /* Write 1 to the PTA4 interrupt flag bit to clear the interrupt */
+ 358:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    PORTA_PCR4 |= PORT_PCR_ISF_MASK;    
+ 408              		.loc 1 358 0
+ 409 0004 064B     		ldr	r3, .L10
+ 410 0006 064A     		ldr	r2, .L10
+ 411 0008 1269     		ldr	r2, [r2, #16]
+ 412 000a 8021     		mov	r1, #128
+ 413 000c 4904     		lsl	r1, r1, #17
+ 414 000e 0A43     		orr	r2, r1
+ 415 0010 1A61     		str	r2, [r3, #16]
+ 359:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****   
+ 360:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    printf("\n****Abort button interrupt****\n\n");
+ 416              		.loc 1 360 0
+ 417 0012 044B     		ldr	r3, .L10+4
+ 418 0014 181C     		mov	r0, r3
+ 419 0016 FFF7FEFF 		bl	puts
+ 361:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    return;
+ 420              		.loc 1 361 0
+ 421 001a C046     		mov	r8, r8
+ 362:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** }
+ 422              		.loc 1 362 0
+ 423 001c BD46     		mov	sp, r7
+ 424              		@ sp needed for prologue
+ 425 001e 80BD     		pop	{r7, pc}
+ 426              	.L11:
+ 427              		.align	2
+ 428              	.L10:
+ 429 0020 00900440 		.word	1074040832
+ 430 0024 30000000 		.word	.LC2
+ 431              		.cfi_endproc
+ 432              	.LFE2:
+ 434              		.section	.rodata
+ 435 0051 000000   		.align	2
+ 436              	.LC4:
+ 437 0054 5B486172 		.ascii	"[Hard fault handler]\000"
+ 437      64206661 
+ 437      756C7420 
+ 437      68616E64 
+ 437      6C65725D 
+ 438 0069 000000   		.align	2
+ 439              	.LC6:
+ 440 006c 5230203D 		.ascii	"R0 = %x\012\000"
+ 440      2025780A 
+ 440      00
+ 441 0075 000000   		.align	2
+ 442              	.LC8:
+ 443 0078 5231203D 		.ascii	"R1 = %x\012\000"
+ 443      2025780A 
+ 443      00
+ 444 0081 000000   		.align	2
+ 445              	.LC10:
+ 446 0084 5232203D 		.ascii	"R2 = %x\012\000"
+ 446      2025780A 
+ 446      00
+ 447 008d 000000   		.align	2
+ 448              	.LC12:
+ 449 0090 5233203D 		.ascii	"R3 = %x\012\000"
+ 449      2025780A 
+ 449      00
+ 450 0099 000000   		.align	2
+ 451              	.LC14:
+ 452 009c 52313220 		.ascii	"R12 = %x\012\000"
+ 452      3D202578 
+ 452      0A00
+ 453 00a6 0000     		.align	2
+ 454              	.LC16:
+ 455 00a8 4C52203D 		.ascii	"LR = %x\012\000"
+ 455      2025780A 
+ 455      00
+ 456 00b1 000000   		.align	2
+ 457              	.LC18:
+ 458 00b4 5043203D 		.ascii	"PC = %x\012\000"
+ 458      2025780A 
+ 458      00
+ 459 00bd 000000   		.align	2
+ 460              	.LC20:
+ 461 00c0 50535220 		.ascii	"PSR = %x\012\000"
+ 461      3D202578 
+ 461      0A00
+ 462 00ca 0000     		.align	2
+ 463              	.LC22:
+ 464 00cc 42464152 		.ascii	"BFAR = %x\012\000"
+ 464      203D2025 
+ 464      780A00
+ 465 00d7 00       		.align	2
+ 466              	.LC24:
+ 467 00d8 43465352 		.ascii	"CFSR = %x\012\000"
+ 467      203D2025 
+ 467      780A00
+ 468 00e3 00       		.align	2
+ 469              	.LC26:
+ 470 00e4 48465352 		.ascii	"HFSR = %x\012\000"
+ 470      203D2025 
+ 470      780A00
+ 471 00ef 00       		.align	2
+ 472              	.LC28:
+ 473 00f0 44465352 		.ascii	"DFSR = %x\012\000"
+ 473      203D2025 
+ 473      780A00
+ 474 00fb 00       		.align	2
+ 475              	.LC30:
+ 476 00fc 41465352 		.ascii	"AFSR = %x\012\000"
+ 476      203D2025 
+ 476      780A00
+ 477              		.section	.text.hard_fault_handler_c,"ax",%progbits
+ 478              		.align	2
+ 479              		.global	hard_fault_handler_c
+ 480              		.code	16
+ 481              		.thumb_func
+ 483              	hard_fault_handler_c:
+ 484              	.LFB3:
+ 363:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** /******************************************************************************/
+ 364:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** /* Exception frame without floating-point storage 
+ 365:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****  * hard fault handler in C,
+ 366:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****  * with stack frame location as input parameter
+ 367:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****  */
+ 368:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** void 
+ 369:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** hard_fault_handler_c(unsigned int * hardfault_args)
+ 370:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** {
+ 485              		.loc 1 370 0
+ 486              		.cfi_startproc
+ 487 0000 80B5     		push	{r7, lr}
+ 488              	.LCFI6:
+ 489              		.cfi_def_cfa_offset 8
+ 490              		.cfi_offset 7, -8
+ 491              		.cfi_offset 14, -4
+ 492 0002 8AB0     		sub	sp, sp, #40
+ 493              	.LCFI7:
+ 494              		.cfi_def_cfa_offset 48
+ 495 0004 00AF     		add	r7, sp, #0
+ 496              	.LCFI8:
+ 497              		.cfi_def_cfa_register 7
+ 498 0006 7860     		str	r0, [r7, #4]
+ 371:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****     unsigned int stacked_r0;
+ 372:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****     unsigned int stacked_r1;
+ 373:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****     unsigned int stacked_r2;
+ 374:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****     unsigned int stacked_r3;
+ 375:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****     unsigned int stacked_r12;
+ 376:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****     unsigned int stacked_lr;
+ 377:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****     unsigned int stacked_pc;
+ 378:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****     unsigned int stacked_psr;
+ 379:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****     
+ 380:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****     //Exception stack frame
+ 381:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****     stacked_r0 = ((unsigned long) hardfault_args[0]);
+ 499              		.loc 1 381 0
+ 500 0008 7B68     		ldr	r3, [r7, #4]
+ 501 000a 1B68     		ldr	r3, [r3]
+ 502 000c 7B62     		str	r3, [r7, #36]
+ 382:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****     stacked_r1 = ((unsigned long) hardfault_args[1]);
+ 503              		.loc 1 382 0
+ 504 000e 7B68     		ldr	r3, [r7, #4]
+ 505 0010 5B68     		ldr	r3, [r3, #4]
+ 506 0012 3B62     		str	r3, [r7, #32]
+ 383:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****     stacked_r2 = ((unsigned long) hardfault_args[2]);
+ 507              		.loc 1 383 0
+ 508 0014 7B68     		ldr	r3, [r7, #4]
+ 509 0016 9B68     		ldr	r3, [r3, #8]
+ 510 0018 FB61     		str	r3, [r7, #28]
+ 384:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****     stacked_r3 = ((unsigned long) hardfault_args[3]);
+ 511              		.loc 1 384 0
+ 512 001a 7B68     		ldr	r3, [r7, #4]
+ 513 001c DB68     		ldr	r3, [r3, #12]
+ 514 001e BB61     		str	r3, [r7, #24]
+ 385:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****     
+ 386:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****     stacked_r12 = ((unsigned long) hardfault_args[4]);
+ 515              		.loc 1 386 0
+ 516 0020 7B68     		ldr	r3, [r7, #4]
+ 517 0022 1B69     		ldr	r3, [r3, #16]
+ 518 0024 7B61     		str	r3, [r7, #20]
+ 387:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****     stacked_lr = ((unsigned long) hardfault_args[5]);
+ 519              		.loc 1 387 0
+ 520 0026 7B68     		ldr	r3, [r7, #4]
+ 521 0028 5B69     		ldr	r3, [r3, #20]
+ 522 002a 3B61     		str	r3, [r7, #16]
+ 388:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****     stacked_pc = ((unsigned long) hardfault_args[6]);
+ 523              		.loc 1 388 0
+ 524 002c 7B68     		ldr	r3, [r7, #4]
+ 525 002e 9B69     		ldr	r3, [r3, #24]
+ 526 0030 FB60     		str	r3, [r7, #12]
+ 389:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****     stacked_psr = ((unsigned long) hardfault_args[7]);
+ 527              		.loc 1 389 0
+ 528 0032 7B68     		ldr	r3, [r7, #4]
+ 529 0034 DB69     		ldr	r3, [r3, #28]
+ 530 0036 BB60     		str	r3, [r7, #8]
+ 390:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****     
+ 391:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****     printf ("[Hard fault handler]\n");
+ 531              		.loc 1 391 0
+ 532 0038 2B4B     		ldr	r3, .L14
+ 533 003a 181C     		mov	r0, r3
+ 534 003c FFF7FEFF 		bl	puts
+ 392:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****     printf ("R0 = %x\n", stacked_r0);
+ 535              		.loc 1 392 0
+ 536 0040 2A4A     		ldr	r2, .L14+4
+ 537 0042 7B6A     		ldr	r3, [r7, #36]
+ 538 0044 101C     		mov	r0, r2
+ 539 0046 191C     		mov	r1, r3
+ 540 0048 FFF7FEFF 		bl	printf
+ 393:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****     printf ("R1 = %x\n", stacked_r1);
+ 541              		.loc 1 393 0
+ 542 004c 284A     		ldr	r2, .L14+8
+ 543 004e 3B6A     		ldr	r3, [r7, #32]
+ 544 0050 101C     		mov	r0, r2
+ 545 0052 191C     		mov	r1, r3
+ 546 0054 FFF7FEFF 		bl	printf
+ 394:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****     printf ("R2 = %x\n", stacked_r2);
+ 547              		.loc 1 394 0
+ 548 0058 264A     		ldr	r2, .L14+12
+ 549 005a FB69     		ldr	r3, [r7, #28]
+ 550 005c 101C     		mov	r0, r2
+ 551 005e 191C     		mov	r1, r3
+ 552 0060 FFF7FEFF 		bl	printf
+ 395:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****     printf ("R3 = %x\n", stacked_r3);
+ 553              		.loc 1 395 0
+ 554 0064 244A     		ldr	r2, .L14+16
+ 555 0066 BB69     		ldr	r3, [r7, #24]
+ 556 0068 101C     		mov	r0, r2
+ 557 006a 191C     		mov	r1, r3
+ 558 006c FFF7FEFF 		bl	printf
+ 396:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****     printf ("R12 = %x\n", stacked_r12);
+ 559              		.loc 1 396 0
+ 560 0070 224A     		ldr	r2, .L14+20
+ 561 0072 7B69     		ldr	r3, [r7, #20]
+ 562 0074 101C     		mov	r0, r2
+ 563 0076 191C     		mov	r1, r3
+ 564 0078 FFF7FEFF 		bl	printf
+ 397:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****     printf ("LR = %x\n", stacked_lr);
+ 565              		.loc 1 397 0
+ 566 007c 204A     		ldr	r2, .L14+24
+ 567 007e 3B69     		ldr	r3, [r7, #16]
+ 568 0080 101C     		mov	r0, r2
+ 569 0082 191C     		mov	r1, r3
+ 570 0084 FFF7FEFF 		bl	printf
+ 398:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****     printf ("PC = %x\n", stacked_pc);
+ 571              		.loc 1 398 0
+ 572 0088 1E4A     		ldr	r2, .L14+28
+ 573 008a FB68     		ldr	r3, [r7, #12]
+ 574 008c 101C     		mov	r0, r2
+ 575 008e 191C     		mov	r1, r3
+ 576 0090 FFF7FEFF 		bl	printf
+ 399:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****     printf ("PSR = %x\n", stacked_psr);
+ 577              		.loc 1 399 0
+ 578 0094 1C4A     		ldr	r2, .L14+32
+ 579 0096 BB68     		ldr	r3, [r7, #8]
+ 580 0098 101C     		mov	r0, r2
+ 581 009a 191C     		mov	r1, r3
+ 582 009c FFF7FEFF 		bl	printf
+ 400:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** #ifndef CW
+ 401:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****     printf ("BFAR = %x\n", (*((volatile unsigned long *)(0xE000ED38))));
+ 402:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****     printf ("CFSR = %x\n", (*((volatile unsigned long *)(0xE000ED28))));
+ 403:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****     printf ("HFSR = %x\n", (*((volatile unsigned long *)(0xE000ED2C))));
+ 404:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****     printf ("DFSR = %x\n", (*((volatile unsigned long *)(0xE000ED30))));
+ 405:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****     printf ("AFSR = %x\n", (*((volatile unsigned long *)(0xE000ED3C))));
+ 406:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** #else
+ 407:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****     printf ("BFAR = %x\n", (*((volatile unsigned int *)(0xE000ED38))));
+ 583              		.loc 1 407 0
+ 584 00a0 1A4B     		ldr	r3, .L14+36
+ 585 00a2 1B68     		ldr	r3, [r3]
+ 586 00a4 1A4A     		ldr	r2, .L14+40
+ 587 00a6 101C     		mov	r0, r2
+ 588 00a8 191C     		mov	r1, r3
+ 589 00aa FFF7FEFF 		bl	printf
+ 408:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****     printf ("CFSR = %x\n", (*((volatile unsigned int *)(0xE000ED28))));
+ 590              		.loc 1 408 0
+ 591 00ae 194B     		ldr	r3, .L14+44
+ 592 00b0 1B68     		ldr	r3, [r3]
+ 593 00b2 194A     		ldr	r2, .L14+48
+ 594 00b4 101C     		mov	r0, r2
+ 595 00b6 191C     		mov	r1, r3
+ 596 00b8 FFF7FEFF 		bl	printf
+ 409:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****     printf ("HFSR = %x\n", (*((volatile unsigned int *)(0xE000ED2C))));
+ 597              		.loc 1 409 0
+ 598 00bc 174B     		ldr	r3, .L14+52
+ 599 00be 1B68     		ldr	r3, [r3]
+ 600 00c0 174A     		ldr	r2, .L14+56
+ 601 00c2 101C     		mov	r0, r2
+ 602 00c4 191C     		mov	r1, r3
+ 603 00c6 FFF7FEFF 		bl	printf
+ 410:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****     printf ("DFSR = %x\n", (*((volatile unsigned int *)(0xE000ED30))));
+ 604              		.loc 1 410 0
+ 605 00ca 164B     		ldr	r3, .L14+60
+ 606 00cc 1B68     		ldr	r3, [r3]
+ 607 00ce 164A     		ldr	r2, .L14+64
+ 608 00d0 101C     		mov	r0, r2
+ 609 00d2 191C     		mov	r1, r3
+ 610 00d4 FFF7FEFF 		bl	printf
+ 411:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****     printf ("AFSR = %x\n", (*((volatile unsigned int *)(0xE000ED3C))));
+ 611              		.loc 1 411 0
+ 612 00d8 144B     		ldr	r3, .L14+68
+ 613 00da 1B68     		ldr	r3, [r3]
+ 614 00dc 144A     		ldr	r2, .L14+72
+ 615 00de 101C     		mov	r0, r2
+ 616 00e0 191C     		mov	r1, r3
+ 617 00e2 FFF7FEFF 		bl	printf
+ 618              	.L13:
+ 412:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** #endif
+ 413:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****     for(;;)
+ 414:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****     {}
+ 619              		.loc 1 414 0
+ 620 00e6 FEE7     		b	.L13
+ 621              	.L15:
+ 622              		.align	2
+ 623              	.L14:
+ 624 00e8 54000000 		.word	.LC4
+ 625 00ec 6C000000 		.word	.LC6
+ 626 00f0 78000000 		.word	.LC8
+ 627 00f4 84000000 		.word	.LC10
+ 628 00f8 90000000 		.word	.LC12
+ 629 00fc 9C000000 		.word	.LC14
+ 630 0100 A8000000 		.word	.LC16
+ 631 0104 B4000000 		.word	.LC18
+ 632 0108 C0000000 		.word	.LC20
+ 633 010c 38ED00E0 		.word	-536810184
+ 634 0110 CC000000 		.word	.LC22
+ 635 0114 28ED00E0 		.word	-536810200
+ 636 0118 D8000000 		.word	.LC24
+ 637 011c 2CED00E0 		.word	-536810196
+ 638 0120 E4000000 		.word	.LC26
+ 639 0124 30ED00E0 		.word	-536810192
+ 640 0128 F0000000 		.word	.LC28
+ 641 012c 3CED00E0 		.word	-536810180
+ 642 0130 FC000000 		.word	.LC30
+ 643              		.cfi_endproc
+ 644              	.LFE3:
+ 646              		.section	.rodata
+ 647 0107 00       		.align	2
+ 648              	.LC32:
+ 649 0108 53525443 		.ascii	"SRTC_ISR entered\015\000"
+ 649      5F495352 
+ 649      20656E74 
+ 649      65726564 
+ 649      0D00
+ 650 011a 0000     		.align	2
+ 651              	.LC34:
+ 652 011c 53525443 		.ascii	"SRTC time invalid interrupt entered...\015\000"
+ 652      2074696D 
+ 652      6520696E 
+ 652      76616C69 
+ 652      6420696E 
+ 653              		.align	2
+ 654              	.LC36:
+ 655 0144 53525443 		.ascii	"SRTC time overflow interrupt entered...\015\000"
+ 655      2074696D 
+ 655      65206F76 
+ 655      6572666C 
+ 655      6F772069 
+ 656 016d 000000   		.align	2
+ 657              	.LC38:
+ 658 0170 53525443 		.ascii	"SRTC alarm interrupt entered...\015\000"
+ 658      20616C61 
+ 658      726D2069 
+ 658      6E746572 
+ 658      72757074 
+ 659 0191 000000   		.align	2
+ 660              	.LC40:
+ 661 0194 4E6F2076 		.ascii	"No valid Flag was set!\000"
+ 661      616C6964 
+ 661      20466C61 
+ 661      67207761 
+ 661      73207365 
+ 662 01ab 00       		.section	.text.SRTC_ISR,"ax",%progbits
+ 663              		.align	2
+ 664              		.global	SRTC_ISR
+ 665              		.code	16
+ 666              		.thumb_func
+ 668              	SRTC_ISR:
+ 669              	.LFB4:
+ 415:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** } 
+ 416:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** void SRTC_ISR(void) 
+ 417:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** {
+ 670              		.loc 1 417 0
+ 671              		.cfi_startproc
+ 672 0000 80B5     		push	{r7, lr}
+ 673              	.LCFI9:
+ 674              		.cfi_def_cfa_offset 8
+ 675              		.cfi_offset 7, -8
+ 676              		.cfi_offset 14, -4
+ 677 0002 82B0     		sub	sp, sp, #8
+ 678              	.LCFI10:
+ 679              		.cfi_def_cfa_offset 16
+ 680 0004 00AF     		add	r7, sp, #0
+ 681              	.LCFI11:
+ 682              		.cfi_def_cfa_register 7
+ 418:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****   
+ 419:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****   volatile uint32 temp;
+ 420:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****   
+ 421:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    printf("SRTC_ISR entered\r\n");
+ 683              		.loc 1 421 0
+ 684 0006 244B     		ldr	r3, .L23
+ 685 0008 181C     		mov	r0, r3
+ 686 000a FFF7FEFF 		bl	puts
+ 422:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    
+ 423:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    temp = RTC_SR;
+ 687              		.loc 1 423 0
+ 688 000e 234B     		ldr	r3, .L23+4
+ 689 0010 5B69     		ldr	r3, [r3, #20]
+ 690 0012 7B60     		str	r3, [r7, #4]
+ 424:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    temp++;
+ 691              		.loc 1 424 0
+ 692 0014 7B68     		ldr	r3, [r7, #4]
+ 693 0016 0133     		add	r3, r3, #1
+ 694 0018 7B60     		str	r3, [r7, #4]
+ 425:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    
+ 426:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    if((RTC_SR & 0x01)== 0x01)
+ 695              		.loc 1 426 0
+ 696 001a 204B     		ldr	r3, .L23+4
+ 697 001c 5A69     		ldr	r2, [r3, #20]
+ 698 001e 0123     		mov	r3, #1
+ 699 0020 1340     		and	r3, r2
+ 700 0022 0DD0     		beq	.L17
+ 427:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****      {
+ 428:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****        printf("SRTC time invalid interrupt entered...\r\n");
+ 701              		.loc 1 428 0
+ 702 0024 1E4B     		ldr	r3, .L23+8
+ 703 0026 181C     		mov	r0, r3
+ 704 0028 FFF7FEFF 		bl	puts
+ 429:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    	   RTC_SR &= 0x07;  //clear TCE, or SRTC_TSR can  not be written 
+ 705              		.loc 1 429 0
+ 706 002c 1B4B     		ldr	r3, .L23+4
+ 707 002e 1B4A     		ldr	r2, .L23+4
+ 708 0030 5169     		ldr	r1, [r2, #20]
+ 709 0032 0722     		mov	r2, #7
+ 710 0034 0A40     		and	r2, r1
+ 711 0036 5A61     		str	r2, [r3, #20]
+ 430:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    	   RTC_TSR = 0x00000005;  //clear TIF by writing to the seconds register
+ 712              		.loc 1 430 0
+ 713 0038 184B     		ldr	r3, .L23+4
+ 714 003a 0522     		mov	r2, #5
+ 715 003c 1A60     		str	r2, [r3]
+ 431:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****      }	
+ 432:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    else if((RTC_SR & 0x02) == 0x02)
+ 433:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    {
+ 434:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    	   printf("SRTC time overflow interrupt entered...\r\n");
+ 435:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    	   RTC_SR &= 0x07;  //clear TCE, or SRTC_STSR can  not be written
+ 436:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    	   RTC_TSR = 0x00000005;  //clear TOF
+ 437:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****            RTC_SR = 0x10; //start time again to exit wait loop in application code.
+ 438:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    }	 	
+ 439:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    else if((RTC_SR & 0x04) == 0x04)
+ 440:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    {
+ 441:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    	   printf("SRTC alarm interrupt entered...\r\n");
+ 442:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    	   RTC_TAR = 0x0;// Write 0 to disable
+ 443:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    	   //SPIOC_PTC_PDOR = 0x0001 ^ GPIOC_PTC_PDOR;
+ 444:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    }	
+ 445:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    else
+ 446:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    {
+ 447:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****            printf("No valid Flag was set!\n");
+ 448:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    }
+ 449:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    return;
+ 716              		.loc 1 449 0
+ 717 003e 26E0     		b	.L22
+ 718              	.L17:
+ 432:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    else if((RTC_SR & 0x02) == 0x02)
+ 719              		.loc 1 432 0
+ 720 0040 164B     		ldr	r3, .L23+4
+ 721 0042 5A69     		ldr	r2, [r3, #20]
+ 722 0044 0223     		mov	r3, #2
+ 723 0046 1340     		and	r3, r2
+ 724 0048 10D0     		beq	.L19
+ 434:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    	   printf("SRTC time overflow interrupt entered...\r\n");
+ 725              		.loc 1 434 0
+ 726 004a 164B     		ldr	r3, .L23+12
+ 727 004c 181C     		mov	r0, r3
+ 728 004e FFF7FEFF 		bl	puts
+ 435:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    	   RTC_SR &= 0x07;  //clear TCE, or SRTC_STSR can  not be written
+ 729              		.loc 1 435 0
+ 730 0052 124B     		ldr	r3, .L23+4
+ 731 0054 114A     		ldr	r2, .L23+4
+ 732 0056 5169     		ldr	r1, [r2, #20]
+ 733 0058 0722     		mov	r2, #7
+ 734 005a 0A40     		and	r2, r1
+ 735 005c 5A61     		str	r2, [r3, #20]
+ 436:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    	   RTC_TSR = 0x00000005;  //clear TOF
+ 736              		.loc 1 436 0
+ 737 005e 0F4B     		ldr	r3, .L23+4
+ 738 0060 0522     		mov	r2, #5
+ 739 0062 1A60     		str	r2, [r3]
+ 437:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****            RTC_SR = 0x10; //start time again to exit wait loop in application code.
+ 740              		.loc 1 437 0
+ 741 0064 0D4B     		ldr	r3, .L23+4
+ 742 0066 1022     		mov	r2, #16
+ 743 0068 5A61     		str	r2, [r3, #20]
+ 744              		.loc 1 449 0
+ 745 006a 10E0     		b	.L22
+ 746              	.L19:
+ 439:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    else if((RTC_SR & 0x04) == 0x04)
+ 747              		.loc 1 439 0
+ 748 006c 0B4B     		ldr	r3, .L23+4
+ 749 006e 5A69     		ldr	r2, [r3, #20]
+ 750 0070 0423     		mov	r3, #4
+ 751 0072 1340     		and	r3, r2
+ 752 0074 07D0     		beq	.L20
+ 441:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    	   printf("SRTC alarm interrupt entered...\r\n");
+ 753              		.loc 1 441 0
+ 754 0076 0C4B     		ldr	r3, .L23+16
+ 755 0078 181C     		mov	r0, r3
+ 756 007a FFF7FEFF 		bl	puts
+ 442:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****    	   RTC_TAR = 0x0;// Write 0 to disable
+ 757              		.loc 1 442 0
+ 758 007e 074B     		ldr	r3, .L23+4
+ 759 0080 0022     		mov	r2, #0
+ 760 0082 9A60     		str	r2, [r3, #8]
+ 761              		.loc 1 449 0
+ 762 0084 03E0     		b	.L22
+ 763              	.L20:
+ 447:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c ****            printf("No valid Flag was set!\n");
+ 764              		.loc 1 447 0
+ 765 0086 094B     		ldr	r3, .L23+20
+ 766 0088 181C     		mov	r0, r3
+ 767 008a FFF7FEFF 		bl	puts
+ 768              	.L22:
+ 769              		.loc 1 449 0
+ 770 008e C046     		mov	r8, r8
+ 771              	.L16:
+ 450:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\vectors.c **** }
+ 772              		.loc 1 450 0
+ 773 0090 BD46     		mov	sp, r7
+ 774 0092 02B0     		add	sp, sp, #8
+ 775              		@ sp needed for prologue
+ 776 0094 80BD     		pop	{r7, pc}
+ 777              	.L24:
+ 778 0096 C046     		.align	2
+ 779              	.L23:
+ 780 0098 08010000 		.word	.LC32
+ 781 009c 00D00340 		.word	1073991680
+ 782 00a0 1C010000 		.word	.LC34
+ 783 00a4 44010000 		.word	.LC36
+ 784 00a8 70010000 		.word	.LC38
+ 785 00ac 94010000 		.word	.LC40
+ 786              		.cfi_endproc
+ 787              	.LFE4:
+ 789              		.text
+ 790              	.Letext0:
+ 791              		.file 2 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu/vectors.h"
+ 792              		.file 3 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu/arm_cm0.h"
+ 793              		.file 4 "C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint"
+ 794              		.file 5 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu/headers/MKL46Z4.
+DEFINED SYMBOLS
+                            *ABS*:00000000 vectors.c
+C:\Users\b01252\AppData\Local\Temp\ccGwb6rU.s:22     .vectortable:00000000 __vector_table
+C:\Users\b01252\AppData\Local\Temp\ccGwb6rU.s:19     .vectortable:00000000 $d
+C:\Users\b01252\AppData\Local\Temp\ccGwb6rU.s:340    .text.NMI_isr:00000000 NMI_isr
+C:\Users\b01252\AppData\Local\Temp\ccGwb6rU.s:300    .text.default_isr:00000000 default_isr
+C:\Users\b01252\AppData\Local\Temp\ccGwb6rU.s:396    .text.abort_isr:00000000 abort_isr
+C:\Users\b01252\AppData\Local\Temp\ccGwb6rU.s:284    .cfmconfig:00000000 flash_config
+C:\Users\b01252\AppData\Local\Temp\ccGwb6rU.s:281    .cfmconfig:00000000 $d
+C:\Users\b01252\AppData\Local\Temp\ccGwb6rU.s:290    .rodata:00000000 $d
+C:\Users\b01252\AppData\Local\Temp\ccGwb6rU.s:295    .text.default_isr:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccGwb6rU.s:329    .text.default_isr:00000018 $d
+C:\Users\b01252\AppData\Local\Temp\ccGwb6rU.s:335    .text.NMI_isr:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccGwb6rU.s:377    .text.NMI_isr:00000028 $d
+C:\Users\b01252\AppData\Local\Temp\ccGwb6rU.s:391    .text.abort_isr:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccGwb6rU.s:429    .text.abort_isr:00000020 $d
+C:\Users\b01252\AppData\Local\Temp\ccGwb6rU.s:478    .text.hard_fault_handler_c:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccGwb6rU.s:483    .text.hard_fault_handler_c:00000000 hard_fault_handler_c
+C:\Users\b01252\AppData\Local\Temp\ccGwb6rU.s:624    .text.hard_fault_handler_c:000000e8 $d
+C:\Users\b01252\AppData\Local\Temp\ccGwb6rU.s:663    .text.SRTC_ISR:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccGwb6rU.s:668    .text.SRTC_ISR:00000000 SRTC_ISR
+C:\Users\b01252\AppData\Local\Temp\ccGwb6rU.s:780    .text.SRTC_ISR:00000098 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+_estack
+__startup
+RTC_IRQHandler
+RTC_Seconds_IRQHandler
+PIT_IRQHandler
+USB0_IRQHandler
+TSI0_IRQHandler
+printf
+puts

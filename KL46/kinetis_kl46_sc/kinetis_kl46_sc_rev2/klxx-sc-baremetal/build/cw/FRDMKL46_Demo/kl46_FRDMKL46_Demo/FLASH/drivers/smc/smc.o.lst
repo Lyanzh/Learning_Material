@@ -1,0 +1,1632 @@
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"smc.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.sleep,"ax",%progbits
+  18              		.align	2
+  19              		.global	sleep
+  20              		.code	16
+  21              		.thumb_func
+  23              	sleep:
+  24              	.LFB0:
+  25              		.file 1 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc/smc.c"
+   1:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** /*
+   2:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * File:        smc.c
+   3:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * Purpose:     Provides routines for entering low power modes.
+   4:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+   5:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * Notes:	Since the wakeup mechanism for low power modes
+   6:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *              will be application specific, these routines
+   7:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *              do not include code to setup interrupts to exit
+   8:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *              from the low power modes. The desired means of
+   9:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *              low power mode exit should be configured before
+  10:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *              calling any of these functions.
+  11:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+  12:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *              These routines do not include protection to
+  13:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *              prevent illegal state transitions in the mode
+  14:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *              controller, and all routines that write to the
+  15:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *              PMPROT register write a value to allow all
+  16:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *              possible low power modes (it is write once, so
+  17:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *              if only the currently requested mode is enabled
+  18:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *              a different mode couldn't be enabled later on).
+  19:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *              
+  20:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  */
+  21:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** 
+  22:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** #include "common.h"
+  23:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** #include "smc.h"
+  24:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** 
+  25:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** /***************************************************************/
+  26:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** /*
+  27:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * Configures the ARM system control register for WAIT(sleep)mode
+  28:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * and then executes the WFI instruction to enter the mode.
+  29:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+  30:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * Parameters:
+  31:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * none
+  32:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+  33:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  */
+  34:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** 
+  35:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** void sleep (void)
+  36:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** {
+  26              		.loc 1 36 0
+  27              		.cfi_startproc
+  28 0000 80B5     		push	{r7, lr}
+  29              	.LCFI0:
+  30              		.cfi_def_cfa_offset 8
+  31              		.cfi_offset 7, -8
+  32              		.cfi_offset 14, -4
+  33 0002 00AF     		add	r7, sp, #0
+  34              	.LCFI1:
+  35              		.cfi_def_cfa_register 7
+  37:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** /* Clear the SLEEPDEEP bit to make sure we go into WAIT (sleep) 
+  38:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * mode instead of deep sleep.
+  39:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  */
+  40:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** SCB_SCR &= ~SCB_SCR_SLEEPDEEP_MASK;
+  36              		.loc 1 40 0
+  37 0004 074A     		ldr	r2, .L2
+  38 0006 0749     		ldr	r1, .L2
+  39 0008 D123     		mov	r3, #209
+  40 000a 1B01     		lsl	r3, r3, #4
+  41 000c CB58     		ldr	r3, [r1, r3]
+  42 000e 0421     		mov	r1, #4
+  43 0010 181C     		mov	r0, r3
+  44 0012 8843     		bic	r0, r1
+  45 0014 011C     		mov	r1, r0
+  46 0016 D123     		mov	r3, #209
+  47 0018 1B01     		lsl	r3, r3, #4
+  48 001a D150     		str	r1, [r2, r3]
+  41:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** 
+  42:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** #ifdef CMSIS
+  43:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   __wfi();
+  44:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** #else
+  45:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /* WFI instruction will start entry into WAIT mode */
+  46:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   asm("WFI");
+  49              		.loc 1 46 0
+  50              	@ 46 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc/smc.c" 1
+  51 001c 30BF     		WFI
+  52              	@ 0 "" 2
+  47:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** #endif 
+  48:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** }
+  53              		.loc 1 48 0
+  54              		.code	16
+  55 001e BD46     		mov	sp, r7
+  56              		@ sp needed for prologue
+  57 0020 80BD     		pop	{r7, pc}
+  58              	.L3:
+  59 0022 C046     		.align	2
+  60              	.L2:
+  61 0024 00E000E0 		.word	-536813568
+  62              		.cfi_endproc
+  63              	.LFE0:
+  65              		.section	.text.deepsleep,"ax",%progbits
+  66              		.align	2
+  67              		.global	deepsleep
+  68              		.code	16
+  69              		.thumb_func
+  71              	deepsleep:
+  72              	.LFB1:
+  49:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** /***************************************************************/
+  50:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** /*
+  51:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * Configures the ARM system control register for STOP  
+  52:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * (deepsleep) mode and then executes the WFI instruction 
+  53:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * to enter the mode.
+  54:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+  55:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * Parameters:
+  56:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * none
+  57:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+  58:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  */
+  59:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** 
+  60:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** void deepsleep (void)
+  61:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** {
+  73              		.loc 1 61 0
+  74              		.cfi_startproc
+  75 0000 80B5     		push	{r7, lr}
+  76              	.LCFI2:
+  77              		.cfi_def_cfa_offset 8
+  78              		.cfi_offset 7, -8
+  79              		.cfi_offset 14, -4
+  80 0002 00AF     		add	r7, sp, #0
+  81              	.LCFI3:
+  82              		.cfi_def_cfa_register 7
+  62:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /* Set the SLEEPDEEP bit to enable deep sleep mode (STOP) */
+  63:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SCB_SCR |= SCB_SCR_SLEEPDEEP_MASK;
+  83              		.loc 1 63 0
+  84 0004 064A     		ldr	r2, .L5
+  85 0006 0649     		ldr	r1, .L5
+  86 0008 D123     		mov	r3, #209
+  87 000a 1B01     		lsl	r3, r3, #4
+  88 000c CB58     		ldr	r3, [r1, r3]
+  89 000e 0421     		mov	r1, #4
+  90 0010 1943     		orr	r1, r3
+  91 0012 D123     		mov	r3, #209
+  92 0014 1B01     		lsl	r3, r3, #4
+  93 0016 D150     		str	r1, [r2, r3]
+  64:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** 
+  65:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** #ifdef CMSIS
+  66:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   __wfi();
+  67:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** #else
+  68:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /* WFI instruction will start entry into STOP mode */
+  69:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   asm("WFI");
+  94              		.loc 1 69 0
+  95              	@ 69 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc/smc.c" 1
+  96 0018 30BF     		WFI
+  97              	@ 0 "" 2
+  70:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** #endif
+  71:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** }
+  98              		.loc 1 71 0
+  99              		.code	16
+ 100 001a BD46     		mov	sp, r7
+ 101              		@ sp needed for prologue
+ 102 001c 80BD     		pop	{r7, pc}
+ 103              	.L6:
+ 104 001e C046     		.align	2
+ 105              	.L5:
+ 106 0020 00E000E0 		.word	-536813568
+ 107              		.cfi_endproc
+ 108              	.LFE1:
+ 110              		.section	.text.enter_wait,"ax",%progbits
+ 111              		.align	2
+ 112              		.global	enter_wait
+ 113              		.code	16
+ 114              		.thumb_func
+ 116              	enter_wait:
+ 117              	.LFB2:
+  72:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** /********************************************************************/
+  73:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** /* WAIT mode entry routine. Puts the processor into wait mode.
+  74:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * In this mode the core clock is disabled (no code executing), but 
+  75:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * bus clocks are enabled (peripheral modules are operational). 
+  76:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+  77:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * Mode transitions:
+  78:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * RUN -> WAIT
+  79:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * VLPR -> VLPW
+  80:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+  81:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * This function can be used to enter normal wait mode or VLPW
+  82:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * mode. If you are executing in normal run mode when calling this
+  83:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * function, then you will enter normal wait mode. If you are in VLPR
+  84:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * mode when calling this function, then you will enter VLPW mode instead.
+  85:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+  86:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * NOTE: Some modules include a programmable option to disable them in 
+  87:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * wait mode. If those modules are programmed to disable in wait mode, 
+  88:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * they will not be able to generate interrupts to wake up the core.
+  89:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+  90:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * WAIT mode is exited using any enabled interrupt or RESET, so no
+  91:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * exit_wait routine is needed. 
+  92:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * 
+  93:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * 
+  94:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * Parameters:
+  95:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * none
+  96:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  */
+  97:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** void enter_wait(void)
+  98:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** {
+ 118              		.loc 1 98 0
+ 119              		.cfi_startproc
+ 120 0000 80B5     		push	{r7, lr}
+ 121              	.LCFI4:
+ 122              		.cfi_def_cfa_offset 8
+ 123              		.cfi_offset 7, -8
+ 124              		.cfi_offset 14, -4
+ 125 0002 00AF     		add	r7, sp, #0
+ 126              	.LCFI5:
+ 127              		.cfi_def_cfa_register 7
+  99:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** #ifdef CMSIS
+ 100:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****     /* Clear the SLEEPDEEP bit to make sure we go into WAIT (sleep) mode instead
+ 101:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****      * of deep sleep.
+ 102:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****      */
+ 103:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** 	SCB_SCR &= ~SCB_SCR_SLEEPDEEP_MASK;
+ 104:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****         
+ 105:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****     __wfi();
+ 106:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** #else
+ 107:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****     wait();
+ 128              		.loc 1 107 0
+ 129 0004 FFF7FEFF 		bl	wait
+ 108:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** #endif
+ 109:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** }
+ 130              		.loc 1 109 0
+ 131 0008 BD46     		mov	sp, r7
+ 132              		@ sp needed for prologue
+ 133 000a 80BD     		pop	{r7, pc}
+ 134              		.cfi_endproc
+ 135              	.LFE2:
+ 137              		.section	.text.enter_stop,"ax",%progbits
+ 138              		.align	2
+ 139              		.global	enter_stop
+ 140              		.code	16
+ 141              		.thumb_func
+ 143              	enter_stop:
+ 144              	.LFB3:
+ 110:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** /********************************************************************/
+ 111:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** /* STOP mode entry routine. Puts the processor into normal stop mode.
+ 112:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * In this mode core, bus and peripheral clocks are disabled.
+ 113:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+ 114:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * Mode transitions:
+ 115:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * RUN -> STOP
+ 116:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+ 117:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * This function can be used to enter normal stop mode. 
+ 118:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * If you are executing in normal run mode when calling this
+ 119:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * function and AVLP = 0, then you will enter normal stop mode. 
+ 120:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * If AVLP = 1 with previous write to PMPROT
+ 121:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * then you will enter VLPS mode instead.
+ 122:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+ 123:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * STOP mode is exited using any enabled interrupt or RESET, so no
+ 124:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * exit_stop routine is needed.
+ 125:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+ 126:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * Parameters:
+ 127:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * Partial Stop Option:  
+ 128:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *  0x00 = STOP - Normal Stop Mode
+ 129:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *  0x40 = PSTOP1 - Partial Stop with both system and bus clocks disabled
+ 130:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *  0x80 = PSTOP2 - Partial Stop with system clock disabled and bus clock enabled
+ 131:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *  0xC0 = Reserved
+ 132:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  */
+ 133:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** void enter_stop(unsigned char partial_stop_opt)
+ 134:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** {
+ 145              		.loc 1 134 0
+ 146              		.cfi_startproc
+ 147 0000 80B5     		push	{r7, lr}
+ 148              	.LCFI6:
+ 149              		.cfi_def_cfa_offset 8
+ 150              		.cfi_offset 7, -8
+ 151              		.cfi_offset 14, -4
+ 152 0002 84B0     		sub	sp, sp, #16
+ 153              	.LCFI7:
+ 154              		.cfi_def_cfa_offset 24
+ 155 0004 00AF     		add	r7, sp, #0
+ 156              	.LCFI8:
+ 157              		.cfi_def_cfa_register 7
+ 158 0006 021C     		mov	r2, r0
+ 159 0008 FB1D     		add	r3, r7, #7
+ 160 000a 1A70     		strb	r2, [r3]
+ 135:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   volatile unsigned int dummyread;
+ 136:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /* The PMPROT register may have already been written by init code
+ 137:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****      If so then this next write is not done since  
+ 138:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****      PMPROT is write once after RESET  
+ 139:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****      this write-once bit allows the MCU to enter the
+ 140:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****      normal STOP mode.
+ 141:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****      If AVLP is already a 1, VLPS mode is entered instead of normal STOP*/
+ 142:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SMC_PMPROT = 0;  
+ 161              		.loc 1 142 0
+ 162 000c 144B     		ldr	r3, .L9
+ 163 000e 0022     		mov	r2, #0
+ 164 0010 1A70     		strb	r2, [r3]
+ 143:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** 
+ 144:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /* Set the STOPM field to 0b000 for normal STOP mode */
+ 145:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SMC_PMCTRL &= ~SMC_PMCTRL_STOPM_MASK;
+ 165              		.loc 1 145 0
+ 166 0012 134B     		ldr	r3, .L9
+ 167 0014 124A     		ldr	r2, .L9
+ 168 0016 5278     		ldrb	r2, [r2, #1]
+ 169 0018 D2B2     		uxtb	r2, r2
+ 170 001a 0721     		mov	r1, #7
+ 171 001c 8A43     		bic	r2, r1
+ 172 001e D2B2     		uxtb	r2, r2
+ 173 0020 5A70     		strb	r2, [r3, #1]
+ 146:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SMC_PMCTRL |=  SMC_PMCTRL_STOPM(0); 
+ 174              		.loc 1 146 0
+ 175 0022 0F4B     		ldr	r3, .L9
+ 176 0024 0E4A     		ldr	r2, .L9
+ 177 0026 5278     		ldrb	r2, [r2, #1]
+ 178 0028 D2B2     		uxtb	r2, r2
+ 179 002a 5A70     		strb	r2, [r3, #1]
+ 147:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SMC_STOPCTRL &= ~SMC_STOPCTRL_PSTOPO_MASK;
+ 180              		.loc 1 147 0
+ 181 002c 0C4B     		ldr	r3, .L9
+ 182 002e 0C4A     		ldr	r2, .L9
+ 183 0030 9278     		ldrb	r2, [r2, #2]
+ 184 0032 D1B2     		uxtb	r1, r2
+ 185 0034 3F22     		mov	r2, #63
+ 186 0036 0A40     		and	r2, r1
+ 187 0038 D2B2     		uxtb	r2, r2
+ 188 003a 9A70     		strb	r2, [r3, #2]
+ 148:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SMC_STOPCTRL |= partial_stop_opt;
+ 189              		.loc 1 148 0
+ 190 003c 084B     		ldr	r3, .L9
+ 191 003e 084A     		ldr	r2, .L9
+ 192 0040 9278     		ldrb	r2, [r2, #2]
+ 193 0042 D1B2     		uxtb	r1, r2
+ 194 0044 FA1D     		add	r2, r7, #7
+ 195 0046 1278     		ldrb	r2, [r2]
+ 196 0048 0A43     		orr	r2, r1
+ 197 004a D2B2     		uxtb	r2, r2
+ 198 004c 9A70     		strb	r2, [r3, #2]
+ 149:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /*wait for write to complete to SMC before stopping core */  
+ 150:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   dummyread = SMC_PMCTRL;
+ 199              		.loc 1 150 0
+ 200 004e 044B     		ldr	r3, .L9
+ 201 0050 5B78     		ldrb	r3, [r3, #1]
+ 202 0052 DBB2     		uxtb	r3, r3
+ 203 0054 FB60     		str	r3, [r7, #12]
+ 151:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   
+ 152:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** #ifdef CMSIS
+ 153:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /* Set the SLEEPDEEP bit to enable deep sleep mode (STOP) */
+ 154:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SCB_SCR |= SCB_SCR_SLEEPDEEP_MASK;
+ 155:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   __wfi();
+ 156:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** #else
+ 157:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   stop();
+ 204              		.loc 1 157 0
+ 205 0056 FFF7FEFF 		bl	stop
+ 158:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** #endif
+ 159:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** }
+ 206              		.loc 1 159 0
+ 207 005a BD46     		mov	sp, r7
+ 208 005c 04B0     		add	sp, sp, #16
+ 209              		@ sp needed for prologue
+ 210 005e 80BD     		pop	{r7, pc}
+ 211              	.L10:
+ 212              		.align	2
+ 213              	.L9:
+ 214 0060 00E00740 		.word	1074257920
+ 215              		.cfi_endproc
+ 216              	.LFE3:
+ 218              		.section	.text.enter_vlpr,"ax",%progbits
+ 219              		.align	2
+ 220              		.global	enter_vlpr
+ 221              		.code	16
+ 222              		.thumb_func
+ 224              	enter_vlpr:
+ 225              	.LFB4:
+ 160:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** /****************************************************************/
+ 161:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** /* VLPR mode entry routine.Puts the processor into very low power
+ 162:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * run mode. In this mode all clocks are enabled, but the core clock limited. 
+ 163:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * The flash clock is limited to 1MHz or less. 
+ 164:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+ 165:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * Mode transitions:
+ 166:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * RUN -> VLPR
+ 167:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+ 168:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * exit_vlpr() function can be used 
+ 169:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * to switch from VLPR back to RUN. 
+ 170:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * 
+ 171:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * while in VLPR,VLPW or VLPS the exit to VLPR is not possible  
+ 172:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+ 173:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+ 174:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * Parameters:
+ 175:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * Return value : PMSTAT value or error code
+ 176:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *                PMSTAT = return_value = PMSTAT
+ 177:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *                         000_0001 Current power mode is RUN
+ 178:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *                         000_0100 Current power mode is VLPR
+ 179:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *                ERROR Code =  0x14 - already in VLPR mode
+ 180:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *                           =  0x24 - REGONS never clear indicating stop regulation
+ 181:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  */
+ 182:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** int enter_vlpr(void)
+ 183:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** {
+ 226              		.loc 1 183 0
+ 227              		.cfi_startproc
+ 228 0000 80B5     		push	{r7, lr}
+ 229              	.LCFI9:
+ 230              		.cfi_def_cfa_offset 8
+ 231              		.cfi_offset 7, -8
+ 232              		.cfi_offset 14, -4
+ 233 0002 82B0     		sub	sp, sp, #8
+ 234              	.LCFI10:
+ 235              		.cfi_def_cfa_offset 16
+ 236 0004 00AF     		add	r7, sp, #0
+ 237              	.LCFI11:
+ 238              		.cfi_def_cfa_register 7
+ 184:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   int i; 
+ 185:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   unsigned int return_value;
+ 186:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   if ((SMC_PMSTAT & SMC_PMSTAT_PMSTAT_MASK)== 4){
+ 239              		.loc 1 186 0
+ 240 0006 294B     		ldr	r3, .L22
+ 241 0008 DB78     		ldrb	r3, [r3, #3]
+ 242 000a DBB2     		uxtb	r3, r3
+ 243 000c 1A1C     		mov	r2, r3
+ 244 000e 7F23     		mov	r3, #127
+ 245 0010 1340     		and	r3, r2
+ 246 0012 042B     		cmp	r3, #4
+ 247 0014 01D1     		bne	.L12
+ 187:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****          return_value = 0x14;
+ 248              		.loc 1 187 0
+ 249 0016 1423     		mov	r3, #20
+ 250 0018 3B60     		str	r3, [r7]
+ 251              	.L12:
+ 188:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****          }
+ 189:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /* The PMPROT register may have already been written by init code
+ 190:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****      If so then this next write is not done.  
+ 191:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****      PMPROT is write once after RESET  
+ 192:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****      this write-once bit allows the MCU to enter the
+ 193:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****      very low power modes: VLPR, VLPW, and VLPS   */
+ 194:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SMC_PMPROT = SMC_PMPROT_AVLP_MASK;  
+ 252              		.loc 1 194 0
+ 253 001a 244B     		ldr	r3, .L22
+ 254 001c 2022     		mov	r2, #32
+ 255 001e 1A70     		strb	r2, [r3]
+ 195:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****     
+ 196:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /* Set the (for MC1)LPLLSM or (for MC2)STOPM field 
+ 197:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****      to 0b010 for VLPS mode -
+ 198:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****      and RUNM bits to 0b010 for VLPR mode  */
+ 199:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SMC_PMCTRL &= ~SMC_PMCTRL_RUNM_MASK; 
+ 256              		.loc 1 199 0
+ 257 0020 224B     		ldr	r3, .L22
+ 258 0022 224A     		ldr	r2, .L22
+ 259 0024 5278     		ldrb	r2, [r2, #1]
+ 260 0026 D2B2     		uxtb	r2, r2
+ 261 0028 6021     		mov	r1, #96
+ 262 002a 8A43     		bic	r2, r1
+ 263 002c D2B2     		uxtb	r2, r2
+ 264 002e 5A70     		strb	r2, [r3, #1]
+ 200:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   //make sure SMC_PMCTRL is clear and MCU is in RUN mode
+ 201:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   while ((SMC_PMSTAT & SMC_PMSTAT_PMSTAT_MASK)!= 0x1){ }
+ 265              		.loc 1 201 0
+ 266 0030 C046     		mov	r8, r8
+ 267              	.L13:
+ 268              		.loc 1 201 0 is_stmt 0
+ 269 0032 1E4B     		ldr	r3, .L22
+ 270 0034 DB78     		ldrb	r3, [r3, #3]
+ 271 0036 DBB2     		uxtb	r3, r3
+ 272 0038 1A1C     		mov	r2, r3
+ 273 003a 7F23     		mov	r3, #127
+ 274 003c 1340     		and	r3, r2
+ 275 003e 012B     		cmp	r3, #1
+ 276 0040 F7D1     		bne	.L13
+ 202:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****     
+ 203:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SMC_PMCTRL  |= SMC_PMCTRL_RUNM(0x2);
+ 277              		.loc 1 203 0 is_stmt 1
+ 278 0042 1A4B     		ldr	r3, .L22
+ 279 0044 194A     		ldr	r2, .L22
+ 280 0046 5278     		ldrb	r2, [r2, #1]
+ 281 0048 D2B2     		uxtb	r2, r2
+ 282 004a 4021     		mov	r1, #64
+ 283 004c 0A43     		orr	r2, r1
+ 284 004e D2B2     		uxtb	r2, r2
+ 285 0050 5A70     		strb	r2, [r3, #1]
+ 204:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /* Wait for VLPS regulator mode to be confirmed */
+ 205:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   for (i = 0 ; i < 10000 ; i++)
+ 286              		.loc 1 205 0
+ 287 0052 0023     		mov	r3, #0
+ 288 0054 7B60     		str	r3, [r7, #4]
+ 289 0056 09E0     		b	.L14
+ 290              	.L17:
+ 206:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****     {     /* check that the value of REGONS bit is not 0
+ 207:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****              once it is a zero we can stop checking */      
+ 208:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****       if ((PMC_REGSC & PMC_REGSC_REGONS_MASK) !=0x04){ //==
+ 291              		.loc 1 208 0
+ 292 0058 154B     		ldr	r3, .L22+4
+ 293 005a 9B78     		ldrb	r3, [r3, #2]
+ 294 005c DBB2     		uxtb	r3, r3
+ 295 005e 1A1C     		mov	r2, r3
+ 296 0060 0423     		mov	r3, #4
+ 297 0062 1340     		and	r3, r2
+ 298 0064 07D0     		beq	.L21
+ 299              	.L15:
+ 205:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   for (i = 0 ; i < 10000 ; i++)
+ 300              		.loc 1 205 0
+ 301 0066 7B68     		ldr	r3, [r7, #4]
+ 302 0068 0133     		add	r3, r3, #1
+ 303 006a 7B60     		str	r3, [r7, #4]
+ 304              	.L14:
+ 205:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   for (i = 0 ; i < 10000 ; i++)
+ 305              		.loc 1 205 0 is_stmt 0
+ 306 006c 7A68     		ldr	r2, [r7, #4]
+ 307 006e 114B     		ldr	r3, .L22+8
+ 308 0070 9A42     		cmp	r2, r3
+ 309 0072 F1DD     		ble	.L17
+ 310 0074 00E0     		b	.L16
+ 311              	.L21:
+ 209:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****        /* 0 Regulator is in stop regulation or in transition 
+ 210:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****             to/from it
+ 211:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****           1 MCU is in Run regulation mode */
+ 212:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****         //asm("nop");
+ 213:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****         break;
+ 312              		.loc 1 213 0 is_stmt 1
+ 313 0076 C046     		mov	r8, r8
+ 314              	.L16:
+ 214:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****       }  
+ 215:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****      // else  break;
+ 216:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****     }  
+ 217:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   if ((PMC_REGSC & PMC_REGSC_REGONS_MASK) ) //==0x04
+ 315              		.loc 1 217 0
+ 316 0078 0D4B     		ldr	r3, .L22+4
+ 317 007a 9B78     		ldrb	r3, [r3, #2]
+ 318 007c DBB2     		uxtb	r3, r3
+ 319 007e 1A1C     		mov	r2, r3
+ 320 0080 0423     		mov	r3, #4
+ 321 0082 1340     		and	r3, r2
+ 322 0084 01D0     		beq	.L18
+ 218:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****     {  
+ 219:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****       return_value = 0x24; 
+ 323              		.loc 1 219 0
+ 324 0086 2423     		mov	r3, #36
+ 325 0088 3B60     		str	r3, [r7]
+ 326              	.L18:
+ 220:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****     }
+ 221:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /* SMC_PMSTAT register only exist in Mode Controller 2 MCU versions */
+ 222:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   if ((SMC_PMSTAT & SMC_PMSTAT_PMSTAT_MASK) == 4)  
+ 327              		.loc 1 222 0
+ 328 008a 084B     		ldr	r3, .L22
+ 329 008c DB78     		ldrb	r3, [r3, #3]
+ 330 008e DBB2     		uxtb	r3, r3
+ 331 0090 1A1C     		mov	r2, r3
+ 332 0092 7F23     		mov	r3, #127
+ 333 0094 1340     		and	r3, r2
+ 334 0096 042B     		cmp	r3, #4
+ 335 0098 03D1     		bne	.L19
+ 223:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****     {
+ 224:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****       return_value = (unsigned int)SMC_PMSTAT;
+ 336              		.loc 1 224 0
+ 337 009a 044B     		ldr	r3, .L22
+ 338 009c DB78     		ldrb	r3, [r3, #3]
+ 339 009e DBB2     		uxtb	r3, r3
+ 340 00a0 3B60     		str	r3, [r7]
+ 341              	.L19:
+ 225:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****     }
+ 226:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   return (return_value);
+ 342              		.loc 1 226 0
+ 343 00a2 3B68     		ldr	r3, [r7]
+ 227:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** }
+ 344              		.loc 1 227 0
+ 345 00a4 181C     		mov	r0, r3
+ 346 00a6 BD46     		mov	sp, r7
+ 347 00a8 02B0     		add	sp, sp, #8
+ 348              		@ sp needed for prologue
+ 349 00aa 80BD     		pop	{r7, pc}
+ 350              	.L23:
+ 351              		.align	2
+ 352              	.L22:
+ 353 00ac 00E00740 		.word	1074257920
+ 354 00b0 00D00740 		.word	1074253824
+ 355 00b4 0F270000 		.word	9999
+ 356              		.cfi_endproc
+ 357              	.LFE4:
+ 359              		.section	.text.exit_vlpr,"ax",%progbits
+ 360              		.align	2
+ 361              		.global	exit_vlpr
+ 362              		.code	16
+ 363              		.thumb_func
+ 365              	exit_vlpr:
+ 366              	.LFB5:
+ 228:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** /********************************************************************/
+ 229:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** /* VLPR mode exit routine. Puts the processor into normal run mode
+ 230:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * from VLPR mode. You can transition from VLPR to normal run using
+ 231:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * this function.
+ 232:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+ 233:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * Mode transitions:
+ 234:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * VLPR -> RUN
+ 235:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+ 236:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * Parameters:
+ 237:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * none
+ 238:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  */
+ 239:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  /********************************************************************/
+ 240:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** 
+ 241:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** void exit_vlpr(void)
+ 242:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** {
+ 367              		.loc 1 242 0
+ 368              		.cfi_startproc
+ 369 0000 80B5     		push	{r7, lr}
+ 370              	.LCFI12:
+ 371              		.cfi_def_cfa_offset 8
+ 372              		.cfi_offset 7, -8
+ 373              		.cfi_offset 14, -4
+ 374 0002 82B0     		sub	sp, sp, #8
+ 375              	.LCFI13:
+ 376              		.cfi_def_cfa_offset 16
+ 377 0004 00AF     		add	r7, sp, #0
+ 378              	.LCFI14:
+ 379              		.cfi_def_cfa_register 7
+ 243:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****     int i;
+ 244:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****     /* check to make sure in VLPR before exiting    */
+ 245:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****     if  ((SMC_PMSTAT & SMC_PMSTAT_PMSTAT_MASK)== 4) {
+ 380              		.loc 1 245 0
+ 381 0006 134B     		ldr	r3, .L29
+ 382 0008 DB78     		ldrb	r3, [r3, #3]
+ 383 000a DBB2     		uxtb	r3, r3
+ 384 000c 1A1C     		mov	r2, r3
+ 385 000e 7F23     		mov	r3, #127
+ 386 0010 1340     		and	r3, r2
+ 387 0012 042B     		cmp	r3, #4
+ 388 0014 1AD1     		bne	.L24
+ 246:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****       
+ 247:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****        /* Clear RUNM */
+ 248:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****        SMC_PMCTRL &= ~SMC_PMCTRL_RUNM_MASK;
+ 389              		.loc 1 248 0
+ 390 0016 0F4B     		ldr	r3, .L29
+ 391 0018 0E4A     		ldr	r2, .L29
+ 392 001a 5278     		ldrb	r2, [r2, #1]
+ 393 001c D2B2     		uxtb	r2, r2
+ 394 001e 6021     		mov	r1, #96
+ 395 0020 8A43     		bic	r2, r1
+ 396 0022 D2B2     		uxtb	r2, r2
+ 397 0024 5A70     		strb	r2, [r3, #1]
+ 249:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****                       
+ 250:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****        /* Wait for normal RUN regulation mode to be confirmed */                   
+ 251:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****        // 1 PMSTAT MCU is in RUN  mode
+ 252:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****        // 4 PMSTAT MCU is in VLPR mode
+ 253:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****        for (i=0;i<0xff;i++)
+ 398              		.loc 1 253 0
+ 399 0026 0023     		mov	r3, #0
+ 400 0028 7B60     		str	r3, [r7, #4]
+ 401 002a 0CE0     		b	.L26
+ 402              	.L28:
+ 254:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****        {
+ 255:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****            if ((SMC_PMSTAT & SMC_PMSTAT_PMSTAT_MASK)== 1)
+ 403              		.loc 1 255 0
+ 404 002c 094B     		ldr	r3, .L29
+ 405 002e DB78     		ldrb	r3, [r3, #3]
+ 406 0030 DBB2     		uxtb	r3, r3
+ 407 0032 1A1C     		mov	r2, r3
+ 408 0034 7F23     		mov	r3, #127
+ 409 0036 1340     		and	r3, r2
+ 410 0038 012B     		cmp	r3, #1
+ 411 003a 01D1     		bne	.L27
+ 256:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****              if ((PMC_REGSC & PMC_REGSC_REGONS_MASK) == 1)
+ 412              		.loc 1 256 0
+ 413 003c 064B     		ldr	r3, .L29+4
+ 414 003e 9B78     		ldrb	r3, [r3, #2]
+ 415              	.L27:
+ 253:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****        for (i=0;i<0xff;i++)
+ 416              		.loc 1 253 0
+ 417 0040 7B68     		ldr	r3, [r7, #4]
+ 418 0042 0133     		add	r3, r3, #1
+ 419 0044 7B60     		str	r3, [r7, #4]
+ 420              	.L26:
+ 253:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****        for (i=0;i<0xff;i++)
+ 421              		.loc 1 253 0 is_stmt 0
+ 422 0046 7B68     		ldr	r3, [r7, #4]
+ 423 0048 FE2B     		cmp	r3, #254
+ 424 004a EFDD     		ble	.L28
+ 425              	.L24:
+ 257:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****     	        break;
+ 258:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****        }           
+ 259:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****     }  //if in VLPR mode
+ 260:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****      // else if not in VLPR ignore call
+ 261:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** }
+ 426              		.loc 1 261 0 is_stmt 1
+ 427 004c BD46     		mov	sp, r7
+ 428 004e 02B0     		add	sp, sp, #8
+ 429              		@ sp needed for prologue
+ 430 0050 80BD     		pop	{r7, pc}
+ 431              	.L30:
+ 432 0052 C046     		.align	2
+ 433              	.L29:
+ 434 0054 00E00740 		.word	1074257920
+ 435 0058 00D00740 		.word	1074253824
+ 436              		.cfi_endproc
+ 437              	.LFE5:
+ 439              		.section	.text.enter_vlps,"ax",%progbits
+ 440              		.align	2
+ 441              		.global	enter_vlps
+ 442              		.code	16
+ 443              		.thumb_func
+ 445              	enter_vlps:
+ 446              	.LFB6:
+ 262:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** /***************************************************************/
+ 263:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** /* VLPS mode entry routine. Puts the processor into VLPS mode 
+ 264:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * directly from run or VLPR modes. 
+ 265:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+ 266:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * Mode transitions:
+ 267:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * RUN  -> VLPS
+ 268:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * VLPR -> VLPS
+ 269:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+ 270:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * Note, when VLPS is entered directly from RUN or VLPR mode, 
+ 271:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * exit to VLPR is disabled by hardware and the system will
+ 272:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * always exit back to RUN.
+ 273:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+ 274:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * Parameters:  
+ 275:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * none
+ 276:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  */
+ 277:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  /****************************************************************/
+ 278:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** 
+ 279:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** void enter_vlps(void)
+ 280:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** {
+ 447              		.loc 1 280 0
+ 448              		.cfi_startproc
+ 449 0000 80B5     		push	{r7, lr}
+ 450              	.LCFI15:
+ 451              		.cfi_def_cfa_offset 8
+ 452              		.cfi_offset 7, -8
+ 453              		.cfi_offset 14, -4
+ 454 0002 82B0     		sub	sp, sp, #8
+ 455              	.LCFI16:
+ 456              		.cfi_def_cfa_offset 16
+ 457 0004 00AF     		add	r7, sp, #0
+ 458              	.LCFI17:
+ 459              		.cfi_def_cfa_register 7
+ 281:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   volatile unsigned int dummyread;
+ 282:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /* The PMPROT register may have already been written by init code
+ 283:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****      If so then this next write is not done since  
+ 284:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****      PMPROT is write once after RESET 
+ 285:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****      allows the MCU to enter the VLPR, VLPW, and VLPS modes.
+ 286:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****      If AVLP is already writen to 0 
+ 287:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****      Stop is entered instead of VLPS*/
+ 288:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SMC_PMPROT = SMC_PMPROT_AVLP_MASK;           
+ 460              		.loc 1 288 0
+ 461 0006 0E4B     		ldr	r3, .L32
+ 462 0008 2022     		mov	r2, #32
+ 463 000a 1A70     		strb	r2, [r3]
+ 289:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /* Set the STOPM field to 0b010 for VLPS mode */
+ 290:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SMC_PMCTRL &= ~SMC_PMCTRL_STOPM_MASK; 
+ 464              		.loc 1 290 0
+ 465 000c 0C4B     		ldr	r3, .L32
+ 466 000e 0C4A     		ldr	r2, .L32
+ 467 0010 5278     		ldrb	r2, [r2, #1]
+ 468 0012 D2B2     		uxtb	r2, r2
+ 469 0014 0721     		mov	r1, #7
+ 470 0016 8A43     		bic	r2, r1
+ 471 0018 D2B2     		uxtb	r2, r2
+ 472 001a 5A70     		strb	r2, [r3, #1]
+ 291:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SMC_PMCTRL |=  SMC_PMCTRL_STOPM(0x2); 
+ 473              		.loc 1 291 0
+ 474 001c 084B     		ldr	r3, .L32
+ 475 001e 084A     		ldr	r2, .L32
+ 476 0020 5278     		ldrb	r2, [r2, #1]
+ 477 0022 D2B2     		uxtb	r2, r2
+ 478 0024 0221     		mov	r1, #2
+ 479 0026 0A43     		orr	r2, r1
+ 480 0028 D2B2     		uxtb	r2, r2
+ 481 002a 5A70     		strb	r2, [r3, #1]
+ 292:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /*wait for write to complete to SMC before stopping core */  
+ 293:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   dummyread = SMC_PMCTRL;
+ 482              		.loc 1 293 0
+ 483 002c 044B     		ldr	r3, .L32
+ 484 002e 5B78     		ldrb	r3, [r3, #1]
+ 485 0030 DBB2     		uxtb	r3, r3
+ 486 0032 7B60     		str	r3, [r7, #4]
+ 294:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /* Now execute the stop instruction to go into VLPS */
+ 295:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   #ifdef CMSIS
+ 296:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /* Set the SLEEPDEEP bit to enable deep sleep mode (STOP) */
+ 297:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SCB_SCR |= SCB_SCR_SLEEPDEEP_MASK;
+ 298:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   __wfi();
+ 299:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** #else
+ 300:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   stop();
+ 487              		.loc 1 300 0
+ 488 0034 FFF7FEFF 		bl	stop
+ 301:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** #endif
+ 302:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** }
+ 489              		.loc 1 302 0
+ 490 0038 BD46     		mov	sp, r7
+ 491 003a 02B0     		add	sp, sp, #8
+ 492              		@ sp needed for prologue
+ 493 003c 80BD     		pop	{r7, pc}
+ 494              	.L33:
+ 495 003e C046     		.align	2
+ 496              	.L32:
+ 497 0040 00E00740 		.word	1074257920
+ 498              		.cfi_endproc
+ 499              	.LFE6:
+ 501              		.section	.text.enter_lls,"ax",%progbits
+ 502              		.align	2
+ 503              		.global	enter_lls
+ 504              		.code	16
+ 505              		.thumb_func
+ 507              	enter_lls:
+ 508              	.LFB7:
+ 303:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** /****************************************************************/
+ 304:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** /* LLS mode entry routine. Puts the processor into LLS mode from
+ 305:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * normal run mode or VLPR. 
+ 306:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+ 307:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * Mode transitions:
+ 308:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * RUN -> LLS
+ 309:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * VLPR -> LLS
+ 310:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+ 311:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * NOTE: LLS mode will always exit to RUN mode even if you were 
+ 312:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * in VLPR mode before entering LLS.
+ 313:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+ 314:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * Wakeup from LLS mode is controlled by the LLWU module. Most
+ 315:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * modules cannot issue a wakeup interrupt in LLS mode, so make
+ 316:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * sure to setup the desired wakeup sources in the LLWU before 
+ 317:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * calling this function.
+ 318:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+ 319:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * Parameters:
+ 320:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * none
+ 321:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  */
+ 322:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  /********************************************************************/
+ 323:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** 
+ 324:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** void enter_lls(void)
+ 325:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** {
+ 509              		.loc 1 325 0
+ 510              		.cfi_startproc
+ 511 0000 80B5     		push	{r7, lr}
+ 512              	.LCFI18:
+ 513              		.cfi_def_cfa_offset 8
+ 514              		.cfi_offset 7, -8
+ 515              		.cfi_offset 14, -4
+ 516 0002 82B0     		sub	sp, sp, #8
+ 517              	.LCFI19:
+ 518              		.cfi_def_cfa_offset 16
+ 519 0004 00AF     		add	r7, sp, #0
+ 520              	.LCFI20:
+ 521              		.cfi_def_cfa_register 7
+ 326:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   volatile unsigned int dummyread;
+ 327:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /* Write to PMPROT to allow LLS power modes this write-once 
+ 328:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****      bit allows the MCU to enter the LLS low power mode*/
+ 329:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SMC_PMPROT = SMC_PMPROT_ALLS_MASK;   
+ 522              		.loc 1 329 0
+ 523 0006 0E4B     		ldr	r3, .L35
+ 524 0008 0822     		mov	r2, #8
+ 525 000a 1A70     		strb	r2, [r3]
+ 330:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /* Set the STOPM field to 0b011 for LLS mode  */
+ 331:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SMC_PMCTRL &= ~SMC_PMCTRL_STOPM_MASK; 
+ 526              		.loc 1 331 0
+ 527 000c 0C4B     		ldr	r3, .L35
+ 528 000e 0C4A     		ldr	r2, .L35
+ 529 0010 5278     		ldrb	r2, [r2, #1]
+ 530 0012 D2B2     		uxtb	r2, r2
+ 531 0014 0721     		mov	r1, #7
+ 532 0016 8A43     		bic	r2, r1
+ 533 0018 D2B2     		uxtb	r2, r2
+ 534 001a 5A70     		strb	r2, [r3, #1]
+ 332:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SMC_PMCTRL |=  SMC_PMCTRL_STOPM(0x3); 
+ 535              		.loc 1 332 0
+ 536 001c 084B     		ldr	r3, .L35
+ 537 001e 084A     		ldr	r2, .L35
+ 538 0020 5278     		ldrb	r2, [r2, #1]
+ 539 0022 D2B2     		uxtb	r2, r2
+ 540 0024 0321     		mov	r1, #3
+ 541 0026 0A43     		orr	r2, r1
+ 542 0028 D2B2     		uxtb	r2, r2
+ 543 002a 5A70     		strb	r2, [r3, #1]
+ 333:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /*wait for write to complete to SMC before stopping core */  
+ 334:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   dummyread = SMC_PMCTRL;
+ 544              		.loc 1 334 0
+ 545 002c 044B     		ldr	r3, .L35
+ 546 002e 5B78     		ldrb	r3, [r3, #1]
+ 547 0030 DBB2     		uxtb	r3, r3
+ 548 0032 7B60     		str	r3, [r7, #4]
+ 335:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /* Now execute the stop instruction to go into LLS */
+ 336:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   #ifdef CMSIS
+ 337:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /* Set the SLEEPDEEP bit to enable deep sleep mode (STOP) */
+ 338:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SCB_SCR |= SCB_SCR_SLEEPDEEP_MASK;
+ 339:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   __wfi();
+ 340:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** #else
+ 341:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   stop();
+ 549              		.loc 1 341 0
+ 550 0034 FFF7FEFF 		bl	stop
+ 342:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** #endif
+ 343:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** }
+ 551              		.loc 1 343 0
+ 552 0038 BD46     		mov	sp, r7
+ 553 003a 02B0     		add	sp, sp, #8
+ 554              		@ sp needed for prologue
+ 555 003c 80BD     		pop	{r7, pc}
+ 556              	.L36:
+ 557 003e C046     		.align	2
+ 558              	.L35:
+ 559 0040 00E00740 		.word	1074257920
+ 560              		.cfi_endproc
+ 561              	.LFE7:
+ 563              		.section	.text.enter_vlls3,"ax",%progbits
+ 564              		.align	2
+ 565              		.global	enter_vlls3
+ 566              		.code	16
+ 567              		.thumb_func
+ 569              	enter_vlls3:
+ 570              	.LFB8:
+ 344:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** /***************************************************************/
+ 345:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** /* VLLS3 mode entry routine. Puts the processor into 
+ 346:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * VLLS3 mode from normal run mode or VLPR. 
+ 347:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+ 348:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * Mode transitions:
+ 349:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * RUN -> VLLS3
+ 350:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * VLPR -> VLLS3
+ 351:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+ 352:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * NOTE: VLLSx modes will always exit to RUN mode even if you were 
+ 353:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * in VLPR mode before entering VLLSx.
+ 354:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+ 355:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * Wakeup from VLLSx mode is controlled by the LLWU module. Most
+ 356:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * modules cannot issue a wakeup interrupt in VLLSx mode, so make
+ 357:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * sure to setup the desired wakeup sources in the LLWU before 
+ 358:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * calling this function.
+ 359:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+ 360:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * Parameters:
+ 361:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * none  
+ 362:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  */
+ 363:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  /********************************************************************/
+ 364:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** 
+ 365:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** void enter_vlls3(void)
+ 366:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** {
+ 571              		.loc 1 366 0
+ 572              		.cfi_startproc
+ 573 0000 80B5     		push	{r7, lr}
+ 574              	.LCFI21:
+ 575              		.cfi_def_cfa_offset 8
+ 576              		.cfi_offset 7, -8
+ 577              		.cfi_offset 14, -4
+ 578 0002 82B0     		sub	sp, sp, #8
+ 579              	.LCFI22:
+ 580              		.cfi_def_cfa_offset 16
+ 581 0004 00AF     		add	r7, sp, #0
+ 582              	.LCFI23:
+ 583              		.cfi_def_cfa_register 7
+ 367:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   volatile unsigned int dummyread;
+ 368:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /* Write to PMPROT to allow VLLS3 power modes */
+ 369:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SMC_PMPROT = SMC_PMPROT_AVLLS_MASK;      
+ 584              		.loc 1 369 0
+ 585 0006 0F4B     		ldr	r3, .L38
+ 586 0008 0222     		mov	r2, #2
+ 587 000a 1A70     		strb	r2, [r3]
+ 370:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /* Set the STOPM field to 0b100 for VLLS3 mode */
+ 371:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SMC_PMCTRL &= ~SMC_PMCTRL_STOPM_MASK; 
+ 588              		.loc 1 371 0
+ 589 000c 0D4B     		ldr	r3, .L38
+ 590 000e 0D4A     		ldr	r2, .L38
+ 591 0010 5278     		ldrb	r2, [r2, #1]
+ 592 0012 D2B2     		uxtb	r2, r2
+ 593 0014 0721     		mov	r1, #7
+ 594 0016 8A43     		bic	r2, r1
+ 595 0018 D2B2     		uxtb	r2, r2
+ 596 001a 5A70     		strb	r2, [r3, #1]
+ 372:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SMC_PMCTRL |=  SMC_PMCTRL_STOPM(0x4); 
+ 597              		.loc 1 372 0
+ 598 001c 094B     		ldr	r3, .L38
+ 599 001e 094A     		ldr	r2, .L38
+ 600 0020 5278     		ldrb	r2, [r2, #1]
+ 601 0022 D2B2     		uxtb	r2, r2
+ 602 0024 0421     		mov	r1, #4
+ 603 0026 0A43     		orr	r2, r1
+ 604 0028 D2B2     		uxtb	r2, r2
+ 605 002a 5A70     		strb	r2, [r3, #1]
+ 373:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /* set VLLSM = 0b11 */
+ 374:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SMC_STOPCTRL =  SMC_STOPCTRL_VLLSM(3);          
+ 606              		.loc 1 374 0
+ 607 002c 054B     		ldr	r3, .L38
+ 608 002e 0322     		mov	r2, #3
+ 609 0030 9A70     		strb	r2, [r3, #2]
+ 375:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /*wait for write to complete to SMC before stopping core */  
+ 376:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   dummyread = SMC_STOPCTRL;
+ 610              		.loc 1 376 0
+ 611 0032 044B     		ldr	r3, .L38
+ 612 0034 9B78     		ldrb	r3, [r3, #2]
+ 613 0036 DBB2     		uxtb	r3, r3
+ 614 0038 7B60     		str	r3, [r7, #4]
+ 377:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /* Now execute the stop instruction to go into VLLS3 */
+ 378:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   #ifdef CMSIS
+ 379:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /* Set the SLEEPDEEP bit to enable deep sleep mode (STOP) */
+ 380:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SCB_SCR |= SCB_SCR_SLEEPDEEP_MASK;
+ 381:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   __wfi();
+ 382:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** #else
+ 383:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   stop();
+ 615              		.loc 1 383 0
+ 616 003a FFF7FEFF 		bl	stop
+ 384:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** #endif
+ 385:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** }
+ 617              		.loc 1 385 0
+ 618 003e BD46     		mov	sp, r7
+ 619 0040 02B0     		add	sp, sp, #8
+ 620              		@ sp needed for prologue
+ 621 0042 80BD     		pop	{r7, pc}
+ 622              	.L39:
+ 623              		.align	2
+ 624              	.L38:
+ 625 0044 00E00740 		.word	1074257920
+ 626              		.cfi_endproc
+ 627              	.LFE8:
+ 629              		.section	.text.enter_vlls2,"ax",%progbits
+ 630              		.align	2
+ 631              		.global	enter_vlls2
+ 632              		.code	16
+ 633              		.thumb_func
+ 635              	enter_vlls2:
+ 636              	.LFB9:
+ 386:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** /***************************************************************/
+ 387:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** /* VLLS2 mode entry routine. Puts the processor into 
+ 388:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * VLLS2 mode from normal run mode or VLPR. 
+ 389:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+ 390:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * Mode transitions:
+ 391:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * RUN -> VLLS2
+ 392:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * VLPR -> VLLS2
+ 393:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+ 394:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * NOTE: VLLSx modes will always exit to RUN mode even  
+ 395:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *       if you werein VLPR mode before entering VLLSx.
+ 396:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+ 397:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * Wakeup from VLLSx mode is controlled by the LLWU module. Most
+ 398:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * modules cannot issue a wakeup interrupt in VLLSx mode, so make
+ 399:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * sure to setup the desired wakeup sources in the LLWU before 
+ 400:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * calling this function.
+ 401:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+ 402:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * Parameters:
+ 403:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * none  
+ 404:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  */
+ 405:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  /********************************************************************/
+ 406:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** 
+ 407:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** void enter_vlls2(void)
+ 408:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** {
+ 637              		.loc 1 408 0
+ 638              		.cfi_startproc
+ 639 0000 80B5     		push	{r7, lr}
+ 640              	.LCFI24:
+ 641              		.cfi_def_cfa_offset 8
+ 642              		.cfi_offset 7, -8
+ 643              		.cfi_offset 14, -4
+ 644 0002 82B0     		sub	sp, sp, #8
+ 645              	.LCFI25:
+ 646              		.cfi_def_cfa_offset 16
+ 647 0004 00AF     		add	r7, sp, #0
+ 648              	.LCFI26:
+ 649              		.cfi_def_cfa_register 7
+ 409:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   volatile unsigned int dummyread;
+ 410:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /* Write to PMPROT to allow VLLS2 power modes */
+ 411:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SMC_PMPROT = SMC_PMPROT_AVLLS_MASK;      
+ 650              		.loc 1 411 0
+ 651 0006 0F4B     		ldr	r3, .L41
+ 652 0008 0222     		mov	r2, #2
+ 653 000a 1A70     		strb	r2, [r3]
+ 412:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /* Set the STOPM field to 0b100 for VLLS2 mode */
+ 413:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SMC_PMCTRL &= ~SMC_PMCTRL_STOPM_MASK; 
+ 654              		.loc 1 413 0
+ 655 000c 0D4B     		ldr	r3, .L41
+ 656 000e 0D4A     		ldr	r2, .L41
+ 657 0010 5278     		ldrb	r2, [r2, #1]
+ 658 0012 D2B2     		uxtb	r2, r2
+ 659 0014 0721     		mov	r1, #7
+ 660 0016 8A43     		bic	r2, r1
+ 661 0018 D2B2     		uxtb	r2, r2
+ 662 001a 5A70     		strb	r2, [r3, #1]
+ 414:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SMC_PMCTRL |=  SMC_PMCTRL_STOPM(0x4); 
+ 663              		.loc 1 414 0
+ 664 001c 094B     		ldr	r3, .L41
+ 665 001e 094A     		ldr	r2, .L41
+ 666 0020 5278     		ldrb	r2, [r2, #1]
+ 667 0022 D2B2     		uxtb	r2, r2
+ 668 0024 0421     		mov	r1, #4
+ 669 0026 0A43     		orr	r2, r1
+ 670 0028 D2B2     		uxtb	r2, r2
+ 671 002a 5A70     		strb	r2, [r3, #1]
+ 415:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /* set VLLSM = 0b10 */
+ 416:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SMC_STOPCTRL =  SMC_STOPCTRL_VLLSM(2);                
+ 672              		.loc 1 416 0
+ 673 002c 054B     		ldr	r3, .L41
+ 674 002e 0222     		mov	r2, #2
+ 675 0030 9A70     		strb	r2, [r3, #2]
+ 417:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /*wait for write to complete to SMC before stopping core */  
+ 418:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   dummyread = SMC_STOPCTRL;
+ 676              		.loc 1 418 0
+ 677 0032 044B     		ldr	r3, .L41
+ 678 0034 9B78     		ldrb	r3, [r3, #2]
+ 679 0036 DBB2     		uxtb	r3, r3
+ 680 0038 7B60     		str	r3, [r7, #4]
+ 419:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /* Now execute the stop instruction to go into VLLS2 */
+ 420:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   #ifdef CMSIS
+ 421:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /* Set the SLEEPDEEP bit to enable deep sleep mode (STOP) */
+ 422:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SCB_SCR |= SCB_SCR_SLEEPDEEP_MASK;
+ 423:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   __wfi();
+ 424:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** #else
+ 425:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   stop();
+ 681              		.loc 1 425 0
+ 682 003a FFF7FEFF 		bl	stop
+ 426:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** #endif
+ 427:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** }
+ 683              		.loc 1 427 0
+ 684 003e BD46     		mov	sp, r7
+ 685 0040 02B0     		add	sp, sp, #8
+ 686              		@ sp needed for prologue
+ 687 0042 80BD     		pop	{r7, pc}
+ 688              	.L42:
+ 689              		.align	2
+ 690              	.L41:
+ 691 0044 00E00740 		.word	1074257920
+ 692              		.cfi_endproc
+ 693              	.LFE9:
+ 695              		.section	.text.enter_vlls1,"ax",%progbits
+ 696              		.align	2
+ 697              		.global	enter_vlls1
+ 698              		.code	16
+ 699              		.thumb_func
+ 701              	enter_vlls1:
+ 702              	.LFB10:
+ 428:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** /***************************************************************/
+ 429:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** /* VLLS1 mode entry routine. Puts the processor into 
+ 430:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * VLLS1 mode from normal run mode or VLPR. 
+ 431:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+ 432:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * Mode transitions:
+ 433:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * RUN -> VLLS1
+ 434:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * VLPR -> VLLS1
+ 435:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+ 436:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * NOTE: VLLSx modes will always exit to RUN mode even if you were 
+ 437:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * in VLPR mode before entering VLLSx.
+ 438:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+ 439:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * Wakeup from VLLSx mode is controlled by the LLWU module. Most
+ 440:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * modules cannot issue a wakeup interrupt in VLLSx mode, so make
+ 441:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * sure to setup the desired wakeup sources in the LLWU before 
+ 442:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * calling this function.
+ 443:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+ 444:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * Parameters:
+ 445:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * none  
+ 446:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  */
+ 447:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  /********************************************************************/
+ 448:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** 
+ 449:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** void enter_vlls1(void)
+ 450:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** {
+ 703              		.loc 1 450 0
+ 704              		.cfi_startproc
+ 705 0000 80B5     		push	{r7, lr}
+ 706              	.LCFI27:
+ 707              		.cfi_def_cfa_offset 8
+ 708              		.cfi_offset 7, -8
+ 709              		.cfi_offset 14, -4
+ 710 0002 82B0     		sub	sp, sp, #8
+ 711              	.LCFI28:
+ 712              		.cfi_def_cfa_offset 16
+ 713 0004 00AF     		add	r7, sp, #0
+ 714              	.LCFI29:
+ 715              		.cfi_def_cfa_register 7
+ 451:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   volatile unsigned int dummyread;
+ 452:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SMC_PMPROT = SMC_PMPROT_AVLLS_MASK;
+ 716              		.loc 1 452 0
+ 717 0006 0F4B     		ldr	r3, .L44
+ 718 0008 0222     		mov	r2, #2
+ 719 000a 1A70     		strb	r2, [r3]
+ 453:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****     
+ 454:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /* Write to PMPROT to allow all possible power modes */
+ 455:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /* Set the STOPM field to 0b100 for VLLS1 mode */
+ 456:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SMC_PMCTRL &= ~SMC_PMCTRL_STOPM_MASK; 
+ 720              		.loc 1 456 0
+ 721 000c 0D4B     		ldr	r3, .L44
+ 722 000e 0D4A     		ldr	r2, .L44
+ 723 0010 5278     		ldrb	r2, [r2, #1]
+ 724 0012 D2B2     		uxtb	r2, r2
+ 725 0014 0721     		mov	r1, #7
+ 726 0016 8A43     		bic	r2, r1
+ 727 0018 D2B2     		uxtb	r2, r2
+ 728 001a 5A70     		strb	r2, [r3, #1]
+ 457:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SMC_PMCTRL |=  SMC_PMCTRL_STOPM(0x4); 
+ 729              		.loc 1 457 0
+ 730 001c 094B     		ldr	r3, .L44
+ 731 001e 094A     		ldr	r2, .L44
+ 732 0020 5278     		ldrb	r2, [r2, #1]
+ 733 0022 D2B2     		uxtb	r2, r2
+ 734 0024 0421     		mov	r1, #4
+ 735 0026 0A43     		orr	r2, r1
+ 736 0028 D2B2     		uxtb	r2, r2
+ 737 002a 5A70     		strb	r2, [r3, #1]
+ 458:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /* set VLLSM = 0b01 */
+ 459:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SMC_STOPCTRL =  SMC_STOPCTRL_VLLSM(1);          
+ 738              		.loc 1 459 0
+ 739 002c 054B     		ldr	r3, .L44
+ 740 002e 0122     		mov	r2, #1
+ 741 0030 9A70     		strb	r2, [r3, #2]
+ 460:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /*wait for write to complete to SMC before stopping core */  
+ 461:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   dummyread = SMC_STOPCTRL;
+ 742              		.loc 1 461 0
+ 743 0032 044B     		ldr	r3, .L44
+ 744 0034 9B78     		ldrb	r3, [r3, #2]
+ 745 0036 DBB2     		uxtb	r3, r3
+ 746 0038 7B60     		str	r3, [r7, #4]
+ 462:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /* Now execute the stop instruction to go into VLLS1 */
+ 463:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   #ifdef CMSIS
+ 464:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /* Set the SLEEPDEEP bit to enable deep sleep mode (STOP) */
+ 465:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SCB_SCR |= SCB_SCR_SLEEPDEEP_MASK;
+ 466:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   __wfi();
+ 467:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** #else
+ 468:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   stop();
+ 747              		.loc 1 468 0
+ 748 003a FFF7FEFF 		bl	stop
+ 469:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** #endif
+ 470:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** }
+ 749              		.loc 1 470 0
+ 750 003e BD46     		mov	sp, r7
+ 751 0040 02B0     		add	sp, sp, #8
+ 752              		@ sp needed for prologue
+ 753 0042 80BD     		pop	{r7, pc}
+ 754              	.L45:
+ 755              		.align	2
+ 756              	.L44:
+ 757 0044 00E00740 		.word	1074257920
+ 758              		.cfi_endproc
+ 759              	.LFE10:
+ 761              		.section	.text.enter_vlls0,"ax",%progbits
+ 762              		.align	2
+ 763              		.global	enter_vlls0
+ 764              		.code	16
+ 765              		.thumb_func
+ 767              	enter_vlls0:
+ 768              	.LFB11:
+ 471:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** 
+ 472:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** /********************************************************************/
+ 473:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** /* VLLS0 mode entry routine. Puts the processor into VLLS0 mode from
+ 474:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * normal run mode or VLPR. 
+ 475:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+ 476:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * Mode transitions:
+ 477:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * RUN -> VLLS0
+ 478:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * VLPR -> VLLS0
+ 479:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+ 480:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * NOTE: VLLSx modes will always exit to RUN mode even if you were 
+ 481:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * in VLPR mode before entering VLLSx.
+ 482:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+ 483:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * Wakeup from VLLSx mode is controlled by the LLWU module. Most
+ 484:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * modules cannot issue a wakeup interrupt in VLLSx mode, so make
+ 485:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * sure to setup the desired wakeup sources in the LLWU before 
+ 486:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * calling this function.
+ 487:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+ 488:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * Parameters:
+ 489:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * PORPO_value - 0 POR detect circuit is enabled in VLLS0
+ 490:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *               1 POR detect circuit is disabled in VLLS0
+ 491:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  */
+ 492:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  /***************************************************************/
+ 493:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** 
+ 494:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** void enter_vlls0(unsigned char PORPO_value )
+ 495:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** {
+ 769              		.loc 1 495 0
+ 770              		.cfi_startproc
+ 771 0000 80B5     		push	{r7, lr}
+ 772              	.LCFI30:
+ 773              		.cfi_def_cfa_offset 8
+ 774              		.cfi_offset 7, -8
+ 775              		.cfi_offset 14, -4
+ 776 0002 84B0     		sub	sp, sp, #16
+ 777              	.LCFI31:
+ 778              		.cfi_def_cfa_offset 24
+ 779 0004 00AF     		add	r7, sp, #0
+ 780              	.LCFI32:
+ 781              		.cfi_def_cfa_register 7
+ 782 0006 021C     		mov	r2, r0
+ 783 0008 FB1D     		add	r3, r7, #7
+ 784 000a 1A70     		strb	r2, [r3]
+ 496:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   volatile unsigned int dummyread;
+ 497:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   int i;
+ 498:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /* Write to PMPROT to allow all possible power modes */
+ 499:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SMC_PMPROT = SMC_PMPROT_AVLLS_MASK;   
+ 785              		.loc 1 499 0
+ 786 000c 2C4B     		ldr	r3, .L52
+ 787 000e 0222     		mov	r2, #2
+ 788 0010 1A70     		strb	r2, [r3]
+ 500:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   if ((SMC_PMSTAT & SMC_PMSTAT_PMSTAT_MASK)== 4){
+ 789              		.loc 1 500 0
+ 790 0012 2B4B     		ldr	r3, .L52
+ 791 0014 DB78     		ldrb	r3, [r3, #3]
+ 792 0016 DBB2     		uxtb	r3, r3
+ 793 0018 1A1C     		mov	r2, r3
+ 794 001a 7F23     		mov	r3, #127
+ 795 001c 1340     		and	r3, r2
+ 796 001e 042B     		cmp	r3, #4
+ 797 0020 1AD1     		bne	.L47
+ 501:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****      SMC_PMCTRL &= ~SMC_PMCTRL_RUNM_MASK;   // go back to RUN mode temporarily
+ 798              		.loc 1 501 0
+ 799 0022 274B     		ldr	r3, .L52
+ 800 0024 264A     		ldr	r2, .L52
+ 801 0026 5278     		ldrb	r2, [r2, #1]
+ 802 0028 D2B2     		uxtb	r2, r2
+ 803 002a 6021     		mov	r1, #96
+ 804 002c 8A43     		bic	r2, r1
+ 805 002e D2B2     		uxtb	r2, r2
+ 806 0030 5A70     		strb	r2, [r3, #1]
+ 502:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****      for (i=0;i<0xff;i++)
+ 807              		.loc 1 502 0
+ 808 0032 0023     		mov	r3, #0
+ 809 0034 FB60     		str	r3, [r7, #12]
+ 810 0036 0AE0     		b	.L48
+ 811              	.L50:
+ 503:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****        {
+ 504:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****        if ((SMC_PMSTAT & SMC_PMSTAT_PMSTAT_MASK)== 1)
+ 812              		.loc 1 504 0
+ 813 0038 214B     		ldr	r3, .L52
+ 814 003a DB78     		ldrb	r3, [r3, #3]
+ 815 003c DBB2     		uxtb	r3, r3
+ 816 003e 1A1C     		mov	r2, r3
+ 817 0040 7F23     		mov	r3, #127
+ 818 0042 1340     		and	r3, r2
+ 819 0044 012B     		cmp	r3, #1
+ 820 0046 06D0     		beq	.L51
+ 821              	.L49:
+ 502:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****      for (i=0;i<0xff;i++)
+ 822              		.loc 1 502 0
+ 823 0048 FB68     		ldr	r3, [r7, #12]
+ 824 004a 0133     		add	r3, r3, #1
+ 825 004c FB60     		str	r3, [r7, #12]
+ 826              	.L48:
+ 502:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****      for (i=0;i<0xff;i++)
+ 827              		.loc 1 502 0 is_stmt 0
+ 828 004e FB68     		ldr	r3, [r7, #12]
+ 829 0050 FE2B     		cmp	r3, #254
+ 830 0052 F1DD     		ble	.L50
+ 831 0054 00E0     		b	.L47
+ 832              	.L51:
+ 505:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****     	 break;
+ 833              		.loc 1 505 0 is_stmt 1
+ 834 0056 C046     		mov	r8, r8
+ 835              	.L47:
+ 506:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****        }
+ 507:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   }
+ 508:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /* Set the STOPM field to 0b100 for VLLS0 mode */
+ 509:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SMC_PMCTRL &= ~SMC_PMCTRL_STOPM_MASK; 
+ 836              		.loc 1 509 0
+ 837 0058 194B     		ldr	r3, .L52
+ 838 005a 194A     		ldr	r2, .L52
+ 839 005c 5278     		ldrb	r2, [r2, #1]
+ 840 005e D2B2     		uxtb	r2, r2
+ 841 0060 0721     		mov	r1, #7
+ 842 0062 8A43     		bic	r2, r1
+ 843 0064 D2B2     		uxtb	r2, r2
+ 844 0066 5A70     		strb	r2, [r3, #1]
+ 510:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SMC_PMCTRL |=  SMC_PMCTRL_STOPM(0x4); 
+ 845              		.loc 1 510 0
+ 846 0068 154B     		ldr	r3, .L52
+ 847 006a 154A     		ldr	r2, .L52
+ 848 006c 5278     		ldrb	r2, [r2, #1]
+ 849 006e D2B2     		uxtb	r2, r2
+ 850 0070 0421     		mov	r1, #4
+ 851 0072 0A43     		orr	r2, r1
+ 852 0074 D2B2     		uxtb	r2, r2
+ 853 0076 5A70     		strb	r2, [r3, #1]
+ 511:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /* set VLLSM = 0b00 */
+ 512:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SMC_STOPCTRL &= ~SMC_STOPCTRL_VLLSM_MASK;
+ 854              		.loc 1 512 0
+ 855 0078 114B     		ldr	r3, .L52
+ 856 007a 114A     		ldr	r2, .L52
+ 857 007c 9278     		ldrb	r2, [r2, #2]
+ 858 007e D2B2     		uxtb	r2, r2
+ 859 0080 0721     		mov	r1, #7
+ 860 0082 8A43     		bic	r2, r1
+ 861 0084 D2B2     		uxtb	r2, r2
+ 862 0086 9A70     		strb	r2, [r3, #2]
+ 513:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SMC_STOPCTRL &= ~SMC_STOPCTRL_PORPO_MASK;
+ 863              		.loc 1 513 0
+ 864 0088 0D4B     		ldr	r3, .L52
+ 865 008a 0D4A     		ldr	r2, .L52
+ 866 008c 9278     		ldrb	r2, [r2, #2]
+ 867 008e D2B2     		uxtb	r2, r2
+ 868 0090 2021     		mov	r1, #32
+ 869 0092 8A43     		bic	r2, r1
+ 870 0094 D2B2     		uxtb	r2, r2
+ 871 0096 9A70     		strb	r2, [r3, #2]
+ 514:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SMC_STOPCTRL |=  (PORPO_value <<SMC_STOPCTRL_PORPO_SHIFT) 
+ 872              		.loc 1 514 0
+ 873 0098 094B     		ldr	r3, .L52
+ 874 009a 094A     		ldr	r2, .L52
+ 875 009c 9278     		ldrb	r2, [r2, #2]
+ 876 009e D1B2     		uxtb	r1, r2
+ 877 00a0 FA1D     		add	r2, r7, #7
+ 878 00a2 1278     		ldrb	r2, [r2]
+ 879 00a4 5201     		lsl	r2, r2, #5
+ 880 00a6 D2B2     		uxtb	r2, r2
+ 881 00a8 0A43     		orr	r2, r1
+ 882 00aa D2B2     		uxtb	r2, r2
+ 883 00ac 9A70     		strb	r2, [r3, #2]
+ 515:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****                  | SMC_STOPCTRL_VLLSM(0);          
+ 516:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /*wait for write to complete to SMC before stopping core */  
+ 517:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   dummyread = SMC_STOPCTRL;
+ 884              		.loc 1 517 0
+ 885 00ae 044B     		ldr	r3, .L52
+ 886 00b0 9B78     		ldrb	r3, [r3, #2]
+ 887 00b2 DBB2     		uxtb	r3, r3
+ 888 00b4 BB60     		str	r3, [r7, #8]
+ 518:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /* Now execute the stop instruction to go into VLLS0 */
+ 519:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   #ifdef CMSIS
+ 520:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /* Set the SLEEPDEEP bit to enable deep sleep mode (STOP) */
+ 521:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SCB_SCR |= SCB_SCR_SLEEPDEEP_MASK;
+ 522:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   __wfi();
+ 523:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** #else
+ 524:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   stop();
+ 889              		.loc 1 524 0
+ 890 00b6 FFF7FEFF 		bl	stop
+ 525:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** #endif
+ 526:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** }
+ 891              		.loc 1 526 0
+ 892 00ba BD46     		mov	sp, r7
+ 893 00bc 04B0     		add	sp, sp, #16
+ 894              		@ sp needed for prologue
+ 895 00be 80BD     		pop	{r7, pc}
+ 896              	.L53:
+ 897              		.align	2
+ 898              	.L52:
+ 899 00c0 00E00740 		.word	1074257920
+ 900              		.cfi_endproc
+ 901              	.LFE11:
+ 903              		.section	.text.enter_vlls0_nopor,"ax",%progbits
+ 904              		.align	2
+ 905              		.global	enter_vlls0_nopor
+ 906              		.code	16
+ 907              		.thumb_func
+ 909              	enter_vlls0_nopor:
+ 910              	.LFB12:
+ 527:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** /***************************************************************/
+ 528:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** /* VLLS0 mode entry routine. Puts the processor into VLLS0 mode from
+ 529:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * normal run mode or VLPR with the POR circuit disabled
+ 530:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+ 531:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * Mode transitions:
+ 532:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * RUN -> VLLS0
+ 533:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * VLPR -> VLLS0
+ 534:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+ 535:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * NOTE: VLLSx modes will always exit to RUN mode even if you were 
+ 536:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * in VLPR mode before entering VLLSx.
+ 537:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+ 538:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * Wakeup from VLLSx mode is controlled by the LLWU module. Most
+ 539:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * modules cannot issue a wakeup interrupt in VLLSx mode, so make
+ 540:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * sure to setup the desired wakeup sources in the LLWU before 
+ 541:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * calling this function.
+ 542:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  *
+ 543:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * Parameters:
+ 544:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  * PORPO = 1-  POR detect circuit is disabled in VLLS0
+ 545:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****  */
+ 546:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** /***************************************************************/
+ 547:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** void enter_vlls0_nopor(void)
+ 548:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** {
+ 911              		.loc 1 548 0
+ 912              		.cfi_startproc
+ 913 0000 80B5     		push	{r7, lr}
+ 914              	.LCFI33:
+ 915              		.cfi_def_cfa_offset 8
+ 916              		.cfi_offset 7, -8
+ 917              		.cfi_offset 14, -4
+ 918 0002 82B0     		sub	sp, sp, #8
+ 919              	.LCFI34:
+ 920              		.cfi_def_cfa_offset 16
+ 921 0004 00AF     		add	r7, sp, #0
+ 922              	.LCFI35:
+ 923              		.cfi_def_cfa_register 7
+ 549:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   volatile unsigned int dummyread;
+ 550:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   int i;
+ 551:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /* Write to PMPROT to allow all possible power modes */
+ 552:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SMC_PMPROT = SMC_PMPROT_AVLLS_MASK;   
+ 924              		.loc 1 552 0
+ 925 0006 254B     		ldr	r3, .L60
+ 926 0008 0222     		mov	r2, #2
+ 927 000a 1A70     		strb	r2, [r3]
+ 553:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   if ((SMC_PMSTAT & SMC_PMSTAT_PMSTAT_MASK)== 4){
+ 928              		.loc 1 553 0
+ 929 000c 234B     		ldr	r3, .L60
+ 930 000e DB78     		ldrb	r3, [r3, #3]
+ 931 0010 DBB2     		uxtb	r3, r3
+ 932 0012 1A1C     		mov	r2, r3
+ 933 0014 7F23     		mov	r3, #127
+ 934 0016 1340     		and	r3, r2
+ 935 0018 042B     		cmp	r3, #4
+ 936 001a 1AD1     		bne	.L55
+ 554:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****      SMC_PMCTRL &= ~SMC_PMCTRL_RUNM_MASK;   // go back to RUN mode temporarily
+ 937              		.loc 1 554 0
+ 938 001c 1F4B     		ldr	r3, .L60
+ 939 001e 1F4A     		ldr	r2, .L60
+ 940 0020 5278     		ldrb	r2, [r2, #1]
+ 941 0022 D2B2     		uxtb	r2, r2
+ 942 0024 6021     		mov	r1, #96
+ 943 0026 8A43     		bic	r2, r1
+ 944 0028 D2B2     		uxtb	r2, r2
+ 945 002a 5A70     		strb	r2, [r3, #1]
+ 555:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****      for (i=0;i<0xff;i++)
+ 946              		.loc 1 555 0
+ 947 002c 0023     		mov	r3, #0
+ 948 002e 7B60     		str	r3, [r7, #4]
+ 949 0030 0AE0     		b	.L56
+ 950              	.L58:
+ 556:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****        {
+ 557:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****        if ((SMC_PMSTAT & SMC_PMSTAT_PMSTAT_MASK)== 1)
+ 951              		.loc 1 557 0
+ 952 0032 1A4B     		ldr	r3, .L60
+ 953 0034 DB78     		ldrb	r3, [r3, #3]
+ 954 0036 DBB2     		uxtb	r3, r3
+ 955 0038 1A1C     		mov	r2, r3
+ 956 003a 7F23     		mov	r3, #127
+ 957 003c 1340     		and	r3, r2
+ 958 003e 012B     		cmp	r3, #1
+ 959 0040 06D0     		beq	.L59
+ 960              	.L57:
+ 555:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****      for (i=0;i<0xff;i++)
+ 961              		.loc 1 555 0
+ 962 0042 7B68     		ldr	r3, [r7, #4]
+ 963 0044 0133     		add	r3, r3, #1
+ 964 0046 7B60     		str	r3, [r7, #4]
+ 965              	.L56:
+ 555:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****      for (i=0;i<0xff;i++)
+ 966              		.loc 1 555 0 is_stmt 0
+ 967 0048 7B68     		ldr	r3, [r7, #4]
+ 968 004a FE2B     		cmp	r3, #254
+ 969 004c F1DD     		ble	.L58
+ 970 004e 00E0     		b	.L55
+ 971              	.L59:
+ 558:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****     	 break;
+ 972              		.loc 1 558 0 is_stmt 1
+ 973 0050 C046     		mov	r8, r8
+ 974              	.L55:
+ 559:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****        }
+ 560:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   }
+ 561:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /* Set the STOPM field to 0b100 for VLLS0 mode */
+ 562:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SMC_PMCTRL &= ~SMC_PMCTRL_STOPM_MASK; 
+ 975              		.loc 1 562 0
+ 976 0052 124B     		ldr	r3, .L60
+ 977 0054 114A     		ldr	r2, .L60
+ 978 0056 5278     		ldrb	r2, [r2, #1]
+ 979 0058 D2B2     		uxtb	r2, r2
+ 980 005a 0721     		mov	r1, #7
+ 981 005c 8A43     		bic	r2, r1
+ 982 005e D2B2     		uxtb	r2, r2
+ 983 0060 5A70     		strb	r2, [r3, #1]
+ 563:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SMC_PMCTRL |=  SMC_PMCTRL_STOPM(0x4); 
+ 984              		.loc 1 563 0
+ 985 0062 0E4B     		ldr	r3, .L60
+ 986 0064 0D4A     		ldr	r2, .L60
+ 987 0066 5278     		ldrb	r2, [r2, #1]
+ 988 0068 D2B2     		uxtb	r2, r2
+ 989 006a 0421     		mov	r1, #4
+ 990 006c 0A43     		orr	r2, r1
+ 991 006e D2B2     		uxtb	r2, r2
+ 992 0070 5A70     		strb	r2, [r3, #1]
+ 564:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /* set VLLSM = 00 * and PORPO = 1 */
+ 565:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SMC_STOPCTRL &= ~SMC_STOPCTRL_VLLSM_MASK;
+ 993              		.loc 1 565 0
+ 994 0072 0A4B     		ldr	r3, .L60
+ 995 0074 094A     		ldr	r2, .L60
+ 996 0076 9278     		ldrb	r2, [r2, #2]
+ 997 0078 D2B2     		uxtb	r2, r2
+ 998 007a 0721     		mov	r1, #7
+ 999 007c 8A43     		bic	r2, r1
+ 1000 007e D2B2     		uxtb	r2, r2
+ 1001 0080 9A70     		strb	r2, [r3, #2]
+ 566:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SMC_STOPCTRL =  SMC_STOPCTRL_VLLSM(0) | SMC_STOPCTRL_PORPO_MASK;  
+ 1002              		.loc 1 566 0
+ 1003 0082 064B     		ldr	r3, .L60
+ 1004 0084 2022     		mov	r2, #32
+ 1005 0086 9A70     		strb	r2, [r3, #2]
+ 567:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /*wait for write to complete to SMC before stopping core */  
+ 568:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   dummyread = SMC_STOPCTRL;
+ 1006              		.loc 1 568 0
+ 1007 0088 044B     		ldr	r3, .L60
+ 1008 008a 9B78     		ldrb	r3, [r3, #2]
+ 1009 008c DBB2     		uxtb	r3, r3
+ 1010 008e 3B60     		str	r3, [r7]
+ 569:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /* Now execute the stop instruction to go into VLLS0 */
+ 570:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   #ifdef CMSIS
+ 571:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   /* Set the SLEEPDEEP bit to enable deep sleep mode (STOP) */
+ 572:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   SCB_SCR |= SCB_SCR_SLEEPDEEP_MASK;
+ 573:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   __wfi();
+ 574:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** #else
+ 575:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c ****   stop();
+ 1011              		.loc 1 575 0
+ 1012 0090 FFF7FEFF 		bl	stop
+ 576:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** #endif
+ 577:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc\smc.c **** }
+ 1013              		.loc 1 577 0
+ 1014 0094 BD46     		mov	sp, r7
+ 1015 0096 02B0     		add	sp, sp, #8
+ 1016              		@ sp needed for prologue
+ 1017 0098 80BD     		pop	{r7, pc}
+ 1018              	.L61:
+ 1019 009a C046     		.align	2
+ 1020              	.L60:
+ 1021 009c 00E00740 		.word	1074257920
+ 1022              		.cfi_endproc
+ 1023              	.LFE12:
+ 1025              		.text
+ 1026              	.Letext0:
+ 1027              		.file 2 "C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint"
+ 1028              		.file 3 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu/headers/MKL46Z4.
+DEFINED SYMBOLS
+                            *ABS*:00000000 smc.c
+C:\Users\b01252\AppData\Local\Temp\ccp5FVOB.s:18     .text.sleep:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccp5FVOB.s:23     .text.sleep:00000000 sleep
+C:\Users\b01252\AppData\Local\Temp\ccp5FVOB.s:61     .text.sleep:00000024 $d
+C:\Users\b01252\AppData\Local\Temp\ccp5FVOB.s:66     .text.deepsleep:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccp5FVOB.s:71     .text.deepsleep:00000000 deepsleep
+C:\Users\b01252\AppData\Local\Temp\ccp5FVOB.s:106    .text.deepsleep:00000020 $d
+C:\Users\b01252\AppData\Local\Temp\ccp5FVOB.s:111    .text.enter_wait:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccp5FVOB.s:116    .text.enter_wait:00000000 enter_wait
+C:\Users\b01252\AppData\Local\Temp\ccp5FVOB.s:138    .text.enter_stop:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccp5FVOB.s:143    .text.enter_stop:00000000 enter_stop
+C:\Users\b01252\AppData\Local\Temp\ccp5FVOB.s:214    .text.enter_stop:00000060 $d
+C:\Users\b01252\AppData\Local\Temp\ccp5FVOB.s:219    .text.enter_vlpr:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccp5FVOB.s:224    .text.enter_vlpr:00000000 enter_vlpr
+C:\Users\b01252\AppData\Local\Temp\ccp5FVOB.s:353    .text.enter_vlpr:000000ac $d
+C:\Users\b01252\AppData\Local\Temp\ccp5FVOB.s:360    .text.exit_vlpr:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccp5FVOB.s:365    .text.exit_vlpr:00000000 exit_vlpr
+C:\Users\b01252\AppData\Local\Temp\ccp5FVOB.s:434    .text.exit_vlpr:00000054 $d
+C:\Users\b01252\AppData\Local\Temp\ccp5FVOB.s:440    .text.enter_vlps:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccp5FVOB.s:445    .text.enter_vlps:00000000 enter_vlps
+C:\Users\b01252\AppData\Local\Temp\ccp5FVOB.s:497    .text.enter_vlps:00000040 $d
+C:\Users\b01252\AppData\Local\Temp\ccp5FVOB.s:502    .text.enter_lls:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccp5FVOB.s:507    .text.enter_lls:00000000 enter_lls
+C:\Users\b01252\AppData\Local\Temp\ccp5FVOB.s:559    .text.enter_lls:00000040 $d
+C:\Users\b01252\AppData\Local\Temp\ccp5FVOB.s:564    .text.enter_vlls3:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccp5FVOB.s:569    .text.enter_vlls3:00000000 enter_vlls3
+C:\Users\b01252\AppData\Local\Temp\ccp5FVOB.s:625    .text.enter_vlls3:00000044 $d
+C:\Users\b01252\AppData\Local\Temp\ccp5FVOB.s:630    .text.enter_vlls2:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccp5FVOB.s:635    .text.enter_vlls2:00000000 enter_vlls2
+C:\Users\b01252\AppData\Local\Temp\ccp5FVOB.s:691    .text.enter_vlls2:00000044 $d
+C:\Users\b01252\AppData\Local\Temp\ccp5FVOB.s:696    .text.enter_vlls1:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccp5FVOB.s:701    .text.enter_vlls1:00000000 enter_vlls1
+C:\Users\b01252\AppData\Local\Temp\ccp5FVOB.s:757    .text.enter_vlls1:00000044 $d
+C:\Users\b01252\AppData\Local\Temp\ccp5FVOB.s:762    .text.enter_vlls0:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccp5FVOB.s:767    .text.enter_vlls0:00000000 enter_vlls0
+C:\Users\b01252\AppData\Local\Temp\ccp5FVOB.s:899    .text.enter_vlls0:000000c0 $d
+C:\Users\b01252\AppData\Local\Temp\ccp5FVOB.s:904    .text.enter_vlls0_nopor:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccp5FVOB.s:909    .text.enter_vlls0_nopor:00000000 enter_vlls0_nopor
+C:\Users\b01252\AppData\Local\Temp\ccp5FVOB.s:1021   .text.enter_vlls0_nopor:0000009c $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+wait
+stop

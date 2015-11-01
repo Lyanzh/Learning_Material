@@ -1,0 +1,16 @@
+rcm.o: ..\..\..\src\drivers\rcm\rcm.c
+rcm.o: ..\..\..\src\common\common.h
+rcm.o: ..\..\..\src\platforms\tower.h
+rcm.o: ..\..\..\src\drivers\mcg\mcg.h
+rcm.o: ..\..\..\src\cpu\headers\MKL46Z4_CMSIS.h
+rcm.o: ..\..\..\src\cpu\headers\core_cm0plus.h
+rcm.o: C:\Keil\ARM\ARMCC\bin\..\include\stdint.h
+rcm.o: ..\..\..\src\cpu\headers\core_cmInstr.h
+rcm.o: ..\..\..\src\cpu\headers\core_cmFunc.h
+rcm.o: ..\..\..\src\cpu\system_MKL46Z4.h
+rcm.o: ..\..\..\src\common\assert.h
+rcm.o: ..\..\..\src\common\io.h
+rcm.o: ..\..\..\src\common\startup.h
+rcm.o: ..\..\..\src\common\stdlib.h
+rcm.o: ..\..\..\src\cpu\headers\MemMapPtr_KL46Z4.h
+rcm.o: ..\..\..\src\drivers\rcm\rcm.h

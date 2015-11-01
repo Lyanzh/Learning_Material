@@ -1,0 +1,343 @@
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"ring_buffer.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.comm	OUT_StartAddress,4,4
+  18              		.comm	OUT_EndAddress,4,4
+  19              		.comm	OUT_UsbPointer,4,4
+  20              		.comm	OUT_SciPointer,4,4
+  21              		.comm	gu8BufferMaxSize,1,1
+  22              		.comm	gu8BufferOverFlow,1,1
+  23              		.section	.text.Buffer_Init,"ax",%progbits
+  24              		.align	2
+  25              		.global	Buffer_Init
+  26              		.code	16
+  27              		.thumb_func
+  29              	Buffer_Init:
+  30              	.LFB0:
+  31              		.file 1 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Dem
+   1:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c **** #include "ring_buffer.h"
+   2:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c **** 
+   3:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c **** /* Pointers */
+   4:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c **** volatile uint8 *OUT_StartAddress;
+   5:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c **** volatile uint8 *OUT_EndAddress;
+   6:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c **** volatile uint8 *OUT_UsbPointer;
+   7:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c **** volatile uint8 *OUT_SciPointer;
+   8:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c **** 
+   9:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c **** /* Variables */
+  10:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c **** volatile uint8 gu8BufferMaxSize;
+  11:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c **** volatile uint8 gu8BufferOverFlow;
+  12:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c **** 
+  13:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c **** 
+  14:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c **** /********************************************************/
+  15:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c **** void Buffer_Init(uint8* pu8BufferPointer ,uint8 u8MaxSize)
+  16:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c **** {
+  32              		.loc 1 16 0
+  33              		.cfi_startproc
+  34 0000 80B5     		push	{r7, lr}
+  35              	.LCFI0:
+  36              		.cfi_def_cfa_offset 8
+  37              		.cfi_offset 7, -8
+  38              		.cfi_offset 14, -4
+  39 0002 82B0     		sub	sp, sp, #8
+  40              	.LCFI1:
+  41              		.cfi_def_cfa_offset 16
+  42 0004 00AF     		add	r7, sp, #0
+  43              	.LCFI2:
+  44              		.cfi_def_cfa_register 7
+  45 0006 7860     		str	r0, [r7, #4]
+  46 0008 0A1C     		mov	r2, r1
+  47 000a FB1C     		add	r3, r7, #3
+  48 000c 1A70     		strb	r2, [r3]
+  17:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c ****     /* Buffer Initialization */
+  18:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c ****     OUT_EndAddress = pu8BufferPointer + u8MaxSize - 1;
+  49              		.loc 1 18 0
+  50 000e FB1C     		add	r3, r7, #3
+  51 0010 1B78     		ldrb	r3, [r3]
+  52 0012 013B     		sub	r3, r3, #1
+  53 0014 7A68     		ldr	r2, [r7, #4]
+  54 0016 D218     		add	r2, r2, r3
+  55 0018 0A4B     		ldr	r3, .L2
+  56 001a 1A60     		str	r2, [r3]
+  19:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c ****     OUT_StartAddress = pu8BufferPointer;
+  57              		.loc 1 19 0
+  58 001c 0A4B     		ldr	r3, .L2+4
+  59 001e 7A68     		ldr	r2, [r7, #4]
+  60 0020 1A60     		str	r2, [r3]
+  20:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c ****     gu8BufferMaxSize = u8MaxSize;
+  61              		.loc 1 20 0
+  62 0022 0A4B     		ldr	r3, .L2+8
+  63 0024 FA1C     		add	r2, r7, #3
+  64 0026 1278     		ldrb	r2, [r2]
+  65 0028 1A70     		strb	r2, [r3]
+  21:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c ****     OUT_UsbPointer = pu8BufferPointer;
+  66              		.loc 1 21 0
+  67 002a 094B     		ldr	r3, .L2+12
+  68 002c 7A68     		ldr	r2, [r7, #4]
+  69 002e 1A60     		str	r2, [r3]
+  22:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c ****     OUT_SciPointer = pu8BufferPointer;
+  70              		.loc 1 22 0
+  71 0030 084B     		ldr	r3, .L2+16
+  72 0032 7A68     		ldr	r2, [r7, #4]
+  73 0034 1A60     		str	r2, [r3]
+  23:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c ****     gu8BufferOverFlow = 0;
+  74              		.loc 1 23 0
+  75 0036 084B     		ldr	r3, .L2+20
+  76 0038 0022     		mov	r2, #0
+  77 003a 1A70     		strb	r2, [r3]
+  24:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c **** }
+  78              		.loc 1 24 0
+  79 003c BD46     		mov	sp, r7
+  80 003e 02B0     		add	sp, sp, #8
+  81              		@ sp needed for prologue
+  82 0040 80BD     		pop	{r7, pc}
+  83              	.L3:
+  84 0042 C046     		.align	2
+  85              	.L2:
+  86 0044 00000000 		.word	OUT_EndAddress
+  87 0048 00000000 		.word	OUT_StartAddress
+  88 004c 00000000 		.word	gu8BufferMaxSize
+  89 0050 00000000 		.word	OUT_UsbPointer
+  90 0054 00000000 		.word	OUT_SciPointer
+  91 0058 00000000 		.word	gu8BufferOverFlow
+  92              		.cfi_endproc
+  93              	.LFE0:
+  95              		.section	.text.Buffer_Request,"ax",%progbits
+  96              		.align	2
+  97              		.global	Buffer_Request
+  98              		.code	16
+  99              		.thumb_func
+ 101              	Buffer_Request:
+ 102              	.LFB1:
+  25:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c **** 
+  26:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c **** 
+  27:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c **** /********************************************************/
+  28:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c **** uint8 Buffer_Request(uint8* pu8DataPointer ,uint16 u8RequestSize)
+  29:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c **** {
+ 103              		.loc 1 29 0
+ 104              		.cfi_startproc
+ 105 0000 80B5     		push	{r7, lr}
+ 106              	.LCFI3:
+ 107              		.cfi_def_cfa_offset 8
+ 108              		.cfi_offset 7, -8
+ 109              		.cfi_offset 14, -4
+ 110 0002 84B0     		sub	sp, sp, #16
+ 111              	.LCFI4:
+ 112              		.cfi_def_cfa_offset 24
+ 113 0004 00AF     		add	r7, sp, #0
+ 114              	.LCFI5:
+ 115              		.cfi_def_cfa_register 7
+ 116 0006 7860     		str	r0, [r7, #4]
+ 117 0008 0A1C     		mov	r2, r1
+ 118 000a BB1C     		add	r3, r7, #2
+ 119 000c 1A80     		strh	r2, [r3]
+  30:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c ****     uint8 u8FreeSpace;
+  31:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c ****     
+  32:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c ****     // Check for OverFlow
+  33:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c ****     
+  34:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c ****     if(gu8BufferOverFlow)
+ 120              		.loc 1 34 0
+ 121 000e 324B     		ldr	r3, .L14
+ 122 0010 1B78     		ldrb	r3, [r3]
+ 123 0012 DBB2     		uxtb	r3, r3
+ 124 0014 002B     		cmp	r3, #0
+ 125 0016 01D0     		beq	.L5
+  35:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c ****         return(NOT_ENOUGH_SPACE);
+ 126              		.loc 1 35 0
+ 127 0018 0123     		mov	r3, #1
+ 128 001a 59E0     		b	.L6
+ 129              	.L5:
+  36:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c ****     
+  37:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c ****     
+  38:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c ****     // Calculate Free Space
+  39:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c ****     if(OUT_UsbPointer < OUT_SciPointer)
+ 130              		.loc 1 39 0
+ 131 001c 2F4B     		ldr	r3, .L14+4
+ 132 001e 1A68     		ldr	r2, [r3]
+ 133 0020 2F4B     		ldr	r3, .L14+8
+ 134 0022 1B68     		ldr	r3, [r3]
+ 135 0024 9A42     		cmp	r2, r3
+ 136 0026 09D2     		bcs	.L7
+  40:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c ****         u8FreeSpace=(uint8)(OUT_SciPointer-OUT_UsbPointer);
+ 137              		.loc 1 40 0
+ 138 0028 2D4B     		ldr	r3, .L14+8
+ 139 002a 1B68     		ldr	r3, [r3]
+ 140 002c 1A1C     		mov	r2, r3
+ 141 002e 2B4B     		ldr	r3, .L14+4
+ 142 0030 1B68     		ldr	r3, [r3]
+ 143 0032 D21A     		sub	r2, r2, r3
+ 144 0034 3B1C     		mov	r3, r7
+ 145 0036 0F33     		add	r3, r3, #15
+ 146 0038 1A70     		strb	r2, [r3]
+ 147 003a 0DE0     		b	.L8
+ 148              	.L7:
+  41:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c ****     
+  42:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c ****     else
+  43:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c ****         u8FreeSpace=gu8BufferMaxSize-(OUT_UsbPointer-OUT_SciPointer);
+ 149              		.loc 1 43 0
+ 150 003c 284B     		ldr	r3, .L14+8
+ 151 003e 1B68     		ldr	r3, [r3]
+ 152 0040 1A1C     		mov	r2, r3
+ 153 0042 264B     		ldr	r3, .L14+4
+ 154 0044 1B68     		ldr	r3, [r3]
+ 155 0046 D31A     		sub	r3, r2, r3
+ 156 0048 D9B2     		uxtb	r1, r3
+ 157 004a 264B     		ldr	r3, .L14+12
+ 158 004c 1B78     		ldrb	r3, [r3]
+ 159 004e DAB2     		uxtb	r2, r3
+ 160 0050 3B1C     		mov	r3, r7
+ 161 0052 0F33     		add	r3, r3, #15
+ 162 0054 8A18     		add	r2, r1, r2
+ 163 0056 1A70     		strb	r2, [r3]
+ 164              	.L8:
+  44:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c ****     
+  45:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c ****     // Validate requested size
+  46:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c ****     if(u8FreeSpace<u8RequestSize)
+ 165              		.loc 1 46 0
+ 166 0058 3B1C     		mov	r3, r7
+ 167 005a 0F33     		add	r3, r3, #15
+ 168 005c 1B78     		ldrb	r3, [r3]
+ 169 005e 9BB2     		uxth	r3, r3
+ 170 0060 BA1C     		add	r2, r7, #2
+ 171 0062 1288     		ldrh	r2, [r2]
+ 172 0064 9A42     		cmp	r2, r3
+ 173 0066 01D9     		bls	.L9
+  47:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c ****         return(NOT_ENOUGH_SPACE);
+ 174              		.loc 1 47 0
+ 175 0068 0123     		mov	r3, #1
+ 176 006a 31E0     		b	.L6
+ 177              	.L9:
+  48:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c ****     
+  49:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c ****     
+  50:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c ****     if(u8FreeSpace==u8RequestSize)
+ 178              		.loc 1 50 0
+ 179 006c 3B1C     		mov	r3, r7
+ 180 006e 0F33     		add	r3, r3, #15
+ 181 0070 1B78     		ldrb	r3, [r3]
+ 182 0072 9BB2     		uxth	r3, r3
+ 183 0074 BA1C     		add	r2, r7, #2
+ 184 0076 1288     		ldrh	r2, [r2]
+ 185 0078 9A42     		cmp	r2, r3
+ 186 007a 1BD1     		bne	.L13
+  51:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c ****         gu8BufferOverFlow=1;
+ 187              		.loc 1 51 0
+ 188 007c 164B     		ldr	r3, .L14
+ 189 007e 0122     		mov	r2, #1
+ 190 0080 1A70     		strb	r2, [r3]
+  52:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c ****     
+  53:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c ****     // Buffer Copy
+  54:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c ****     while(u8RequestSize--)
+ 191              		.loc 1 54 0
+ 192 0082 17E0     		b	.L13
+ 193              	.L12:
+  55:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c ****     {
+  56:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c ****         *OUT_UsbPointer=*pu8DataPointer;
+ 194              		.loc 1 56 0
+ 195 0084 154B     		ldr	r3, .L14+4
+ 196 0086 1B68     		ldr	r3, [r3]
+ 197 0088 7A68     		ldr	r2, [r7, #4]
+ 198 008a 1278     		ldrb	r2, [r2]
+ 199 008c 1A70     		strb	r2, [r3]
+  57:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c ****         OUT_UsbPointer++;
+ 200              		.loc 1 57 0
+ 201 008e 134B     		ldr	r3, .L14+4
+ 202 0090 1B68     		ldr	r3, [r3]
+ 203 0092 5A1C     		add	r2, r3, #1
+ 204 0094 114B     		ldr	r3, .L14+4
+ 205 0096 1A60     		str	r2, [r3]
+  58:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c ****         pu8DataPointer++;
+ 206              		.loc 1 58 0
+ 207 0098 7B68     		ldr	r3, [r7, #4]
+ 208 009a 0133     		add	r3, r3, #1
+ 209 009c 7B60     		str	r3, [r7, #4]
+  59:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c ****         if(OUT_UsbPointer > OUT_EndAddress)
+ 210              		.loc 1 59 0
+ 211 009e 0F4B     		ldr	r3, .L14+4
+ 212 00a0 1A68     		ldr	r2, [r3]
+ 213 00a2 114B     		ldr	r3, .L14+16
+ 214 00a4 1B68     		ldr	r3, [r3]
+ 215 00a6 9A42     		cmp	r2, r3
+ 216 00a8 05D9     		bls	.L11
+  60:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c ****         {
+  61:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c ****             OUT_UsbPointer=OUT_StartAddress;
+ 217              		.loc 1 61 0
+ 218 00aa 104B     		ldr	r3, .L14+20
+ 219 00ac 1A68     		ldr	r2, [r3]
+ 220 00ae 0B4B     		ldr	r3, .L14+4
+ 221 00b0 1A60     		str	r2, [r3]
+ 222 00b2 00E0     		b	.L11
+ 223              	.L13:
+  54:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c ****     while(u8RequestSize--)
+ 224              		.loc 1 54 0
+ 225 00b4 C046     		mov	r8, r8
+ 226              	.L11:
+  54:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c ****     while(u8RequestSize--)
+ 227              		.loc 1 54 0 is_stmt 0
+ 228 00b6 BB1C     		add	r3, r7, #2
+ 229 00b8 1B88     		ldrh	r3, [r3]
+ 230 00ba 5A1E     		sub	r2, r3, #1
+ 231 00bc 9341     		sbc	r3, r3, r2
+ 232 00be DBB2     		uxtb	r3, r3
+ 233 00c0 BA1C     		add	r2, r7, #2
+ 234 00c2 B91C     		add	r1, r7, #2
+ 235 00c4 0988     		ldrh	r1, [r1]
+ 236 00c6 0139     		sub	r1, r1, #1
+ 237 00c8 1180     		strh	r1, [r2]
+ 238 00ca 002B     		cmp	r3, #0
+ 239 00cc DAD1     		bne	.L12
+  62:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c ****         }
+  63:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c ****     }
+  64:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c ****     return(OK);
+ 240              		.loc 1 64 0 is_stmt 1
+ 241 00ce 0023     		mov	r3, #0
+ 242              	.L6:
+  65:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb\ring_buffer.c **** }...
+ 243              		.loc 1 65 0
+ 244 00d0 181C     		mov	r0, r3
+ 245 00d2 BD46     		mov	sp, r7
+ 246 00d4 04B0     		add	sp, sp, #16
+ 247              		@ sp needed for prologue
+ 248 00d6 80BD     		pop	{r7, pc}
+ 249              	.L15:
+ 250              		.align	2
+ 251              	.L14:
+ 252 00d8 00000000 		.word	gu8BufferOverFlow
+ 253 00dc 00000000 		.word	OUT_UsbPointer
+ 254 00e0 00000000 		.word	OUT_SciPointer
+ 255 00e4 00000000 		.word	gu8BufferMaxSize
+ 256 00e8 00000000 		.word	OUT_EndAddress
+ 257 00ec 00000000 		.word	OUT_StartAddress
+ 258              		.cfi_endproc
+ 259              	.LFE1:
+ 261              		.text
+ 262              	.Letext0:
+ 263              		.file 2 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu/arm_cm0.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 ring_buffer.c
+                            *COM*:00000004 OUT_StartAddress
+                            *COM*:00000004 OUT_EndAddress
+                            *COM*:00000004 OUT_UsbPointer
+                            *COM*:00000004 OUT_SciPointer
+                            *COM*:00000001 gu8BufferMaxSize
+                            *COM*:00000001 gu8BufferOverFlow
+C:\Users\b01252\AppData\Local\Temp\ccPsBZ9Y.s:24     .text.Buffer_Init:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccPsBZ9Y.s:29     .text.Buffer_Init:00000000 Buffer_Init
+C:\Users\b01252\AppData\Local\Temp\ccPsBZ9Y.s:86     .text.Buffer_Init:00000044 $d
+C:\Users\b01252\AppData\Local\Temp\ccPsBZ9Y.s:96     .text.Buffer_Request:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccPsBZ9Y.s:101    .text.Buffer_Request:00000000 Buffer_Request
+C:\Users\b01252\AppData\Local\Temp\ccPsBZ9Y.s:252    .text.Buffer_Request:000000d8 $d
+                     .debug_frame:00000010 $d
+
+NO UNDEFINED SYMBOLS

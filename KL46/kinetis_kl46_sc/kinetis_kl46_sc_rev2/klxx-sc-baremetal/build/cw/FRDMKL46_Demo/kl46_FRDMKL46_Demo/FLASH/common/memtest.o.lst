@@ -1,0 +1,677 @@
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"memtest.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.memTestDataBus,"ax",%progbits
+  18              		.align	2
+  19              		.global	memTestDataBus
+  20              		.code	16
+  21              		.thumb_func
+  23              	memTestDataBus:
+  24              	.LFB0:
+  25              		.file 1 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common/memtest.c"
+   1:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** /**********************************************************************
+   2:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *
+   3:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  * Filename:    memtest.c
+   4:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  * 
+   5:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  * Description: General-purpose memory testing functions.
+   6:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *
+   7:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  * Notes:       This software can be easily ported to systems with
+   8:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *              different data bus widths by redefining 'datum'.
+   9:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *
+  10:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  * 
+  11:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  * Copyright (c) 1998 by Michael Barr.  This software is placed into
+  12:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  * the public domain and may be used for any purpose.  However, this
+  13:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  * notice must not be changed or removed and no warranty is either
+  14:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  * expressed or implied by its publication or distribution.
+  15:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  **********************************************************************/
+  16:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** 
+  17:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** 
+  18:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** #include "memtest.h"
+  19:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** 
+  20:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** 
+  21:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** /**********************************************************************
+  22:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *
+  23:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  * Function:    memTestDataBus()
+  24:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *
+  25:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  * Description: Test the data bus wiring in a memory region by
+  26:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *              performing a walking 1's test at a fixed address
+  27:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *              within that region.  The address (and hence the
+  28:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *              memory region) is selected by the caller.
+  29:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *
+  30:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  * Notes:       
+  31:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *
+  32:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  * Returns:     0 if the test succeeds.  
+  33:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *              A non-zero result is the first pattern that failed.
+  34:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *
+  35:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  **********************************************************************/
+  36:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** datum
+  37:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** memTestDataBus(volatile datum * address)
+  38:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** {
+  26              		.loc 1 38 0
+  27              		.cfi_startproc
+  28 0000 80B5     		push	{r7, lr}
+  29              	.LCFI0:
+  30              		.cfi_def_cfa_offset 8
+  31              		.cfi_offset 7, -8
+  32              		.cfi_offset 14, -4
+  33 0002 84B0     		sub	sp, sp, #16
+  34              	.LCFI1:
+  35              		.cfi_def_cfa_offset 24
+  36 0004 00AF     		add	r7, sp, #0
+  37              	.LCFI2:
+  38              		.cfi_def_cfa_register 7
+  39 0006 7860     		str	r0, [r7, #4]
+  39:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     datum pattern;
+  40:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** 
+  41:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** 
+  42:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     /*
+  43:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****      * Perform a walking 1's test at the given address.
+  44:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****      */
+  45:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     for (pattern = 1; pattern != 0; pattern <<= 1)
+  40              		.loc 1 45 0
+  41 0008 0123     		mov	r3, #1
+  42 000a FB60     		str	r3, [r7, #12]
+  43 000c 0CE0     		b	.L2
+  44              	.L5:
+  46:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     {
+  47:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****         /*
+  48:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****          * Write the test pattern.
+  49:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****          */
+  50:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****         *address = pattern;
+  45              		.loc 1 50 0
+  46 000e 7B68     		ldr	r3, [r7, #4]
+  47 0010 FA68     		ldr	r2, [r7, #12]
+  48 0012 1A60     		str	r2, [r3]
+  51:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** 
+  52:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****         /*
+  53:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****          * Read it back (immediately is okay for this test).
+  54:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****          */
+  55:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****         if (*address != pattern) 
+  49              		.loc 1 55 0
+  50 0014 7B68     		ldr	r3, [r7, #4]
+  51 0016 1A68     		ldr	r2, [r3]
+  52 0018 FB68     		ldr	r3, [r7, #12]
+  53 001a 9A42     		cmp	r2, r3
+  54 001c 01D0     		beq	.L3
+  56:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****         {
+  57:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****             return (pattern);
+  55              		.loc 1 57 0
+  56 001e FB68     		ldr	r3, [r7, #12]
+  57 0020 06E0     		b	.L4
+  58              	.L3:
+  45:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     for (pattern = 1; pattern != 0; pattern <<= 1)
+  59              		.loc 1 45 0
+  60 0022 FB68     		ldr	r3, [r7, #12]
+  61 0024 5B00     		lsl	r3, r3, #1
+  62 0026 FB60     		str	r3, [r7, #12]
+  63              	.L2:
+  45:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     for (pattern = 1; pattern != 0; pattern <<= 1)
+  64              		.loc 1 45 0 is_stmt 0
+  65 0028 FB68     		ldr	r3, [r7, #12]
+  66 002a 002B     		cmp	r3, #0
+  67 002c EFD1     		bne	.L5
+  58:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****         }
+  59:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     }
+  60:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** 
+  61:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     return (0);
+  68              		.loc 1 61 0 is_stmt 1
+  69 002e 0023     		mov	r3, #0
+  70              	.L4:
+  62:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** 
+  63:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** }   /* memTestDataBus() */
+  71              		.loc 1 63 0
+  72 0030 181C     		mov	r0, r3
+  73 0032 BD46     		mov	sp, r7
+  74 0034 04B0     		add	sp, sp, #16
+  75              		@ sp needed for prologue
+  76 0036 80BD     		pop	{r7, pc}
+  77              		.cfi_endproc
+  78              	.LFE0:
+  80              		.section	.text.memTestAddressBus,"ax",%progbits
+  81              		.align	2
+  82              		.global	memTestAddressBus
+  83              		.code	16
+  84              		.thumb_func
+  86              	memTestAddressBus:
+  87              	.LFB1:
+  64:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** 
+  65:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** 
+  66:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** /**********************************************************************
+  67:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *
+  68:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  * Function:    memTestAddressBus()
+  69:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *
+  70:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  * Description: Test the address bus wiring in a memory region by
+  71:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *              performing a walking 1's test on the relevant bits
+  72:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *              of the address and checking for aliasing. This test
+  73:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *              will find single-bit address failures such as stuck
+  74:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *              -high, stuck-low, and shorted pins.  The base address
+  75:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *              and size of the region are selected by the caller.
+  76:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *
+  77:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  * Notes:       For best results, the selected base address should
+  78:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *              have enough LSB 0's to guarantee single address bit
+  79:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *              changes.  For example, to test a 64-Kbyte region, 
+  80:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *              select a base address on a 64-Kbyte boundary.  Also, 
+  81:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *              select the region size as a power-of-two--if at all 
+  82:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *              possible.
+  83:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *
+  84:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  * Returns:     NULL if the test succeeds.  
+  85:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *              A non-zero result is the first address at which an
+  86:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *              aliasing problem was uncovered.  By examining the
+  87:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *              contents of memory, it may be possible to gather
+  88:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *              additional information about the problem.
+  89:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *
+  90:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  **********************************************************************/
+  91:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** datum * 
+  92:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** memTestAddressBus(volatile datum * baseAddress, unsigned long nBytes)
+  93:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** {
+  88              		.loc 1 93 0
+  89              		.cfi_startproc
+  90 0000 80B5     		push	{r7, lr}
+  91              	.LCFI3:
+  92              		.cfi_def_cfa_offset 8
+  93              		.cfi_offset 7, -8
+  94              		.cfi_offset 14, -4
+  95 0002 88B0     		sub	sp, sp, #32
+  96              	.LCFI4:
+  97              		.cfi_def_cfa_offset 40
+  98 0004 00AF     		add	r7, sp, #0
+  99              	.LCFI5:
+ 100              		.cfi_def_cfa_register 7
+ 101 0006 7860     		str	r0, [r7, #4]
+ 102 0008 3960     		str	r1, [r7]
+  94:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     unsigned long addressMask = (nBytes/sizeof(datum) - 1);
+ 103              		.loc 1 94 0
+ 104 000a 3B68     		ldr	r3, [r7]
+ 105 000c 9B08     		lsr	r3, r3, #2
+ 106 000e 013B     		sub	r3, r3, #1
+ 107 0010 7B61     		str	r3, [r7, #20]
+  95:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     unsigned long offset;
+  96:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     unsigned long testOffset;
+  97:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** 
+  98:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     datum pattern     = (datum) 0xAAAAAAAA;
+ 108              		.loc 1 98 0
+ 109 0012 3C4B     		ldr	r3, .L19
+ 110 0014 3B61     		str	r3, [r7, #16]
+  99:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     datum antipattern = (datum) 0x55555555;
+ 111              		.loc 1 99 0
+ 112 0016 3C4B     		ldr	r3, .L19+4
+ 113 0018 FB60     		str	r3, [r7, #12]
+ 100:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** 
+ 101:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** 
+ 102:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     /*
+ 103:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****      * Write the default pattern at each of the power-of-two offsets.
+ 104:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****      */
+ 105:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     for (offset = 1; (offset & addressMask) != 0; offset <<= 1)
+ 114              		.loc 1 105 0
+ 115 001a 0123     		mov	r3, #1
+ 116 001c FB61     		str	r3, [r7, #28]
+ 117 001e 08E0     		b	.L7
+ 118              	.L8:
+ 106:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     {
+ 107:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****         baseAddress[offset] = pattern;
+ 119              		.loc 1 107 0
+ 120 0020 FB69     		ldr	r3, [r7, #28]
+ 121 0022 9B00     		lsl	r3, r3, #2
+ 122 0024 7A68     		ldr	r2, [r7, #4]
+ 123 0026 D318     		add	r3, r2, r3
+ 124 0028 3A69     		ldr	r2, [r7, #16]
+ 125 002a 1A60     		str	r2, [r3]
+ 105:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     for (offset = 1; (offset & addressMask) != 0; offset <<= 1)
+ 126              		.loc 1 105 0
+ 127 002c FB69     		ldr	r3, [r7, #28]
+ 128 002e 5B00     		lsl	r3, r3, #1
+ 129 0030 FB61     		str	r3, [r7, #28]
+ 130              	.L7:
+ 105:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     for (offset = 1; (offset & addressMask) != 0; offset <<= 1)
+ 131              		.loc 1 105 0 is_stmt 0
+ 132 0032 FB69     		ldr	r3, [r7, #28]
+ 133 0034 7A69     		ldr	r2, [r7, #20]
+ 134 0036 1340     		and	r3, r2
+ 135 0038 F2D1     		bne	.L8
+ 108:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     }
+ 109:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** 
+ 110:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     /* 
+ 111:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****      * Check for address bits stuck high.
+ 112:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****      */
+ 113:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     testOffset = 0;
+ 136              		.loc 1 113 0 is_stmt 1
+ 137 003a 0023     		mov	r3, #0
+ 138 003c BB61     		str	r3, [r7, #24]
+ 114:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     baseAddress[testOffset] = antipattern;
+ 139              		.loc 1 114 0
+ 140 003e BB69     		ldr	r3, [r7, #24]
+ 141 0040 9B00     		lsl	r3, r3, #2
+ 142 0042 7A68     		ldr	r2, [r7, #4]
+ 143 0044 D318     		add	r3, r2, r3
+ 144 0046 FA68     		ldr	r2, [r7, #12]
+ 145 0048 1A60     		str	r2, [r3]
+ 115:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** 
+ 116:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     for (offset = 1; (offset & addressMask) != 0; offset <<= 1)
+ 146              		.loc 1 116 0
+ 147 004a 0123     		mov	r3, #1
+ 148 004c FB61     		str	r3, [r7, #28]
+ 149 004e 0FE0     		b	.L9
+ 150              	.L12:
+ 117:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     {
+ 118:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****         if (baseAddress[offset] != pattern)
+ 151              		.loc 1 118 0
+ 152 0050 FB69     		ldr	r3, [r7, #28]
+ 153 0052 9B00     		lsl	r3, r3, #2
+ 154 0054 7A68     		ldr	r2, [r7, #4]
+ 155 0056 D318     		add	r3, r2, r3
+ 156 0058 1A68     		ldr	r2, [r3]
+ 157 005a 3B69     		ldr	r3, [r7, #16]
+ 158 005c 9A42     		cmp	r2, r3
+ 159 005e 04D0     		beq	.L10
+ 119:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****         {
+ 120:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****             return ((datum *) &baseAddress[offset]);
+ 160              		.loc 1 120 0
+ 161 0060 FB69     		ldr	r3, [r7, #28]
+ 162 0062 9B00     		lsl	r3, r3, #2
+ 163 0064 7A68     		ldr	r2, [r7, #4]
+ 164 0066 D318     		add	r3, r2, r3
+ 165 0068 48E0     		b	.L11
+ 166              	.L10:
+ 116:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     for (offset = 1; (offset & addressMask) != 0; offset <<= 1)
+ 167              		.loc 1 116 0
+ 168 006a FB69     		ldr	r3, [r7, #28]
+ 169 006c 5B00     		lsl	r3, r3, #1
+ 170 006e FB61     		str	r3, [r7, #28]
+ 171              	.L9:
+ 116:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     for (offset = 1; (offset & addressMask) != 0; offset <<= 1)
+ 172              		.loc 1 116 0 is_stmt 0
+ 173 0070 FB69     		ldr	r3, [r7, #28]
+ 174 0072 7A69     		ldr	r2, [r7, #20]
+ 175 0074 1340     		and	r3, r2
+ 176 0076 EBD1     		bne	.L12
+ 121:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****         }
+ 122:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     }
+ 123:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** 
+ 124:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     baseAddress[testOffset] = pattern;
+ 177              		.loc 1 124 0 is_stmt 1
+ 178 0078 BB69     		ldr	r3, [r7, #24]
+ 179 007a 9B00     		lsl	r3, r3, #2
+ 180 007c 7A68     		ldr	r2, [r7, #4]
+ 181 007e D318     		add	r3, r2, r3
+ 182 0080 3A69     		ldr	r2, [r7, #16]
+ 183 0082 1A60     		str	r2, [r3]
+ 125:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** 
+ 126:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     /*
+ 127:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****      * Check for address bits stuck low or shorted.
+ 128:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****      */
+ 129:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     for (testOffset = 1; (testOffset & addressMask) != 0; testOffset <<= 1)
+ 184              		.loc 1 129 0
+ 185 0084 0123     		mov	r3, #1
+ 186 0086 BB61     		str	r3, [r7, #24]
+ 187 0088 33E0     		b	.L13
+ 188              	.L18:
+ 130:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     {
+ 131:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****         baseAddress[testOffset] = antipattern;
+ 189              		.loc 1 131 0
+ 190 008a BB69     		ldr	r3, [r7, #24]
+ 191 008c 9B00     		lsl	r3, r3, #2
+ 192 008e 7A68     		ldr	r2, [r7, #4]
+ 193 0090 D318     		add	r3, r2, r3
+ 194 0092 FA68     		ldr	r2, [r7, #12]
+ 195 0094 1A60     		str	r2, [r3]
+ 132:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** 
+ 133:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** 		if (baseAddress[0] != pattern)
+ 196              		.loc 1 133 0
+ 197 0096 7B68     		ldr	r3, [r7, #4]
+ 198 0098 1A68     		ldr	r2, [r3]
+ 199 009a 3B69     		ldr	r3, [r7, #16]
+ 200 009c 9A42     		cmp	r2, r3
+ 201 009e 04D0     		beq	.L14
+ 134:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** 		{
+ 135:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** 			return ((datum *) &baseAddress[testOffset]);
+ 202              		.loc 1 135 0
+ 203 00a0 BB69     		ldr	r3, [r7, #24]
+ 204 00a2 9B00     		lsl	r3, r3, #2
+ 205 00a4 7A68     		ldr	r2, [r7, #4]
+ 206 00a6 D318     		add	r3, r2, r3
+ 207 00a8 28E0     		b	.L11
+ 208              	.L14:
+ 136:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** 		}
+ 137:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** 
+ 138:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****         for (offset = 1; (offset & addressMask) != 0; offset <<= 1)
+ 209              		.loc 1 138 0
+ 210 00aa 0123     		mov	r3, #1
+ 211 00ac FB61     		str	r3, [r7, #28]
+ 212 00ae 13E0     		b	.L15
+ 213              	.L17:
+ 139:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****         {
+ 140:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****             if ((baseAddress[offset] != pattern) && (offset != testOffset))
+ 214              		.loc 1 140 0
+ 215 00b0 FB69     		ldr	r3, [r7, #28]
+ 216 00b2 9B00     		lsl	r3, r3, #2
+ 217 00b4 7A68     		ldr	r2, [r7, #4]
+ 218 00b6 D318     		add	r3, r2, r3
+ 219 00b8 1A68     		ldr	r2, [r3]
+ 220 00ba 3B69     		ldr	r3, [r7, #16]
+ 221 00bc 9A42     		cmp	r2, r3
+ 222 00be 08D0     		beq	.L16
+ 223              		.loc 1 140 0 is_stmt 0
+ 224 00c0 FA69     		ldr	r2, [r7, #28]
+ 225 00c2 BB69     		ldr	r3, [r7, #24]
+ 226 00c4 9A42     		cmp	r2, r3
+ 227 00c6 04D0     		beq	.L16
+ 141:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****             {
+ 142:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****                 return ((datum *) &baseAddress[testOffset]);
+ 228              		.loc 1 142 0 is_stmt 1
+ 229 00c8 BB69     		ldr	r3, [r7, #24]
+ 230 00ca 9B00     		lsl	r3, r3, #2
+ 231 00cc 7A68     		ldr	r2, [r7, #4]
+ 232 00ce D318     		add	r3, r2, r3
+ 233 00d0 14E0     		b	.L11
+ 234              	.L16:
+ 138:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****         for (offset = 1; (offset & addressMask) != 0; offset <<= 1)
+ 235              		.loc 1 138 0
+ 236 00d2 FB69     		ldr	r3, [r7, #28]
+ 237 00d4 5B00     		lsl	r3, r3, #1
+ 238 00d6 FB61     		str	r3, [r7, #28]
+ 239              	.L15:
+ 138:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****         for (offset = 1; (offset & addressMask) != 0; offset <<= 1)
+ 240              		.loc 1 138 0 is_stmt 0
+ 241 00d8 FB69     		ldr	r3, [r7, #28]
+ 242 00da 7A69     		ldr	r2, [r7, #20]
+ 243 00dc 1340     		and	r3, r2
+ 244 00de E7D1     		bne	.L17
+ 143:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****             }
+ 144:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****         }
+ 145:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** 
+ 146:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****         baseAddress[testOffset] = pattern;
+ 245              		.loc 1 146 0 is_stmt 1
+ 246 00e0 BB69     		ldr	r3, [r7, #24]
+ 247 00e2 9B00     		lsl	r3, r3, #2
+ 248 00e4 7A68     		ldr	r2, [r7, #4]
+ 249 00e6 D318     		add	r3, r2, r3
+ 250 00e8 3A69     		ldr	r2, [r7, #16]
+ 251 00ea 1A60     		str	r2, [r3]
+ 129:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     for (testOffset = 1; (testOffset & addressMask) != 0; testOffset <<= 1)
+ 252              		.loc 1 129 0
+ 253 00ec BB69     		ldr	r3, [r7, #24]
+ 254 00ee 5B00     		lsl	r3, r3, #1
+ 255 00f0 BB61     		str	r3, [r7, #24]
+ 256              	.L13:
+ 129:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     for (testOffset = 1; (testOffset & addressMask) != 0; testOffset <<= 1)
+ 257              		.loc 1 129 0 is_stmt 0
+ 258 00f2 BB69     		ldr	r3, [r7, #24]
+ 259 00f4 7A69     		ldr	r2, [r7, #20]
+ 260 00f6 1340     		and	r3, r2
+ 261 00f8 C7D1     		bne	.L18
+ 147:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     }
+ 148:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** 
+ 149:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     return (NULL);
+ 262              		.loc 1 149 0 is_stmt 1
+ 263 00fa 0023     		mov	r3, #0
+ 264              	.L11:
+ 150:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** 
+ 151:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** }   /* memTestAddressBus() */
+ 265              		.loc 1 151 0
+ 266 00fc 181C     		mov	r0, r3
+ 267 00fe BD46     		mov	sp, r7
+ 268 0100 08B0     		add	sp, sp, #32
+ 269              		@ sp needed for prologue
+ 270 0102 80BD     		pop	{r7, pc}
+ 271              	.L20:
+ 272              		.align	2
+ 273              	.L19:
+ 274 0104 AAAAAAAA 		.word	-1431655766
+ 275 0108 55555555 		.word	1431655765
+ 276              		.cfi_endproc
+ 277              	.LFE1:
+ 279              		.section	.text.memTestDevice,"ax",%progbits
+ 280              		.align	2
+ 281              		.global	memTestDevice
+ 282              		.code	16
+ 283              		.thumb_func
+ 285              	memTestDevice:
+ 286              	.LFB2:
+ 152:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** 
+ 153:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** 
+ 154:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** /**********************************************************************
+ 155:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *
+ 156:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  * Function:    memTestDevice()
+ 157:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *
+ 158:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  * Description: Test the integrity of a physical memory device by
+ 159:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *              performing an increment/decrement test over the
+ 160:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *              entire region.  In the process every storage bit 
+ 161:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *              in the device is tested as a zero and a one.  The
+ 162:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *              base address and the size of the region are
+ 163:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *              selected by the caller.
+ 164:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *
+ 165:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  * Notes:       
+ 166:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *
+ 167:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  * Returns:     NULL if the test succeeds.
+ 168:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *
+ 169:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *              A non-zero result is the first address at which an
+ 170:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *              incorrect value was read back.  By examining the
+ 171:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *              contents of memory, it may be possible to gather
+ 172:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *              additional information about the problem.
+ 173:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  *
+ 174:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****  **********************************************************************/
+ 175:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** datum * 
+ 176:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** memTestDevice(volatile datum * baseAddress, unsigned long nBytes)	
+ 177:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** {
+ 287              		.loc 1 177 0
+ 288              		.cfi_startproc
+ 289 0000 80B5     		push	{r7, lr}
+ 290              	.LCFI6:
+ 291              		.cfi_def_cfa_offset 8
+ 292              		.cfi_offset 7, -8
+ 293              		.cfi_offset 14, -4
+ 294 0002 86B0     		sub	sp, sp, #24
+ 295              	.LCFI7:
+ 296              		.cfi_def_cfa_offset 32
+ 297 0004 00AF     		add	r7, sp, #0
+ 298              	.LCFI8:
+ 299              		.cfi_def_cfa_register 7
+ 300 0006 7860     		str	r0, [r7, #4]
+ 301 0008 3960     		str	r1, [r7]
+ 178:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     unsigned long offset;
+ 179:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     unsigned long nWords = nBytes / sizeof(datum);
+ 302              		.loc 1 179 0
+ 303 000a 3B68     		ldr	r3, [r7]
+ 304 000c 9B08     		lsr	r3, r3, #2
+ 305 000e FB60     		str	r3, [r7, #12]
+ 180:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** 
+ 181:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     datum pattern;
+ 182:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     datum antipattern;
+ 183:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** 
+ 184:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** 
+ 185:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     /*
+ 186:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****      * Fill memory with a known pattern.
+ 187:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****      */
+ 188:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     for (pattern = 1, offset = 0; offset < nWords; pattern++, offset++)
+ 306              		.loc 1 188 0
+ 307 0010 0123     		mov	r3, #1
+ 308 0012 3B61     		str	r3, [r7, #16]
+ 309 0014 0023     		mov	r3, #0
+ 310 0016 7B61     		str	r3, [r7, #20]
+ 311 0018 0BE0     		b	.L22
+ 312              	.L23:
+ 189:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     {
+ 190:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****         baseAddress[offset] = pattern;
+ 313              		.loc 1 190 0
+ 314 001a 7B69     		ldr	r3, [r7, #20]
+ 315 001c 9B00     		lsl	r3, r3, #2
+ 316 001e 7A68     		ldr	r2, [r7, #4]
+ 317 0020 D318     		add	r3, r2, r3
+ 318 0022 3A69     		ldr	r2, [r7, #16]
+ 319 0024 1A60     		str	r2, [r3]
+ 188:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     for (pattern = 1, offset = 0; offset < nWords; pattern++, offset++)
+ 320              		.loc 1 188 0
+ 321 0026 3B69     		ldr	r3, [r7, #16]
+ 322 0028 0133     		add	r3, r3, #1
+ 323 002a 3B61     		str	r3, [r7, #16]
+ 324 002c 7B69     		ldr	r3, [r7, #20]
+ 325 002e 0133     		add	r3, r3, #1
+ 326 0030 7B61     		str	r3, [r7, #20]
+ 327              	.L22:
+ 188:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     for (pattern = 1, offset = 0; offset < nWords; pattern++, offset++)
+ 328              		.loc 1 188 0 is_stmt 0
+ 329 0032 7A69     		ldr	r2, [r7, #20]
+ 330 0034 FB68     		ldr	r3, [r7, #12]
+ 331 0036 9A42     		cmp	r2, r3
+ 332 0038 EFD3     		bcc	.L23
+ 191:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     }
+ 192:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** 
+ 193:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     /*
+ 194:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****      * Check each location and invert it for the second pass.
+ 195:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****      */
+ 196:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     for (pattern = 1, offset = 0; offset < nWords; pattern++, offset++)
+ 333              		.loc 1 196 0 is_stmt 1
+ 334 003a 0123     		mov	r3, #1
+ 335 003c 3B61     		str	r3, [r7, #16]
+ 336 003e 0023     		mov	r3, #0
+ 337 0040 7B61     		str	r3, [r7, #20]
+ 338 0042 1BE0     		b	.L24
+ 339              	.L27:
+ 197:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     {
+ 198:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****         if (baseAddress[offset] != pattern)
+ 340              		.loc 1 198 0
+ 341 0044 7B69     		ldr	r3, [r7, #20]
+ 342 0046 9B00     		lsl	r3, r3, #2
+ 343 0048 7A68     		ldr	r2, [r7, #4]
+ 344 004a D318     		add	r3, r2, r3
+ 345 004c 1A68     		ldr	r2, [r3]
+ 346 004e 3B69     		ldr	r3, [r7, #16]
+ 347 0050 9A42     		cmp	r2, r3
+ 348 0052 04D0     		beq	.L25
+ 199:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****         {
+ 200:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****             return ((datum *) &baseAddress[offset]);
+ 349              		.loc 1 200 0
+ 350 0054 7B69     		ldr	r3, [r7, #20]
+ 351 0056 9B00     		lsl	r3, r3, #2
+ 352 0058 7A68     		ldr	r2, [r7, #4]
+ 353 005a D318     		add	r3, r2, r3
+ 354 005c 32E0     		b	.L26
+ 355              	.L25:
+ 201:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****         }
+ 202:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** 
+ 203:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****         antipattern = ~pattern;
+ 356              		.loc 1 203 0
+ 357 005e 3B69     		ldr	r3, [r7, #16]
+ 358 0060 DB43     		mvn	r3, r3
+ 359 0062 BB60     		str	r3, [r7, #8]
+ 204:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****         baseAddress[offset] = antipattern;
+ 360              		.loc 1 204 0
+ 361 0064 7B69     		ldr	r3, [r7, #20]
+ 362 0066 9B00     		lsl	r3, r3, #2
+ 363 0068 7A68     		ldr	r2, [r7, #4]
+ 364 006a D318     		add	r3, r2, r3
+ 365 006c BA68     		ldr	r2, [r7, #8]
+ 366 006e 1A60     		str	r2, [r3]
+ 196:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     for (pattern = 1, offset = 0; offset < nWords; pattern++, offset++)
+ 367              		.loc 1 196 0
+ 368 0070 3B69     		ldr	r3, [r7, #16]
+ 369 0072 0133     		add	r3, r3, #1
+ 370 0074 3B61     		str	r3, [r7, #16]
+ 371 0076 7B69     		ldr	r3, [r7, #20]
+ 372 0078 0133     		add	r3, r3, #1
+ 373 007a 7B61     		str	r3, [r7, #20]
+ 374              	.L24:
+ 196:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     for (pattern = 1, offset = 0; offset < nWords; pattern++, offset++)
+ 375              		.loc 1 196 0 is_stmt 0
+ 376 007c 7A69     		ldr	r2, [r7, #20]
+ 377 007e FB68     		ldr	r3, [r7, #12]
+ 378 0080 9A42     		cmp	r2, r3
+ 379 0082 DFD3     		bcc	.L27
+ 205:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     }
+ 206:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** 
+ 207:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     /*
+ 208:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****      * Check each location for the inverted pattern and zero it.
+ 209:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****      */
+ 210:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     for (pattern = 1, offset = 0; offset < nWords; pattern++, offset++)
+ 380              		.loc 1 210 0 is_stmt 1
+ 381 0084 0123     		mov	r3, #1
+ 382 0086 3B61     		str	r3, [r7, #16]
+ 383 0088 0023     		mov	r3, #0
+ 384 008a 7B61     		str	r3, [r7, #20]
+ 385 008c 15E0     		b	.L28
+ 386              	.L30:
+ 211:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     {
+ 212:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****         antipattern = ~pattern;
+ 387              		.loc 1 212 0
+ 388 008e 3B69     		ldr	r3, [r7, #16]
+ 389 0090 DB43     		mvn	r3, r3
+ 390 0092 BB60     		str	r3, [r7, #8]
+ 213:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****         if (baseAddress[offset] != antipattern)
+ 391              		.loc 1 213 0
+ 392 0094 7B69     		ldr	r3, [r7, #20]
+ 393 0096 9B00     		lsl	r3, r3, #2
+ 394 0098 7A68     		ldr	r2, [r7, #4]
+ 395 009a D318     		add	r3, r2, r3
+ 396 009c 1A68     		ldr	r2, [r3]
+ 397 009e BB68     		ldr	r3, [r7, #8]
+ 398 00a0 9A42     		cmp	r2, r3
+ 399 00a2 04D0     		beq	.L29
+ 214:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****         {
+ 215:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****             return ((datum *) &baseAddress[offset]);
+ 400              		.loc 1 215 0
+ 401 00a4 7B69     		ldr	r3, [r7, #20]
+ 402 00a6 9B00     		lsl	r3, r3, #2
+ 403 00a8 7A68     		ldr	r2, [r7, #4]
+ 404 00aa D318     		add	r3, r2, r3
+ 405 00ac 0AE0     		b	.L26
+ 406              	.L29:
+ 210:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     for (pattern = 1, offset = 0; offset < nWords; pattern++, offset++)
+ 407              		.loc 1 210 0
+ 408 00ae 3B69     		ldr	r3, [r7, #16]
+ 409 00b0 0133     		add	r3, r3, #1
+ 410 00b2 3B61     		str	r3, [r7, #16]
+ 411 00b4 7B69     		ldr	r3, [r7, #20]
+ 412 00b6 0133     		add	r3, r3, #1
+ 413 00b8 7B61     		str	r3, [r7, #20]
+ 414              	.L28:
+ 210:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     for (pattern = 1, offset = 0; offset < nWords; pattern++, offset++)
+ 415              		.loc 1 210 0 is_stmt 0
+ 416 00ba 7A69     		ldr	r2, [r7, #20]
+ 417 00bc FB68     		ldr	r3, [r7, #12]
+ 418 00be 9A42     		cmp	r2, r3
+ 419 00c0 E5D3     		bcc	.L30
+ 216:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****         }
+ 217:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     }
+ 218:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** 
+ 219:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c ****     return (NULL);
+ 420              		.loc 1 219 0 is_stmt 1
+ 421 00c2 0023     		mov	r3, #0
+ 422              	.L26:
+ 220:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** 
+ 221:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\memtest.c **** }   /* memTestDevice() */
+ 423              		.loc 1 221 0
+ 424 00c4 181C     		mov	r0, r3
+ 425 00c6 BD46     		mov	sp, r7
+ 426 00c8 06B0     		add	sp, sp, #24
+ 427              		@ sp needed for prologue
+ 428 00ca 80BD     		pop	{r7, pc}
+ 429              		.cfi_endproc
+ 430              	.LFE2:
+ 432              		.text
+ 433              	.Letext0:
+ 434              		.file 2 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common/memtest.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 memtest.c
+C:\Users\b01252\AppData\Local\Temp\ccWyMyn0.s:18     .text.memTestDataBus:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccWyMyn0.s:23     .text.memTestDataBus:00000000 memTestDataBus
+C:\Users\b01252\AppData\Local\Temp\ccWyMyn0.s:81     .text.memTestAddressBus:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccWyMyn0.s:86     .text.memTestAddressBus:00000000 memTestAddressBus
+C:\Users\b01252\AppData\Local\Temp\ccWyMyn0.s:274    .text.memTestAddressBus:00000104 $d
+C:\Users\b01252\AppData\Local\Temp\ccWyMyn0.s:280    .text.memTestDevice:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccWyMyn0.s:285    .text.memTestDevice:00000000 memTestDevice
+                     .debug_frame:00000010 $d
+
+NO UNDEFINED SYMBOLS

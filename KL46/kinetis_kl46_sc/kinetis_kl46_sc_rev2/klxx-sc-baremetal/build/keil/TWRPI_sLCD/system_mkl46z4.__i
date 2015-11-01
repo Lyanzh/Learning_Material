@@ -1,0 +1,5 @@
+-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\TWRPI_sLCD -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I..\..\..\src\projects\TWRPI_sLCD\LCD 
+-I C:\Keil\ARM\RV31\INC 
+-I C:\Keil\ARM\CMSIS\Include 
+-I C:\Keil\ARM\Inc\Freescale\Kinetis 
+-DKEIL -DTOWER -DCMSIS -o "system_mkl46z4.o" --omf_browse "system_mkl46z4.crf" --depend "system_mkl46z4.d" "..\..\..\src\cpu\system_MKL46Z4.c"

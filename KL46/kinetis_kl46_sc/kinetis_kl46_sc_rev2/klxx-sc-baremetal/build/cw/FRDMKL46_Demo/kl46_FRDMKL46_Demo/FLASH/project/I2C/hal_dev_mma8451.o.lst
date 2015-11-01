@@ -1,0 +1,1194 @@
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"hal_dev_mma8451.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.comm	accel_x,2,2
+  18              		.comm	accel_y,2,2
+  19              		.comm	accel_z,2,2
+  20              		.comm	Aresultx,2,2
+  21              		.comm	Aresulty,2,2
+  22              		.comm	Aresultz,2,2
+  23              		.comm	aux1,1,1
+  24              		.comm	Atestx,4,4
+  25              		.comm	Atesty,4,4
+  26              		.comm	Atestz,4,4
+  27              		.section	.text.hal_dev_mma8451_init,"ax",%progbits
+  28              		.align	2
+  29              		.global	hal_dev_mma8451_init
+  30              		.code	16
+  31              		.thumb_func
+  33              	hal_dev_mma8451_init:
+  34              	.LFB0:
+  35              		.file 1 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_De
+   1:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** 
+   2:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** 
+   3:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** #include "common.h"
+   4:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** #include "hal_i2c.h"
+   5:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** #include "hal_dev_mma8451.h"
+   6:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** 
+   7:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** //Variables acelerometro///
+   8:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** signed short accel_x, accel_y, accel_z;
+   9:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** signed short Aresultx, Aresulty, Aresultz;
+  10:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** char aux1;
+  11:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** int Atestx,Atesty,Atestz;
+  12:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** 
+  13:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** #define MMA8451_I2C_ADDRESS (0x1d<<1)
+  14:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** #define I2C0_B  I2C0_BASE_PTR
+  15:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** 
+  16:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** //I2C0 es usado por el acelerometro
+  17:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** 
+  18:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** void hal_dev_mma8451_init(void)
+  19:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** {
+  36              		.loc 1 19 0
+  37              		.cfi_startproc
+  38 0000 80B5     		push	{r7, lr}
+  39              	.LCFI0:
+  40              		.cfi_def_cfa_offset 8
+  41              		.cfi_offset 7, -8
+  42              		.cfi_offset 14, -4
+  43 0002 00AF     		add	r7, sp, #0
+  44              	.LCFI1:
+  45              		.cfi_def_cfa_register 7
+  20:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****   hal_i2c0_init(I2C0_B);
+  46              		.loc 1 20 0
+  47 0004 024B     		ldr	r3, .L2
+  48 0006 181C     		mov	r0, r3
+  49 0008 FFF7FEFF 		bl	hal_i2c0_init
+  21:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** }
+  50              		.loc 1 21 0
+  51 000c BD46     		mov	sp, r7
+  52              		@ sp needed for prologue
+  53 000e 80BD     		pop	{r7, pc}
+  54              	.L3:
+  55              		.align	2
+  56              	.L2:
+  57 0010 00600640 		.word	1074159616
+  58              		.cfi_endproc
+  59              	.LFE0:
+  61              		.section	.text.pause,"ax",%progbits
+  62              		.align	2
+  63              		.code	16
+  64              		.thumb_func
+  66              	pause:
+  67              	.LFB1:
+  22:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** 
+  23:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** // this delay is very important, it may cause w-r operation failure.
+  24:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** static void pause(void)
+  25:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** {
+  68              		.loc 1 25 0
+  69              		.cfi_startproc
+  70 0000 80B5     		push	{r7, lr}
+  71              	.LCFI2:
+  72              		.cfi_def_cfa_offset 8
+  73              		.cfi_offset 7, -8
+  74              		.cfi_offset 14, -4
+  75 0002 82B0     		sub	sp, sp, #8
+  76              	.LCFI3:
+  77              		.cfi_def_cfa_offset 16
+  78 0004 00AF     		add	r7, sp, #0
+  79              	.LCFI4:
+  80              		.cfi_def_cfa_register 7
+  26:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     int n;
+  27:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     for(n=0; n<40; n++)
+  81              		.loc 1 27 0
+  82 0006 0023     		mov	r3, #0
+  83 0008 7B60     		str	r3, [r7, #4]
+  84 000a 03E0     		b	.L5
+  85              	.L6:
+  28:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****         asm("nop");
+  86              		.loc 1 28 0
+  87              	@ 28 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I
+  88 000c C046     		nop
+  89              	@ 0 "" 2
+  27:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     for(n=0; n<40; n++)
+  90              		.loc 1 27 0
+  91              		.code	16
+  92 000e 7B68     		ldr	r3, [r7, #4]
+  93 0010 0133     		add	r3, r3, #1
+  94 0012 7B60     		str	r3, [r7, #4]
+  95              	.L5:
+  27:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     for(n=0; n<40; n++)
+  96              		.loc 1 27 0 is_stmt 0
+  97 0014 7B68     		ldr	r3, [r7, #4]
+  98 0016 272B     		cmp	r3, #39
+  99 0018 F8DD     		ble	.L6
+  29:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** }
+ 100              		.loc 1 29 0 is_stmt 1
+ 101 001a BD46     		mov	sp, r7
+ 102 001c 02B0     		add	sp, sp, #8
+ 103              		@ sp needed for prologue
+ 104 001e 80BD     		pop	{r7, pc}
+ 105              		.cfi_endproc
+ 106              	.LFE1:
+ 108              		.section	.text.hal_dev_mma8451_read_reg,"ax",%progbits
+ 109              		.align	2
+ 110              		.global	hal_dev_mma8451_read_reg
+ 111              		.code	16
+ 112              		.thumb_func
+ 114              	hal_dev_mma8451_read_reg:
+ 115              	.LFB2:
+  30:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** uint8 hal_dev_mma8451_read_reg(uint8 addr)
+  31:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** {
+ 116              		.loc 1 31 0
+ 117              		.cfi_startproc
+ 118 0000 90B5     		push	{r4, r7, lr}
+ 119              	.LCFI5:
+ 120              		.cfi_def_cfa_offset 12
+ 121              		.cfi_offset 4, -12
+ 122              		.cfi_offset 7, -8
+ 123              		.cfi_offset 14, -4
+ 124 0002 85B0     		sub	sp, sp, #20
+ 125              	.LCFI6:
+ 126              		.cfi_def_cfa_offset 32
+ 127 0004 00AF     		add	r7, sp, #0
+ 128              	.LCFI7:
+ 129              		.cfi_def_cfa_register 7
+ 130 0006 021C     		mov	r2, r0
+ 131 0008 FB1D     		add	r3, r7, #7
+ 132 000a 1A70     		strb	r2, [r3]
+  32:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     uint8 result;
+  33:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** 
+  34:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     i2c_start(I2C0_B);
+ 133              		.loc 1 34 0
+ 134 000c 2C4B     		ldr	r3, .L9
+ 135 000e 181C     		mov	r0, r3
+ 136 0010 FFF7FEFF 		bl	i2c_start
+  35:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     i2c_write_byte(I2C0_B, MMA8451_I2C_ADDRESS | I2C_WRITE);
+ 137              		.loc 1 35 0
+ 138 0014 2A4B     		ldr	r3, .L9
+ 139 0016 181C     		mov	r0, r3
+ 140 0018 3A21     		mov	r1, #58
+ 141 001a FFF7FEFF 		bl	i2c_write_byte
+  36:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     
+  37:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     i2c_wait(I2C0_B);
+ 142              		.loc 1 37 0
+ 143 001e 284B     		ldr	r3, .L9
+ 144 0020 181C     		mov	r0, r3
+ 145 0022 FFF7FEFF 		bl	i2c_wait
+  38:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     i2c_get_ack(I2C0_B);
+ 146              		.loc 1 38 0
+ 147 0026 264B     		ldr	r3, .L9
+ 148 0028 181C     		mov	r0, r3
+ 149 002a FFF7FEFF 		bl	i2c_get_ack
+  39:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** 
+  40:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     i2c_write_byte(I2C0_B, addr);
+ 150              		.loc 1 40 0
+ 151 002e 244A     		ldr	r2, .L9
+ 152 0030 FB1D     		add	r3, r7, #7
+ 153 0032 1B78     		ldrb	r3, [r3]
+ 154 0034 101C     		mov	r0, r2
+ 155 0036 191C     		mov	r1, r3
+ 156 0038 FFF7FEFF 		bl	i2c_write_byte
+  41:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     i2c_wait(I2C0_B);
+ 157              		.loc 1 41 0
+ 158 003c 204B     		ldr	r3, .L9
+ 159 003e 181C     		mov	r0, r3
+ 160 0040 FFF7FEFF 		bl	i2c_wait
+  42:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     i2c_get_ack(I2C0_B);
+ 161              		.loc 1 42 0
+ 162 0044 1E4B     		ldr	r3, .L9
+ 163 0046 181C     		mov	r0, r3
+ 164 0048 FFF7FEFF 		bl	i2c_get_ack
+  43:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** 
+  44:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     i2c_repeated_start(I2C0_B);
+ 165              		.loc 1 44 0
+ 166 004c 1C4B     		ldr	r3, .L9
+ 167 004e 181C     		mov	r0, r3
+ 168 0050 FFF7FEFF 		bl	i2c_repeated_start
+  45:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     i2c_write_byte(I2C0_B, MMA8451_I2C_ADDRESS | I2C_READ);
+ 169              		.loc 1 45 0
+ 170 0054 1A4B     		ldr	r3, .L9
+ 171 0056 181C     		mov	r0, r3
+ 172 0058 3B21     		mov	r1, #59
+ 173 005a FFF7FEFF 		bl	i2c_write_byte
+  46:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     i2c_wait(I2C0_B);
+ 174              		.loc 1 46 0
+ 175 005e 184B     		ldr	r3, .L9
+ 176 0060 181C     		mov	r0, r3
+ 177 0062 FFF7FEFF 		bl	i2c_wait
+  47:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     i2c_get_ack(I2C0_B);
+ 178              		.loc 1 47 0
+ 179 0066 164B     		ldr	r3, .L9
+ 180 0068 181C     		mov	r0, r3
+ 181 006a FFF7FEFF 		bl	i2c_get_ack
+  48:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** 
+  49:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     i2c_set_rx_mode(I2C0_B);
+ 182              		.loc 1 49 0
+ 183 006e 144B     		ldr	r3, .L9
+ 184 0070 181C     		mov	r0, r3
+ 185 0072 FFF7FEFF 		bl	i2c_set_rx_mode
+  50:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** 
+  51:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     i2c_give_nack(I2C0_B);
+ 186              		.loc 1 51 0
+ 187 0076 124B     		ldr	r3, .L9
+ 188 0078 181C     		mov	r0, r3
+ 189 007a FFF7FEFF 		bl	i2c_give_nack
+  52:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     result = i2c_read_byte(I2C0_B);
+ 190              		.loc 1 52 0
+ 191 007e 3C1C     		mov	r4, r7
+ 192 0080 0F34     		add	r4, r4, #15
+ 193 0082 0F4B     		ldr	r3, .L9
+ 194 0084 181C     		mov	r0, r3
+ 195 0086 FFF7FEFF 		bl	i2c_read_byte
+ 196 008a 031C     		mov	r3, r0
+ 197 008c 2370     		strb	r3, [r4]
+  53:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     i2c_wait(I2C0_B);
+ 198              		.loc 1 53 0
+ 199 008e 0C4B     		ldr	r3, .L9
+ 200 0090 181C     		mov	r0, r3
+ 201 0092 FFF7FEFF 		bl	i2c_wait
+  54:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** 
+  55:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     i2c_stop(I2C0_B);
+ 202              		.loc 1 55 0
+ 203 0096 0A4B     		ldr	r3, .L9
+ 204 0098 181C     		mov	r0, r3
+ 205 009a FFF7FEFF 		bl	i2c_stop
+  56:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     result = i2c_read_byte(I2C0_B);
+ 206              		.loc 1 56 0
+ 207 009e 3C1C     		mov	r4, r7
+ 208 00a0 0F34     		add	r4, r4, #15
+ 209 00a2 074B     		ldr	r3, .L9
+ 210 00a4 181C     		mov	r0, r3
+ 211 00a6 FFF7FEFF 		bl	i2c_read_byte
+ 212 00aa 031C     		mov	r3, r0
+ 213 00ac 2370     		strb	r3, [r4]
+  57:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     pause();
+ 214              		.loc 1 57 0
+ 215 00ae FFF7FEFF 		bl	pause
+  58:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     return result;
+ 216              		.loc 1 58 0
+ 217 00b2 3B1C     		mov	r3, r7
+ 218 00b4 0F33     		add	r3, r3, #15
+ 219 00b6 1B78     		ldrb	r3, [r3]
+  59:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** }
+ 220              		.loc 1 59 0
+ 221 00b8 181C     		mov	r0, r3
+ 222 00ba BD46     		mov	sp, r7
+ 223 00bc 05B0     		add	sp, sp, #20
+ 224              		@ sp needed for prologue
+ 225 00be 90BD     		pop	{r4, r7, pc}
+ 226              	.L10:
+ 227              		.align	2
+ 228              	.L9:
+ 229 00c0 00600640 		.word	1074159616
+ 230              		.cfi_endproc
+ 231              	.LFE2:
+ 233              		.section	.text.hal_dev_mma8451_write_reg,"ax",%progbits
+ 234              		.align	2
+ 235              		.global	hal_dev_mma8451_write_reg
+ 236              		.code	16
+ 237              		.thumb_func
+ 239              	hal_dev_mma8451_write_reg:
+ 240              	.LFB3:
+  60:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** void hal_dev_mma8451_write_reg(uint8 addr, uint8 data)
+  61:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** {
+ 241              		.loc 1 61 0
+ 242              		.cfi_startproc
+ 243 0000 80B5     		push	{r7, lr}
+ 244              	.LCFI8:
+ 245              		.cfi_def_cfa_offset 8
+ 246              		.cfi_offset 7, -8
+ 247              		.cfi_offset 14, -4
+ 248 0002 82B0     		sub	sp, sp, #8
+ 249              	.LCFI9:
+ 250              		.cfi_def_cfa_offset 16
+ 251 0004 00AF     		add	r7, sp, #0
+ 252              	.LCFI10:
+ 253              		.cfi_def_cfa_register 7
+ 254 0006 0A1C     		mov	r2, r1
+ 255 0008 FB1D     		add	r3, r7, #7
+ 256 000a 011C     		add	r1, r0, #0
+ 257 000c 1970     		strb	r1, [r3]
+ 258 000e BB1D     		add	r3, r7, #6
+ 259 0010 1A70     		strb	r2, [r3]
+  62:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     i2c_start(I2C0_B);
+ 260              		.loc 1 62 0
+ 261 0012 1C4B     		ldr	r3, .L12
+ 262 0014 181C     		mov	r0, r3
+ 263 0016 FFF7FEFF 		bl	i2c_start
+  63:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** 
+  64:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     i2c_write_byte(I2C0_B, MMA8451_I2C_ADDRESS|I2C_WRITE);
+ 264              		.loc 1 64 0
+ 265 001a 1A4B     		ldr	r3, .L12
+ 266 001c 181C     		mov	r0, r3
+ 267 001e 3A21     		mov	r1, #58
+ 268 0020 FFF7FEFF 		bl	i2c_write_byte
+  65:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     i2c_wait(I2C0_B);
+ 269              		.loc 1 65 0
+ 270 0024 174B     		ldr	r3, .L12
+ 271 0026 181C     		mov	r0, r3
+ 272 0028 FFF7FEFF 		bl	i2c_wait
+  66:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     i2c_get_ack(I2C0_B);
+ 273              		.loc 1 66 0
+ 274 002c 154B     		ldr	r3, .L12
+ 275 002e 181C     		mov	r0, r3
+ 276 0030 FFF7FEFF 		bl	i2c_get_ack
+  67:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** 
+  68:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     i2c_write_byte(I2C0_B, addr);
+ 277              		.loc 1 68 0
+ 278 0034 134A     		ldr	r2, .L12
+ 279 0036 FB1D     		add	r3, r7, #7
+ 280 0038 1B78     		ldrb	r3, [r3]
+ 281 003a 101C     		mov	r0, r2
+ 282 003c 191C     		mov	r1, r3
+ 283 003e FFF7FEFF 		bl	i2c_write_byte
+  69:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     i2c_wait(I2C0_B);
+ 284              		.loc 1 69 0
+ 285 0042 104B     		ldr	r3, .L12
+ 286 0044 181C     		mov	r0, r3
+ 287 0046 FFF7FEFF 		bl	i2c_wait
+  70:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     i2c_get_ack(I2C0_B);
+ 288              		.loc 1 70 0
+ 289 004a 0E4B     		ldr	r3, .L12
+ 290 004c 181C     		mov	r0, r3
+ 291 004e FFF7FEFF 		bl	i2c_get_ack
+  71:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** 
+  72:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     i2c_write_byte(I2C0_B, data);
+ 292              		.loc 1 72 0
+ 293 0052 0C4A     		ldr	r2, .L12
+ 294 0054 BB1D     		add	r3, r7, #6
+ 295 0056 1B78     		ldrb	r3, [r3]
+ 296 0058 101C     		mov	r0, r2
+ 297 005a 191C     		mov	r1, r3
+ 298 005c FFF7FEFF 		bl	i2c_write_byte
+  73:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     i2c_wait(I2C0_B);
+ 299              		.loc 1 73 0
+ 300 0060 084B     		ldr	r3, .L12
+ 301 0062 181C     		mov	r0, r3
+ 302 0064 FFF7FEFF 		bl	i2c_wait
+  74:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     i2c_get_ack(I2C0_B);
+ 303              		.loc 1 74 0
+ 304 0068 064B     		ldr	r3, .L12
+ 305 006a 181C     		mov	r0, r3
+ 306 006c FFF7FEFF 		bl	i2c_get_ack
+  75:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** 
+  76:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     i2c_stop(I2C0_B);
+ 307              		.loc 1 76 0
+ 308 0070 044B     		ldr	r3, .L12
+ 309 0072 181C     		mov	r0, r3
+ 310 0074 FFF7FEFF 		bl	i2c_stop
+  77:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     pause();
+ 311              		.loc 1 77 0
+ 312 0078 FFF7FEFF 		bl	pause
+  78:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** }
+ 313              		.loc 1 78 0
+ 314 007c BD46     		mov	sp, r7
+ 315 007e 02B0     		add	sp, sp, #8
+ 316              		@ sp needed for prologue
+ 317 0080 80BD     		pop	{r7, pc}
+ 318              	.L13:
+ 319 0082 C046     		.align	2
+ 320              	.L12:
+ 321 0084 00600640 		.word	1074159616
+ 322              		.cfi_endproc
+ 323              	.LFE3:
+ 325              		.section	.text.accel_init,"ax",%progbits
+ 326              		.align	2
+ 327              		.global	accel_init
+ 328              		.code	16
+ 329              		.thumb_func
+ 331              	accel_init:
+ 332              	.LFB4:
+  79:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** 
+  80:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** ///****Funciones del Acelerometro******//
+  81:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** void accel_init(void)
+  82:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** {
+ 333              		.loc 1 82 0
+ 334              		.cfi_startproc
+ 335 0000 90B5     		push	{r4, r7, lr}
+ 336              	.LCFI11:
+ 337              		.cfi_def_cfa_offset 12
+ 338              		.cfi_offset 4, -12
+ 339              		.cfi_offset 7, -8
+ 340              		.cfi_offset 14, -4
+ 341 0002 83B0     		sub	sp, sp, #12
+ 342              	.LCFI12:
+ 343              		.cfi_def_cfa_offset 24
+ 344 0004 00AF     		add	r7, sp, #0
+ 345              	.LCFI13:
+ 346              		.cfi_def_cfa_register 7
+  83:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     unsigned char tmp;
+  84:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     hal_dev_mma8451_init();      //Initialize I2C modules
+ 347              		.loc 1 84 0
+ 348 0006 FFF7FEFF 		bl	hal_dev_mma8451_init
+  85:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     tmp = hal_dev_mma8451_read_reg(0x2a);
+ 349              		.loc 1 85 0
+ 350 000a FC1D     		add	r4, r7, #7
+ 351 000c 2A20     		mov	r0, #42
+ 352 000e FFF7FEFF 		bl	hal_dev_mma8451_read_reg
+ 353 0012 031C     		mov	r3, r0
+ 354 0014 2370     		strb	r3, [r4]
+  86:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     hal_dev_mma8451_write_reg(0x2a,tmp|0x01);
+ 355              		.loc 1 86 0
+ 356 0016 FB1D     		add	r3, r7, #7
+ 357 0018 1B78     		ldrb	r3, [r3]
+ 358 001a 0122     		mov	r2, #1
+ 359 001c 1343     		orr	r3, r2
+ 360 001e DBB2     		uxtb	r3, r3
+ 361 0020 2A20     		mov	r0, #42
+ 362 0022 191C     		mov	r1, r3
+ 363 0024 FFF7FEFF 		bl	hal_dev_mma8451_write_reg
+  87:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** }
+ 364              		.loc 1 87 0
+ 365 0028 BD46     		mov	sp, r7
+ 366 002a 03B0     		add	sp, sp, #12
+ 367              		@ sp needed for prologue
+ 368 002c 90BD     		pop	{r4, r7, pc}
+ 369              		.cfi_endproc
+ 370              	.LFE4:
+ 372 002e C046     		.section	.text.accel_read,"ax",%progbits
+ 373              		.align	2
+ 374              		.global	accel_read
+ 375              		.code	16
+ 376              		.thumb_func
+ 378              	accel_read:
+ 379              	.LFB5:
+  88:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** 
+  89:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** void accel_read(void)
+  90:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** {
+ 380              		.loc 1 90 0
+ 381              		.cfi_startproc
+ 382 0000 80B5     		push	{r7, lr}
+ 383              	.LCFI14:
+ 384              		.cfi_def_cfa_offset 8
+ 385              		.cfi_offset 7, -8
+ 386              		.cfi_offset 14, -4
+ 387 0002 00AF     		add	r7, sp, #0
+ 388              	.LCFI15:
+ 389              		.cfi_def_cfa_register 7
+  91:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     if((hal_dev_mma8451_read_reg(0x00)&0xf) != 0)
+ 390              		.loc 1 91 0
+ 391 0004 0020     		mov	r0, #0
+ 392 0006 FFF7FEFF 		bl	hal_dev_mma8451_read_reg
+ 393 000a 031C     		mov	r3, r0
+ 394 000c 1A1C     		mov	r2, r3
+ 395 000e 0F23     		mov	r3, #15
+ 396 0010 1340     		and	r3, r2
+ 397 0012 00D1     		bne	.LCB309
+ 398 0014 9BE0     		b	.L15	@long jump
+ 399              	.LCB309:
+  92:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     {
+  93:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****         accel_x   = hal_dev_mma8451_read_reg(0x01)<<8;
+ 400              		.loc 1 93 0
+ 401 0016 0120     		mov	r0, #1
+ 402 0018 FFF7FEFF 		bl	hal_dev_mma8451_read_reg
+ 403 001c 031C     		mov	r3, r0
+ 404 001e 1B02     		lsl	r3, r3, #8
+ 405 0020 9AB2     		uxth	r2, r3
+ 406 0022 4C4B     		ldr	r3, .L17
+ 407 0024 1A80     		strh	r2, [r3]
+  94:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****         accel_x  |= hal_dev_mma8451_read_reg(0x02);
+ 408              		.loc 1 94 0
+ 409 0026 0220     		mov	r0, #2
+ 410 0028 FFF7FEFF 		bl	hal_dev_mma8451_read_reg
+ 411 002c 031C     		mov	r3, r0
+ 412 002e 1A1C     		mov	r2, r3
+ 413 0030 484B     		ldr	r3, .L17
+ 414 0032 1B88     		ldrh	r3, [r3]
+ 415 0034 1343     		orr	r3, r2
+ 416 0036 9AB2     		uxth	r2, r3
+ 417 0038 464B     		ldr	r3, .L17
+ 418 003a 1A80     		strh	r2, [r3]
+  95:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****         accel_x >>= 2;
+ 419              		.loc 1 95 0
+ 420 003c 454B     		ldr	r3, .L17
+ 421 003e 1B88     		ldrh	r3, [r3]
+ 422 0040 1BB2     		sxth	r3, r3
+ 423 0042 9B10     		asr	r3, r3, #2
+ 424 0044 9AB2     		uxth	r2, r3
+ 425 0046 434B     		ldr	r3, .L17
+ 426 0048 1A80     		strh	r2, [r3]
+  96:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** 
+  97:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****         accel_y   = hal_dev_mma8451_read_reg(0x03)<<8;
+ 427              		.loc 1 97 0
+ 428 004a 0320     		mov	r0, #3
+ 429 004c FFF7FEFF 		bl	hal_dev_mma8451_read_reg
+ 430 0050 031C     		mov	r3, r0
+ 431 0052 1B02     		lsl	r3, r3, #8
+ 432 0054 9AB2     		uxth	r2, r3
+ 433 0056 404B     		ldr	r3, .L17+4
+ 434 0058 1A80     		strh	r2, [r3]
+  98:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****         accel_y  |= hal_dev_mma8451_read_reg(0x04);
+ 435              		.loc 1 98 0
+ 436 005a 0420     		mov	r0, #4
+ 437 005c FFF7FEFF 		bl	hal_dev_mma8451_read_reg
+ 438 0060 031C     		mov	r3, r0
+ 439 0062 1A1C     		mov	r2, r3
+ 440 0064 3C4B     		ldr	r3, .L17+4
+ 441 0066 1B88     		ldrh	r3, [r3]
+ 442 0068 1343     		orr	r3, r2
+ 443 006a 9AB2     		uxth	r2, r3
+ 444 006c 3A4B     		ldr	r3, .L17+4
+ 445 006e 1A80     		strh	r2, [r3]
+  99:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****         accel_y >>= 2;
+ 446              		.loc 1 99 0
+ 447 0070 394B     		ldr	r3, .L17+4
+ 448 0072 1B88     		ldrh	r3, [r3]
+ 449 0074 1BB2     		sxth	r3, r3
+ 450 0076 9B10     		asr	r3, r3, #2
+ 451 0078 9AB2     		uxth	r2, r3
+ 452 007a 374B     		ldr	r3, .L17+4
+ 453 007c 1A80     		strh	r2, [r3]
+ 100:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** 
+ 101:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****         accel_z   = hal_dev_mma8451_read_reg(0x05)<<8;
+ 454              		.loc 1 101 0
+ 455 007e 0520     		mov	r0, #5
+ 456 0080 FFF7FEFF 		bl	hal_dev_mma8451_read_reg
+ 457 0084 031C     		mov	r3, r0
+ 458 0086 1B02     		lsl	r3, r3, #8
+ 459 0088 9AB2     		uxth	r2, r3
+ 460 008a 344B     		ldr	r3, .L17+8
+ 461 008c 1A80     		strh	r2, [r3]
+ 102:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****         accel_z  |= hal_dev_mma8451_read_reg(0x06);
+ 462              		.loc 1 102 0
+ 463 008e 0620     		mov	r0, #6
+ 464 0090 FFF7FEFF 		bl	hal_dev_mma8451_read_reg
+ 465 0094 031C     		mov	r3, r0
+ 466 0096 1A1C     		mov	r2, r3
+ 467 0098 304B     		ldr	r3, .L17+8
+ 468 009a 1B88     		ldrh	r3, [r3]
+ 469 009c 1343     		orr	r3, r2
+ 470 009e 9AB2     		uxth	r2, r3
+ 471 00a0 2E4B     		ldr	r3, .L17+8
+ 472 00a2 1A80     		strh	r2, [r3]
+ 103:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****         accel_z >>= 2;
+ 473              		.loc 1 103 0
+ 474 00a4 2D4B     		ldr	r3, .L17+8
+ 475 00a6 1B88     		ldrh	r3, [r3]
+ 476 00a8 1BB2     		sxth	r3, r3
+ 477 00aa 9B10     		asr	r3, r3, #2
+ 478 00ac 9AB2     		uxth	r2, r3
+ 479 00ae 2B4B     		ldr	r3, .L17+8
+ 480 00b0 1A80     		strh	r2, [r3]
+ 104:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** 
+ 105:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****         Aresultx   = hal_dev_mma8451_read_reg(0x01)<<8;
+ 481              		.loc 1 105 0
+ 482 00b2 0120     		mov	r0, #1
+ 483 00b4 FFF7FEFF 		bl	hal_dev_mma8451_read_reg
+ 484 00b8 031C     		mov	r3, r0
+ 485 00ba 1B02     		lsl	r3, r3, #8
+ 486 00bc 9AB2     		uxth	r2, r3
+ 487 00be 284B     		ldr	r3, .L17+12
+ 488 00c0 1A80     		strh	r2, [r3]
+ 106:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****         Aresultx  |= hal_dev_mma8451_read_reg(0x02);
+ 489              		.loc 1 106 0
+ 490 00c2 0220     		mov	r0, #2
+ 491 00c4 FFF7FEFF 		bl	hal_dev_mma8451_read_reg
+ 492 00c8 031C     		mov	r3, r0
+ 493 00ca 1A1C     		mov	r2, r3
+ 494 00cc 244B     		ldr	r3, .L17+12
+ 495 00ce 1B88     		ldrh	r3, [r3]
+ 496 00d0 1343     		orr	r3, r2
+ 497 00d2 9AB2     		uxth	r2, r3
+ 498 00d4 224B     		ldr	r3, .L17+12
+ 499 00d6 1A80     		strh	r2, [r3]
+ 107:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****         Aresultx >>= 8;
+ 500              		.loc 1 107 0
+ 501 00d8 214B     		ldr	r3, .L17+12
+ 502 00da 1B88     		ldrh	r3, [r3]
+ 503 00dc 1BB2     		sxth	r3, r3
+ 504 00de 1B12     		asr	r3, r3, #8
+ 505 00e0 9AB2     		uxth	r2, r3
+ 506 00e2 1F4B     		ldr	r3, .L17+12
+ 507 00e4 1A80     		strh	r2, [r3]
+ 108:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** 
+ 109:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****         Aresulty   = hal_dev_mma8451_read_reg(0x03)<<8;
+ 508              		.loc 1 109 0
+ 509 00e6 0320     		mov	r0, #3
+ 510 00e8 FFF7FEFF 		bl	hal_dev_mma8451_read_reg
+ 511 00ec 031C     		mov	r3, r0
+ 512 00ee 1B02     		lsl	r3, r3, #8
+ 513 00f0 9AB2     		uxth	r2, r3
+ 514 00f2 1C4B     		ldr	r3, .L17+16
+ 515 00f4 1A80     		strh	r2, [r3]
+ 110:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****         Aresulty  |= hal_dev_mma8451_read_reg(0x04);
+ 516              		.loc 1 110 0
+ 517 00f6 0420     		mov	r0, #4
+ 518 00f8 FFF7FEFF 		bl	hal_dev_mma8451_read_reg
+ 519 00fc 031C     		mov	r3, r0
+ 520 00fe 1A1C     		mov	r2, r3
+ 521 0100 184B     		ldr	r3, .L17+16
+ 522 0102 1B88     		ldrh	r3, [r3]
+ 523 0104 1343     		orr	r3, r2
+ 524 0106 9AB2     		uxth	r2, r3
+ 525 0108 164B     		ldr	r3, .L17+16
+ 526 010a 1A80     		strh	r2, [r3]
+ 111:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****         Aresulty >>= 8;
+ 527              		.loc 1 111 0
+ 528 010c 154B     		ldr	r3, .L17+16
+ 529 010e 1B88     		ldrh	r3, [r3]
+ 530 0110 1BB2     		sxth	r3, r3
+ 531 0112 1B12     		asr	r3, r3, #8
+ 532 0114 9AB2     		uxth	r2, r3
+ 533 0116 134B     		ldr	r3, .L17+16
+ 534 0118 1A80     		strh	r2, [r3]
+ 112:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** 
+ 113:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****         Aresultz   = hal_dev_mma8451_read_reg(0x05)<<8;
+ 535              		.loc 1 113 0
+ 536 011a 0520     		mov	r0, #5
+ 537 011c FFF7FEFF 		bl	hal_dev_mma8451_read_reg
+ 538 0120 031C     		mov	r3, r0
+ 539 0122 1B02     		lsl	r3, r3, #8
+ 540 0124 9AB2     		uxth	r2, r3
+ 541 0126 104B     		ldr	r3, .L17+20
+ 542 0128 1A80     		strh	r2, [r3]
+ 114:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****         Aresultz  |= hal_dev_mma8451_read_reg(0x06);
+ 543              		.loc 1 114 0
+ 544 012a 0620     		mov	r0, #6
+ 545 012c FFF7FEFF 		bl	hal_dev_mma8451_read_reg
+ 546 0130 031C     		mov	r3, r0
+ 547 0132 1A1C     		mov	r2, r3
+ 548 0134 0C4B     		ldr	r3, .L17+20
+ 549 0136 1B88     		ldrh	r3, [r3]
+ 550 0138 1343     		orr	r3, r2
+ 551 013a 9AB2     		uxth	r2, r3
+ 552 013c 0A4B     		ldr	r3, .L17+20
+ 553 013e 1A80     		strh	r2, [r3]
+ 115:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****         Aresultz >>= 8;
+ 554              		.loc 1 115 0
+ 555 0140 094B     		ldr	r3, .L17+20
+ 556 0142 1B88     		ldrh	r3, [r3]
+ 557 0144 1BB2     		sxth	r3, r3
+ 558 0146 1B12     		asr	r3, r3, #8
+ 559 0148 9AB2     		uxth	r2, r3
+ 560 014a 074B     		ldr	r3, .L17+20
+ 561 014c 1A80     		strh	r2, [r3]
+ 562              	.L15:
+ 116:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** 
+ 117:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     }
+ 118:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** }
+ 563              		.loc 1 118 0
+ 564 014e BD46     		mov	sp, r7
+ 565              		@ sp needed for prologue
+ 566 0150 80BD     		pop	{r7, pc}
+ 567              	.L18:
+ 568 0152 C046     		.align	2
+ 569              	.L17:
+ 570 0154 00000000 		.word	accel_x
+ 571 0158 00000000 		.word	accel_y
+ 572 015c 00000000 		.word	accel_z
+ 573 0160 00000000 		.word	Aresultx
+ 574 0164 00000000 		.word	Aresulty
+ 575 0168 00000000 		.word	Aresultz
+ 576              		.cfi_endproc
+ 577              	.LFE5:
+ 579              		.section	.rodata
+ 580              		.align	2
+ 581              	.LC12:
+ 582 0000 0A0D2041 		.ascii	"\012\015 Acelerometer Values\000"
+ 582      63656C65 
+ 582      726F6D65 
+ 582      74657220 
+ 582      56616C75 
+ 583 0017 00       		.align	2
+ 584              	.LC14:
+ 585 0018 0A0D7820 		.ascii	"\012\015x = %d \011\000"
+ 585      3D202564 
+ 585      200900
+ 586 0023 00       		.align	2
+ 587              	.LC16:
+ 588 0024 79203D20 		.ascii	"y = %d \011\000"
+ 588      25642009 
+ 588      00
+ 589 002d 000000   		.align	2
+ 590              	.LC18:
+ 591 0030 7A203D20 		.ascii	"z = %d \012\015\000"
+ 591      2564200A 
+ 591      0D00
+ 592 003a 0000     		.section	.text.accel_test,"ax",%progbits
+ 593              		.align	2
+ 594              		.global	accel_test
+ 595              		.code	16
+ 596              		.thumb_func
+ 598              	accel_test:
+ 599              	.LFB6:
+ 119:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** 
+ 120:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** void accel_test(void)
+ 121:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** {
+ 600              		.loc 1 121 0
+ 601              		.cfi_startproc
+ 602 0000 80B5     		push	{r7, lr}
+ 603              	.LCFI16:
+ 604              		.cfi_def_cfa_offset 8
+ 605              		.cfi_offset 7, -8
+ 606              		.cfi_offset 14, -4
+ 607 0002 00AF     		add	r7, sp, #0
+ 608              	.LCFI17:
+ 609              		.cfi_def_cfa_register 7
+ 122:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****  accel_read();
+ 610              		.loc 1 122 0
+ 611 0004 FFF7FEFF 		bl	accel_read
+ 123:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****  Atestx = Aresultx;
+ 612              		.loc 1 123 0
+ 613 0008 144B     		ldr	r3, .L20
+ 614 000a 1B88     		ldrh	r3, [r3]
+ 615 000c 1AB2     		sxth	r2, r3
+ 616 000e 144B     		ldr	r3, .L20+4
+ 617 0010 1A60     		str	r2, [r3]
+ 124:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****  Atesty = Aresulty;
+ 618              		.loc 1 124 0
+ 619 0012 144B     		ldr	r3, .L20+8
+ 620 0014 1B88     		ldrh	r3, [r3]
+ 621 0016 1AB2     		sxth	r2, r3
+ 622 0018 134B     		ldr	r3, .L20+12
+ 623 001a 1A60     		str	r2, [r3]
+ 125:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****  Atestz = Aresultz;
+ 624              		.loc 1 125 0
+ 625 001c 134B     		ldr	r3, .L20+16
+ 626 001e 1B88     		ldrh	r3, [r3]
+ 627 0020 1AB2     		sxth	r2, r3
+ 628 0022 134B     		ldr	r3, .L20+20
+ 629 0024 1A60     		str	r2, [r3]
+ 126:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** 
+ 127:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****  printf("\n\r Acelerometer Values");
+ 630              		.loc 1 127 0
+ 631 0026 134B     		ldr	r3, .L20+24
+ 632 0028 181C     		mov	r0, r3
+ 633 002a FFF7FEFF 		bl	printf
+ 128:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****  printf("\n\rx = %d \t",Atestx);
+ 634              		.loc 1 128 0
+ 635 002e 0C4B     		ldr	r3, .L20+4
+ 636 0030 1B68     		ldr	r3, [r3]
+ 637 0032 114A     		ldr	r2, .L20+28
+ 638 0034 101C     		mov	r0, r2
+ 639 0036 191C     		mov	r1, r3
+ 640 0038 FFF7FEFF 		bl	printf
+ 129:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****  printf("y = %d \t",Atesty);
+ 641              		.loc 1 129 0
+ 642 003c 0A4B     		ldr	r3, .L20+12
+ 643 003e 1B68     		ldr	r3, [r3]
+ 644 0040 0E4A     		ldr	r2, .L20+32
+ 645 0042 101C     		mov	r0, r2
+ 646 0044 191C     		mov	r1, r3
+ 647 0046 FFF7FEFF 		bl	printf
+ 130:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****  printf("z = %d \n\r",Atestz);
+ 648              		.loc 1 130 0
+ 649 004a 094B     		ldr	r3, .L20+20
+ 650 004c 1B68     		ldr	r3, [r3]
+ 651 004e 0C4A     		ldr	r2, .L20+36
+ 652 0050 101C     		mov	r0, r2
+ 653 0052 191C     		mov	r1, r3
+ 654 0054 FFF7FEFF 		bl	printf
+ 131:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****   
+ 132:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** }
+ 655              		.loc 1 132 0
+ 656 0058 BD46     		mov	sp, r7
+ 657              		@ sp needed for prologue
+ 658 005a 80BD     		pop	{r7, pc}
+ 659              	.L21:
+ 660              		.align	2
+ 661              	.L20:
+ 662 005c 00000000 		.word	Aresultx
+ 663 0060 00000000 		.word	Atestx
+ 664 0064 00000000 		.word	Aresulty
+ 665 0068 00000000 		.word	Atesty
+ 666 006c 00000000 		.word	Aresultz
+ 667 0070 00000000 		.word	Atestz
+ 668 0074 00000000 		.word	.LC12
+ 669 0078 18000000 		.word	.LC14
+ 670 007c 24000000 		.word	.LC16
+ 671 0080 30000000 		.word	.LC18
+ 672              		.cfi_endproc
+ 673              	.LFE6:
+ 675              		.section	.text.iAcclReadX,"ax",%progbits
+ 676              		.align	2
+ 677              		.global	iAcclReadX
+ 678              		.code	16
+ 679              		.thumb_func
+ 681              	iAcclReadX:
+ 682              	.LFB7:
+ 133:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** 
+ 134:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** int iAcclReadX(void) {
+ 683              		.loc 1 134 0
+ 684              		.cfi_startproc
+ 685 0000 80B5     		push	{r7, lr}
+ 686              	.LCFI18:
+ 687              		.cfi_def_cfa_offset 8
+ 688              		.cfi_offset 7, -8
+ 689              		.cfi_offset 14, -4
+ 690 0002 00AF     		add	r7, sp, #0
+ 691              	.LCFI19:
+ 692              		.cfi_def_cfa_register 7
+ 135:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     if((hal_dev_mma8451_read_reg(0x00)&0xf) != 0)
+ 693              		.loc 1 135 0
+ 694 0004 0020     		mov	r0, #0
+ 695 0006 FFF7FEFF 		bl	hal_dev_mma8451_read_reg
+ 696 000a 031C     		mov	r3, r0
+ 697 000c 1A1C     		mov	r2, r3
+ 698 000e 0F23     		mov	r3, #15
+ 699 0010 1340     		and	r3, r2
+ 700 0012 33D0     		beq	.L23
+ 136:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     {
+ 137:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****         accel_x   = hal_dev_mma8451_read_reg(0x01)<<8;
+ 701              		.loc 1 137 0
+ 702 0014 0120     		mov	r0, #1
+ 703 0016 FFF7FEFF 		bl	hal_dev_mma8451_read_reg
+ 704 001a 031C     		mov	r3, r0
+ 705 001c 1B02     		lsl	r3, r3, #8
+ 706 001e 9AB2     		uxth	r2, r3
+ 707 0020 194B     		ldr	r3, .L25
+ 708 0022 1A80     		strh	r2, [r3]
+ 138:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****         accel_x  |= hal_dev_mma8451_read_reg(0x02);
+ 709              		.loc 1 138 0
+ 710 0024 0220     		mov	r0, #2
+ 711 0026 FFF7FEFF 		bl	hal_dev_mma8451_read_reg
+ 712 002a 031C     		mov	r3, r0
+ 713 002c 1A1C     		mov	r2, r3
+ 714 002e 164B     		ldr	r3, .L25
+ 715 0030 1B88     		ldrh	r3, [r3]
+ 716 0032 1343     		orr	r3, r2
+ 717 0034 9AB2     		uxth	r2, r3
+ 718 0036 144B     		ldr	r3, .L25
+ 719 0038 1A80     		strh	r2, [r3]
+ 139:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****         accel_x >>= 2;
+ 720              		.loc 1 139 0
+ 721 003a 134B     		ldr	r3, .L25
+ 722 003c 1B88     		ldrh	r3, [r3]
+ 723 003e 1BB2     		sxth	r3, r3
+ 724 0040 9B10     		asr	r3, r3, #2
+ 725 0042 9AB2     		uxth	r2, r3
+ 726 0044 104B     		ldr	r3, .L25
+ 727 0046 1A80     		strh	r2, [r3]
+ 140:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****       
+ 141:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****         Aresultx   = hal_dev_mma8451_read_reg(0x01)<<8;
+ 728              		.loc 1 141 0
+ 729 0048 0120     		mov	r0, #1
+ 730 004a FFF7FEFF 		bl	hal_dev_mma8451_read_reg
+ 731 004e 031C     		mov	r3, r0
+ 732 0050 1B02     		lsl	r3, r3, #8
+ 733 0052 9AB2     		uxth	r2, r3
+ 734 0054 0D4B     		ldr	r3, .L25+4
+ 735 0056 1A80     		strh	r2, [r3]
+ 142:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****         Aresultx  |= hal_dev_mma8451_read_reg(0x02);
+ 736              		.loc 1 142 0
+ 737 0058 0220     		mov	r0, #2
+ 738 005a FFF7FEFF 		bl	hal_dev_mma8451_read_reg
+ 739 005e 031C     		mov	r3, r0
+ 740 0060 1A1C     		mov	r2, r3
+ 741 0062 0A4B     		ldr	r3, .L25+4
+ 742 0064 1B88     		ldrh	r3, [r3]
+ 743 0066 1343     		orr	r3, r2
+ 744 0068 9AB2     		uxth	r2, r3
+ 745 006a 084B     		ldr	r3, .L25+4
+ 746 006c 1A80     		strh	r2, [r3]
+ 143:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****         Aresultx >>= 8;
+ 747              		.loc 1 143 0
+ 748 006e 074B     		ldr	r3, .L25+4
+ 749 0070 1B88     		ldrh	r3, [r3]
+ 750 0072 1BB2     		sxth	r3, r3
+ 751 0074 1B12     		asr	r3, r3, #8
+ 752 0076 9AB2     		uxth	r2, r3
+ 753 0078 044B     		ldr	r3, .L25+4
+ 754 007a 1A80     		strh	r2, [r3]
+ 755              	.L23:
+ 144:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     }
+ 145:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     return Aresultx;
+ 756              		.loc 1 145 0
+ 757 007c 034B     		ldr	r3, .L25+4
+ 758 007e 1B88     		ldrh	r3, [r3]
+ 759 0080 1BB2     		sxth	r3, r3
+ 146:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** }
+ 760              		.loc 1 146 0
+ 761 0082 181C     		mov	r0, r3
+ 762 0084 BD46     		mov	sp, r7
+ 763              		@ sp needed for prologue
+ 764 0086 80BD     		pop	{r7, pc}
+ 765              	.L26:
+ 766              		.align	2
+ 767              	.L25:
+ 768 0088 00000000 		.word	accel_x
+ 769 008c 00000000 		.word	Aresultx
+ 770              		.cfi_endproc
+ 771              	.LFE7:
+ 773              		.section	.text.iAcclReadY,"ax",%progbits
+ 774              		.align	2
+ 775              		.global	iAcclReadY
+ 776              		.code	16
+ 777              		.thumb_func
+ 779              	iAcclReadY:
+ 780              	.LFB8:
+ 147:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** 
+ 148:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** int iAcclReadY(void) {
+ 781              		.loc 1 148 0
+ 782              		.cfi_startproc
+ 783 0000 80B5     		push	{r7, lr}
+ 784              	.LCFI20:
+ 785              		.cfi_def_cfa_offset 8
+ 786              		.cfi_offset 7, -8
+ 787              		.cfi_offset 14, -4
+ 788 0002 00AF     		add	r7, sp, #0
+ 789              	.LCFI21:
+ 790              		.cfi_def_cfa_register 7
+ 149:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     if((hal_dev_mma8451_read_reg(0x00)&0xf) != 0)
+ 791              		.loc 1 149 0
+ 792 0004 0020     		mov	r0, #0
+ 793 0006 FFF7FEFF 		bl	hal_dev_mma8451_read_reg
+ 794 000a 031C     		mov	r3, r0
+ 795 000c 1A1C     		mov	r2, r3
+ 796 000e 0F23     		mov	r3, #15
+ 797 0010 1340     		and	r3, r2
+ 798 0012 33D0     		beq	.L28
+ 150:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     {
+ 151:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****         accel_y   = hal_dev_mma8451_read_reg(0x03)<<8;
+ 799              		.loc 1 151 0
+ 800 0014 0320     		mov	r0, #3
+ 801 0016 FFF7FEFF 		bl	hal_dev_mma8451_read_reg
+ 802 001a 031C     		mov	r3, r0
+ 803 001c 1B02     		lsl	r3, r3, #8
+ 804 001e 9AB2     		uxth	r2, r3
+ 805 0020 194B     		ldr	r3, .L30
+ 806 0022 1A80     		strh	r2, [r3]
+ 152:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****         accel_y  |= hal_dev_mma8451_read_reg(0x04);
+ 807              		.loc 1 152 0
+ 808 0024 0420     		mov	r0, #4
+ 809 0026 FFF7FEFF 		bl	hal_dev_mma8451_read_reg
+ 810 002a 031C     		mov	r3, r0
+ 811 002c 1A1C     		mov	r2, r3
+ 812 002e 164B     		ldr	r3, .L30
+ 813 0030 1B88     		ldrh	r3, [r3]
+ 814 0032 1343     		orr	r3, r2
+ 815 0034 9AB2     		uxth	r2, r3
+ 816 0036 144B     		ldr	r3, .L30
+ 817 0038 1A80     		strh	r2, [r3]
+ 153:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****         accel_y >>= 2;
+ 818              		.loc 1 153 0
+ 819 003a 134B     		ldr	r3, .L30
+ 820 003c 1B88     		ldrh	r3, [r3]
+ 821 003e 1BB2     		sxth	r3, r3
+ 822 0040 9B10     		asr	r3, r3, #2
+ 823 0042 9AB2     		uxth	r2, r3
+ 824 0044 104B     		ldr	r3, .L30
+ 825 0046 1A80     		strh	r2, [r3]
+ 154:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****         
+ 155:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****         Aresulty   = hal_dev_mma8451_read_reg(0x03)<<8;
+ 826              		.loc 1 155 0
+ 827 0048 0320     		mov	r0, #3
+ 828 004a FFF7FEFF 		bl	hal_dev_mma8451_read_reg
+ 829 004e 031C     		mov	r3, r0
+ 830 0050 1B02     		lsl	r3, r3, #8
+ 831 0052 9AB2     		uxth	r2, r3
+ 832 0054 0D4B     		ldr	r3, .L30+4
+ 833 0056 1A80     		strh	r2, [r3]
+ 156:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****         Aresulty  |= hal_dev_mma8451_read_reg(0x04);
+ 834              		.loc 1 156 0
+ 835 0058 0420     		mov	r0, #4
+ 836 005a FFF7FEFF 		bl	hal_dev_mma8451_read_reg
+ 837 005e 031C     		mov	r3, r0
+ 838 0060 1A1C     		mov	r2, r3
+ 839 0062 0A4B     		ldr	r3, .L30+4
+ 840 0064 1B88     		ldrh	r3, [r3]
+ 841 0066 1343     		orr	r3, r2
+ 842 0068 9AB2     		uxth	r2, r3
+ 843 006a 084B     		ldr	r3, .L30+4
+ 844 006c 1A80     		strh	r2, [r3]
+ 157:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****         Aresulty >>= 8;
+ 845              		.loc 1 157 0
+ 846 006e 074B     		ldr	r3, .L30+4
+ 847 0070 1B88     		ldrh	r3, [r3]
+ 848 0072 1BB2     		sxth	r3, r3
+ 849 0074 1B12     		asr	r3, r3, #8
+ 850 0076 9AB2     		uxth	r2, r3
+ 851 0078 044B     		ldr	r3, .L30+4
+ 852 007a 1A80     		strh	r2, [r3]
+ 853              	.L28:
+ 158:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     }
+ 159:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     return Aresulty;
+ 854              		.loc 1 159 0
+ 855 007c 034B     		ldr	r3, .L30+4
+ 856 007e 1B88     		ldrh	r3, [r3]
+ 857 0080 1BB2     		sxth	r3, r3
+ 160:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** }
+ 858              		.loc 1 160 0
+ 859 0082 181C     		mov	r0, r3
+ 860 0084 BD46     		mov	sp, r7
+ 861              		@ sp needed for prologue
+ 862 0086 80BD     		pop	{r7, pc}
+ 863              	.L31:
+ 864              		.align	2
+ 865              	.L30:
+ 866 0088 00000000 		.word	accel_y
+ 867 008c 00000000 		.word	Aresulty
+ 868              		.cfi_endproc
+ 869              	.LFE8:
+ 871              		.section	.text.iAcclReadZ,"ax",%progbits
+ 872              		.align	2
+ 873              		.global	iAcclReadZ
+ 874              		.code	16
+ 875              		.thumb_func
+ 877              	iAcclReadZ:
+ 878              	.LFB9:
+ 161:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** 
+ 162:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** int iAcclReadZ(void) {
+ 879              		.loc 1 162 0
+ 880              		.cfi_startproc
+ 881 0000 80B5     		push	{r7, lr}
+ 882              	.LCFI22:
+ 883              		.cfi_def_cfa_offset 8
+ 884              		.cfi_offset 7, -8
+ 885              		.cfi_offset 14, -4
+ 886 0002 00AF     		add	r7, sp, #0
+ 887              	.LCFI23:
+ 888              		.cfi_def_cfa_register 7
+ 163:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     if((hal_dev_mma8451_read_reg(0x00)&0xf) != 0)
+ 889              		.loc 1 163 0
+ 890 0004 0020     		mov	r0, #0
+ 891 0006 FFF7FEFF 		bl	hal_dev_mma8451_read_reg
+ 892 000a 031C     		mov	r3, r0
+ 893 000c 1A1C     		mov	r2, r3
+ 894 000e 0F23     		mov	r3, #15
+ 895 0010 1340     		and	r3, r2
+ 896 0012 33D0     		beq	.L33
+ 164:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     {
+ 165:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****         accel_z   = hal_dev_mma8451_read_reg(0x05)<<8;
+ 897              		.loc 1 165 0
+ 898 0014 0520     		mov	r0, #5
+ 899 0016 FFF7FEFF 		bl	hal_dev_mma8451_read_reg
+ 900 001a 031C     		mov	r3, r0
+ 901 001c 1B02     		lsl	r3, r3, #8
+ 902 001e 9AB2     		uxth	r2, r3
+ 903 0020 194B     		ldr	r3, .L35
+ 904 0022 1A80     		strh	r2, [r3]
+ 166:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****         accel_z  |= hal_dev_mma8451_read_reg(0x06);
+ 905              		.loc 1 166 0
+ 906 0024 0620     		mov	r0, #6
+ 907 0026 FFF7FEFF 		bl	hal_dev_mma8451_read_reg
+ 908 002a 031C     		mov	r3, r0
+ 909 002c 1A1C     		mov	r2, r3
+ 910 002e 164B     		ldr	r3, .L35
+ 911 0030 1B88     		ldrh	r3, [r3]
+ 912 0032 1343     		orr	r3, r2
+ 913 0034 9AB2     		uxth	r2, r3
+ 914 0036 144B     		ldr	r3, .L35
+ 915 0038 1A80     		strh	r2, [r3]
+ 167:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****         accel_z >>= 2;
+ 916              		.loc 1 167 0
+ 917 003a 134B     		ldr	r3, .L35
+ 918 003c 1B88     		ldrh	r3, [r3]
+ 919 003e 1BB2     		sxth	r3, r3
+ 920 0040 9B10     		asr	r3, r3, #2
+ 921 0042 9AB2     		uxth	r2, r3
+ 922 0044 104B     		ldr	r3, .L35
+ 923 0046 1A80     		strh	r2, [r3]
+ 168:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** 
+ 169:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****         Aresultz   = hal_dev_mma8451_read_reg(0x05)<<8;
+ 924              		.loc 1 169 0
+ 925 0048 0520     		mov	r0, #5
+ 926 004a FFF7FEFF 		bl	hal_dev_mma8451_read_reg
+ 927 004e 031C     		mov	r3, r0
+ 928 0050 1B02     		lsl	r3, r3, #8
+ 929 0052 9AB2     		uxth	r2, r3
+ 930 0054 0D4B     		ldr	r3, .L35+4
+ 931 0056 1A80     		strh	r2, [r3]
+ 170:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****         Aresultz  |= hal_dev_mma8451_read_reg(0x06);
+ 932              		.loc 1 170 0
+ 933 0058 0620     		mov	r0, #6
+ 934 005a FFF7FEFF 		bl	hal_dev_mma8451_read_reg
+ 935 005e 031C     		mov	r3, r0
+ 936 0060 1A1C     		mov	r2, r3
+ 937 0062 0A4B     		ldr	r3, .L35+4
+ 938 0064 1B88     		ldrh	r3, [r3]
+ 939 0066 1343     		orr	r3, r2
+ 940 0068 9AB2     		uxth	r2, r3
+ 941 006a 084B     		ldr	r3, .L35+4
+ 942 006c 1A80     		strh	r2, [r3]
+ 171:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****         Aresultz >>= 8;   
+ 943              		.loc 1 171 0
+ 944 006e 074B     		ldr	r3, .L35+4
+ 945 0070 1B88     		ldrh	r3, [r3]
+ 946 0072 1BB2     		sxth	r3, r3
+ 947 0074 1B12     		asr	r3, r3, #8
+ 948 0076 9AB2     		uxth	r2, r3
+ 949 0078 044B     		ldr	r3, .L35+4
+ 950 007a 1A80     		strh	r2, [r3]
+ 951              	.L33:
+ 172:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     }
+ 173:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c ****     return Aresultz;
+ 952              		.loc 1 173 0
+ 953 007c 034B     		ldr	r3, .L35+4
+ 954 007e 1B88     		ldrh	r3, [r3]
+ 955 0080 1BB2     		sxth	r3, r3
+ 174:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mma8451.c **** }
+ 956              		.loc 1 174 0
+ 957 0082 181C     		mov	r0, r3
+ 958 0084 BD46     		mov	sp, r7
+ 959              		@ sp needed for prologue
+ 960 0086 80BD     		pop	{r7, pc}
+ 961              	.L36:
+ 962              		.align	2
+ 963              	.L35:
+ 964 0088 00000000 		.word	accel_z
+ 965 008c 00000000 		.word	Aresultz
+ 966              		.cfi_endproc
+ 967              	.LFE9:
+ 969              		.text
+ 970              	.Letext0:
+ 971              		.file 2 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu/arm_cm0.h"
+ 972              		.file 3 "C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint"
+ 973              		.file 4 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu/headers/MKL46Z4.
+DEFINED SYMBOLS
+                            *ABS*:00000000 hal_dev_mma8451.c
+                            *COM*:00000002 accel_x
+                            *COM*:00000002 accel_y
+                            *COM*:00000002 accel_z
+                            *COM*:00000002 Aresultx
+                            *COM*:00000002 Aresulty
+                            *COM*:00000002 Aresultz
+                            *COM*:00000001 aux1
+                            *COM*:00000004 Atestx
+                            *COM*:00000004 Atesty
+                            *COM*:00000004 Atestz
+C:\Users\b01252\AppData\Local\Temp\ccFAP7b3.s:28     .text.hal_dev_mma8451_init:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccFAP7b3.s:33     .text.hal_dev_mma8451_init:00000000 hal_dev_mma8451_init
+C:\Users\b01252\AppData\Local\Temp\ccFAP7b3.s:57     .text.hal_dev_mma8451_init:00000010 $d
+C:\Users\b01252\AppData\Local\Temp\ccFAP7b3.s:62     .text.pause:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccFAP7b3.s:66     .text.pause:00000000 pause
+C:\Users\b01252\AppData\Local\Temp\ccFAP7b3.s:109    .text.hal_dev_mma8451_read_reg:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccFAP7b3.s:114    .text.hal_dev_mma8451_read_reg:00000000 hal_dev_mma8451_read_reg
+C:\Users\b01252\AppData\Local\Temp\ccFAP7b3.s:229    .text.hal_dev_mma8451_read_reg:000000c0 $d
+C:\Users\b01252\AppData\Local\Temp\ccFAP7b3.s:234    .text.hal_dev_mma8451_write_reg:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccFAP7b3.s:239    .text.hal_dev_mma8451_write_reg:00000000 hal_dev_mma8451_write_reg
+C:\Users\b01252\AppData\Local\Temp\ccFAP7b3.s:321    .text.hal_dev_mma8451_write_reg:00000084 $d
+C:\Users\b01252\AppData\Local\Temp\ccFAP7b3.s:326    .text.accel_init:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccFAP7b3.s:331    .text.accel_init:00000000 accel_init
+C:\Users\b01252\AppData\Local\Temp\ccFAP7b3.s:373    .text.accel_read:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccFAP7b3.s:378    .text.accel_read:00000000 accel_read
+C:\Users\b01252\AppData\Local\Temp\ccFAP7b3.s:570    .text.accel_read:00000154 $d
+C:\Users\b01252\AppData\Local\Temp\ccFAP7b3.s:580    .rodata:00000000 $d
+C:\Users\b01252\AppData\Local\Temp\ccFAP7b3.s:593    .text.accel_test:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccFAP7b3.s:598    .text.accel_test:00000000 accel_test
+C:\Users\b01252\AppData\Local\Temp\ccFAP7b3.s:662    .text.accel_test:0000005c $d
+C:\Users\b01252\AppData\Local\Temp\ccFAP7b3.s:676    .text.iAcclReadX:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccFAP7b3.s:681    .text.iAcclReadX:00000000 iAcclReadX
+C:\Users\b01252\AppData\Local\Temp\ccFAP7b3.s:768    .text.iAcclReadX:00000088 $d
+C:\Users\b01252\AppData\Local\Temp\ccFAP7b3.s:774    .text.iAcclReadY:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccFAP7b3.s:779    .text.iAcclReadY:00000000 iAcclReadY
+C:\Users\b01252\AppData\Local\Temp\ccFAP7b3.s:866    .text.iAcclReadY:00000088 $d
+C:\Users\b01252\AppData\Local\Temp\ccFAP7b3.s:872    .text.iAcclReadZ:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccFAP7b3.s:877    .text.iAcclReadZ:00000000 iAcclReadZ
+C:\Users\b01252\AppData\Local\Temp\ccFAP7b3.s:964    .text.iAcclReadZ:00000088 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+hal_i2c0_init
+i2c_start
+i2c_write_byte
+i2c_wait
+i2c_get_ack
+i2c_repeated_start
+i2c_set_rx_mode
+i2c_give_nack
+i2c_read_byte
+i2c_stop
+printf

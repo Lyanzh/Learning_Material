@@ -1,0 +1,18 @@
+ Volume in drive C is Primary
+ Volume Serial Number is 3C85-91D5
+
+ Directory of C:\Users\b01252\Documents\Freescale\L4K\software\kinetis_kl46_sc\build\cw
+
+07/24/2013  10:05 AM    <DIR>          .
+07/24/2013  10:05 AM    <DIR>          ..
+06/26/2013  01:34 PM             1,348 cw.h
+06/26/2013  01:34 PM    <DIR>          FRDMKL46_Demo
+06/26/2013  01:34 PM    <DIR>          linker files
+06/26/2013  01:34 PM         1,489,332 make_new_cw_project.exe
+06/26/2013  01:34 PM    <DIR>          platinum
+06/26/2013  01:34 PM    <DIR>          spi_dma
+07/24/2013  10:05 AM                 0 temp.txt
+06/26/2013  01:34 PM    <DIR>          TWRKL46_Demo
+06/26/2013  01:34 PM    <DIR>          TWRPI_sLCD
+               3 File(s)      1,490,680 bytes
+               8 Dir(s)  97,752,084,480 bytes free

@@ -1,0 +1,654 @@
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"arm_cm0.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.stop,"ax",%progbits
+  18              		.align	2
+  19              		.global	stop
+  20              		.code	16
+  21              		.thumb_func
+  23              	stop:
+  24              	.LFB0:
+  25              		.file 1 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu/arm_cm0.c"
+   1:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** /*
+   2:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  * File:		arm_cm0.c
+   3:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  * Purpose:		Generic high-level routines for ARM Cortex M4 processors
+   4:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  *
+   5:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  * Notes:
+   6:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  */
+   7:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** 
+   8:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** #include "common.h"
+   9:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** 
+  10:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** /***********************************************************************/
+  11:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** /*
+  12:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  * Configures the ARM system control register for STOP (deep sleep) mode
+  13:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  * and then executes the WFI instruction to enter the mode.
+  14:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  *
+  15:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  * Parameters:
+  16:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  * none
+  17:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  *
+  18:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  * Note: Might want to change this later to allow for passing in a parameter
+  19:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  *       to optionally set the sleep on exit bit.
+  20:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  */
+  21:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** 
+  22:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** void stop (void)
+  23:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** {
+  26              		.loc 1 23 0
+  27              		.cfi_startproc
+  28 0000 80B5     		push	{r7, lr}
+  29              	.LCFI0:
+  30              		.cfi_def_cfa_offset 8
+  31              		.cfi_offset 7, -8
+  32              		.cfi_offset 14, -4
+  33 0002 00AF     		add	r7, sp, #0
+  34              	.LCFI1:
+  35              		.cfi_def_cfa_register 7
+  24:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** 	/* Set the SLEEPDEEP bit to enable deep sleep mode (STOP) */
+  25:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** 	SCB_SCR |= SCB_SCR_SLEEPDEEP_MASK;	
+  36              		.loc 1 25 0
+  37 0004 064A     		ldr	r2, .L2
+  38 0006 0649     		ldr	r1, .L2
+  39 0008 D123     		mov	r3, #209
+  40 000a 1B01     		lsl	r3, r3, #4
+  41 000c CB58     		ldr	r3, [r1, r3]
+  42 000e 0421     		mov	r1, #4
+  43 0010 1943     		orr	r1, r3
+  44 0012 D123     		mov	r3, #209
+  45 0014 1B01     		lsl	r3, r3, #4
+  46 0016 D150     		str	r1, [r2, r3]
+  26:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** 
+  27:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** 	/* WFI instruction will start entry into STOP mode */
+  28:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** #ifndef KEIL
+  29:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****         // If not using KEIL's uVision use the standard assembly command
+  30:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** 	asm("WFI");
+  47              		.loc 1 30 0
+  48              	@ 30 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu/arm_cm0.c" 1
+  49 0018 30BF     		WFI
+  50              	@ 0 "" 2
+  31:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** #else
+  32:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****         // If using KEIL's uVision, use the CMSIS intrinsic
+  33:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** 	__wfi();
+  34:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** #endif
+  35:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** }
+  51              		.loc 1 35 0
+  52              		.code	16
+  53 001a BD46     		mov	sp, r7
+  54              		@ sp needed for prologue
+  55 001c 80BD     		pop	{r7, pc}
+  56              	.L3:
+  57 001e C046     		.align	2
+  58              	.L2:
+  59 0020 00E000E0 		.word	-536813568
+  60              		.cfi_endproc
+  61              	.LFE0:
+  63              		.section	.text.wait,"ax",%progbits
+  64              		.align	2
+  65              		.global	wait
+  66              		.code	16
+  67              		.thumb_func
+  69              	wait:
+  70              	.LFB1:
+  36:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** /***********************************************************************/
+  37:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** /*
+  38:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  * Configures the ARM system control register for WAIT (sleep) mode
+  39:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  * and then executes the WFI instruction to enter the mode.
+  40:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  *
+  41:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  * Parameters:
+  42:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  * none
+  43:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  *
+  44:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  * Note: Might want to change this later to allow for passing in a parameter
+  45:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  *       to optionally set the sleep on exit bit.
+  46:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  */
+  47:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** 
+  48:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** void wait (void)
+  49:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** {
+  71              		.loc 1 49 0
+  72              		.cfi_startproc
+  73 0000 80B5     		push	{r7, lr}
+  74              	.LCFI2:
+  75              		.cfi_def_cfa_offset 8
+  76              		.cfi_offset 7, -8
+  77              		.cfi_offset 14, -4
+  78 0002 00AF     		add	r7, sp, #0
+  79              	.LCFI3:
+  80              		.cfi_def_cfa_register 7
+  50:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** 	/* Clear the SLEEPDEEP bit to make sure we go into WAIT (sleep) mode instead
+  51:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** 	 * of deep sleep.
+  52:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** 	 */
+  53:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** 	SCB_SCR &= ~SCB_SCR_SLEEPDEEP_MASK;	
+  81              		.loc 1 53 0
+  82 0004 074A     		ldr	r2, .L5
+  83 0006 0749     		ldr	r1, .L5
+  84 0008 D123     		mov	r3, #209
+  85 000a 1B01     		lsl	r3, r3, #4
+  86 000c CB58     		ldr	r3, [r1, r3]
+  87 000e 0421     		mov	r1, #4
+  88 0010 181C     		mov	r0, r3
+  89 0012 8843     		bic	r0, r1
+  90 0014 011C     		mov	r1, r0
+  91 0016 D123     		mov	r3, #209
+  92 0018 1B01     		lsl	r3, r3, #4
+  93 001a D150     		str	r1, [r2, r3]
+  54:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** 
+  55:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** 	/* WFI instruction will start entry into WAIT mode */
+  56:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** #ifndef KEIL
+  57:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****         // If not using KEIL's uVision use the standard assembly command
+  58:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** 	asm("WFI");
+  94              		.loc 1 58 0
+  95              	@ 58 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu/arm_cm0.c" 1
+  96 001c 30BF     		WFI
+  97              	@ 0 "" 2
+  59:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** #else
+  60:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****         // If using KEIL's uVision, use the CMSIS intrinsic
+  61:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****     __wfi();
+  62:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** #endif
+  63:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** }
+  98              		.loc 1 63 0
+  99              		.code	16
+ 100 001e BD46     		mov	sp, r7
+ 101              		@ sp needed for prologue
+ 102 0020 80BD     		pop	{r7, pc}
+ 103              	.L6:
+ 104 0022 C046     		.align	2
+ 105              	.L5:
+ 106 0024 00E000E0 		.word	-536813568
+ 107              		.cfi_endproc
+ 108              	.LFE1:
+ 110              		.section	.text.write_vtor,"ax",%progbits
+ 111              		.align	2
+ 112              		.global	write_vtor
+ 113              		.code	16
+ 114              		.thumb_func
+ 116              	write_vtor:
+ 117              	.LFB2:
+  64:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** /***********************************************************************/
+  65:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** /*
+  66:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  * Change the value of the vector table offset register to the specified value.
+  67:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  *
+  68:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  * Parameters:
+  69:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  * vtor     new value to write to the VTOR
+  70:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  */
+  71:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** 
+  72:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** void write_vtor (int vtor)
+  73:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** {
+ 118              		.loc 1 73 0
+ 119              		.cfi_startproc
+ 120 0000 80B5     		push	{r7, lr}
+ 121              	.LCFI4:
+ 122              		.cfi_def_cfa_offset 8
+ 123              		.cfi_offset 7, -8
+ 124              		.cfi_offset 14, -4
+ 125 0002 82B0     		sub	sp, sp, #8
+ 126              	.LCFI5:
+ 127              		.cfi_def_cfa_offset 16
+ 128 0004 00AF     		add	r7, sp, #0
+ 129              	.LCFI6:
+ 130              		.cfi_def_cfa_register 7
+ 131 0006 7860     		str	r0, [r7, #4]
+  74:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****         /* Write the VTOR with the new value */
+  75:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****         SCB_VTOR = vtor;	
+ 132              		.loc 1 75 0
+ 133 0008 034A     		ldr	r2, .L8
+ 134 000a 7968     		ldr	r1, [r7, #4]
+ 135 000c 034B     		ldr	r3, .L8+4
+ 136 000e D150     		str	r1, [r2, r3]
+  76:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** }
+ 137              		.loc 1 76 0
+ 138 0010 BD46     		mov	sp, r7
+ 139 0012 02B0     		add	sp, sp, #8
+ 140              		@ sp needed for prologue
+ 141 0014 80BD     		pop	{r7, pc}
+ 142              	.L9:
+ 143 0016 C046     		.align	2
+ 144              	.L8:
+ 145 0018 00E000E0 		.word	-536813568
+ 146 001c 080D0000 		.word	3336
+ 147              		.cfi_endproc
+ 148              	.LFE2:
+ 150              		.section	.rodata
+ 151              		.align	2
+ 152              	.LC0:
+ 153 0000 0A455252 		.ascii	"\012ERR! Invalid IRQ value passed to enable irq fun"
+ 153      2120496E 
+ 153      76616C69 
+ 153      64204952 
+ 153      51207661 
+ 154 0030 6374696F 		.ascii	"ction!\000"
+ 154      6E2100
+ 155              		.section	.text.enable_irq,"ax",%progbits
+ 156              		.align	2
+ 157              		.global	enable_irq
+ 158              		.code	16
+ 159              		.thumb_func
+ 161              	enable_irq:
+ 162              	.LFB3:
+  77:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** /***********************************************************************/
+  78:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** /*
+  79:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  * Initialize the NVIC to enable the specified IRQ.
+  80:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  * 
+  81:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  * NOTE: The function only initializes the NVIC to enable a single IRQ. 
+  82:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  * Interrupts will also need to be enabled in the ARM core. This can be 
+  83:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  * done using the EnableInterrupts macro.
+  84:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  *
+  85:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  * Parameters:
+  86:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  * irq    irq number to be enabled (the irq number NOT the vector number)
+  87:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  */
+  88:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** 
+  89:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** #ifndef CMSIS
+  90:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** void enable_irq (int irq)
+  91:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** {   
+ 163              		.loc 1 91 0
+ 164              		.cfi_startproc
+ 165 0000 90B5     		push	{r4, r7, lr}
+ 166              	.LCFI7:
+ 167              		.cfi_def_cfa_offset 12
+ 168              		.cfi_offset 4, -12
+ 169              		.cfi_offset 7, -8
+ 170              		.cfi_offset 14, -4
+ 171 0002 83B0     		sub	sp, sp, #12
+ 172              	.LCFI8:
+ 173              		.cfi_def_cfa_offset 24
+ 174 0004 00AF     		add	r7, sp, #0
+ 175              	.LCFI9:
+ 176              		.cfi_def_cfa_register 7
+ 177 0006 7860     		str	r0, [r7, #4]
+  92:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****     /* Make sure that the IRQ is an allowable number. Up to 32 is 
+  93:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****      * used.
+  94:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****      *
+  95:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****      * NOTE: If you are using the interrupt definitions from the header
+  96:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****      * file, you MUST SUBTRACT 16!!!
+  97:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****      */
+  98:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****     if (irq > 32)
+ 178              		.loc 1 98 0
+ 179 0008 7B68     		ldr	r3, [r7, #4]
+ 180 000a 202B     		cmp	r3, #32
+ 181 000c 04DD     		ble	.L11
+  99:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****         printf("\nERR! Invalid IRQ value passed to enable irq function!\n");
+ 182              		.loc 1 99 0
+ 183 000e 184B     		ldr	r3, .L15
+ 184 0010 181C     		mov	r0, r3
+ 185 0012 FFF7FEFF 		bl	puts
+ 186 0016 27E0     		b	.L10
+ 187              	.L11:
+ 100:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****     else
+ 101:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****     {
+ 102:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****       /* Set the ICPR and ISER registers accordingly */
+ 103:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****       NVIC_ICPR |= 1 << (irq%32);
+ 188              		.loc 1 103 0
+ 189 0018 164A     		ldr	r2, .L15+4
+ 190 001a 1649     		ldr	r1, .L15+4
+ 191 001c C023     		mov	r3, #192
+ 192 001e 5B00     		lsl	r3, r3, #1
+ 193 0020 C958     		ldr	r1, [r1, r3]
+ 194 0022 7868     		ldr	r0, [r7, #4]
+ 195 0024 144B     		ldr	r3, .L15+8
+ 196 0026 0340     		and	r3, r0
+ 197 0028 04D5     		bpl	.L13
+ 198 002a 013B     		sub	r3, r3, #1
+ 199 002c 2020     		mov	r0, #32
+ 200 002e 4042     		neg	r0, r0
+ 201 0030 0343     		orr	r3, r0
+ 202 0032 0133     		add	r3, r3, #1
+ 203              	.L13:
+ 204 0034 0120     		mov	r0, #1
+ 205 0036 041C     		mov	r4, r0
+ 206 0038 9C40     		lsl	r4, r4, r3
+ 207 003a 231C     		mov	r3, r4
+ 208 003c 1943     		orr	r1, r3
+ 209 003e C023     		mov	r3, #192
+ 210 0040 5B00     		lsl	r3, r3, #1
+ 211 0042 D150     		str	r1, [r2, r3]
+ 104:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****       NVIC_ISER |= 1 << (irq%32);
+ 212              		.loc 1 104 0
+ 213 0044 0B4A     		ldr	r2, .L15+4
+ 214 0046 0B4B     		ldr	r3, .L15+4
+ 215 0048 1968     		ldr	r1, [r3]
+ 216 004a 7868     		ldr	r0, [r7, #4]
+ 217 004c 0A4B     		ldr	r3, .L15+8
+ 218 004e 0340     		and	r3, r0
+ 219 0050 04D5     		bpl	.L14
+ 220 0052 013B     		sub	r3, r3, #1
+ 221 0054 2020     		mov	r0, #32
+ 222 0056 4042     		neg	r0, r0
+ 223 0058 0343     		orr	r3, r0
+ 224 005a 0133     		add	r3, r3, #1
+ 225              	.L14:
+ 226 005c 0120     		mov	r0, #1
+ 227 005e 041C     		mov	r4, r0
+ 228 0060 9C40     		lsl	r4, r4, r3
+ 229 0062 231C     		mov	r3, r4
+ 230 0064 0B43     		orr	r3, r1
+ 231 0066 1360     		str	r3, [r2]
+ 232              	.L10:
+ 105:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****     }
+ 106:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** }
+ 233              		.loc 1 106 0
+ 234 0068 BD46     		mov	sp, r7
+ 235 006a 03B0     		add	sp, sp, #12
+ 236              		@ sp needed for prologue
+ 237 006c 90BD     		pop	{r4, r7, pc}
+ 238              	.L16:
+ 239 006e C046     		.align	2
+ 240              	.L15:
+ 241 0070 00000000 		.word	.LC0
+ 242 0074 00E100E0 		.word	-536813312
+ 243 0078 1F000080 		.word	-2147483617
+ 244              		.cfi_endproc
+ 245              	.LFE3:
+ 247              		.section	.rodata
+ 248 0037 00       		.align	2
+ 249              	.LC2:
+ 250 0038 0A455252 		.ascii	"\012ERR! Invalid IRQ value passed to disable irq fu"
+ 250      2120496E 
+ 250      76616C69 
+ 250      64204952 
+ 250      51207661 
+ 251 0068 6E637469 		.ascii	"nction!\000"
+ 251      6F6E2100 
+ 252              		.section	.text.disable_irq,"ax",%progbits
+ 253              		.align	2
+ 254              		.global	disable_irq
+ 255              		.code	16
+ 256              		.thumb_func
+ 258              	disable_irq:
+ 259              	.LFB4:
+ 107:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** /***********************************************************************/
+ 108:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** /*
+ 109:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  * Initialize the NVIC to disable the specified IRQ.
+ 110:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  * 
+ 111:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  * NOTE: The function only initializes the NVIC to disable a single IRQ. 
+ 112:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  * If you want to disable all interrupts, then use the DisableInterrupts
+ 113:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  * macro instead. 
+ 114:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  *
+ 115:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  * Parameters:
+ 116:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  * irq    irq number to be disabled (the irq number NOT the vector number)
+ 117:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  */
+ 118:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** 
+ 119:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** void disable_irq (int irq)
+ 120:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** {
+ 260              		.loc 1 120 0
+ 261              		.cfi_startproc
+ 262 0000 80B5     		push	{r7, lr}
+ 263              	.LCFI10:
+ 264              		.cfi_def_cfa_offset 8
+ 265              		.cfi_offset 7, -8
+ 266              		.cfi_offset 14, -4
+ 267 0002 82B0     		sub	sp, sp, #8
+ 268              	.LCFI11:
+ 269              		.cfi_def_cfa_offset 16
+ 270 0004 00AF     		add	r7, sp, #0
+ 271              	.LCFI12:
+ 272              		.cfi_def_cfa_register 7
+ 273 0006 7860     		str	r0, [r7, #4]
+ 121:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****     
+ 122:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****     /* Make sure that the IRQ is an allowable number. Right now up to 32 is 
+ 123:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****      * used.
+ 124:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****      *
+ 125:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****      * NOTE: If you are using the interrupt definitions from the header
+ 126:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****      * file, you MUST SUBTRACT 16!!!
+ 127:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****      */
+ 128:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****     if (irq > 32)
+ 274              		.loc 1 128 0
+ 275 0008 7B68     		ldr	r3, [r7, #4]
+ 276 000a 202B     		cmp	r3, #32
+ 277 000c 04DD     		ble	.L18
+ 129:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****         printf("\nERR! Invalid IRQ value passed to disable irq function!\n");
+ 278              		.loc 1 129 0
+ 279 000e 0C4B     		ldr	r3, .L21
+ 280 0010 181C     		mov	r0, r3
+ 281 0012 FFF7FEFF 		bl	puts
+ 282 0016 10E0     		b	.L17
+ 283              	.L18:
+ 130:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****     else
+ 131:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****       /* Set the ICER register accordingly */
+ 132:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****       NVIC_ICER = 1 << (irq%32);
+ 284              		.loc 1 132 0
+ 285 0018 0A4A     		ldr	r2, .L21+4
+ 286 001a 7968     		ldr	r1, [r7, #4]
+ 287 001c 0A4B     		ldr	r3, .L21+8
+ 288 001e 0B40     		and	r3, r1
+ 289 0020 04D5     		bpl	.L20
+ 290 0022 013B     		sub	r3, r3, #1
+ 291 0024 2021     		mov	r1, #32
+ 292 0026 4942     		neg	r1, r1
+ 293 0028 0B43     		orr	r3, r1
+ 294 002a 0133     		add	r3, r3, #1
+ 295              	.L20:
+ 296 002c 0121     		mov	r1, #1
+ 297 002e 081C     		mov	r0, r1
+ 298 0030 9840     		lsl	r0, r0, r3
+ 299 0032 031C     		mov	r3, r0
+ 300 0034 191C     		mov	r1, r3
+ 301 0036 8023     		mov	r3, #128
+ 302 0038 D150     		str	r1, [r2, r3]
+ 303              	.L17:
+ 133:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** }
+ 304              		.loc 1 133 0
+ 305 003a BD46     		mov	sp, r7
+ 306 003c 02B0     		add	sp, sp, #8
+ 307              		@ sp needed for prologue
+ 308 003e 80BD     		pop	{r7, pc}
+ 309              	.L22:
+ 310              		.align	2
+ 311              	.L21:
+ 312 0040 38000000 		.word	.LC2
+ 313 0044 00E100E0 		.word	-536813312
+ 314 0048 1F000080 		.word	-2147483617
+ 315              		.cfi_endproc
+ 316              	.LFE4:
+ 318              		.section	.rodata
+ 319              		.align	2
+ 320              	.LC4:
+ 321 0070 0A455252 		.ascii	"\012ERR! Invalid IRQ value passed to priority irq f"
+ 321      2120496E 
+ 321      76616C69 
+ 321      64204952 
+ 321      51207661 
+ 322 00a0 756E6374 		.ascii	"unction!\000"
+ 322      696F6E21 
+ 322      00
+ 323 00a9 000000   		.align	2
+ 324              	.LC6:
+ 325 00ac 0A455252 		.ascii	"\012ERR! Invalid priority value passed to priority "
+ 325      2120496E 
+ 325      76616C69 
+ 325      64207072 
+ 325      696F7269 
+ 326 00dc 69727120 		.ascii	"irq function!\000"
+ 326      66756E63 
+ 326      74696F6E 
+ 326      2100
+ 327 00ea 0000     		.section	.text.set_irq_priority,"ax",%progbits
+ 328              		.align	2
+ 329              		.global	set_irq_priority
+ 330              		.code	16
+ 331              		.thumb_func
+ 333              	set_irq_priority:
+ 334              	.LFB5:
+ 134:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** /***********************************************************************/
+ 135:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** /*
+ 136:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  * Initialize the NVIC to set specified IRQ priority.
+ 137:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  * 
+ 138:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  * NOTE: The function only initializes the NVIC to set a single IRQ priority. 
+ 139:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  * Interrupts will also need to be enabled in the ARM core. This can be 
+ 140:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  * done using the EnableInterrupts macro.
+ 141:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  *
+ 142:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  * Parameters:
+ 143:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  * irq    irq number to be enabled (the irq number NOT the vector number)
+ 144:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  * prio   irq priority. 0-3 levels. 0 max priority
+ 145:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****  */
+ 146:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** 
+ 147:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** void set_irq_priority (int irq, int prio)
+ 148:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** {   
+ 335              		.loc 1 148 0
+ 336              		.cfi_startproc
+ 337 0000 80B5     		push	{r7, lr}
+ 338              	.LCFI13:
+ 339              		.cfi_def_cfa_offset 8
+ 340              		.cfi_offset 7, -8
+ 341              		.cfi_offset 14, -4
+ 342 0002 84B0     		sub	sp, sp, #16
+ 343              	.LCFI14:
+ 344              		.cfi_def_cfa_offset 24
+ 345 0004 00AF     		add	r7, sp, #0
+ 346              	.LCFI15:
+ 347              		.cfi_def_cfa_register 7
+ 348 0006 7860     		str	r0, [r7, #4]
+ 349 0008 3960     		str	r1, [r7]
+ 149:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****     /*irq priority pointer*/
+ 150:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****     uint8 *prio_reg;
+ 151:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****     uint8 err = 0;
+ 350              		.loc 1 151 0
+ 351 000a 3B1C     		mov	r3, r7
+ 352 000c 0F33     		add	r3, r3, #15
+ 353 000e 0022     		mov	r2, #0
+ 354 0010 1A70     		strb	r2, [r3]
+ 152:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****     uint8 div = 0;
+ 355              		.loc 1 152 0
+ 356 0012 3B1C     		mov	r3, r7
+ 357 0014 0E33     		add	r3, r3, #14
+ 358 0016 0022     		mov	r2, #0
+ 359 0018 1A70     		strb	r2, [r3]
+ 153:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****     
+ 154:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****     /* Make sure that the IRQ is an allowable number. Right now up to 32 is 
+ 155:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****      * used.
+ 156:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****      *
+ 157:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****      * NOTE: If you are using the interrupt definitions from the header
+ 158:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****      * file, you MUST SUBTRACT 16!!!
+ 159:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****      */
+ 160:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****     if (irq > 32)
+ 360              		.loc 1 160 0
+ 361 001a 7B68     		ldr	r3, [r7, #4]
+ 362 001c 202B     		cmp	r3, #32
+ 363 001e 07DD     		ble	.L24
+ 161:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****     {
+ 162:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****         printf("\nERR! Invalid IRQ value passed to priority irq function!\n");
+ 364              		.loc 1 162 0
+ 365 0020 174B     		ldr	r3, .L28
+ 366 0022 181C     		mov	r0, r3
+ 367 0024 FFF7FEFF 		bl	puts
+ 163:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****         err = 1;
+ 368              		.loc 1 163 0
+ 369 0028 3B1C     		mov	r3, r7
+ 370 002a 0F33     		add	r3, r3, #15
+ 371 002c 0122     		mov	r2, #1
+ 372 002e 1A70     		strb	r2, [r3]
+ 373              	.L24:
+ 164:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****     }
+ 165:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** 
+ 166:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****     if (prio > 3)
+ 374              		.loc 1 166 0
+ 375 0030 3B68     		ldr	r3, [r7]
+ 376 0032 032B     		cmp	r3, #3
+ 377 0034 07DD     		ble	.L25
+ 167:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****     {
+ 168:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****         printf("\nERR! Invalid priority value passed to priority irq function!\n");
+ 378              		.loc 1 168 0
+ 379 0036 134B     		ldr	r3, .L28+4
+ 380 0038 181C     		mov	r0, r3
+ 381 003a FFF7FEFF 		bl	puts
+ 169:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****         err = 1;
+ 382              		.loc 1 169 0
+ 383 003e 3B1C     		mov	r3, r7
+ 384 0040 0F33     		add	r3, r3, #15
+ 385 0042 0122     		mov	r2, #1
+ 386 0044 1A70     		strb	r2, [r3]
+ 387              	.L25:
+ 170:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****     }
+ 171:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****     
+ 172:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****     if (err != 1)
+ 388              		.loc 1 172 0
+ 389 0046 3B1C     		mov	r3, r7
+ 390 0048 0F33     		add	r3, r3, #15
+ 391 004a 1B78     		ldrb	r3, [r3]
+ 392 004c 012B     		cmp	r3, #1
+ 393 004e 14D0     		beq	.L23
+ 173:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****     {
+ 174:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****         /* Determine which of the NVICIPx corresponds to the irq */
+ 175:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****         div = irq / 4;
+ 394              		.loc 1 175 0
+ 395 0050 7B68     		ldr	r3, [r7, #4]
+ 396 0052 002B     		cmp	r3, #0
+ 397 0054 00DA     		bge	.L27
+ 398 0056 0333     		add	r3, r3, #3
+ 399              	.L27:
+ 400 0058 9B10     		asr	r3, r3, #2
+ 401 005a 1A1C     		mov	r2, r3
+ 402 005c 3B1C     		mov	r3, r7
+ 403 005e 0E33     		add	r3, r3, #14
+ 404 0060 1A70     		strb	r2, [r3]
+ 176:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****         prio_reg = (uint8 *)((uint32)&NVIC_IP(div));
+ 405              		.loc 1 176 0
+ 406 0062 3B1C     		mov	r3, r7
+ 407 0064 0E33     		add	r3, r3, #14
+ 408 0066 1B78     		ldrb	r3, [r3]
+ 409 0068 9B00     		lsl	r3, r3, #2
+ 410 006a 074A     		ldr	r2, .L28+8
+ 411 006c 9B18     		add	r3, r3, r2
+ 412 006e BB60     		str	r3, [r7, #8]
+ 177:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****         /* Assign priority to IRQ */
+ 178:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****         *prio_reg = ( (prio&0x3) << (8 - ARM_INTERRUPT_LEVEL_BITS) );             
+ 413              		.loc 1 178 0
+ 414 0070 3B68     		ldr	r3, [r7]
+ 415 0072 9B01     		lsl	r3, r3, #6
+ 416 0074 DAB2     		uxtb	r2, r3
+ 417 0076 BB68     		ldr	r3, [r7, #8]
+ 418 0078 1A70     		strb	r2, [r3]
+ 419              	.L23:
+ 179:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c ****     }
+ 180:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\arm_cm0.c **** }
+ 420              		.loc 1 180 0
+ 421 007a BD46     		mov	sp, r7
+ 422 007c 04B0     		add	sp, sp, #16
+ 423              		@ sp needed for prologue
+ 424 007e 80BD     		pop	{r7, pc}
+ 425              	.L29:
+ 426              		.align	2
+ 427              	.L28:
+ 428 0080 70000000 		.word	.LC4
+ 429 0084 AC000000 		.word	.LC6
+ 430 0088 00E400E0 		.word	-536812544
+ 431              		.cfi_endproc
+ 432              	.LFE5:
+ 434              		.text
+ 435              	.Letext0:
+ 436              		.file 2 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu/arm_cm0.h"
+ 437              		.file 3 "C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint"
+ 438              		.file 4 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu/headers/MKL46Z4.
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_cm0.c
+C:\Users\b01252\AppData\Local\Temp\ccBl4lmI.s:18     .text.stop:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccBl4lmI.s:23     .text.stop:00000000 stop
+C:\Users\b01252\AppData\Local\Temp\ccBl4lmI.s:59     .text.stop:00000020 $d
+C:\Users\b01252\AppData\Local\Temp\ccBl4lmI.s:64     .text.wait:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccBl4lmI.s:69     .text.wait:00000000 wait
+C:\Users\b01252\AppData\Local\Temp\ccBl4lmI.s:106    .text.wait:00000024 $d
+C:\Users\b01252\AppData\Local\Temp\ccBl4lmI.s:111    .text.write_vtor:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccBl4lmI.s:116    .text.write_vtor:00000000 write_vtor
+C:\Users\b01252\AppData\Local\Temp\ccBl4lmI.s:145    .text.write_vtor:00000018 $d
+C:\Users\b01252\AppData\Local\Temp\ccBl4lmI.s:151    .rodata:00000000 $d
+C:\Users\b01252\AppData\Local\Temp\ccBl4lmI.s:156    .text.enable_irq:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccBl4lmI.s:161    .text.enable_irq:00000000 enable_irq
+C:\Users\b01252\AppData\Local\Temp\ccBl4lmI.s:241    .text.enable_irq:00000070 $d
+C:\Users\b01252\AppData\Local\Temp\ccBl4lmI.s:253    .text.disable_irq:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccBl4lmI.s:258    .text.disable_irq:00000000 disable_irq
+C:\Users\b01252\AppData\Local\Temp\ccBl4lmI.s:312    .text.disable_irq:00000040 $d
+C:\Users\b01252\AppData\Local\Temp\ccBl4lmI.s:328    .text.set_irq_priority:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccBl4lmI.s:333    .text.set_irq_priority:00000000 set_irq_priority
+C:\Users\b01252\AppData\Local\Temp\ccBl4lmI.s:428    .text.set_irq_priority:00000080 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+puts

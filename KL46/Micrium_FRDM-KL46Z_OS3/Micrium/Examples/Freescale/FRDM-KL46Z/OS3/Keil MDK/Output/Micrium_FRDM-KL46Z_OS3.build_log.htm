@@ -1,0 +1,51 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: µVision V5.15
+Copyright (C) 2015 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: Lin Yanzhou, D-3, LIC=KRMX7-E73R2-9UE4U-SNAGE-5UIXA-0H4D1
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Standard  Version: 5.15.0
+Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.05 update 2 (build 169)
+Assembler:       Armasm.exe V5.05 update 2 (build 169)
+Linker/Locator:  ArmLink.exe V5.05 update 2 (build 169)
+Library Manager: ArmAr.exe V5.05 update 2 (build 169)
+Hex Converter:   FromElf.exe V5.05 update 2 (build 169)
+CPU DLL:         SARMCM3.DLL V5.15.0
+Dialog DLL:      DARMCM1.DLL V1.12.0.0
+Target DLL:      CMSIS_AGDI.dll V1.21.12.0
+Dialog DLL:      TARMCM1.DLL V1.9.0.0
+ 
+<h2>Project:</h2>
+F:\MyFiles\learning\KL46\Micrium_FRDM-KL46Z_OS3\Micrium\Examples\Freescale\FRDM-KL46Z\OS3\Keil MDK\Micrium_FRDM-KL46Z_OS3.uvprojx
+Project File Date:  08/13/2015
+
+<h2>Output:</h2>
+*** Using Compiler 'V5.05 update 2 (build 169)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
+Build target 'Micrium_FRDM-KL46Z_OS3'
+compiling app.c...
+..\app.c(63): warning:  #177-D: variable "App_Task_LED_TCB" was declared but never referenced
+  static  OS_TCB        App_Task_LED_TCB;
+..\app.c(64): warning:  #177-D: variable "App_Task_LED_Stk" was declared but never referenced
+  static  CPU_STK_SIZE  App_Task_LED_Stk[APP_CFG_TASK_LED_STK_SIZE];
+..\app.c(405): warning:  #177-D: function "App_Task_LED" was declared but never referenced
+  static  void App_Task_LED (void *p_arg)
+..\app.c: 3 warnings, 0 errors
+compiling bsp_i2c.c...
+linking...
+Program Size: Code=37004 RO-data=1140 RW-data=296 ZI-data=11424  
+FromELF: creating hex file...
+".\Output\Micrium_FRDM-KL46Z_OS3.axf" - 0 Error(s), 3 Warning(s).
+
+<h2>Collection of Component include folders:</h2>
+  F:\MyFiles\learning\KL46\Micrium_FRDM-KL46Z_OS3\Micrium\Examples\Freescale\FRDM-KL46Z\OS3\Keil MDK\RTE
+  C:\Keil_v5\ARM\PACK\Keil\Kinetis_KLxx_DFP\1.6.0\Device\Include
+
+<h2>Collection of Component Files used:</h2>
+</pre>
+</body>
+</html>

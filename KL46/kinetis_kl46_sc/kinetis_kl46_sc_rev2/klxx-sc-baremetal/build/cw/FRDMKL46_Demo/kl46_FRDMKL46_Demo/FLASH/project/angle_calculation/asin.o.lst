@@ -1,0 +1,157 @@
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"asin.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.global	myasin
+  18              		.section	.rodata.myasin,"a",%progbits
+  19              		.align	2
+  22              	myasin:
+  23 0000 00000000 		.word	0
+  24 0004 07000000 		.word	7
+  25 0008 0E000000 		.word	14
+  26 000c 15000000 		.word	21
+  27 0010 1C000000 		.word	28
+  28 0014 23000000 		.word	35
+  29 0018 2B000000 		.word	43
+  30 001c 32000000 		.word	50
+  31 0020 39000000 		.word	57
+  32 0024 40000000 		.word	64
+  33 0028 47000000 		.word	71
+  34 002c 4E000000 		.word	78
+  35 0030 55000000 		.word	85
+  36 0034 5C000000 		.word	92
+  37 0038 63000000 		.word	99
+  38 003c 6A000000 		.word	106
+  39 0040 71000000 		.word	113
+  40 0044 78000000 		.word	120
+  41 0048 80000000 		.word	128
+  42 004c 87000000 		.word	135
+  43 0050 8E000000 		.word	142
+  44 0054 95000000 		.word	149
+  45 0058 9C000000 		.word	156
+  46 005c A3000000 		.word	163
+  47 0060 AA000000 		.word	170
+  48 0064 B1000000 		.word	177
+  49 0068 B8000000 		.word	184
+  50 006c BF000000 		.word	191
+  51 0070 C6000000 		.word	198
+  52 0074 CE000000 		.word	206
+  53 0078 D5000000 		.word	213
+  54 007c DC000000 		.word	220
+  55 0080 E3000000 		.word	227
+  56 0084 EA000000 		.word	234
+  57 0088 F1000000 		.word	241
+  58 008c F8000000 		.word	248
+  59 0090 FF000000 		.word	255
+  60 0094 06010000 		.word	262
+  61 0098 0D010000 		.word	269
+  62 009c 14010000 		.word	276
+  63 00a0 1B010000 		.word	283
+  64 00a4 23010000 		.word	291
+  65 00a8 2A010000 		.word	298
+  66 00ac 31010000 		.word	305
+  67 00b0 38010000 		.word	312
+  68 00b4 3F010000 		.word	319
+  69 00b8 46010000 		.word	326
+  70 00bc 4D010000 		.word	333
+  71 00c0 54010000 		.word	340
+  72 00c4 5B010000 		.word	347
+  73 00c8 62010000 		.word	354
+  74 00cc 69010000 		.word	361
+  75 00d0 71010000 		.word	369
+  76 00d4 78010000 		.word	376
+  77 00d8 7F010000 		.word	383
+  78 00dc 86010000 		.word	390
+  79 00e0 8D010000 		.word	397
+  80 00e4 94010000 		.word	404
+  81 00e8 9B010000 		.word	411
+  82 00ec A2010000 		.word	418
+  83 00f0 A9010000 		.word	425
+  84 00f4 B0010000 		.word	432
+  85 00f8 B7010000 		.word	439
+  86 00fc BE010000 		.word	446
+  87 0100 C6010000 		.word	454
+  88 0104 CD010000 		.word	461
+  89 0108 D4010000 		.word	468
+  90 010c DB010000 		.word	475
+  91 0110 E2010000 		.word	482
+  92 0114 E9010000 		.word	489
+  93 0118 F0010000 		.word	496
+  94 011c F7010000 		.word	503
+  95 0120 FE010000 		.word	510
+  96 0124 05020000 		.word	517
+  97 0128 0C020000 		.word	524
+  98 012c 13020000 		.word	531
+  99 0130 1B020000 		.word	539
+ 100 0134 22020000 		.word	546
+ 101 0138 29020000 		.word	553
+ 102 013c 30020000 		.word	560
+ 103 0140 37020000 		.word	567
+ 104 0144 3E020000 		.word	574
+ 105 0148 45020000 		.word	581
+ 106 014c 4C020000 		.word	588
+ 107 0150 53020000 		.word	595
+ 108 0154 5A020000 		.word	602
+ 109 0158 61020000 		.word	609
+ 110 015c 69020000 		.word	617
+ 111 0160 70020000 		.word	624
+ 112 0164 77020000 		.word	631
+ 113 0168 7E020000 		.word	638
+ 114 016c 85020000 		.word	645
+ 115 0170 8C020000 		.word	652
+ 116 0174 93020000 		.word	659
+ 117 0178 9A020000 		.word	666
+ 118 017c A1020000 		.word	673
+ 119 0180 A8020000 		.word	680
+ 120 0184 AF020000 		.word	687
+ 121 0188 B6020000 		.word	694
+ 122 018c BE020000 		.word	702
+ 123 0190 C5020000 		.word	709
+ 124 0194 CC020000 		.word	716
+ 125 0198 D3020000 		.word	723
+ 126 019c DA020000 		.word	730
+ 127 01a0 E1020000 		.word	737
+ 128 01a4 E8020000 		.word	744
+ 129 01a8 EF020000 		.word	751
+ 130 01ac F6020000 		.word	758
+ 131 01b0 FD020000 		.word	765
+ 132 01b4 04030000 		.word	772
+ 133 01b8 0C030000 		.word	780
+ 134 01bc 13030000 		.word	787
+ 135 01c0 1A030000 		.word	794
+ 136 01c4 21030000 		.word	801
+ 137 01c8 28030000 		.word	808
+ 138 01cc 2F030000 		.word	815
+ 139 01d0 36030000 		.word	822
+ 140 01d4 3D030000 		.word	829
+ 141 01d8 44030000 		.word	836
+ 142 01dc 4B030000 		.word	843
+ 143 01e0 52030000 		.word	850
+ 144 01e4 59030000 		.word	857
+ 145 01e8 61030000 		.word	865
+ 146 01ec 68030000 		.word	872
+ 147 01f0 6F030000 		.word	879
+ 148 01f4 76030000 		.word	886
+ 149 01f8 7D030000 		.word	893
+ 150 01fc 84030000 		.word	900
+ 151              		.text
+ 152              	.Letext0:
+ 153              		.file 1 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_De
+DEFINED SYMBOLS
+                            *ABS*:00000000 asin.c
+C:\Users\b01252\AppData\Local\Temp\ccQjirdM.s:22     .rodata.myasin:00000000 myasin
+C:\Users\b01252\AppData\Local\Temp\ccQjirdM.s:19     .rodata.myasin:00000000 $d
+
+NO UNDEFINED SYMBOLS

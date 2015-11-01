@@ -1,0 +1,14 @@
+serial.o: ..\..\..\src\drivers\uart\Serial.c
+serial.o: ..\..\..\src\common\common.h
+serial.o: ..\..\..\src\platforms\tower.h
+serial.o: ..\..\..\src\drivers\mcg\mcg.h
+serial.o: ..\..\..\src\cpu\headers\MKL46Z4_CMSIS.h
+serial.o: ..\..\..\src\cpu\headers\core_cm0plus.h
+serial.o: C:\Keil\ARM\ARMCC\bin\..\include\stdint.h
+serial.o: ..\..\..\src\cpu\headers\core_cmInstr.h
+serial.o: ..\..\..\src\cpu\headers\core_cmFunc.h
+serial.o: ..\..\..\src\cpu\system_MKL46Z4.h
+serial.o: ..\..\..\src\common\assert.h
+serial.o: ..\..\..\src\common\io.h
+serial.o: ..\..\..\src\common\startup.h
+serial.o: ..\..\..\src\common\stdlib.h

@@ -1,0 +1,142 @@
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"GD-6363P.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.global	WF_ORDERING_TABLE
+  18              		.section	.rodata.WF_ORDERING_TABLE,"a",%progbits
+  19              		.align	2
+  22              	WF_ORDERING_TABLE:
+  23 0000 16       		.byte	22
+  24 0001 18       		.byte	24
+  25 0002 03       		.byte	3
+  26 0003 14       		.byte	20
+  27 0004 17       		.byte	23
+  28 0005 01       		.byte	1
+  29 0006 00       		.byte	0
+  30 0007 0C       		.byte	12
+  31 0008 0D       		.byte	13
+  32 0009 0E       		.byte	14
+  33 000a 0F       		.byte	15
+  34              		.global	ASCII_TO_WF_CODIFICATION_TABLE
+  35 000b 00       		.section	.rodata.ASCII_TO_WF_CODIFICATION_TABLE,"a",%progbits
+  36              		.align	2
+  39              	ASCII_TO_WF_CODIFICATION_TABLE:
+  40 0000 00       		.byte	0
+  41 0001 00       		.byte	0
+  42 0002 04       		.byte	4
+  43 0003 00       		.byte	0
+  44 0004 00       		.byte	0
+  45 0005 02       		.byte	2
+  46 0006 00       		.byte	0
+  47 0007 00       		.byte	0
+  48 0008 00       		.byte	0
+  49 0009 00       		.byte	0
+  50 000a 0F       		.byte	15
+  51 000b 05       		.byte	5
+  52 000c 06       		.byte	6
+  53 000d 00       		.byte	0
+  54 000e 0B       		.byte	11
+  55 000f 06       		.byte	6
+  56 0010 0F       		.byte	15
+  57 0011 02       		.byte	2
+  58 0012 06       		.byte	6
+  59 0013 03       		.byte	3
+  60 0014 0D       		.byte	13
+  61 0015 03       		.byte	3
+  62 0016 0D       		.byte	13
+  63 0017 07       		.byte	7
+  64 0018 07       		.byte	7
+  65 0019 00       		.byte	0
+  66 001a 0F       		.byte	15
+  67 001b 07       		.byte	7
+  68 001c 0F       		.byte	15
+  69 001d 03       		.byte	3
+  70 001e 00       		.byte	0
+  71 001f 00       		.byte	0
+  72 0020 00       		.byte	0
+  73 0021 00       		.byte	0
+  74 0022 00       		.byte	0
+  75 0023 00       		.byte	0
+  76 0024 00       		.byte	0
+  77 0025 00       		.byte	0
+  78 0026 00       		.byte	0
+  79 0027 00       		.byte	0
+  80 0028 00       		.byte	0
+  81 0029 00       		.byte	0
+  82 002a 00       		.byte	0
+  83 002b 00       		.byte	0
+  84 002c 07       		.byte	7
+  85 002d 07       		.byte	7
+  86 002e 0C       		.byte	12
+  87 002f 07       		.byte	7
+  88 0030 09       		.byte	9
+  89 0031 05       		.byte	5
+  90 0032 0E       		.byte	14
+  91 0033 06       		.byte	6
+  92 0034 09       		.byte	9
+  93 0035 07       		.byte	7
+  94 0036 01       		.byte	1
+  95 0037 07       		.byte	7
+  96 0038 0D       		.byte	13
+  97 0039 07       		.byte	7
+  98 003a 06       		.byte	6
+  99 003b 07       		.byte	7
+ 100 003c 06       		.byte	6
+ 101 003d 00       		.byte	0
+ 102 003e 0E       		.byte	14
+ 103 003f 00       		.byte	0
+ 104 0040 00       		.byte	0
+ 105 0041 07       		.byte	7
+ 106 0042 08       		.byte	8
+ 107 0043 05       		.byte	5
+ 108 0044 00       		.byte	0
+ 109 0045 00       		.byte	0
+ 110 0046 04       		.byte	4
+ 111 0047 06       		.byte	6
+ 112 0048 0C       		.byte	12
+ 113 0049 06       		.byte	6
+ 114 004a 03       		.byte	3
+ 115 004b 07       		.byte	7
+ 116 004c 07       		.byte	7
+ 117 004d 03       		.byte	3
+ 118 004e 00       		.byte	0
+ 119 004f 06       		.byte	6
+ 120 0050 0D       		.byte	13
+ 121 0051 03       		.byte	3
+ 122 0052 08       		.byte	8
+ 123 0053 07       		.byte	7
+ 124 0054 0C       		.byte	12
+ 125 0055 04       		.byte	4
+ 126 0056 0C       		.byte	12
+ 127 0057 04       		.byte	4
+ 128 0058 00       		.byte	0
+ 129 0059 00       		.byte	0
+ 130 005a 0E       		.byte	14
+ 131 005b 07       		.byte	7
+ 132 005c 0E       		.byte	14
+ 133 005d 03       		.byte	3
+ 134 005e 0B       		.byte	11
+ 135 005f 06       		.byte	6
+ 136              		.text
+ 137              	.Letext0:
+ 138              		.file 1 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Dem
+DEFINED SYMBOLS
+                            *ABS*:00000000 GD-6363P.c
+C:\Users\b01252\AppData\Local\Temp\ccDTgcAI.s:22     .rodata.WF_ORDERING_TABLE:00000000 WF_ORDERING_TABLE
+C:\Users\b01252\AppData\Local\Temp\ccDTgcAI.s:19     .rodata.WF_ORDERING_TABLE:00000000 $d
+C:\Users\b01252\AppData\Local\Temp\ccDTgcAI.s:39     .rodata.ASCII_TO_WF_CODIFICATION_TABLE:00000000 ASCII_TO_WF_CODIFICATION_TABLE
+C:\Users\b01252\AppData\Local\Temp\ccDTgcAI.s:36     .rodata.ASCII_TO_WF_CODIFICATION_TABLE:00000000 $d
+
+NO UNDEFINED SYMBOLS

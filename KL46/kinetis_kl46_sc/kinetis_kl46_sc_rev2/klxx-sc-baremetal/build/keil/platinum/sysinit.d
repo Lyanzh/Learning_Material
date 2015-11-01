@@ -1,0 +1,14 @@
+sysinit.o: ..\..\..\src\cpu\sysinit.c
+sysinit.o: ..\..\..\src\common\common.h
+sysinit.o: ..\..\..\src\platforms\tower.h
+sysinit.o: ..\..\..\src\drivers\mcg\mcg.h
+sysinit.o: ..\..\..\src\cpu\headers\MKL46Z4_CMSIS.h
+sysinit.o: ..\..\..\src\cpu\headers\core_cm0plus.h
+sysinit.o: C:\Keil\ARM\ARMCC\bin\..\include\stdint.h
+sysinit.o: ..\..\..\src\cpu\headers\core_cmInstr.h
+sysinit.o: ..\..\..\src\cpu\headers\core_cmFunc.h
+sysinit.o: ..\..\..\src\cpu\system_MKL46Z4.h
+sysinit.o: ..\..\..\src\common\assert.h
+sysinit.o: ..\..\..\src\common\io.h
+sysinit.o: ..\..\..\src\common\startup.h
+sysinit.o: ..\..\..\src\common\stdlib.h

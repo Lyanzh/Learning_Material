@@ -1,0 +1,17 @@
+gd-6363p.o: ..\..\..\src\projects\TWRPI_sLCD\LCD\GD-6363P.c
+gd-6363p.o: ..\..\..\src\projects\TWRPI_sLCD\LCD\LCDConfig.h
+gd-6363p.o: ..\..\..\src\common\common.h
+gd-6363p.o: ..\..\..\src\platforms\tower.h
+gd-6363p.o: ..\..\..\src\drivers\mcg\mcg.h
+gd-6363p.o: ..\..\..\src\cpu\headers\MKL46Z4_CMSIS.h
+gd-6363p.o: ..\..\..\src\cpu\headers\core_cm0plus.h
+gd-6363p.o: C:\Keil\ARM\ARMCC\bin\..\include\stdint.h
+gd-6363p.o: ..\..\..\src\cpu\headers\core_cmInstr.h
+gd-6363p.o: ..\..\..\src\cpu\headers\core_cmFunc.h
+gd-6363p.o: ..\..\..\src\cpu\system_MKL46Z4.h
+gd-6363p.o: ..\..\..\src\common\assert.h
+gd-6363p.o: ..\..\..\src\common\io.h
+gd-6363p.o: ..\..\..\src\common\startup.h
+gd-6363p.o: ..\..\..\src\common\stdlib.h
+gd-6363p.o: ..\..\..\src\cpu\headers\MemMapPtr_KL46Z4.h
+gd-6363p.o: ..\..\..\src\projects\TWRPI_sLCD\LCD\TWRPI-GD6363P.h

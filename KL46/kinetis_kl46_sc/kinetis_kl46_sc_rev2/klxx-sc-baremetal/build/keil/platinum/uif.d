@@ -1,0 +1,14 @@
+uif.o: ..\..\..\src\common\uif.c
+uif.o: ..\..\..\src\common\common.h
+uif.o: ..\..\..\src\platforms\tower.h
+uif.o: ..\..\..\src\drivers\mcg\mcg.h
+uif.o: ..\..\..\src\cpu\headers\MKL46Z4_CMSIS.h
+uif.o: ..\..\..\src\cpu\headers\core_cm0plus.h
+uif.o: C:\Keil\ARM\ARMCC\bin\..\include\stdint.h
+uif.o: ..\..\..\src\cpu\headers\core_cmInstr.h
+uif.o: ..\..\..\src\cpu\headers\core_cmFunc.h
+uif.o: ..\..\..\src\cpu\system_MKL46Z4.h
+uif.o: ..\..\..\src\common\assert.h
+uif.o: ..\..\..\src\common\io.h
+uif.o: ..\..\..\src\common\startup.h
+uif.o: ..\..\..\src\common\stdlib.h

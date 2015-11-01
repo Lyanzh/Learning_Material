@@ -1,0 +1,1323 @@
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"uart.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.global	__aeabi_idiv
+  18              		.section	.text.uart_init,"ax",%progbits
+  19              		.align	2
+  20              		.global	uart_init
+  21              		.code	16
+  22              		.thumb_func
+  24              	uart_init:
+  25              	.LFB0:
+  26              		.file 1 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart/uart.c"
+   1:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** /*
+   2:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  * File:        uart.c
+   3:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  * Purpose:     Provide common uart routines for serial IO
+   4:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  *
+   5:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  * Notes:       
+   6:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  *              
+   7:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  */
+   8:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** 
+   9:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** #include "common.h"
+  10:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** #include "uart.h"
+  11:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** #include <stdarg.h>
+  12:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** 
+  13:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** /********************************************************************/
+  14:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** /*
+  15:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  * Initialize the uart for 8N1 operation, interrupts disabled, and
+  16:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  * no hardware flow-control
+  17:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  *
+  18:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  * NOTE: Since the uarts are pinned out in multiple locations on most
+  19:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  *       Kinetis devices, this driver does not enable uart pin functions.
+  20:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  *       The desired pins should be enabled before calling this init function.
+  21:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  *
+  22:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  * Parameters:
+  23:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  *  uartch      uart channel to initialize
+  24:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  *  sysclk      uart module Clock in kHz(used to calculate baud)
+  25:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  *  baud        uart baud rate
+  26:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  */
+  27:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** void uart_init (UART_MemMapPtr uartch, int sysclk, int baud)
+  28:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** {
+  27              		.loc 1 28 0
+  28              		.cfi_startproc
+  29 0000 90B5     		push	{r4, r7, lr}
+  30              	.LCFI0:
+  31              		.cfi_def_cfa_offset 12
+  32              		.cfi_offset 4, -12
+  33              		.cfi_offset 7, -8
+  34              		.cfi_offset 14, -4
+  35 0002 87B0     		sub	sp, sp, #28
+  36              	.LCFI1:
+  37              		.cfi_def_cfa_offset 40
+  38 0004 00AF     		add	r7, sp, #0
+  39              	.LCFI2:
+  40              		.cfi_def_cfa_register 7
+  41 0006 F860     		str	r0, [r7, #12]
+  42 0008 B960     		str	r1, [r7, #8]
+  43 000a 7A60     		str	r2, [r7, #4]
+  29:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     register uint16 sbr;
+  30:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     uint8 temp;
+  31:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****                                 
+  32:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****          
+  33:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****       if (uartch == UART1_BASE_PTR)
+  44              		.loc 1 33 0
+  45 000c FA68     		ldr	r2, [r7, #12]
+  46 000e 294B     		ldr	r3, .L4
+  47 0010 9A42     		cmp	r2, r3
+  48 0012 09D1     		bne	.L2
+  34:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         SIM_SCGC4 |= SIM_SCGC4_UART1_MASK;
+  49              		.loc 1 34 0
+  50 0014 284A     		ldr	r2, .L4+4
+  51 0016 2849     		ldr	r1, .L4+4
+  52 0018 284B     		ldr	r3, .L4+8
+  53 001a CB58     		ldr	r3, [r1, r3]
+  54 001c 8021     		mov	r1, #128
+  55 001e 0901     		lsl	r1, r1, #4
+  56 0020 1943     		orr	r1, r3
+  57 0022 264B     		ldr	r3, .L4+8
+  58 0024 D150     		str	r1, [r2, r3]
+  59 0026 08E0     		b	.L3
+  60              	.L2:
+  35:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****       else
+  36:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     	SIM_SCGC4 |= SIM_SCGC4_UART2_MASK;
+  61              		.loc 1 36 0
+  62 0028 234A     		ldr	r2, .L4+4
+  63 002a 2349     		ldr	r1, .L4+4
+  64 002c 234B     		ldr	r3, .L4+8
+  65 002e CB58     		ldr	r3, [r1, r3]
+  66 0030 8021     		mov	r1, #128
+  67 0032 4901     		lsl	r1, r1, #5
+  68 0034 1943     		orr	r1, r3
+  69 0036 214B     		ldr	r3, .L4+8
+  70 0038 D150     		str	r1, [r2, r3]
+  71              	.L3:
+  37:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****       /* Make sure that the transmitter and receiver are disabled while we 
+  38:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****        * change settings.
+  39:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****        */
+  40:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****       UART_C2_REG(uartch) &= ~(UART_C2_TE_MASK
+  72              		.loc 1 40 0
+  73 003a FB68     		ldr	r3, [r7, #12]
+  74 003c DB78     		ldrb	r3, [r3, #3]
+  75 003e DBB2     		uxtb	r3, r3
+  76 0040 0C22     		mov	r2, #12
+  77 0042 9343     		bic	r3, r2
+  78 0044 DAB2     		uxtb	r2, r3
+  79 0046 FB68     		ldr	r3, [r7, #12]
+  80 0048 DA70     		strb	r2, [r3, #3]
+  41:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** 				| UART_C2_RE_MASK );
+  42:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** 
+  43:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****       /* Configure the uart for 8-bit mode, no parity */
+  44:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****       UART_C1_REG(uartch) = 0;	/* We need all default settings, so entire register is cleared */
+  81              		.loc 1 44 0
+  82 004a FB68     		ldr	r3, [r7, #12]
+  83 004c 0022     		mov	r2, #0
+  84 004e 9A70     		strb	r2, [r3, #2]
+  45:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     
+  46:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****       /* Calculate baud settings */
+  47:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****       sbr = (uint16)((sysclk*1000)/(baud * 16));
+  85              		.loc 1 47 0
+  86 0050 BB68     		ldr	r3, [r7, #8]
+  87 0052 FA22     		mov	r2, #250
+  88 0054 9200     		lsl	r2, r2, #2
+  89 0056 5A43     		mul	r2, r3
+  90 0058 7B68     		ldr	r3, [r7, #4]
+  91 005a 1B01     		lsl	r3, r3, #4
+  92 005c 101C     		mov	r0, r2
+  93 005e 191C     		mov	r1, r3
+  94 0060 FFF7FEFF 		bl	__aeabi_idiv
+  95 0064 031C     		mov	r3, r0
+  96 0066 9CB2     		uxth	r4, r3
+  48:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         
+  49:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****       /* Save off the current value of the uartx_BDH except for the SBR field */
+  50:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****       temp = UART_BDH_REG(uartch) & ~(UART_BDH_SBR(0x1F));
+  97              		.loc 1 50 0
+  98 0068 FB68     		ldr	r3, [r7, #12]
+  99 006a 1B78     		ldrb	r3, [r3]
+ 100 006c DAB2     		uxtb	r2, r3
+ 101 006e 3B1C     		mov	r3, r7
+ 102 0070 1733     		add	r3, r3, #23
+ 103 0072 1F21     		mov	r1, #31
+ 104 0074 8A43     		bic	r2, r1
+ 105 0076 1A70     		strb	r2, [r3]
+  51:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     
+  52:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****       UART_BDH_REG(uartch) = temp |  UART_BDH_SBR(((sbr & 0x1F00) >> 8));
+ 106              		.loc 1 52 0
+ 107 0078 221C     		mov	r2, r4
+ 108 007a F823     		mov	r3, #248
+ 109 007c 5B01     		lsl	r3, r3, #5
+ 110 007e 1340     		and	r3, r2
+ 111 0080 1B12     		asr	r3, r3, #8
+ 112 0082 DAB2     		uxtb	r2, r3
+ 113 0084 1F23     		mov	r3, #31
+ 114 0086 1340     		and	r3, r2
+ 115 0088 DAB2     		uxtb	r2, r3
+ 116 008a 3B1C     		mov	r3, r7
+ 117 008c 1733     		add	r3, r3, #23
+ 118 008e 1B78     		ldrb	r3, [r3]
+ 119 0090 1343     		orr	r3, r2
+ 120 0092 DAB2     		uxtb	r2, r3
+ 121 0094 FB68     		ldr	r3, [r7, #12]
+ 122 0096 1A70     		strb	r2, [r3]
+  53:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****       UART_BDL_REG(uartch) = (uint8)(sbr & UART_BDL_SBR_MASK);
+ 123              		.loc 1 53 0
+ 124 0098 E2B2     		uxtb	r2, r4
+ 125 009a FB68     		ldr	r3, [r7, #12]
+ 126 009c 5A70     		strb	r2, [r3, #1]
+  54:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****   
+  55:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****       /* Enable receiver and transmitter */
+  56:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****       UART_C2_REG(uartch) |= (UART_C2_TE_MASK
+ 127              		.loc 1 56 0
+ 128 009e FB68     		ldr	r3, [r7, #12]
+ 129 00a0 DB78     		ldrb	r3, [r3, #3]
+ 130 00a2 DBB2     		uxtb	r3, r3
+ 131 00a4 0C22     		mov	r2, #12
+ 132 00a6 1343     		orr	r3, r2
+ 133 00a8 DAB2     		uxtb	r2, r3
+ 134 00aa FB68     		ldr	r3, [r7, #12]
+ 135 00ac DA70     		strb	r2, [r3, #3]
+  57:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** 	    		  | UART_C2_RE_MASK );
+  58:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     
+  59:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** }
+ 136              		.loc 1 59 0
+ 137 00ae BD46     		mov	sp, r7
+ 138 00b0 07B0     		add	sp, sp, #28
+ 139              		@ sp needed for prologue
+ 140 00b2 90BD     		pop	{r4, r7, pc}
+ 141              	.L5:
+ 142              		.align	2
+ 143              	.L4:
+ 144 00b4 00B00640 		.word	1074180096
+ 145 00b8 00700440 		.word	1074032640
+ 146 00bc 34100000 		.word	4148
+ 147              		.cfi_endproc
+ 148              	.LFE0:
+ 150              		.section	.text.uart_getchar,"ax",%progbits
+ 151              		.align	2
+ 152              		.global	uart_getchar
+ 153              		.code	16
+ 154              		.thumb_func
+ 156              	uart_getchar:
+ 157              	.LFB1:
+  60:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** /********************************************************************/
+  61:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** /*
+  62:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  * Wait for a character to be received on the specified uart
+  63:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  *
+  64:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  * Parameters:
+  65:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  *  channel      uart channel to read from
+  66:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  *
+  67:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  * Return Values:
+  68:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  *  the received character
+  69:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  */
+  70:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** char uart_getchar (UART_MemMapPtr channel)
+  71:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** {
+ 158              		.loc 1 71 0
+ 159              		.cfi_startproc
+ 160 0000 80B5     		push	{r7, lr}
+ 161              	.LCFI3:
+ 162              		.cfi_def_cfa_offset 8
+ 163              		.cfi_offset 7, -8
+ 164              		.cfi_offset 14, -4
+ 165 0002 82B0     		sub	sp, sp, #8
+ 166              	.LCFI4:
+ 167              		.cfi_def_cfa_offset 16
+ 168 0004 00AF     		add	r7, sp, #0
+ 169              	.LCFI5:
+ 170              		.cfi_def_cfa_register 7
+ 171 0006 7860     		str	r0, [r7, #4]
+  72:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****       /* Wait until character has been received */
+  73:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****       while (!(UART_S1_REG(channel) & UART_S1_RDRF_MASK));
+ 172              		.loc 1 73 0
+ 173 0008 C046     		mov	r8, r8
+ 174              	.L7:
+ 175              		.loc 1 73 0 is_stmt 0
+ 176 000a 7B68     		ldr	r3, [r7, #4]
+ 177 000c 1B79     		ldrb	r3, [r3, #4]
+ 178 000e DBB2     		uxtb	r3, r3
+ 179 0010 1A1C     		mov	r2, r3
+ 180 0012 2023     		mov	r3, #32
+ 181 0014 1340     		and	r3, r2
+ 182 0016 F8D0     		beq	.L7
+  74:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     
+  75:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****       /* Return the 8-bit data from the receiver */
+  76:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****       return UART_D_REG(channel);
+ 183              		.loc 1 76 0 is_stmt 1
+ 184 0018 7B68     		ldr	r3, [r7, #4]
+ 185 001a DB79     		ldrb	r3, [r3, #7]
+ 186 001c DBB2     		uxtb	r3, r3
+  77:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** }
+ 187              		.loc 1 77 0
+ 188 001e 181C     		mov	r0, r3
+ 189 0020 BD46     		mov	sp, r7
+ 190 0022 02B0     		add	sp, sp, #8
+ 191              		@ sp needed for prologue
+ 192 0024 80BD     		pop	{r7, pc}
+ 193              		.cfi_endproc
+ 194              	.LFE1:
+ 196 0026 C046     		.section	.text.uart_putchar,"ax",%progbits
+ 197              		.align	2
+ 198              		.global	uart_putchar
+ 199              		.code	16
+ 200              		.thumb_func
+ 202              	uart_putchar:
+ 203              	.LFB2:
+  78:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** /********************************************************************/
+  79:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** /*
+  80:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  * Wait for space in the uart Tx FIFO and then send a character
+  81:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  *
+  82:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  * Parameters:
+  83:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  *  channel      uart channel to send to
+  84:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  *  ch			 character to send
+  85:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  */ 
+  86:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** void uart_putchar (UART_MemMapPtr channel, char ch)
+  87:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** {
+ 204              		.loc 1 87 0
+ 205              		.cfi_startproc
+ 206 0000 80B5     		push	{r7, lr}
+ 207              	.LCFI6:
+ 208              		.cfi_def_cfa_offset 8
+ 209              		.cfi_offset 7, -8
+ 210              		.cfi_offset 14, -4
+ 211 0002 82B0     		sub	sp, sp, #8
+ 212              	.LCFI7:
+ 213              		.cfi_def_cfa_offset 16
+ 214 0004 00AF     		add	r7, sp, #0
+ 215              	.LCFI8:
+ 216              		.cfi_def_cfa_register 7
+ 217 0006 7860     		str	r0, [r7, #4]
+ 218 0008 0A1C     		mov	r2, r1
+ 219 000a FB1C     		add	r3, r7, #3
+ 220 000c 1A70     		strb	r2, [r3]
+  88:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****       /* Wait until space is available in the FIFO */
+  89:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****       while(!(UART_S1_REG(channel) & UART_S1_TDRE_MASK));
+ 221              		.loc 1 89 0
+ 222 000e C046     		mov	r8, r8
+ 223              	.L10:
+ 224              		.loc 1 89 0 is_stmt 0
+ 225 0010 7B68     		ldr	r3, [r7, #4]
+ 226 0012 1B79     		ldrb	r3, [r3, #4]
+ 227 0014 DBB2     		uxtb	r3, r3
+ 228 0016 DBB2     		uxtb	r3, r3
+ 229 0018 5BB2     		sxtb	r3, r3
+ 230 001a 002B     		cmp	r3, #0
+ 231 001c F8DA     		bge	.L10
+  90:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     
+  91:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****       /* Send the character */
+  92:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****       UART_D_REG(channel) = (uint8)ch;
+ 232              		.loc 1 92 0 is_stmt 1
+ 233 001e 7B68     		ldr	r3, [r7, #4]
+ 234 0020 FA1C     		add	r2, r7, #3
+ 235 0022 1278     		ldrb	r2, [r2]
+ 236 0024 DA71     		strb	r2, [r3, #7]
+  93:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     
+  94:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  }
+ 237              		.loc 1 94 0
+ 238 0026 BD46     		mov	sp, r7
+ 239 0028 02B0     		add	sp, sp, #8
+ 240              		@ sp needed for prologue
+ 241 002a 80BD     		pop	{r7, pc}
+ 242              		.cfi_endproc
+ 243              	.LFE2:
+ 245              		.section	.text.uart_getchar_present,"ax",%progbits
+ 246              		.align	2
+ 247              		.global	uart_getchar_present
+ 248              		.code	16
+ 249              		.thumb_func
+ 251              	uart_getchar_present:
+ 252              	.LFB3:
+  95:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** /********************************************************************/
+  96:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** /*
+  97:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  * Check to see if a character has been received
+  98:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  *
+  99:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  * Parameters:
+ 100:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  *  channel      uart channel to check for a character
+ 101:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  *
+ 102:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  * Return values:
+ 103:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  *  0       No character received
+ 104:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  *  1       Character has been received
+ 105:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  */
+ 106:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** int uart_getchar_present (UART_MemMapPtr channel)
+ 107:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** {
+ 253              		.loc 1 107 0
+ 254              		.cfi_startproc
+ 255 0000 80B5     		push	{r7, lr}
+ 256              	.LCFI9:
+ 257              		.cfi_def_cfa_offset 8
+ 258              		.cfi_offset 7, -8
+ 259              		.cfi_offset 14, -4
+ 260 0002 82B0     		sub	sp, sp, #8
+ 261              	.LCFI10:
+ 262              		.cfi_def_cfa_offset 16
+ 263 0004 00AF     		add	r7, sp, #0
+ 264              	.LCFI11:
+ 265              		.cfi_def_cfa_register 7
+ 266 0006 7860     		str	r0, [r7, #4]
+ 108:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     return (UART_S1_REG(channel) & UART_S1_RDRF_MASK);
+ 267              		.loc 1 108 0
+ 268 0008 7B68     		ldr	r3, [r7, #4]
+ 269 000a 1B79     		ldrb	r3, [r3, #4]
+ 270 000c DBB2     		uxtb	r3, r3
+ 271 000e 1A1C     		mov	r2, r3
+ 272 0010 2023     		mov	r3, #32
+ 273 0012 1340     		and	r3, r2
+ 109:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** }
+ 274              		.loc 1 109 0
+ 275 0014 181C     		mov	r0, r3
+ 276 0016 BD46     		mov	sp, r7
+ 277 0018 02B0     		add	sp, sp, #8
+ 278              		@ sp needed for prologue
+ 279 001a 80BD     		pop	{r7, pc}
+ 280              		.cfi_endproc
+ 281              	.LFE3:
+ 283              		.global	__aeabi_uidiv
+ 284              		.section	.text.uart0_init,"ax",%progbits
+ 285              		.align	2
+ 286              		.global	uart0_init
+ 287              		.code	16
+ 288              		.thumb_func
+ 290              	uart0_init:
+ 291              	.LFB4:
+ 110:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** /********************************************************************/
+ 111:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** 
+ 112:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** /***************************************************************************
+ 113:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  * Begin UART0 functions
+ 114:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  **************************************************************************/
+ 115:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** /********************************************************************/
+ 116:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** /*
+ 117:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  * Initialize the uart for 8N1 operation, interrupts disabled, and
+ 118:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  * no hardware flow-control
+ 119:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  *
+ 120:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  * NOTE: Since the uarts are pinned out in multiple locations on most
+ 121:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  *       Kinetis devices, this driver does not enable uart pin functions.
+ 122:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  *       The desired pins should be enabled before calling this init function.
+ 123:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  *
+ 124:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  * Parameters:
+ 125:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  *  uartch      uart channel to initialize
+ 126:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  *  sysclk      uart module Clock in kHz(used to calculate baud)
+ 127:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  *  baud        uart baud rate
+ 128:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  */
+ 129:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** void uart0_init (UART0_MemMapPtr uartch, int sysclk, int baud)
+ 130:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** {
+ 292              		.loc 1 130 0
+ 293              		.cfi_startproc
+ 294 0000 80B5     		push	{r7, lr}
+ 295              	.LCFI12:
+ 296              		.cfi_def_cfa_offset 8
+ 297              		.cfi_offset 7, -8
+ 298              		.cfi_offset 14, -4
+ 299 0002 8EB0     		sub	sp, sp, #56
+ 300              	.LCFI13:
+ 301              		.cfi_def_cfa_offset 64
+ 302 0004 00AF     		add	r7, sp, #0
+ 303              	.LCFI14:
+ 304              		.cfi_def_cfa_register 7
+ 305 0006 F860     		str	r0, [r7, #12]
+ 306 0008 B960     		str	r1, [r7, #8]
+ 307 000a 7A60     		str	r2, [r7, #4]
+ 131:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     uint8 i;
+ 132:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     uint32 calculated_baud = 0;
+ 308              		.loc 1 132 0
+ 309 000c 0023     		mov	r3, #0
+ 310 000e 7B62     		str	r3, [r7, #36]
+ 133:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     uint32 baud_diff = 0;
+ 311              		.loc 1 133 0
+ 312 0010 0023     		mov	r3, #0
+ 313 0012 3B63     		str	r3, [r7, #48]
+ 134:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     uint32 osr_val = 0;
+ 314              		.loc 1 134 0
+ 315 0014 0023     		mov	r3, #0
+ 316 0016 FB62     		str	r3, [r7, #44]
+ 135:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     uint32 sbr_val, uart0clk;
+ 136:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     uint32 baud_rate;
+ 137:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     uint32 reg_temp = 0;
+ 317              		.loc 1 137 0
+ 318 0018 0023     		mov	r3, #0
+ 319 001a 3B62     		str	r3, [r7, #32]
+ 138:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     uint32 temp = 0;
+ 320              		.loc 1 138 0
+ 321 001c 0023     		mov	r3, #0
+ 322 001e BB62     		str	r3, [r7, #40]
+ 139:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     
+ 140:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     SIM_SCGC4 |= SIM_SCGC4_UART0_MASK;
+ 323              		.loc 1 140 0
+ 324 0020 7D4A     		ldr	r2, .L27
+ 325 0022 7D49     		ldr	r1, .L27
+ 326 0024 7D4B     		ldr	r3, .L27+4
+ 327 0026 CB58     		ldr	r3, [r1, r3]
+ 328 0028 8021     		mov	r1, #128
+ 329 002a C900     		lsl	r1, r1, #3
+ 330 002c 1943     		orr	r1, r3
+ 331 002e 7B4B     		ldr	r3, .L27+4
+ 332 0030 D150     		str	r1, [r2, r3]
+ 141:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     
+ 142:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     // Disable UART0 before changing registers
+ 143:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     UART0_C2 &= ~(UART0_C2_TE_MASK | UART0_C2_RE_MASK);
+ 333              		.loc 1 143 0
+ 334 0032 7B4B     		ldr	r3, .L27+8
+ 335 0034 7A4A     		ldr	r2, .L27+8
+ 336 0036 D278     		ldrb	r2, [r2, #3]
+ 337 0038 D2B2     		uxtb	r2, r2
+ 338 003a 0C21     		mov	r1, #12
+ 339 003c 8A43     		bic	r2, r1
+ 340 003e D2B2     		uxtb	r2, r2
+ 341 0040 DA70     		strb	r2, [r3, #3]
+ 144:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****   
+ 145:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     // Verify that a valid clock value has been passed to the function 
+ 146:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     if ((sysclk > 50000) || (sysclk < 32))
+ 342              		.loc 1 146 0
+ 343 0042 BA68     		ldr	r2, [r7, #8]
+ 344 0044 774B     		ldr	r3, .L27+12
+ 345 0046 9A42     		cmp	r2, r3
+ 346 0048 02DC     		bgt	.L14
+ 347              		.loc 1 146 0 is_stmt 0
+ 348 004a BB68     		ldr	r3, [r7, #8]
+ 349 004c 1F2B     		cmp	r3, #31
+ 350 004e 0EDC     		bgt	.L15
+ 351              	.L14:
+ 147:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     {
+ 148:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         sysclk = 0;
+ 352              		.loc 1 148 0 is_stmt 1
+ 353 0050 0023     		mov	r3, #0
+ 354 0052 BB60     		str	r3, [r7, #8]
+ 149:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         reg_temp = SIM_SOPT2;
+ 355              		.loc 1 149 0
+ 356 0054 704A     		ldr	r2, .L27
+ 357 0056 744B     		ldr	r3, .L27+16
+ 358 0058 D358     		ldr	r3, [r2, r3]
+ 359 005a 3B62     		str	r3, [r7, #32]
+ 150:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         reg_temp &= ~SIM_SOPT2_UART0SRC_MASK;
+ 360              		.loc 1 150 0
+ 361 005c 3A6A     		ldr	r2, [r7, #32]
+ 362 005e 734B     		ldr	r3, .L27+20
+ 363 0060 1340     		and	r3, r2
+ 364 0062 3B62     		str	r3, [r7, #32]
+ 151:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         reg_temp |= SIM_SOPT2_UART0SRC(0);
+ 152:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         SIM_SOPT2 = reg_temp;
+ 365              		.loc 1 152 0
+ 366 0064 6C4A     		ldr	r2, .L27
+ 367 0066 704B     		ldr	r3, .L27+16
+ 368 0068 396A     		ldr	r1, [r7, #32]
+ 369 006a D150     		str	r1, [r2, r3]
+ 370              	.L16:
+ 153:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** 			
+ 154:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** 			  // Enter inifinite loop because the 
+ 155:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** 			  // the desired system clock value is 
+ 156:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** 			  // invalid!!
+ 157:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** 			  while(1)
+ 158:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** 				{}
+ 371              		.loc 1 158 0
+ 372 006c FEE7     		b	.L16
+ 373              	.L15:
+ 159:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     }
+ 160:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     
+ 161:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     // Verify that a valid value has been passed to TERM_PORT_NUM and update
+ 162:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     // uart0_clk_hz accordingly.  Write 0 to TERM_PORT_NUM if an invalid 
+ 163:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     // value has been passed.  
+ 164:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     if (TERM_PORT_NUM != 0)
+ 165:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     {
+ 166:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         reg_temp = SIM_SOPT2;
+ 167:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         reg_temp &= ~SIM_SOPT2_UART0SRC_MASK;
+ 168:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         reg_temp |= SIM_SOPT2_UART0SRC(0);
+ 169:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         SIM_SOPT2 = reg_temp;
+ 170:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** 			
+ 171:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** 			  // Enter inifinite loop because the 
+ 172:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** 			  // the desired terminal port number 
+ 173:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** 			  // invalid!!
+ 174:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** 			  while(1)
+ 175:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** 				{}
+ 176:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     }
+ 177:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     
+ 178:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     
+ 179:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     
+ 180:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     // Initialize baud rate
+ 181:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     baud_rate = baud;
+ 374              		.loc 1 181 0
+ 375 006e 7B68     		ldr	r3, [r7, #4]
+ 376 0070 FB61     		str	r3, [r7, #28]
+ 182:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     
+ 183:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     // Change units to Hz
+ 184:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     uart0clk = sysclk * 1000;
+ 377              		.loc 1 184 0
+ 378 0072 BB68     		ldr	r3, [r7, #8]
+ 379 0074 FA22     		mov	r2, #250
+ 380 0076 9200     		lsl	r2, r2, #2
+ 381 0078 5343     		mul	r3, r2
+ 382 007a BB61     		str	r3, [r7, #24]
+ 185:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     // Calculate the first baud rate using the lowest OSR value possible.  
+ 186:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     i = 4;
+ 383              		.loc 1 186 0
+ 384 007c 3B1C     		mov	r3, r7
+ 385 007e 3733     		add	r3, r3, #55
+ 386 0080 0422     		mov	r2, #4
+ 387 0082 1A70     		strb	r2, [r3]
+ 187:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     sbr_val = (uint32)(uart0clk/(baud_rate * i));
+ 388              		.loc 1 187 0
+ 389 0084 3B1C     		mov	r3, r7
+ 390 0086 3733     		add	r3, r3, #55
+ 391 0088 1B78     		ldrb	r3, [r3]
+ 392 008a FA69     		ldr	r2, [r7, #28]
+ 393 008c 5343     		mul	r3, r2
+ 394 008e B869     		ldr	r0, [r7, #24]
+ 395 0090 191C     		mov	r1, r3
+ 396 0092 FFF7FEFF 		bl	__aeabi_uidiv
+ 397 0096 031C     		mov	r3, r0
+ 398 0098 7B61     		str	r3, [r7, #20]
+ 188:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     calculated_baud = (uart0clk / (i * sbr_val));
+ 399              		.loc 1 188 0
+ 400 009a 3B1C     		mov	r3, r7
+ 401 009c 3733     		add	r3, r3, #55
+ 402 009e 1B78     		ldrb	r3, [r3]
+ 403 00a0 7A69     		ldr	r2, [r7, #20]
+ 404 00a2 5343     		mul	r3, r2
+ 405 00a4 B869     		ldr	r0, [r7, #24]
+ 406 00a6 191C     		mov	r1, r3
+ 407 00a8 FFF7FEFF 		bl	__aeabi_uidiv
+ 408 00ac 031C     		mov	r3, r0
+ 409 00ae 7B62     		str	r3, [r7, #36]
+ 189:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         
+ 190:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     if (calculated_baud > baud_rate)
+ 410              		.loc 1 190 0
+ 411 00b0 7A6A     		ldr	r2, [r7, #36]
+ 412 00b2 FB69     		ldr	r3, [r7, #28]
+ 413 00b4 9A42     		cmp	r2, r3
+ 414 00b6 04D9     		bls	.L17
+ 191:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         baud_diff = calculated_baud - baud_rate;
+ 415              		.loc 1 191 0
+ 416 00b8 7A6A     		ldr	r2, [r7, #36]
+ 417 00ba FB69     		ldr	r3, [r7, #28]
+ 418 00bc D31A     		sub	r3, r2, r3
+ 419 00be 3B63     		str	r3, [r7, #48]
+ 420 00c0 03E0     		b	.L18
+ 421              	.L17:
+ 192:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     else
+ 193:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         baud_diff = baud_rate - calculated_baud;
+ 422              		.loc 1 193 0
+ 423 00c2 FA69     		ldr	r2, [r7, #28]
+ 424 00c4 7B6A     		ldr	r3, [r7, #36]
+ 425 00c6 D31A     		sub	r3, r2, r3
+ 426 00c8 3B63     		str	r3, [r7, #48]
+ 427              	.L18:
+ 194:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     
+ 195:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     osr_val = i;
+ 428              		.loc 1 195 0
+ 429 00ca 3B1C     		mov	r3, r7
+ 430 00cc 3733     		add	r3, r3, #55
+ 431 00ce 1B78     		ldrb	r3, [r3]
+ 432 00d0 FB62     		str	r3, [r7, #44]
+ 196:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         
+ 197:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     // Select the best OSR value
+ 198:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     for (i = 5; i <= 32; i++)
+ 433              		.loc 1 198 0
+ 434 00d2 3B1C     		mov	r3, r7
+ 435 00d4 3733     		add	r3, r3, #55
+ 436 00d6 0522     		mov	r2, #5
+ 437 00d8 1A70     		strb	r2, [r3]
+ 438 00da 33E0     		b	.L19
+ 439              	.L23:
+ 199:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     {
+ 200:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         sbr_val = (uint32)(uart0clk/(baud_rate * i));
+ 440              		.loc 1 200 0
+ 441 00dc 3B1C     		mov	r3, r7
+ 442 00de 3733     		add	r3, r3, #55
+ 443 00e0 1B78     		ldrb	r3, [r3]
+ 444 00e2 FA69     		ldr	r2, [r7, #28]
+ 445 00e4 5343     		mul	r3, r2
+ 446 00e6 B869     		ldr	r0, [r7, #24]
+ 447 00e8 191C     		mov	r1, r3
+ 448 00ea FFF7FEFF 		bl	__aeabi_uidiv
+ 449 00ee 031C     		mov	r3, r0
+ 450 00f0 7B61     		str	r3, [r7, #20]
+ 201:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         calculated_baud = (uart0clk / (i * sbr_val));
+ 451              		.loc 1 201 0
+ 452 00f2 3B1C     		mov	r3, r7
+ 453 00f4 3733     		add	r3, r3, #55
+ 454 00f6 1B78     		ldrb	r3, [r3]
+ 455 00f8 7A69     		ldr	r2, [r7, #20]
+ 456 00fa 5343     		mul	r3, r2
+ 457 00fc B869     		ldr	r0, [r7, #24]
+ 458 00fe 191C     		mov	r1, r3
+ 459 0100 FFF7FEFF 		bl	__aeabi_uidiv
+ 460 0104 031C     		mov	r3, r0
+ 461 0106 7B62     		str	r3, [r7, #36]
+ 202:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         
+ 203:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         if (calculated_baud > baud_rate)
+ 462              		.loc 1 203 0
+ 463 0108 7A6A     		ldr	r2, [r7, #36]
+ 464 010a FB69     		ldr	r3, [r7, #28]
+ 465 010c 9A42     		cmp	r2, r3
+ 466 010e 04D9     		bls	.L20
+ 204:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****             temp = calculated_baud - baud_rate;
+ 467              		.loc 1 204 0
+ 468 0110 7A6A     		ldr	r2, [r7, #36]
+ 469 0112 FB69     		ldr	r3, [r7, #28]
+ 470 0114 D31A     		sub	r3, r2, r3
+ 471 0116 BB62     		str	r3, [r7, #40]
+ 472 0118 03E0     		b	.L21
+ 473              	.L20:
+ 205:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         else
+ 206:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****             temp = baud_rate - calculated_baud;
+ 474              		.loc 1 206 0
+ 475 011a FA69     		ldr	r2, [r7, #28]
+ 476 011c 7B6A     		ldr	r3, [r7, #36]
+ 477 011e D31A     		sub	r3, r2, r3
+ 478 0120 BB62     		str	r3, [r7, #40]
+ 479              	.L21:
+ 207:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         
+ 208:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         if (temp <= baud_diff)
+ 480              		.loc 1 208 0
+ 481 0122 BA6A     		ldr	r2, [r7, #40]
+ 482 0124 3B6B     		ldr	r3, [r7, #48]
+ 483 0126 9A42     		cmp	r2, r3
+ 484 0128 05D8     		bhi	.L22
+ 209:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         {
+ 210:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****             baud_diff = temp;
+ 485              		.loc 1 210 0
+ 486 012a BB6A     		ldr	r3, [r7, #40]
+ 487 012c 3B63     		str	r3, [r7, #48]
+ 211:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****             osr_val = i; 
+ 488              		.loc 1 211 0
+ 489 012e 3B1C     		mov	r3, r7
+ 490 0130 3733     		add	r3, r3, #55
+ 491 0132 1B78     		ldrb	r3, [r3]
+ 492 0134 FB62     		str	r3, [r7, #44]
+ 493              	.L22:
+ 198:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     for (i = 5; i <= 32; i++)
+ 494              		.loc 1 198 0
+ 495 0136 3B1C     		mov	r3, r7
+ 496 0138 3733     		add	r3, r3, #55
+ 497 013a 3A1C     		mov	r2, r7
+ 498 013c 3732     		add	r2, r2, #55
+ 499 013e 1278     		ldrb	r2, [r2]
+ 500 0140 0132     		add	r2, r2, #1
+ 501 0142 1A70     		strb	r2, [r3]
+ 502              	.L19:
+ 198:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     for (i = 5; i <= 32; i++)
+ 503              		.loc 1 198 0 is_stmt 0
+ 504 0144 3B1C     		mov	r3, r7
+ 505 0146 3733     		add	r3, r3, #55
+ 506 0148 1B78     		ldrb	r3, [r3]
+ 507 014a 202B     		cmp	r3, #32
+ 508 014c C6D9     		bls	.L23
+ 212:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         }
+ 213:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     }
+ 214:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     
+ 215:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     if (baud_diff < ((baud_rate / 100) * 3))
+ 509              		.loc 1 215 0 is_stmt 1
+ 510 014e FB69     		ldr	r3, [r7, #28]
+ 511 0150 181C     		mov	r0, r3
+ 512 0152 6421     		mov	r1, #100
+ 513 0154 FFF7FEFF 		bl	__aeabi_uidiv
+ 514 0158 031C     		mov	r3, r0
+ 515 015a 1A1C     		mov	r2, r3
+ 516 015c 131C     		mov	r3, r2
+ 517 015e 5B00     		lsl	r3, r3, #1
+ 518 0160 9A18     		add	r2, r3, r2
+ 519 0162 3B6B     		ldr	r3, [r7, #48]
+ 520 0164 9A42     		cmp	r2, r3
+ 521 0166 53D9     		bls	.L24
+ 216:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     {
+ 217:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         // If the OSR is between 4x and 8x then both
+ 218:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         // edge sampling MUST be turned on.  
+ 219:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         if ((osr_val >3) && (osr_val < 9))
+ 522              		.loc 1 219 0
+ 523 0168 FB6A     		ldr	r3, [r7, #44]
+ 524 016a 032B     		cmp	r3, #3
+ 525 016c 0AD9     		bls	.L25
+ 526              		.loc 1 219 0 is_stmt 0
+ 527 016e FB6A     		ldr	r3, [r7, #44]
+ 528 0170 082B     		cmp	r3, #8
+ 529 0172 07D8     		bhi	.L25
+ 220:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****             UART0_C5|= UART0_C5_BOTHEDGE_MASK;
+ 530              		.loc 1 220 0 is_stmt 1
+ 531 0174 2A4B     		ldr	r3, .L27+8
+ 532 0176 2A4A     		ldr	r2, .L27+8
+ 533 0178 D27A     		ldrb	r2, [r2, #11]
+ 534 017a D2B2     		uxtb	r2, r2
+ 535 017c 0221     		mov	r1, #2
+ 536 017e 0A43     		orr	r2, r1
+ 537 0180 D2B2     		uxtb	r2, r2
+ 538 0182 DA72     		strb	r2, [r3, #11]
+ 539              	.L25:
+ 221:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         
+ 222:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         // Setup OSR value 
+ 223:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         reg_temp = UART0_C4;
+ 540              		.loc 1 223 0
+ 541 0184 264B     		ldr	r3, .L27+8
+ 542 0186 9B7A     		ldrb	r3, [r3, #10]
+ 543 0188 DBB2     		uxtb	r3, r3
+ 544 018a 3B62     		str	r3, [r7, #32]
+ 224:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         reg_temp &= ~UART0_C4_OSR_MASK;
+ 545              		.loc 1 224 0
+ 546 018c 3B6A     		ldr	r3, [r7, #32]
+ 547 018e 1F22     		mov	r2, #31
+ 548 0190 9343     		bic	r3, r2
+ 549 0192 3B62     		str	r3, [r7, #32]
+ 225:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         reg_temp |= UART0_C4_OSR(osr_val-1);
+ 550              		.loc 1 225 0
+ 551 0194 FB6A     		ldr	r3, [r7, #44]
+ 552 0196 DBB2     		uxtb	r3, r3
+ 553 0198 013B     		sub	r3, r3, #1
+ 554 019a DBB2     		uxtb	r3, r3
+ 555 019c 1A1C     		mov	r2, r3
+ 556 019e 1F23     		mov	r3, #31
+ 557 01a0 1340     		and	r3, r2
+ 558 01a2 3A6A     		ldr	r2, [r7, #32]
+ 559 01a4 1343     		orr	r3, r2
+ 560 01a6 3B62     		str	r3, [r7, #32]
+ 226:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     
+ 227:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         // Write reg_temp to C4 register
+ 228:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         UART0_C4 = reg_temp;
+ 561              		.loc 1 228 0
+ 562 01a8 1D4B     		ldr	r3, .L27+8
+ 563 01aa 3A6A     		ldr	r2, [r7, #32]
+ 564 01ac D2B2     		uxtb	r2, r2
+ 565 01ae 9A72     		strb	r2, [r3, #10]
+ 229:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         
+ 230:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         reg_temp = (reg_temp & UART0_C4_OSR_MASK) + 1;
+ 566              		.loc 1 230 0
+ 567 01b0 3A6A     		ldr	r2, [r7, #32]
+ 568 01b2 1F23     		mov	r3, #31
+ 569 01b4 1340     		and	r3, r2
+ 570 01b6 0133     		add	r3, r3, #1
+ 571 01b8 3B62     		str	r3, [r7, #32]
+ 231:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         sbr_val = (uint32)((uart0clk)/(baud_rate * (reg_temp)));
+ 572              		.loc 1 231 0
+ 573 01ba FB69     		ldr	r3, [r7, #28]
+ 574 01bc 3A6A     		ldr	r2, [r7, #32]
+ 575 01be 5343     		mul	r3, r2
+ 576 01c0 B869     		ldr	r0, [r7, #24]
+ 577 01c2 191C     		mov	r1, r3
+ 578 01c4 FFF7FEFF 		bl	__aeabi_uidiv
+ 579 01c8 031C     		mov	r3, r0
+ 580 01ca 7B61     		str	r3, [r7, #20]
+ 232:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         
+ 233:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****          /* Save off the current value of the uartx_BDH except for the SBR field */
+ 234:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         reg_temp = UART0_BDH & ~(UART0_BDH_SBR(0x1F));
+ 581              		.loc 1 234 0
+ 582 01cc 144B     		ldr	r3, .L27+8
+ 583 01ce 1B78     		ldrb	r3, [r3]
+ 584 01d0 DBB2     		uxtb	r3, r3
+ 585 01d2 1F22     		mov	r2, #31
+ 586 01d4 9343     		bic	r3, r2
+ 587 01d6 3B62     		str	r3, [r7, #32]
+ 235:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****    
+ 236:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         UART0_BDH = reg_temp |  UART0_BDH_SBR(((sbr_val & 0x1F00) >> 8));
+ 588              		.loc 1 236 0
+ 589 01d8 114B     		ldr	r3, .L27+8
+ 590 01da 7969     		ldr	r1, [r7, #20]
+ 591 01dc F822     		mov	r2, #248
+ 592 01de 5201     		lsl	r2, r2, #5
+ 593 01e0 0A40     		and	r2, r1
+ 594 01e2 120A     		lsr	r2, r2, #8
+ 595 01e4 D1B2     		uxtb	r1, r2
+ 596 01e6 1F22     		mov	r2, #31
+ 597 01e8 0A40     		and	r2, r1
+ 598 01ea D1B2     		uxtb	r1, r2
+ 599 01ec 3A6A     		ldr	r2, [r7, #32]
+ 600 01ee D2B2     		uxtb	r2, r2
+ 601 01f0 0A43     		orr	r2, r1
+ 602 01f2 D2B2     		uxtb	r2, r2
+ 603 01f4 1A70     		strb	r2, [r3]
+ 237:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         UART0_BDL = (uint8)(sbr_val & UART0_BDL_SBR_MASK);
+ 604              		.loc 1 237 0
+ 605 01f6 0A4B     		ldr	r3, .L27+8
+ 606 01f8 7A69     		ldr	r2, [r7, #20]
+ 607 01fa D2B2     		uxtb	r2, r2
+ 608 01fc 5A70     		strb	r2, [r3, #1]
+ 238:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         
+ 239:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         /* Enable receiver and transmitter */
+ 240:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         UART0_C2 |= (UART0_C2_TE_MASK
+ 609              		.loc 1 240 0
+ 610 01fe 084B     		ldr	r3, .L27+8
+ 611 0200 074A     		ldr	r2, .L27+8
+ 612 0202 D278     		ldrb	r2, [r2, #3]
+ 613 0204 D2B2     		uxtb	r2, r2
+ 614 0206 0C21     		mov	r1, #12
+ 615 0208 0A43     		orr	r2, r1
+ 616 020a D2B2     		uxtb	r2, r2
+ 617 020c DA70     		strb	r2, [r3, #3]
+ 618 020e 00E0     		b	.L26
+ 619              	.L24:
+ 241:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****                     | UART0_C2_RE_MASK );
+ 242:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     }
+ 243:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     else
+ 244:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** 		{
+ 245:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         // Unacceptable baud rate difference
+ 246:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         // More than 3% difference!!
+ 247:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         // Enter infinite loop!
+ 248:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****         while(1)
+ 249:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** 				{}
+ 620              		.loc 1 249 0
+ 621 0210 FEE7     		b	.L24
+ 622              	.L26:
+ 250:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** 		}					
+ 251:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     
+ 252:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** }
+ 623              		.loc 1 252 0
+ 624 0212 BD46     		mov	sp, r7
+ 625 0214 0EB0     		add	sp, sp, #56
+ 626              		@ sp needed for prologue
+ 627 0216 80BD     		pop	{r7, pc}
+ 628              	.L28:
+ 629              		.align	2
+ 630              	.L27:
+ 631 0218 00700440 		.word	1074032640
+ 632 021c 34100000 		.word	4148
+ 633 0220 00A00640 		.word	1074176000
+ 634 0224 50C30000 		.word	50000
+ 635 0228 04100000 		.word	4100
+ 636 022c FFFFFFF3 		.word	-201326593
+ 637              		.cfi_endproc
+ 638              	.LFE4:
+ 640              		.section	.text.uart0_getchar,"ax",%progbits
+ 641              		.align	2
+ 642              		.global	uart0_getchar
+ 643              		.code	16
+ 644              		.thumb_func
+ 646              	uart0_getchar:
+ 647              	.LFB5:
+ 253:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** /********************************************************************/
+ 254:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** /*
+ 255:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  * Wait for a character to be received on the specified uart
+ 256:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  *
+ 257:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  * Parameters:
+ 258:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  *  channel      uart channel to read from
+ 259:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  *
+ 260:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  * Return Values:
+ 261:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  *  the received character
+ 262:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  */
+ 263:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** char uart0_getchar (UART0_MemMapPtr channel)
+ 264:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** {
+ 648              		.loc 1 264 0
+ 649              		.cfi_startproc
+ 650 0000 80B5     		push	{r7, lr}
+ 651              	.LCFI15:
+ 652              		.cfi_def_cfa_offset 8
+ 653              		.cfi_offset 7, -8
+ 654              		.cfi_offset 14, -4
+ 655 0002 82B0     		sub	sp, sp, #8
+ 656              	.LCFI16:
+ 657              		.cfi_def_cfa_offset 16
+ 658 0004 00AF     		add	r7, sp, #0
+ 659              	.LCFI17:
+ 660              		.cfi_def_cfa_register 7
+ 661 0006 7860     		str	r0, [r7, #4]
+ 265:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****       /* Wait until character has been received */
+ 266:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****       while (!(UART0_S1_REG(channel) & UART0_S1_RDRF_MASK));
+ 662              		.loc 1 266 0
+ 663 0008 C046     		mov	r8, r8
+ 664              	.L30:
+ 665              		.loc 1 266 0 is_stmt 0
+ 666 000a 7B68     		ldr	r3, [r7, #4]
+ 667 000c 1B79     		ldrb	r3, [r3, #4]
+ 668 000e DBB2     		uxtb	r3, r3
+ 669 0010 1A1C     		mov	r2, r3
+ 670 0012 2023     		mov	r3, #32
+ 671 0014 1340     		and	r3, r2
+ 672 0016 F8D0     		beq	.L30
+ 267:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     
+ 268:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****       /* Return the 8-bit data from the receiver */
+ 269:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****       return UART0_D_REG(channel);
+ 673              		.loc 1 269 0 is_stmt 1
+ 674 0018 7B68     		ldr	r3, [r7, #4]
+ 675 001a DB79     		ldrb	r3, [r3, #7]
+ 676 001c DBB2     		uxtb	r3, r3
+ 270:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** }
+ 677              		.loc 1 270 0
+ 678 001e 181C     		mov	r0, r3
+ 679 0020 BD46     		mov	sp, r7
+ 680 0022 02B0     		add	sp, sp, #8
+ 681              		@ sp needed for prologue
+ 682 0024 80BD     		pop	{r7, pc}
+ 683              		.cfi_endproc
+ 684              	.LFE5:
+ 686 0026 C046     		.section	.text.uart0_putchar,"ax",%progbits
+ 687              		.align	2
+ 688              		.global	uart0_putchar
+ 689              		.code	16
+ 690              		.thumb_func
+ 692              	uart0_putchar:
+ 693              	.LFB6:
+ 271:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** /********************************************************************/
+ 272:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** /*
+ 273:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  * Wait for space in the uart Tx FIFO and then send a character
+ 274:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  *
+ 275:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  * Parameters:
+ 276:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  *  channel      uart channel to send to
+ 277:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  *  ch			 character to send
+ 278:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  */ 
+ 279:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** void uart0_putchar (UART0_MemMapPtr channel, char ch)
+ 280:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** {
+ 694              		.loc 1 280 0
+ 695              		.cfi_startproc
+ 696 0000 80B5     		push	{r7, lr}
+ 697              	.LCFI18:
+ 698              		.cfi_def_cfa_offset 8
+ 699              		.cfi_offset 7, -8
+ 700              		.cfi_offset 14, -4
+ 701 0002 82B0     		sub	sp, sp, #8
+ 702              	.LCFI19:
+ 703              		.cfi_def_cfa_offset 16
+ 704 0004 00AF     		add	r7, sp, #0
+ 705              	.LCFI20:
+ 706              		.cfi_def_cfa_register 7
+ 707 0006 7860     		str	r0, [r7, #4]
+ 708 0008 0A1C     		mov	r2, r1
+ 709 000a FB1C     		add	r3, r7, #3
+ 710 000c 1A70     		strb	r2, [r3]
+ 281:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****       /* Wait until space is available in the FIFO */
+ 282:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****       while(!(UART0_S1_REG(channel) & UART0_S1_TDRE_MASK));
+ 711              		.loc 1 282 0
+ 712 000e C046     		mov	r8, r8
+ 713              	.L33:
+ 714              		.loc 1 282 0 is_stmt 0
+ 715 0010 7B68     		ldr	r3, [r7, #4]
+ 716 0012 1B79     		ldrb	r3, [r3, #4]
+ 717 0014 DBB2     		uxtb	r3, r3
+ 718 0016 DBB2     		uxtb	r3, r3
+ 719 0018 5BB2     		sxtb	r3, r3
+ 720 001a 002B     		cmp	r3, #0
+ 721 001c F8DA     		bge	.L33
+ 283:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     
+ 284:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****       /* Send the character */
+ 285:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****       UART0_D_REG(channel) = (uint8)ch;
+ 722              		.loc 1 285 0 is_stmt 1
+ 723 001e 7B68     		ldr	r3, [r7, #4]
+ 724 0020 FA1C     		add	r2, r7, #3
+ 725 0022 1278     		ldrb	r2, [r2]
+ 726 0024 DA71     		strb	r2, [r3, #7]
+ 286:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     
+ 287:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  }
+ 727              		.loc 1 287 0
+ 728 0026 BD46     		mov	sp, r7
+ 729 0028 02B0     		add	sp, sp, #8
+ 730              		@ sp needed for prologue
+ 731 002a 80BD     		pop	{r7, pc}
+ 732              		.cfi_endproc
+ 733              	.LFE6:
+ 735              		.section	.text.uart0_getchar_present,"ax",%progbits
+ 736              		.align	2
+ 737              		.global	uart0_getchar_present
+ 738              		.code	16
+ 739              		.thumb_func
+ 741              	uart0_getchar_present:
+ 742              	.LFB7:
+ 288:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** /********************************************************************/
+ 289:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** /*
+ 290:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  * Check to see if a character has been received
+ 291:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  *
+ 292:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  * Parameters:
+ 293:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  *  channel      uart channel to check for a character
+ 294:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  *
+ 295:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  * Return values:
+ 296:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  *  0       No character received
+ 297:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  *  1       Character has been received
+ 298:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****  */
+ 299:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** int uart0_getchar_present (UART0_MemMapPtr channel)
+ 300:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** {
+ 743              		.loc 1 300 0
+ 744              		.cfi_startproc
+ 745 0000 80B5     		push	{r7, lr}
+ 746              	.LCFI21:
+ 747              		.cfi_def_cfa_offset 8
+ 748              		.cfi_offset 7, -8
+ 749              		.cfi_offset 14, -4
+ 750 0002 82B0     		sub	sp, sp, #8
+ 751              	.LCFI22:
+ 752              		.cfi_def_cfa_offset 16
+ 753 0004 00AF     		add	r7, sp, #0
+ 754              	.LCFI23:
+ 755              		.cfi_def_cfa_register 7
+ 756 0006 7860     		str	r0, [r7, #4]
+ 301:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     return (UART0_S1_REG(channel) & UART0_S1_RDRF_MASK);
+ 757              		.loc 1 301 0
+ 758 0008 7B68     		ldr	r3, [r7, #4]
+ 759 000a 1B79     		ldrb	r3, [r3, #4]
+ 760 000c DBB2     		uxtb	r3, r3
+ 761 000e 1A1C     		mov	r2, r3
+ 762 0010 2023     		mov	r3, #32
+ 763 0012 1340     		and	r3, r2
+ 302:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** }
+ 764              		.loc 1 302 0
+ 765 0014 181C     		mov	r0, r3
+ 766 0016 BD46     		mov	sp, r7
+ 767 0018 02B0     		add	sp, sp, #8
+ 768              		@ sp needed for prologue
+ 769 001a 80BD     		pop	{r7, pc}
+ 770              		.cfi_endproc
+ 771              	.LFE7:
+ 773              		.section	.text.__read_console,"ax",%progbits
+ 774              		.align	2
+ 775              		.global	__read_console
+ 776              		.code	16
+ 777              		.thumb_func
+ 779              	__read_console:
+ 780              	.LFB8:
+ 303:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** /********************************************************************/
+ 304:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** 
+ 305:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** #if (defined(CW))
+ 306:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** /*
+ 307:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** ** ===================================================================
+ 308:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** **     Method      :  CsIO1___read_console (component ConsoleIO)
+ 309:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** **
+ 310:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** **     Description :
+ 311:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** **         __read_console
+ 312:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** **         This method is internal. It is used by Processor Expert only.
+ 313:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** ** ===================================================================
+ 314:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** */
+ 315:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** int __read_console(__file_handle handle, unsigned char* buffer, size_t * count)
+ 316:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** {
+ 781              		.loc 1 316 0
+ 782              		.cfi_startproc
+ 783 0000 80B5     		push	{r7, lr}
+ 784              	.LCFI24:
+ 785              		.cfi_def_cfa_offset 8
+ 786              		.cfi_offset 7, -8
+ 787              		.cfi_offset 14, -4
+ 788 0002 86B0     		sub	sp, sp, #24
+ 789              	.LCFI25:
+ 790              		.cfi_def_cfa_offset 32
+ 791 0004 00AF     		add	r7, sp, #0
+ 792              	.LCFI26:
+ 793              		.cfi_def_cfa_register 7
+ 794 0006 F860     		str	r0, [r7, #12]
+ 795 0008 B960     		str	r1, [r7, #8]
+ 796 000a 7A60     		str	r2, [r7, #4]
+ 317:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****   size_t CharCnt = 0x00;
+ 797              		.loc 1 317 0
+ 798 000c 0023     		mov	r3, #0
+ 799 000e 7B61     		str	r3, [r7, #20]
+ 318:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** 
+ 319:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****   (void)handle;                        /* Parameter is not used, suppress unused argument warning *
+ 320:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****   if (TERM_PORT_NUM == 0)
+ 321:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** 	  *buffer = (unsigned char)uart0_getchar(UART0_BASE_PTR);
+ 800              		.loc 1 321 0
+ 801 0010 084B     		ldr	r3, .L38
+ 802 0012 181C     		mov	r0, r3
+ 803 0014 FFF7FEFF 		bl	uart0_getchar
+ 804 0018 031C     		mov	r3, r0
+ 805 001a 1A1C     		mov	r2, r3
+ 806 001c BB68     		ldr	r3, [r7, #8]
+ 807 001e 1A70     		strb	r2, [r3]
+ 322:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****   else if (TERM_PORT_NUM == 1)
+ 323:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** 	  *buffer = (unsigned char)uart_getchar(UART1_BASE_PTR);
+ 324:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****   else
+ 325:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** 	  *buffer = (unsigned char)uart_getchar(UART2_BASE_PTR);
+ 326:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****   CharCnt = 1;                         /* Increase char counter */
+ 808              		.loc 1 326 0
+ 809 0020 0123     		mov	r3, #1
+ 810 0022 7B61     		str	r3, [r7, #20]
+ 327:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****   
+ 328:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****   *count = CharCnt;
+ 811              		.loc 1 328 0
+ 812 0024 7B68     		ldr	r3, [r7, #4]
+ 813 0026 7A69     		ldr	r2, [r7, #20]
+ 814 0028 1A60     		str	r2, [r3]
+ 329:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****   return (__no_io_error);
+ 815              		.loc 1 329 0
+ 816 002a 0023     		mov	r3, #0
+ 330:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** }
+ 817              		.loc 1 330 0
+ 818 002c 181C     		mov	r0, r3
+ 819 002e BD46     		mov	sp, r7
+ 820 0030 06B0     		add	sp, sp, #24
+ 821              		@ sp needed for prologue
+ 822 0032 80BD     		pop	{r7, pc}
+ 823              	.L39:
+ 824              		.align	2
+ 825              	.L38:
+ 826 0034 00A00640 		.word	1074176000
+ 827              		.cfi_endproc
+ 828              	.LFE8:
+ 830              		.section	.text.__write_console,"ax",%progbits
+ 831              		.align	2
+ 832              		.global	__write_console
+ 833              		.code	16
+ 834              		.thumb_func
+ 836              	__write_console:
+ 837              	.LFB9:
+ 331:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** 
+ 332:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** /*
+ 333:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** ** ===================================================================
+ 334:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** **     Method      :  CsIO1___write_console (component ConsoleIO)
+ 335:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** **
+ 336:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** **     Description :
+ 337:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** **         __write_console
+ 338:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** **         This method is internal. It is used by Processor Expert only.
+ 339:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** ** ===================================================================
+ 340:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** */
+ 341:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** int __write_console(__file_handle handle, unsigned char* buffer, size_t* count)
+ 342:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** {
+ 838              		.loc 1 342 0
+ 839              		.cfi_startproc
+ 840 0000 80B5     		push	{r7, lr}
+ 841              	.LCFI27:
+ 842              		.cfi_def_cfa_offset 8
+ 843              		.cfi_offset 7, -8
+ 844              		.cfi_offset 14, -4
+ 845 0002 86B0     		sub	sp, sp, #24
+ 846              	.LCFI28:
+ 847              		.cfi_def_cfa_offset 32
+ 848 0004 00AF     		add	r7, sp, #0
+ 849              	.LCFI29:
+ 850              		.cfi_def_cfa_register 7
+ 851 0006 F860     		str	r0, [r7, #12]
+ 852 0008 B960     		str	r1, [r7, #8]
+ 853 000a 7A60     		str	r2, [r7, #4]
+ 343:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****   size_t CharCnt = 0x00;
+ 854              		.loc 1 343 0
+ 855 000c 0023     		mov	r3, #0
+ 856 000e 7B61     		str	r3, [r7, #20]
+ 344:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** 
+ 345:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****   (void)handle;                        /* Parameter is not used, suppress unused argument warning *
+ 346:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****   for (;*count > 0x00; --*count) {
+ 857              		.loc 1 346 0
+ 858 0010 0FE0     		b	.L41
+ 859              	.L42:
+ 347:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     /* Wait until UART is ready for saving a next character into the transmit buffer */
+ 348:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     out_char((unsigned char)*buffer);
+ 860              		.loc 1 348 0
+ 861 0012 BB68     		ldr	r3, [r7, #8]
+ 862 0014 1B78     		ldrb	r3, [r3]
+ 863 0016 181C     		mov	r0, r3
+ 864 0018 FFF7FEFF 		bl	out_char
+ 349:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     buffer++;                          /* Increase buffer pointer */
+ 865              		.loc 1 349 0
+ 866 001c BB68     		ldr	r3, [r7, #8]
+ 867 001e 0133     		add	r3, r3, #1
+ 868 0020 BB60     		str	r3, [r7, #8]
+ 350:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****     CharCnt++;                         /* Increase char counter */
+ 869              		.loc 1 350 0
+ 870 0022 7B69     		ldr	r3, [r7, #20]
+ 871 0024 0133     		add	r3, r3, #1
+ 872 0026 7B61     		str	r3, [r7, #20]
+ 346:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****   for (;*count > 0x00; --*count) {
+ 873              		.loc 1 346 0
+ 874 0028 7B68     		ldr	r3, [r7, #4]
+ 875 002a 1B68     		ldr	r3, [r3]
+ 876 002c 5A1E     		sub	r2, r3, #1
+ 877 002e 7B68     		ldr	r3, [r7, #4]
+ 878 0030 1A60     		str	r2, [r3]
+ 879              	.L41:
+ 346:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****   for (;*count > 0x00; --*count) {
+ 880              		.loc 1 346 0 is_stmt 0
+ 881 0032 7B68     		ldr	r3, [r7, #4]
+ 882 0034 1B68     		ldr	r3, [r3]
+ 883 0036 002B     		cmp	r3, #0
+ 884 0038 EBD1     		bne	.L42
+ 351:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****   }
+ 352:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****   *count = CharCnt;
+ 885              		.loc 1 352 0 is_stmt 1
+ 886 003a 7B68     		ldr	r3, [r7, #4]
+ 887 003c 7A69     		ldr	r2, [r7, #20]
+ 888 003e 1A60     		str	r2, [r3]
+ 353:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****   return(__no_io_error);
+ 889              		.loc 1 353 0
+ 890 0040 0023     		mov	r3, #0
+ 354:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** }
+ 891              		.loc 1 354 0
+ 892 0042 181C     		mov	r0, r3
+ 893 0044 BD46     		mov	sp, r7
+ 894 0046 06B0     		add	sp, sp, #24
+ 895              		@ sp needed for prologue
+ 896 0048 80BD     		pop	{r7, pc}
+ 897              		.cfi_endproc
+ 898              	.LFE9:
+ 900 004a C046     		.section	.text.__close_console,"ax",%progbits
+ 901              		.align	2
+ 902              		.global	__close_console
+ 903              		.code	16
+ 904              		.thumb_func
+ 906              	__close_console:
+ 907              	.LFB10:
+ 355:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** 
+ 356:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** /*
+ 357:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** ** ===================================================================
+ 358:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** **     Method      :  CsIO1___close_console (component ConsoleIO)
+ 359:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** **
+ 360:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** **     Description :
+ 361:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** **         __close_console
+ 362:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** **         This method is internal. It is used by Processor Expert only.
+ 363:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** ** ===================================================================
+ 364:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** */
+ 365:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** int __close_console(__file_handle handle)
+ 366:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** {
+ 908              		.loc 1 366 0
+ 909              		.cfi_startproc
+ 910 0000 80B5     		push	{r7, lr}
+ 911              	.LCFI30:
+ 912              		.cfi_def_cfa_offset 8
+ 913              		.cfi_offset 7, -8
+ 914              		.cfi_offset 14, -4
+ 915 0002 82B0     		sub	sp, sp, #8
+ 916              	.LCFI31:
+ 917              		.cfi_def_cfa_offset 16
+ 918 0004 00AF     		add	r7, sp, #0
+ 919              	.LCFI32:
+ 920              		.cfi_def_cfa_register 7
+ 921 0006 7860     		str	r0, [r7, #4]
+ 367:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****   (void)handle;                        /* Parameter is not used, suppress unused argument warning *
+ 368:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c ****   return(__no_io_error);
+ 922              		.loc 1 368 0
+ 923 0008 0023     		mov	r3, #0
+ 369:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart\uart.c **** }
+ 924              		.loc 1 369 0
+ 925 000a 181C     		mov	r0, r3
+ 926 000c BD46     		mov	sp, r7
+ 927 000e 02B0     		add	sp, sp, #8
+ 928              		@ sp needed for prologue
+ 929 0010 80BD     		pop	{r7, pc}
+ 930              		.cfi_endproc
+ 931              	.LFE10:
+ 933 0012 C046     		.text
+ 934              	.Letext0:
+ 935              		.file 2 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu/arm_cm0.h"
+ 936              		.file 3 "C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint"
+ 937              		.file 4 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu/headers/MKL46Z4.
+ 938              		.file 5 "C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/EWL_C/include/size_t.h"
+ 939              		.file 6 "C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/EWL_C/include/file_struc.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 uart.c
+C:\Users\b01252\AppData\Local\Temp\cc0OSxXs.s:19     .text.uart_init:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\cc0OSxXs.s:24     .text.uart_init:00000000 uart_init
+C:\Users\b01252\AppData\Local\Temp\cc0OSxXs.s:144    .text.uart_init:000000b4 $d
+C:\Users\b01252\AppData\Local\Temp\cc0OSxXs.s:151    .text.uart_getchar:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\cc0OSxXs.s:156    .text.uart_getchar:00000000 uart_getchar
+C:\Users\b01252\AppData\Local\Temp\cc0OSxXs.s:197    .text.uart_putchar:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\cc0OSxXs.s:202    .text.uart_putchar:00000000 uart_putchar
+C:\Users\b01252\AppData\Local\Temp\cc0OSxXs.s:246    .text.uart_getchar_present:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\cc0OSxXs.s:251    .text.uart_getchar_present:00000000 uart_getchar_present
+C:\Users\b01252\AppData\Local\Temp\cc0OSxXs.s:285    .text.uart0_init:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\cc0OSxXs.s:290    .text.uart0_init:00000000 uart0_init
+C:\Users\b01252\AppData\Local\Temp\cc0OSxXs.s:631    .text.uart0_init:00000218 $d
+C:\Users\b01252\AppData\Local\Temp\cc0OSxXs.s:641    .text.uart0_getchar:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\cc0OSxXs.s:646    .text.uart0_getchar:00000000 uart0_getchar
+C:\Users\b01252\AppData\Local\Temp\cc0OSxXs.s:687    .text.uart0_putchar:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\cc0OSxXs.s:692    .text.uart0_putchar:00000000 uart0_putchar
+C:\Users\b01252\AppData\Local\Temp\cc0OSxXs.s:736    .text.uart0_getchar_present:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\cc0OSxXs.s:741    .text.uart0_getchar_present:00000000 uart0_getchar_present
+C:\Users\b01252\AppData\Local\Temp\cc0OSxXs.s:774    .text.__read_console:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\cc0OSxXs.s:779    .text.__read_console:00000000 __read_console
+C:\Users\b01252\AppData\Local\Temp\cc0OSxXs.s:826    .text.__read_console:00000034 $d
+C:\Users\b01252\AppData\Local\Temp\cc0OSxXs.s:831    .text.__write_console:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\cc0OSxXs.s:836    .text.__write_console:00000000 __write_console
+C:\Users\b01252\AppData\Local\Temp\cc0OSxXs.s:901    .text.__close_console:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\cc0OSxXs.s:906    .text.__close_console:00000000 __close_console
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+__aeabi_idiv
+__aeabi_uidiv
+out_char

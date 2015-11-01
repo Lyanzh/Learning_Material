@@ -1,0 +1,245 @@
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"median.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.median,"ax",%progbits
+  18              		.align	2
+  19              		.global	median
+  20              		.code	16
+  21              		.thumb_func
+  23              	median:
+  24              	.LFB0:
+  25              		.file 1 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_De
+   1:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c **** /**
+   2:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****   Copyright (c) 2006 Freescale Semiconductor
+   3:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****   Freescale Confidential Proprietary
+   4:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****   \file     	median.c
+   5:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****   \brief    	Calculates the median of 8 integer samples 
+   6:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****   \author   	Freescale Semiconductor
+   7:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****   \author       Luis Puebla
+   8:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****   \author   	Guadalajara Applications Laboratory RTAC Americas
+   9:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****   \version    
+  10:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****   \date     	
+  11:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****   \warning    (If needed)
+  12:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c **** 
+  13:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****   * History:
+  14:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****   
+  15:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c **** */
+  16:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c **** 
+  17:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c **** 
+  18:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c **** 
+  19:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c **** 
+  20:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c **** #include "median.h"
+  21:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c **** 
+  22:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c **** 
+  23:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c **** /**
+  24:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****  * \brief   Calculates the median of 8 integer samples
+  25:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****  * \author  Luis Puebla
+  26:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****  * \param   new_value, struct mediana_type *medicion
+  27:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****  * \return   a median value of the last 8 samples
+  28:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****  * \todo
+  29:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****  * \warning
+  30:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****  */ 
+  31:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c **** int median(int new_value, struct mediana_type *medicion)
+  32:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c **** {
+  26              		.loc 1 32 0
+  27              		.cfi_startproc
+  28 0000 80B5     		push	{r7, lr}
+  29              	.LCFI0:
+  30              		.cfi_def_cfa_offset 8
+  31              		.cfi_offset 7, -8
+  32              		.cfi_offset 14, -4
+  33 0002 8EB0     		sub	sp, sp, #56
+  34              	.LCFI1:
+  35              		.cfi_def_cfa_offset 64
+  36 0004 00AF     		add	r7, sp, #0
+  37              	.LCFI2:
+  38              		.cfi_def_cfa_register 7
+  39 0006 7860     		str	r0, [r7, #4]
+  40 0008 3960     		str	r1, [r7]
+  33:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c **** 	int buffer_ord[NUM_OF_SAMPLES_MEDIAN];
+  34:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****   	int i;
+  35:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****   	int temp1;
+  36:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****   	int bandera;
+  37:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****   
+  38:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****   	medicion->ap_muestras++;
+  41              		.loc 1 38 0
+  42 000a 3B68     		ldr	r3, [r7]
+  43 000c 1B78     		ldrb	r3, [r3]
+  44 000e 0133     		add	r3, r3, #1
+  45 0010 DAB2     		uxtb	r2, r3
+  46 0012 3B68     		ldr	r3, [r7]
+  47 0014 1A70     		strb	r2, [r3]
+  39:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****   	medicion->ap_muestras &= 0x7;  //de 0 a 7  
+  48              		.loc 1 39 0
+  49 0016 3B68     		ldr	r3, [r7]
+  50 0018 1A78     		ldrb	r2, [r3]
+  51 001a 0723     		mov	r3, #7
+  52 001c 1340     		and	r3, r2
+  53 001e DAB2     		uxtb	r2, r3
+  54 0020 3B68     		ldr	r3, [r7]
+  55 0022 1A70     		strb	r2, [r3]
+  40:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****   	medicion->sample_buffer[medicion->ap_muestras]=new_value;
+  56              		.loc 1 40 0
+  57 0024 3B68     		ldr	r3, [r7]
+  58 0026 1B78     		ldrb	r3, [r3]
+  59 0028 3A68     		ldr	r2, [r7]
+  60 002a 9B00     		lsl	r3, r3, #2
+  61 002c D318     		add	r3, r2, r3
+  62 002e 0433     		add	r3, r3, #4
+  63 0030 7A68     		ldr	r2, [r7, #4]
+  64 0032 1A60     		str	r2, [r3]
+  41:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c **** 	//copia el buffer en temporal  
+  42:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****   	for(i=0;i<8;i++) buffer_ord[i]=medicion->sample_buffer[i];  	
+  65              		.loc 1 42 0
+  66 0034 0023     		mov	r3, #0
+  67 0036 7B63     		str	r3, [r7, #52]
+  68 0038 0DE0     		b	.L2
+  69              	.L3:
+  70              		.loc 1 42 0 is_stmt 0
+  71 003a 3A68     		ldr	r2, [r7]
+  72 003c 7B6B     		ldr	r3, [r7, #52]
+  73 003e 9B00     		lsl	r3, r3, #2
+  74 0040 D318     		add	r3, r2, r3
+  75 0042 0433     		add	r3, r3, #4
+  76 0044 1968     		ldr	r1, [r3]
+  77 0046 3B1C     		mov	r3, r7
+  78 0048 0C33     		add	r3, r3, #12
+  79 004a 7A6B     		ldr	r2, [r7, #52]
+  80 004c 9200     		lsl	r2, r2, #2
+  81 004e D150     		str	r1, [r2, r3]
+  82 0050 7B6B     		ldr	r3, [r7, #52]
+  83 0052 0133     		add	r3, r3, #1
+  84 0054 7B63     		str	r3, [r7, #52]
+  85              	.L2:
+  86              		.loc 1 42 0
+  87 0056 7B6B     		ldr	r3, [r7, #52]
+  88 0058 072B     		cmp	r3, #7
+  89 005a EEDD     		ble	.L3
+  90              	.L7:
+  43:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****   	//ordena el buffer temporal  
+  44:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****   	do
+  45:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****   	{
+  46:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****    		bandera=0; 
+  91              		.loc 1 46 0 is_stmt 1
+  92 005c 0023     		mov	r3, #0
+  93 005e 3B63     		str	r3, [r7, #48]
+  47:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****    		for (i=0;i<7;i++)  
+  94              		.loc 1 47 0
+  95 0060 0023     		mov	r3, #0
+  96 0062 7B63     		str	r3, [r7, #52]
+  97 0064 29E0     		b	.L4
+  98              	.L6:
+  48:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****    		{
+  49:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****     		if (buffer_ord[i] > buffer_ord[i+1])
+  99              		.loc 1 49 0
+ 100 0066 3B1C     		mov	r3, r7
+ 101 0068 0C33     		add	r3, r3, #12
+ 102 006a 7A6B     		ldr	r2, [r7, #52]
+ 103 006c 9200     		lsl	r2, r2, #2
+ 104 006e D258     		ldr	r2, [r2, r3]
+ 105 0070 7B6B     		ldr	r3, [r7, #52]
+ 106 0072 591C     		add	r1, r3, #1
+ 107 0074 3B1C     		mov	r3, r7
+ 108 0076 0C33     		add	r3, r3, #12
+ 109 0078 8900     		lsl	r1, r1, #2
+ 110 007a CB58     		ldr	r3, [r1, r3]
+ 111 007c 9A42     		cmp	r2, r3
+ 112 007e 19DD     		ble	.L5
+  50:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****      		{
+  51:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****       			temp1 = buffer_ord[i];
+ 113              		.loc 1 51 0
+ 114 0080 3B1C     		mov	r3, r7
+ 115 0082 0C33     		add	r3, r3, #12
+ 116 0084 7A6B     		ldr	r2, [r7, #52]
+ 117 0086 9200     		lsl	r2, r2, #2
+ 118 0088 D358     		ldr	r3, [r2, r3]
+ 119 008a FB62     		str	r3, [r7, #44]
+  52:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****       			buffer_ord[i] = buffer_ord[i+1];
+ 120              		.loc 1 52 0
+ 121 008c 7B6B     		ldr	r3, [r7, #52]
+ 122 008e 5A1C     		add	r2, r3, #1
+ 123 0090 3B1C     		mov	r3, r7
+ 124 0092 0C33     		add	r3, r3, #12
+ 125 0094 9200     		lsl	r2, r2, #2
+ 126 0096 D158     		ldr	r1, [r2, r3]
+ 127 0098 3B1C     		mov	r3, r7
+ 128 009a 0C33     		add	r3, r3, #12
+ 129 009c 7A6B     		ldr	r2, [r7, #52]
+ 130 009e 9200     		lsl	r2, r2, #2
+ 131 00a0 D150     		str	r1, [r2, r3]
+  53:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****       			buffer_ord[i+1] = temp1;
+ 132              		.loc 1 53 0
+ 133 00a2 7B6B     		ldr	r3, [r7, #52]
+ 134 00a4 5A1C     		add	r2, r3, #1
+ 135 00a6 3B1C     		mov	r3, r7
+ 136 00a8 0C33     		add	r3, r3, #12
+ 137 00aa 9200     		lsl	r2, r2, #2
+ 138 00ac F96A     		ldr	r1, [r7, #44]
+ 139 00ae D150     		str	r1, [r2, r3]
+  54:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****       			bandera=1;  	
+ 140              		.loc 1 54 0
+ 141 00b0 0123     		mov	r3, #1
+ 142 00b2 3B63     		str	r3, [r7, #48]
+ 143              	.L5:
+  47:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****    		for (i=0;i<7;i++)  
+ 144              		.loc 1 47 0
+ 145 00b4 7B6B     		ldr	r3, [r7, #52]
+ 146 00b6 0133     		add	r3, r3, #1
+ 147 00b8 7B63     		str	r3, [r7, #52]
+ 148              	.L4:
+  47:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****    		for (i=0;i<7;i++)  
+ 149              		.loc 1 47 0 is_stmt 0
+ 150 00ba 7B6B     		ldr	r3, [r7, #52]
+ 151 00bc 062B     		cmp	r3, #6
+ 152 00be D2DD     		ble	.L6
+  55:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****      		}	
+  56:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****     	}
+  57:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****   	}
+  58:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****   	
+  59:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****   	while (bandera);   
+ 153              		.loc 1 59 0 is_stmt 1
+ 154 00c0 3B6B     		ldr	r3, [r7, #48]
+ 155 00c2 002B     		cmp	r3, #0
+ 156 00c4 CAD1     		bne	.L7
+  60:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****   	//temp1= (buffer_ord[3] + buffer_ord[4])/2;
+  61:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****        	temp1= buffer_ord[3];
+ 157              		.loc 1 61 0
+ 158 00c6 3B1C     		mov	r3, r7
+ 159 00c8 0C33     		add	r3, r3, #12
+ 160 00ca DB68     		ldr	r3, [r3, #12]
+ 161 00cc FB62     		str	r3, [r7, #44]
+  62:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****   	return temp1;
+ 162              		.loc 1 62 0
+ 163 00ce FB6A     		ldr	r3, [r7, #44]
+  63:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median\median.c ****  }...
+ 164              		.loc 1 63 0
+ 165 00d0 181C     		mov	r0, r3
+ 166 00d2 BD46     		mov	sp, r7
+ 167 00d4 0EB0     		add	sp, sp, #56
+ 168              		@ sp needed for prologue
+ 169 00d6 80BD     		pop	{r7, pc}
+ 170              		.cfi_endproc
+ 171              	.LFE0:
+ 173              		.text
+ 174              	.Letext0:
+ 175              		.file 2 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_De
+DEFINED SYMBOLS
+                            *ABS*:00000000 median.c
+C:\Users\b01252\AppData\Local\Temp\ccp2VoBg.s:18     .text.median:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccp2VoBg.s:23     .text.median:00000000 median
+                     .debug_frame:00000010 $d
+
+NO UNDEFINED SYMBOLS

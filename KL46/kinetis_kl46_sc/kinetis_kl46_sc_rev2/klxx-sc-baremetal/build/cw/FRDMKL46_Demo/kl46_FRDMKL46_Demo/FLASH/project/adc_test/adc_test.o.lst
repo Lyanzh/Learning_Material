@@ -1,0 +1,508 @@
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"adc_test.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.comm	intnum,4,4
+  18              		.comm	channel_no,4,4
+  19              		.comm	buffer_adc,1,1
+  20              		.comm	adc_reading_channel,1,1
+  21              		.comm	last_adc_channel,1,1
+  22              		.global	foobar
+  23              		.section	.bss.foobar,"aw",%nobits
+  26              	foobar:
+  27 0000 00       		.space	1
+  28              		.comm	isr_flag,4,4
+  29              		.global	dma_error
+  30              		.section	.bss.dma_error,"aw",%nobits
+  31              		.align	2
+  34              	dma_error:
+  35 0000 00000000 		.space	4
+  36              		.comm	Master_Adc_Config,16,4
+  37              		.comm	CalibrationStore,52,4
+  38              		.comm	adc_sample0,2,2
+  39              		.comm	adc_sample1,2,2
+  40              		.comm	DMA_errorCount,2,2
+  41              		.comm	dmaIsrCount,2,2
+  42              		.comm	adc_buffer_adc,1024,4
+  43              		.section	.rodata
+  44              		.align	2
+  45              	.LC1:
+  46 0000 41444320 		.ascii	"ADC calibration error\000"
+  46      63616C69 
+  46      62726174 
+  46      696F6E20 
+  46      6572726F 
+  47 0016 0000     		.section	.text.adc_init,"ax",%progbits
+  48              		.align	2
+  49              		.global	adc_init
+  50              		.code	16
+  51              		.thumb_func
+  53              	adc_init:
+  54              	.LFB0:
+  55              		.file 1 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_De
+   1:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** /**************************************************************************************************
+   2:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** /**
+   3:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** Copyright (c) 2008 Freescale Semiconductor
+   4:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** Freescale Confidential Proprietary
+   5:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** \file       adc_test.c
+   6:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** \brief      configure the adc for single end mode, and software trigger. PDB enabled for ADC trigge
+   7:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** \author     FSL
+   8:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** \version    1.0
+   9:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** \date       Sep 29 2011
+  10:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** */
+  11:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** 
+  12:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** 
+  13:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** #include "common.h"
+  14:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** #include "adc16.h"
+  15:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** #include "adc_test.h"
+  16:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** #include "global.h"
+  17:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** 
+  18:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** #define MAX_SAMPLES   128u
+  19:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** 
+  20:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** #define ADC_POT_CHANNEL 18  //ADC0_DM3  single
+  21:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** 
+  22:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** 
+  23:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** #define BITS32    2
+  24:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** #define BITS16    1
+  25:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** #define BITS8     0
+  26:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** 
+  27:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** 
+  28:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** 
+  29:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** /******************************************************************************* 
+  30:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** *  Global variables
+  31:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** *******************************************************************************/
+  32:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** 
+  33:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** int intnum, channel_no;
+  34:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** char buffer_adc;   //If buffer_adc = 0x80 flag of data ready  bit0 for buffer_adc selection
+  35:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** char adc_reading_channel;
+  36:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** char last_adc_channel;
+  37:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** 
+  38:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** 
+  39:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** unsigned char foobar=0x00;    // ".data" variable example
+  40:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** int isr_flag, dma_error = 0;
+  41:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** 
+  42:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** 
+  43:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** //globle variables
+  44:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** tADC_Config Master_Adc_Config;  
+  45:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** tADC_Cal_Blk CalibrationStore[2];
+  46:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** uint16 adc_sample0;
+  47:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** uint16 adc_sample1;  
+  48:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** uint16 DMA_errorCount;
+  49:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** uint16 dmaIsrCount;
+  50:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** 
+  51:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** uint32 adc_buffer_adc[256];
+  52:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** 
+  53:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** 
+  54:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** 
+  55:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** // Prototypes
+  56:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** void adc_init(void);
+  57:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** 
+  58:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** 
+  59:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** /**   adc_init
+  60:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****  * \brief    initialize and calibrate ADC0 module
+  61:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****  * \brief    48MHz IPBus clock; ADC clock = 48M/2/8 = 3MHz
+  62:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****  * \brief    Total conversion time: 56N+4ADCK
+  63:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****  * \brief    given sampling rate Fs = 6.4K, 156us/sample,  156*3= 468 ADCK
+  64:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****  * \author   FSL
+  65:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****  * \param    none
+  66:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****  * \return   none
+  67:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****  * \warning  assumes 48MHz IPBus clock
+  68:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****  */ 
+  69:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** void adc_init(void)
+  70:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** {
+  56              		.loc 1 70 0
+  57              		.cfi_startproc
+  58 0000 90B5     		push	{r4, r7, lr}
+  59              	.LCFI0:
+  60              		.cfi_def_cfa_offset 12
+  61              		.cfi_offset 4, -12
+  62              		.cfi_offset 7, -8
+  63              		.cfi_offset 14, -4
+  64 0002 83B0     		sub	sp, sp, #12
+  65              	.LCFI1:
+  66              		.cfi_def_cfa_offset 24
+  67 0004 00AF     		add	r7, sp, #0
+  68              	.LCFI2:
+  69              		.cfi_def_cfa_register 7
+  71:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****   
+  72:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****    uint8_t cal_ok;
+  73:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****  
+  74:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****    SIM_SCGC6 |= SIM_SCGC6_ADC0_MASK;
+  70              		.loc 1 74 0
+  71 0006 304A     		ldr	r2, .L3
+  72 0008 2F49     		ldr	r1, .L3
+  73 000a 304B     		ldr	r3, .L3+4
+  74 000c CB58     		ldr	r3, [r1, r3]
+  75 000e 8021     		mov	r1, #128
+  76 0010 0905     		lsl	r1, r1, #20
+  77 0012 1943     		orr	r1, r3
+  78 0014 2D4B     		ldr	r3, .L3+4
+  79 0016 D150     		str	r1, [r2, r3]
+  75:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** #ifdef CMSIS
+  76:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****    NVIC_EnableIRQ(ADC0_IRQn);
+  77:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** #else
+  78:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****    enable_irq(INT_ADC0 - 16);
+  80              		.loc 1 78 0
+  81 0018 0F20     		mov	r0, #15
+  82 001a FFF7FEFF 		bl	enable_irq
+  79:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** #endif
+  80:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****      
+  81:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****   /* 48MHz IPBus clock
+  82:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****    * ADC clock = 48M/2/8 = 3MHz
+  83:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****    * Total conversion time: 56N+4ADCK
+  84:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****    * Given sampling rate Fs = 6.4K, 156us/sample,  156*3= 468 ADCK
+  85:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****    * the maximum h/w average number = 8
+  86:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****    * use h/w average number = 4
+  87:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****    * Total conversion time: 56*4+4 = 228 ADC clocks,76us
+  88:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****    * There are 468-228 = 240 ADC clocks (ie. 80us) free for post processing
+  89:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****    */
+  90:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** 
+  91:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** 
+  92:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****  // Initialize ADC0
+  93:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****   // Do calibration first with 32 h/w averages
+  94:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****   Master_Adc_Config.CONFIG1  = ADLPC_NORMAL | ADC_CFG1_ADIV(ADIV_8) | ADLSMP_LONG | ADC_CFG1_MODE(M
+  83              		.loc 1 94 0
+  84 001e 2C4B     		ldr	r3, .L3+8
+  85 0020 7D22     		mov	r2, #125
+  86 0022 1A70     		strb	r2, [r3]
+  95:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****                               | ADC_CFG1_ADICLK(ADICLK_BUS_2);  
+  96:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****   Master_Adc_Config.CONFIG2  = MUXSEL_ADCA | ADACKEN_ENABLED | ADHSC_HISPEED | ADC_CFG2_ADLSTS(ADLS
+  87              		.loc 1 96 0
+  88 0024 2A4B     		ldr	r3, .L3+8
+  89 0026 0C22     		mov	r2, #12
+  90 0028 5A70     		strb	r2, [r3, #1]
+  97:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****   Master_Adc_Config.COMPARE1 = 0x1234u ; 
+  91              		.loc 1 97 0
+  92 002a 294B     		ldr	r3, .L3+8
+  93 002c 294A     		ldr	r2, .L3+12
+  94 002e 5A80     		strh	r2, [r3, #2]
+  98:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****   Master_Adc_Config.COMPARE2 = 0x5678u ;
+  95              		.loc 1 98 0
+  96 0030 274B     		ldr	r3, .L3+8
+  97 0032 294A     		ldr	r2, .L3+16
+  98 0034 9A80     		strh	r2, [r3, #4]
+  99:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****   Master_Adc_Config.STATUS2  = ADTRG_SW | ACFE_DISABLED | ACFGT_GREATER | ACREN_ENABLED | DMAEN_DIS
+  99              		.loc 1 99 0
+ 100 0036 264B     		ldr	r3, .L3+8
+ 101 0038 1822     		mov	r2, #24
+ 102 003a 9A71     		strb	r2, [r3, #6]
+ 100:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****   Master_Adc_Config.STATUS3  = CAL_OFF | ADCO_SINGLE | AVGE_ENABLED | ADC_SC3_AVGS(AVGS_32);
+ 103              		.loc 1 100 0
+ 104 003c 244B     		ldr	r3, .L3+8
+ 105 003e 0722     		mov	r2, #7
+ 106 0040 DA71     		strb	r2, [r3, #7]
+ 101:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****  // Master_Adc_Config.PGA      = PGAEN_DISABLED | PGACHP_NOCHOP | PGALP_NORMAL | ADC_PGA_PGAG(PGAG_
+ 102:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****   Master_Adc_Config.STATUS1A = AIEN_OFF | DIFF_SINGLE | ADC_SC1_ADCH(31);       
+ 107              		.loc 1 102 0
+ 108 0042 234B     		ldr	r3, .L3+8
+ 109 0044 1F22     		mov	r2, #31
+ 110 0046 1A72     		strb	r2, [r3, #8]
+ 103:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****   Master_Adc_Config.STATUS1B = AIEN_OFF | DIFF_SINGLE | ADC_SC1_ADCH(31);  
+ 111              		.loc 1 103 0
+ 112 0048 214B     		ldr	r3, .L3+8
+ 113 004a 1F22     		mov	r2, #31
+ 114 004c 5A72     		strb	r2, [r3, #9]
+ 104:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****   
+ 105:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****   ADC_Config_Alt(ADC0_BASE_PTR, &Master_Adc_Config);  // config ADC
+ 115              		.loc 1 105 0
+ 116 004e 234A     		ldr	r2, .L3+20
+ 117 0050 1F4B     		ldr	r3, .L3+8
+ 118 0052 101C     		mov	r0, r2
+ 119 0054 191C     		mov	r1, r3
+ 120 0056 FFF7FEFF 		bl	ADC_Config_Alt
+ 106:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****   cal_ok = ADC_Cal(ADC0_BASE_PTR);                    // do the calibration
+ 121              		.loc 1 106 0
+ 122 005a FC1D     		add	r4, r7, #7
+ 123 005c 1F4B     		ldr	r3, .L3+20
+ 124 005e 181C     		mov	r0, r3
+ 125 0060 FFF7FEFF 		bl	ADC_Cal
+ 126 0064 031C     		mov	r3, r0
+ 127 0066 2370     		strb	r3, [r4]
+ 107:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****   if (cal_ok != 0) printf("ADC calibration error");
+ 128              		.loc 1 107 0
+ 129 0068 FB1D     		add	r3, r7, #7
+ 130 006a 1B78     		ldrb	r3, [r3]
+ 131 006c 002B     		cmp	r3, #0
+ 132 006e 03D0     		beq	.L2
+ 133              		.loc 1 107 0 is_stmt 0
+ 134 0070 1B4B     		ldr	r3, .L3+24
+ 135 0072 181C     		mov	r0, r3
+ 136 0074 FFF7FEFF 		bl	printf
+ 137              	.L2:
+ 108:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****   ADC_Read_Cal(ADC0_BASE_PTR,&CalibrationStore[1]);   // store the cal
+ 138              		.loc 1 108 0 is_stmt 1
+ 139 0078 184A     		ldr	r2, .L3+20
+ 140 007a 1A4B     		ldr	r3, .L3+28
+ 141 007c 101C     		mov	r0, r2
+ 142 007e 191C     		mov	r1, r3
+ 143 0080 FFF7FEFF 		bl	ADC_Read_Cal
+ 109:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****   
+ 110:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****   // Now do normal ADC configuration with 4 h/w averages and h/w trigger from PDB
+ 111:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****   Master_Adc_Config.CONFIG1  = ADLPC_NORMAL | ADC_CFG1_ADIV(ADIV_8) | ADLSMP_LONG | ADC_CFG1_MODE(M
+ 144              		.loc 1 111 0
+ 145 0084 124B     		ldr	r3, .L3+8
+ 146 0086 7522     		mov	r2, #117
+ 147 0088 1A70     		strb	r2, [r3]
+ 112:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****                               | ADC_CFG1_ADICLK(ADICLK_BUS_2);  
+ 113:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****   Master_Adc_Config.CONFIG2  = MUXSEL_ADCB | ADACKEN_ENABLED | ADHSC_HISPEED | ADC_CFG2_ADLSTS(ADLS
+ 148              		.loc 1 113 0
+ 149 008a 114B     		ldr	r3, .L3+8
+ 150 008c 1C22     		mov	r2, #28
+ 151 008e 5A70     		strb	r2, [r3, #1]
+ 114:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****   Master_Adc_Config.COMPARE1 = 0x1234u ; 
+ 152              		.loc 1 114 0
+ 153 0090 0F4B     		ldr	r3, .L3+8
+ 154 0092 104A     		ldr	r2, .L3+12
+ 155 0094 5A80     		strh	r2, [r3, #2]
+ 115:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****   Master_Adc_Config.COMPARE2 = 0x5678u ;
+ 156              		.loc 1 115 0
+ 157 0096 0E4B     		ldr	r3, .L3+8
+ 158 0098 0F4A     		ldr	r2, .L3+16
+ 159 009a 9A80     		strh	r2, [r3, #4]
+ 116:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****   Master_Adc_Config.STATUS2  = !ADTRG_HW | ACFE_DISABLED | ACFGT_GREATER | ACREN_DISABLED | DMAEN_D
+ 160              		.loc 1 116 0
+ 161 009c 0C4B     		ldr	r3, .L3+8
+ 162 009e 1022     		mov	r2, #16
+ 163 00a0 9A71     		strb	r2, [r3, #6]
+ 117:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****   Master_Adc_Config.STATUS3  = CAL_OFF | ADCO_SINGLE | AVGE_ENABLED | ADC_SC3_AVGS(AVGS_4);
+ 164              		.loc 1 117 0
+ 165 00a2 0B4B     		ldr	r3, .L3+8
+ 166 00a4 0422     		mov	r2, #4
+ 167 00a6 DA71     		strb	r2, [r3, #7]
+ 118:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** //  Master_Adc_Config.PGA      = PGAEN_DISABLED | PGACHP_NOCHOP | PGALP_NORMAL | ADC_PGA_PGAG(PGAG_
+ 119:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** 
+ 120:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****   Master_Adc_Config.STATUS1A = !AIEN_ON | DIFF_SINGLE | ADC_SC1_ADCH(31);                          
+ 168              		.loc 1 120 0
+ 169 00a8 094B     		ldr	r3, .L3+8
+ 170 00aa 1F22     		mov	r2, #31
+ 171 00ac 1A72     		strb	r2, [r3, #8]
+ 121:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****   Master_Adc_Config.STATUS1B = !AIEN_ON | DIFF_SINGLE | ADC_SC1_ADCH(31);    
+ 172              		.loc 1 121 0
+ 173 00ae 084B     		ldr	r3, .L3+8
+ 174 00b0 1F22     		mov	r2, #31
+ 175 00b2 5A72     		strb	r2, [r3, #9]
+ 122:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** 
+ 123:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****   ADC_Config_Alt(ADC0_BASE_PTR, &Master_Adc_Config);  // config the ADC again to default conditions
+ 176              		.loc 1 123 0
+ 177 00b4 094A     		ldr	r2, .L3+20
+ 178 00b6 064B     		ldr	r3, .L3+8
+ 179 00b8 101C     		mov	r0, r2
+ 180 00ba 191C     		mov	r1, r3
+ 181 00bc FFF7FEFF 		bl	ADC_Config_Alt
+ 124:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****  
+ 125:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** }
+ 182              		.loc 1 125 0
+ 183 00c0 BD46     		mov	sp, r7
+ 184 00c2 03B0     		add	sp, sp, #12
+ 185              		@ sp needed for prologue
+ 186 00c4 90BD     		pop	{r4, r7, pc}
+ 187              	.L4:
+ 188 00c6 C046     		.align	2
+ 189              	.L3:
+ 190 00c8 00700440 		.word	1074032640
+ 191 00cc 3C100000 		.word	4156
+ 192 00d0 00000000 		.word	Master_Adc_Config
+ 193 00d4 34120000 		.word	4660
+ 194 00d8 78560000 		.word	22136
+ 195 00dc 00B00340 		.word	1073983488
+ 196 00e0 00000000 		.word	.LC1
+ 197 00e4 1A000000 		.word	CalibrationStore+26
+ 198              		.cfi_endproc
+ 199              	.LFE0:
+ 201              		.section	.text.adc_read,"ax",%progbits
+ 202              		.align	2
+ 203              		.global	adc_read
+ 204              		.code	16
+ 205              		.thumb_func
+ 207              	adc_read:
+ 208              	.LFB1:
+ 126:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** 
+ 127:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** uint16 adc_read(uint8 channel)
+ 128:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** {
+ 209              		.loc 1 128 0
+ 210              		.cfi_startproc
+ 211 0000 80B5     		push	{r7, lr}
+ 212              	.LCFI3:
+ 213              		.cfi_def_cfa_offset 8
+ 214              		.cfi_offset 7, -8
+ 215              		.cfi_offset 14, -4
+ 216 0002 82B0     		sub	sp, sp, #8
+ 217              	.LCFI4:
+ 218              		.cfi_def_cfa_offset 16
+ 219 0004 00AF     		add	r7, sp, #0
+ 220              	.LCFI5:
+ 221              		.cfi_def_cfa_register 7
+ 222 0006 021C     		mov	r2, r0
+ 223 0008 FB1D     		add	r3, r7, #7
+ 224 000a 1A70     		strb	r2, [r3]
+ 129:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****   
+ 130:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****    ADC0_SC1A = !AIEN_ON | DIFF_SINGLE | ADC_SC1_ADCH(channel) ;     // start conversion
+ 225              		.loc 1 130 0
+ 226 000c 094B     		ldr	r3, .L8
+ 227 000e FA1D     		add	r2, r7, #7
+ 228 0010 1178     		ldrb	r1, [r2]
+ 229 0012 1F22     		mov	r2, #31
+ 230 0014 0A40     		and	r2, r1
+ 231 0016 1A60     		str	r2, [r3]
+ 131:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****    while((ADC0_SC1A & ADC_SC1_COCO_MASK)!= 0){};
+ 232              		.loc 1 131 0
+ 233 0018 C046     		mov	r8, r8
+ 234              	.L6:
+ 235              		.loc 1 131 0 is_stmt 0
+ 236 001a 064B     		ldr	r3, .L8
+ 237 001c 1A68     		ldr	r2, [r3]
+ 238 001e 8023     		mov	r3, #128
+ 239 0020 1340     		and	r3, r2
+ 240 0022 FAD1     		bne	.L6
+ 132:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****    return ADC0_RA;
+ 241              		.loc 1 132 0 is_stmt 1
+ 242 0024 034B     		ldr	r3, .L8
+ 243 0026 1B69     		ldr	r3, [r3, #16]
+ 244 0028 9BB2     		uxth	r3, r3
+ 133:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** }
+ 245              		.loc 1 133 0
+ 246 002a 181C     		mov	r0, r3
+ 247 002c BD46     		mov	sp, r7
+ 248 002e 02B0     		add	sp, sp, #8
+ 249              		@ sp needed for prologue
+ 250 0030 80BD     		pop	{r7, pc}
+ 251              	.L9:
+ 252 0032 C046     		.align	2
+ 253              	.L8:
+ 254 0034 00B00340 		.word	1073983488
+ 255              		.cfi_endproc
+ 256              	.LFE1:
+ 258              		.section	.text.adc0_isrv,"ax",%progbits
+ 259              		.align	2
+ 260              		.global	adc0_isrv
+ 261              		.code	16
+ 262              		.thumb_func
+ 264              	adc0_isrv:
+ 265              	.LFB2:
+ 134:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** 
+ 135:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** 
+ 136:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** /**   adc0_isr,
+ 137:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****  * \brief    reads the results of the Adc conversion
+ 138:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****  * \brief    values is stored in a global variable  adc_sample0, adc_sample1
+ 139:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****  * \author   FSL
+ 140:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****  * \param    none
+ 141:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****  * \return   none
+ 142:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****  * \warning  
+ 143:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****  */ 
+ 144:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** void adc0_isrv(void){
+ 266              		.loc 1 144 0
+ 267              		.cfi_startproc
+ 268 0000 80B5     		push	{r7, lr}
+ 269              	.LCFI6:
+ 270              		.cfi_def_cfa_offset 8
+ 271              		.cfi_offset 7, -8
+ 272              		.cfi_offset 14, -4
+ 273 0002 00AF     		add	r7, sp, #0
+ 274              	.LCFI7:
+ 275              		.cfi_def_cfa_register 7
+ 145:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** 
+ 146:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** 
+ 147:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****   if((ADC0_SC1A & ADC_SC1_COCO_MASK)!= 0){
+ 276              		.loc 1 147 0
+ 277 0004 0A4B     		ldr	r3, .L13
+ 278 0006 1A68     		ldr	r2, [r3]
+ 279 0008 8023     		mov	r3, #128
+ 280 000a 1340     		and	r3, r2
+ 281 000c 04D0     		beq	.L11
+ 148:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****     adc_sample0 = ADC0_RA;
+ 282              		.loc 1 148 0
+ 283 000e 084B     		ldr	r3, .L13
+ 284 0010 1B69     		ldr	r3, [r3, #16]
+ 285 0012 9AB2     		uxth	r2, r3
+ 286 0014 074B     		ldr	r3, .L13+4
+ 287 0016 1A80     		strh	r2, [r3]
+ 288              	.L11:
+ 149:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****   }
+ 150:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****  
+ 151:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****   if((ADC0_SC1B & ADC_SC1_COCO_MASK)!= 0){
+ 289              		.loc 1 151 0
+ 290 0018 054B     		ldr	r3, .L13
+ 291 001a 5A68     		ldr	r2, [r3, #4]
+ 292 001c 8023     		mov	r3, #128
+ 293 001e 1340     		and	r3, r2
+ 294 0020 04D0     		beq	.L10
+ 152:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****     adc_sample = ADC0_RB;
+ 295              		.loc 1 152 0
+ 296 0022 034B     		ldr	r3, .L13
+ 297 0024 5B69     		ldr	r3, [r3, #20]
+ 298 0026 9AB2     		uxth	r2, r3
+ 299 0028 034B     		ldr	r3, .L13+8
+ 300 002a 1A80     		strh	r2, [r3]
+ 301              	.L10:
+ 153:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****   }
+ 154:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c ****      
+ 155:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test\adc_test.c **** }
+ 302              		.loc 1 155 0
+ 303 002c BD46     		mov	sp, r7
+ 304              		@ sp needed for prologue
+ 305 002e 80BD     		pop	{r7, pc}
+ 306              	.L14:
+ 307              		.align	2
+ 308              	.L13:
+ 309 0030 00B00340 		.word	1073983488
+ 310 0034 00000000 		.word	adc_sample0
+ 311 0038 00000000 		.word	adc_sample
+ 312              		.cfi_endproc
+ 313              	.LFE2:
+ 315              		.text
+ 316              	.Letext0:
+ 317              		.file 2 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu/arm_cm0.h"
+ 318              		.file 3 "C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint"
+ 319              		.file 4 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu/headers/MKL46Z4.
+ 320              		.file 5 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_De
+ 321              		.file 6 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_De
+DEFINED SYMBOLS
+                            *ABS*:00000000 adc_test.c
+                            *COM*:00000004 intnum
+                            *COM*:00000004 channel_no
+                            *COM*:00000001 buffer_adc
+                            *COM*:00000001 adc_reading_channel
+                            *COM*:00000001 last_adc_channel
+C:\Users\b01252\AppData\Local\Temp\ccA3B4Kj.s:26     .bss.foobar:00000000 foobar
+C:\Users\b01252\AppData\Local\Temp\ccA3B4Kj.s:27     .bss.foobar:00000000 $d
+                            *COM*:00000004 isr_flag
+C:\Users\b01252\AppData\Local\Temp\ccA3B4Kj.s:34     .bss.dma_error:00000000 dma_error
+C:\Users\b01252\AppData\Local\Temp\ccA3B4Kj.s:31     .bss.dma_error:00000000 $d
+                            *COM*:00000010 Master_Adc_Config
+                            *COM*:00000034 CalibrationStore
+                            *COM*:00000002 adc_sample0
+                            *COM*:00000002 adc_sample1
+                            *COM*:00000002 DMA_errorCount
+                            *COM*:00000002 dmaIsrCount
+                            *COM*:00000400 adc_buffer_adc
+C:\Users\b01252\AppData\Local\Temp\ccA3B4Kj.s:44     .rodata:00000000 $d
+C:\Users\b01252\AppData\Local\Temp\ccA3B4Kj.s:48     .text.adc_init:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccA3B4Kj.s:53     .text.adc_init:00000000 adc_init
+C:\Users\b01252\AppData\Local\Temp\ccA3B4Kj.s:190    .text.adc_init:000000c8 $d
+C:\Users\b01252\AppData\Local\Temp\ccA3B4Kj.s:202    .text.adc_read:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccA3B4Kj.s:207    .text.adc_read:00000000 adc_read
+C:\Users\b01252\AppData\Local\Temp\ccA3B4Kj.s:254    .text.adc_read:00000034 $d
+C:\Users\b01252\AppData\Local\Temp\ccA3B4Kj.s:259    .text.adc0_isrv:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccA3B4Kj.s:264    .text.adc0_isrv:00000000 adc0_isrv
+C:\Users\b01252\AppData\Local\Temp\ccA3B4Kj.s:309    .text.adc0_isrv:00000030 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+enable_irq
+ADC_Config_Alt
+ADC_Cal
+printf
+ADC_Read_Cal
+adc_sample

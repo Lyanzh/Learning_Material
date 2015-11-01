@@ -1,0 +1,1072 @@
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"hal_dev_mag3110.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.comm	mag_x,2,2
+  18              		.comm	mag_y,2,2
+  19              		.comm	mag_z,2,2
+  20              		.comm	Mresultx,2,2
+  21              		.comm	Mresulty,2,2
+  22              		.comm	Mresultz,2,2
+  23              		.comm	Mtestx,4,4
+  24              		.comm	Mtesty,4,4
+  25              		.comm	Mtestz,4,4
+  26              		.section	.text.hal_dev_mag3110_init,"ax",%progbits
+  27              		.align	2
+  28              		.global	hal_dev_mag3110_init
+  29              		.code	16
+  30              		.thumb_func
+  32              	hal_dev_mag3110_init:
+  33              	.LFB0:
+  34              		.file 1 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_De
+   1:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** 
+   2:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** 
+   3:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** #include "common.h"
+   4:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** #include "hal_i2c.h"
+   5:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** #include "hal_dev_mag3110.h"
+   6:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** 
+   7:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** #define MAG3110_I2C_ADDRESS (0x0E<<1)
+   8:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** #ifdef FRDM_REVA
+   9:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** #define I2C_MAG  I2C1_BASE_PTR
+  10:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** #else
+  11:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** #define I2C_MAG  I2C0_BASE_PTR
+  12:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** #endif
+  13:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** 
+  14:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** 
+  15:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** 
+  16:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** //Variables magnetómetro///
+  17:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** signed short mag_x, mag_y, mag_z;
+  18:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** signed short Mresultx, Mresulty, Mresultz;
+  19:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** int Mtestx,Mtesty,Mtestz;
+  20:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** 
+  21:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** //I2C1 es usado por el magnetómetro
+  22:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** void hal_dev_mag3110_init(void)
+  23:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** {
+  35              		.loc 1 23 0
+  36              		.cfi_startproc
+  37 0000 80B5     		push	{r7, lr}
+  38              	.LCFI0:
+  39              		.cfi_def_cfa_offset 8
+  40              		.cfi_offset 7, -8
+  41              		.cfi_offset 14, -4
+  42 0002 00AF     		add	r7, sp, #0
+  43              	.LCFI1:
+  44              		.cfi_def_cfa_register 7
+  24:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** #ifdef FRDM_REVA
+  25:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****   hal_i2c1_init(I2C_MAG);   //I2C1 is used in REVA
+  26:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** #endif
+  27:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****   
+  28:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** }
+  45              		.loc 1 28 0
+  46 0004 BD46     		mov	sp, r7
+  47              		@ sp needed for prologue
+  48 0006 80BD     		pop	{r7, pc}
+  49              		.cfi_endproc
+  50              	.LFE0:
+  52              		.section	.text.pause,"ax",%progbits
+  53              		.align	2
+  54              		.code	16
+  55              		.thumb_func
+  57              	pause:
+  58              	.LFB1:
+  29:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** 
+  30:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** // this delay is very important, it may cause w-r operation failure.
+  31:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** static void pause(void)
+  32:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** {
+  59              		.loc 1 32 0
+  60              		.cfi_startproc
+  61 0000 80B5     		push	{r7, lr}
+  62              	.LCFI2:
+  63              		.cfi_def_cfa_offset 8
+  64              		.cfi_offset 7, -8
+  65              		.cfi_offset 14, -4
+  66 0002 82B0     		sub	sp, sp, #8
+  67              	.LCFI3:
+  68              		.cfi_def_cfa_offset 16
+  69 0004 00AF     		add	r7, sp, #0
+  70              	.LCFI4:
+  71              		.cfi_def_cfa_register 7
+  33:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     int n;
+  34:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     for(n=0; n<40; n++)
+  72              		.loc 1 34 0
+  73 0006 0023     		mov	r3, #0
+  74 0008 7B60     		str	r3, [r7, #4]
+  75 000a 03E0     		b	.L3
+  76              	.L4:
+  35:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****         asm("nop");
+  77              		.loc 1 35 0
+  78              	@ 35 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I
+  79 000c C046     		nop
+  80              	@ 0 "" 2
+  34:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     for(n=0; n<40; n++)
+  81              		.loc 1 34 0
+  82              		.code	16
+  83 000e 7B68     		ldr	r3, [r7, #4]
+  84 0010 0133     		add	r3, r3, #1
+  85 0012 7B60     		str	r3, [r7, #4]
+  86              	.L3:
+  34:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     for(n=0; n<40; n++)
+  87              		.loc 1 34 0 is_stmt 0
+  88 0014 7B68     		ldr	r3, [r7, #4]
+  89 0016 272B     		cmp	r3, #39
+  90 0018 F8DD     		ble	.L4
+  36:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** }
+  91              		.loc 1 36 0 is_stmt 1
+  92 001a BD46     		mov	sp, r7
+  93 001c 02B0     		add	sp, sp, #8
+  94              		@ sp needed for prologue
+  95 001e 80BD     		pop	{r7, pc}
+  96              		.cfi_endproc
+  97              	.LFE1:
+  99              		.section	.text.hal_dev_mag3110_read_reg,"ax",%progbits
+ 100              		.align	2
+ 101              		.global	hal_dev_mag3110_read_reg
+ 102              		.code	16
+ 103              		.thumb_func
+ 105              	hal_dev_mag3110_read_reg:
+ 106              	.LFB2:
+  37:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** uint8 hal_dev_mag3110_read_reg(uint8 addr)
+  38:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** {
+ 107              		.loc 1 38 0
+ 108              		.cfi_startproc
+ 109 0000 90B5     		push	{r4, r7, lr}
+ 110              	.LCFI5:
+ 111              		.cfi_def_cfa_offset 12
+ 112              		.cfi_offset 4, -12
+ 113              		.cfi_offset 7, -8
+ 114              		.cfi_offset 14, -4
+ 115 0002 85B0     		sub	sp, sp, #20
+ 116              	.LCFI6:
+ 117              		.cfi_def_cfa_offset 32
+ 118 0004 00AF     		add	r7, sp, #0
+ 119              	.LCFI7:
+ 120              		.cfi_def_cfa_register 7
+ 121 0006 021C     		mov	r2, r0
+ 122 0008 FB1D     		add	r3, r7, #7
+ 123 000a 1A70     		strb	r2, [r3]
+  39:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     uint8 result;
+  40:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** 
+  41:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     i2c_start(I2C_MAG);
+ 124              		.loc 1 41 0
+ 125 000c 2C4B     		ldr	r3, .L7
+ 126 000e 181C     		mov	r0, r3
+ 127 0010 FFF7FEFF 		bl	i2c_start
+  42:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     i2c_write_byte(I2C_MAG, MAG3110_I2C_ADDRESS | I2C_WRITE);
+ 128              		.loc 1 42 0
+ 129 0014 2A4B     		ldr	r3, .L7
+ 130 0016 181C     		mov	r0, r3
+ 131 0018 1C21     		mov	r1, #28
+ 132 001a FFF7FEFF 		bl	i2c_write_byte
+  43:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     
+  44:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     i2c_wait(I2C_MAG);
+ 133              		.loc 1 44 0
+ 134 001e 284B     		ldr	r3, .L7
+ 135 0020 181C     		mov	r0, r3
+ 136 0022 FFF7FEFF 		bl	i2c_wait
+  45:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     i2c_get_ack(I2C_MAG);
+ 137              		.loc 1 45 0
+ 138 0026 264B     		ldr	r3, .L7
+ 139 0028 181C     		mov	r0, r3
+ 140 002a FFF7FEFF 		bl	i2c_get_ack
+  46:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** 
+  47:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     i2c_write_byte(I2C_MAG, addr);
+ 141              		.loc 1 47 0
+ 142 002e 244A     		ldr	r2, .L7
+ 143 0030 FB1D     		add	r3, r7, #7
+ 144 0032 1B78     		ldrb	r3, [r3]
+ 145 0034 101C     		mov	r0, r2
+ 146 0036 191C     		mov	r1, r3
+ 147 0038 FFF7FEFF 		bl	i2c_write_byte
+  48:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     i2c_wait(I2C_MAG);
+ 148              		.loc 1 48 0
+ 149 003c 204B     		ldr	r3, .L7
+ 150 003e 181C     		mov	r0, r3
+ 151 0040 FFF7FEFF 		bl	i2c_wait
+  49:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     i2c_get_ack(I2C_MAG);
+ 152              		.loc 1 49 0
+ 153 0044 1E4B     		ldr	r3, .L7
+ 154 0046 181C     		mov	r0, r3
+ 155 0048 FFF7FEFF 		bl	i2c_get_ack
+  50:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** 
+  51:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     i2c_repeated_start(I2C_MAG);
+ 156              		.loc 1 51 0
+ 157 004c 1C4B     		ldr	r3, .L7
+ 158 004e 181C     		mov	r0, r3
+ 159 0050 FFF7FEFF 		bl	i2c_repeated_start
+  52:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     i2c_write_byte(I2C_MAG, MAG3110_I2C_ADDRESS | I2C_READ);
+ 160              		.loc 1 52 0
+ 161 0054 1A4B     		ldr	r3, .L7
+ 162 0056 181C     		mov	r0, r3
+ 163 0058 1D21     		mov	r1, #29
+ 164 005a FFF7FEFF 		bl	i2c_write_byte
+  53:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     i2c_wait(I2C_MAG);
+ 165              		.loc 1 53 0
+ 166 005e 184B     		ldr	r3, .L7
+ 167 0060 181C     		mov	r0, r3
+ 168 0062 FFF7FEFF 		bl	i2c_wait
+  54:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     i2c_get_ack(I2C_MAG);
+ 169              		.loc 1 54 0
+ 170 0066 164B     		ldr	r3, .L7
+ 171 0068 181C     		mov	r0, r3
+ 172 006a FFF7FEFF 		bl	i2c_get_ack
+  55:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** 
+  56:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     i2c_set_rx_mode(I2C_MAG);
+ 173              		.loc 1 56 0
+ 174 006e 144B     		ldr	r3, .L7
+ 175 0070 181C     		mov	r0, r3
+ 176 0072 FFF7FEFF 		bl	i2c_set_rx_mode
+  57:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** 
+  58:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     i2c_give_nack(I2C_MAG);
+ 177              		.loc 1 58 0
+ 178 0076 124B     		ldr	r3, .L7
+ 179 0078 181C     		mov	r0, r3
+ 180 007a FFF7FEFF 		bl	i2c_give_nack
+  59:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     result = i2c_read_byte(I2C_MAG);
+ 181              		.loc 1 59 0
+ 182 007e 3C1C     		mov	r4, r7
+ 183 0080 0F34     		add	r4, r4, #15
+ 184 0082 0F4B     		ldr	r3, .L7
+ 185 0084 181C     		mov	r0, r3
+ 186 0086 FFF7FEFF 		bl	i2c_read_byte
+ 187 008a 031C     		mov	r3, r0
+ 188 008c 2370     		strb	r3, [r4]
+  60:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     i2c_wait(I2C_MAG);
+ 189              		.loc 1 60 0
+ 190 008e 0C4B     		ldr	r3, .L7
+ 191 0090 181C     		mov	r0, r3
+ 192 0092 FFF7FEFF 		bl	i2c_wait
+  61:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** 
+  62:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     i2c_stop(I2C_MAG);
+ 193              		.loc 1 62 0
+ 194 0096 0A4B     		ldr	r3, .L7
+ 195 0098 181C     		mov	r0, r3
+ 196 009a FFF7FEFF 		bl	i2c_stop
+  63:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     result = i2c_read_byte(I2C_MAG);
+ 197              		.loc 1 63 0
+ 198 009e 3C1C     		mov	r4, r7
+ 199 00a0 0F34     		add	r4, r4, #15
+ 200 00a2 074B     		ldr	r3, .L7
+ 201 00a4 181C     		mov	r0, r3
+ 202 00a6 FFF7FEFF 		bl	i2c_read_byte
+ 203 00aa 031C     		mov	r3, r0
+ 204 00ac 2370     		strb	r3, [r4]
+  64:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     pause();
+ 205              		.loc 1 64 0
+ 206 00ae FFF7FEFF 		bl	pause
+  65:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     return result;
+ 207              		.loc 1 65 0
+ 208 00b2 3B1C     		mov	r3, r7
+ 209 00b4 0F33     		add	r3, r3, #15
+ 210 00b6 1B78     		ldrb	r3, [r3]
+  66:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** }
+ 211              		.loc 1 66 0
+ 212 00b8 181C     		mov	r0, r3
+ 213 00ba BD46     		mov	sp, r7
+ 214 00bc 05B0     		add	sp, sp, #20
+ 215              		@ sp needed for prologue
+ 216 00be 90BD     		pop	{r4, r7, pc}
+ 217              	.L8:
+ 218              		.align	2
+ 219              	.L7:
+ 220 00c0 00600640 		.word	1074159616
+ 221              		.cfi_endproc
+ 222              	.LFE2:
+ 224              		.section	.text.hal_dev_mag3110_write_reg,"ax",%progbits
+ 225              		.align	2
+ 226              		.global	hal_dev_mag3110_write_reg
+ 227              		.code	16
+ 228              		.thumb_func
+ 230              	hal_dev_mag3110_write_reg:
+ 231              	.LFB3:
+  67:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** 
+  68:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** void hal_dev_mag3110_write_reg(uint8 addr, uint8 data)
+  69:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** {
+ 232              		.loc 1 69 0
+ 233              		.cfi_startproc
+ 234 0000 80B5     		push	{r7, lr}
+ 235              	.LCFI8:
+ 236              		.cfi_def_cfa_offset 8
+ 237              		.cfi_offset 7, -8
+ 238              		.cfi_offset 14, -4
+ 239 0002 82B0     		sub	sp, sp, #8
+ 240              	.LCFI9:
+ 241              		.cfi_def_cfa_offset 16
+ 242 0004 00AF     		add	r7, sp, #0
+ 243              	.LCFI10:
+ 244              		.cfi_def_cfa_register 7
+ 245 0006 0A1C     		mov	r2, r1
+ 246 0008 FB1D     		add	r3, r7, #7
+ 247 000a 011C     		add	r1, r0, #0
+ 248 000c 1970     		strb	r1, [r3]
+ 249 000e BB1D     		add	r3, r7, #6
+ 250 0010 1A70     		strb	r2, [r3]
+  70:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     i2c_start(I2C_MAG);
+ 251              		.loc 1 70 0
+ 252 0012 1C4B     		ldr	r3, .L10
+ 253 0014 181C     		mov	r0, r3
+ 254 0016 FFF7FEFF 		bl	i2c_start
+  71:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** 
+  72:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     i2c_write_byte(I2C_MAG, MAG3110_I2C_ADDRESS|I2C_WRITE);
+ 255              		.loc 1 72 0
+ 256 001a 1A4B     		ldr	r3, .L10
+ 257 001c 181C     		mov	r0, r3
+ 258 001e 1C21     		mov	r1, #28
+ 259 0020 FFF7FEFF 		bl	i2c_write_byte
+  73:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     i2c_wait(I2C_MAG);
+ 260              		.loc 1 73 0
+ 261 0024 174B     		ldr	r3, .L10
+ 262 0026 181C     		mov	r0, r3
+ 263 0028 FFF7FEFF 		bl	i2c_wait
+  74:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     i2c_get_ack(I2C_MAG);
+ 264              		.loc 1 74 0
+ 265 002c 154B     		ldr	r3, .L10
+ 266 002e 181C     		mov	r0, r3
+ 267 0030 FFF7FEFF 		bl	i2c_get_ack
+  75:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** 
+  76:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     i2c_write_byte(I2C_MAG, addr);
+ 268              		.loc 1 76 0
+ 269 0034 134A     		ldr	r2, .L10
+ 270 0036 FB1D     		add	r3, r7, #7
+ 271 0038 1B78     		ldrb	r3, [r3]
+ 272 003a 101C     		mov	r0, r2
+ 273 003c 191C     		mov	r1, r3
+ 274 003e FFF7FEFF 		bl	i2c_write_byte
+  77:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     i2c_wait(I2C_MAG);
+ 275              		.loc 1 77 0
+ 276 0042 104B     		ldr	r3, .L10
+ 277 0044 181C     		mov	r0, r3
+ 278 0046 FFF7FEFF 		bl	i2c_wait
+  78:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     i2c_get_ack(I2C_MAG);
+ 279              		.loc 1 78 0
+ 280 004a 0E4B     		ldr	r3, .L10
+ 281 004c 181C     		mov	r0, r3
+ 282 004e FFF7FEFF 		bl	i2c_get_ack
+  79:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** 
+  80:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     i2c_write_byte(I2C_MAG, data);
+ 283              		.loc 1 80 0
+ 284 0052 0C4A     		ldr	r2, .L10
+ 285 0054 BB1D     		add	r3, r7, #6
+ 286 0056 1B78     		ldrb	r3, [r3]
+ 287 0058 101C     		mov	r0, r2
+ 288 005a 191C     		mov	r1, r3
+ 289 005c FFF7FEFF 		bl	i2c_write_byte
+  81:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     i2c_wait(I2C_MAG);
+ 290              		.loc 1 81 0
+ 291 0060 084B     		ldr	r3, .L10
+ 292 0062 181C     		mov	r0, r3
+ 293 0064 FFF7FEFF 		bl	i2c_wait
+  82:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     i2c_get_ack(I2C_MAG);
+ 294              		.loc 1 82 0
+ 295 0068 064B     		ldr	r3, .L10
+ 296 006a 181C     		mov	r0, r3
+ 297 006c FFF7FEFF 		bl	i2c_get_ack
+  83:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** 
+  84:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     i2c_stop(I2C_MAG);
+ 298              		.loc 1 84 0
+ 299 0070 044B     		ldr	r3, .L10
+ 300 0072 181C     		mov	r0, r3
+ 301 0074 FFF7FEFF 		bl	i2c_stop
+  85:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     pause();
+ 302              		.loc 1 85 0
+ 303 0078 FFF7FEFF 		bl	pause
+  86:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** }
+ 304              		.loc 1 86 0
+ 305 007c BD46     		mov	sp, r7
+ 306 007e 02B0     		add	sp, sp, #8
+ 307              		@ sp needed for prologue
+ 308 0080 80BD     		pop	{r7, pc}
+ 309              	.L11:
+ 310 0082 C046     		.align	2
+ 311              	.L10:
+ 312 0084 00600640 		.word	1074159616
+ 313              		.cfi_endproc
+ 314              	.LFE3:
+ 316              		.section	.text.mag_init,"ax",%progbits
+ 317              		.align	2
+ 318              		.global	mag_init
+ 319              		.code	16
+ 320              		.thumb_func
+ 322              	mag_init:
+ 323              	.LFB4:
+  87:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** 
+  88:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** /******Funciones del Magnetómetro*********/
+  89:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** void mag_init(void)
+  90:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** {
+ 324              		.loc 1 90 0
+ 325              		.cfi_startproc
+ 326 0000 80B5     		push	{r7, lr}
+ 327              	.LCFI11:
+ 328              		.cfi_def_cfa_offset 8
+ 329              		.cfi_offset 7, -8
+ 330              		.cfi_offset 14, -4
+ 331 0002 00AF     		add	r7, sp, #0
+ 332              	.LCFI12:
+ 333              		.cfi_def_cfa_register 7
+  91:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     hal_dev_mag3110_init();      //Initialize I2C modules
+ 334              		.loc 1 91 0
+ 335 0004 FFF7FEFF 		bl	hal_dev_mag3110_init
+  92:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     hal_dev_mag3110_write_reg(MAG_CTRL_REG1,0x00); //Standby mode
+ 336              		.loc 1 92 0
+ 337 0008 1020     		mov	r0, #16
+ 338 000a 0021     		mov	r1, #0
+ 339 000c FFF7FEFF 		bl	hal_dev_mag3110_write_reg
+  93:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     hal_dev_mag3110_write_reg(MAG_CTRL_REG2,0x80); //Auto reset
+ 340              		.loc 1 93 0
+ 341 0010 1120     		mov	r0, #17
+ 342 0012 8021     		mov	r1, #128
+ 343 0014 FFF7FEFF 		bl	hal_dev_mag3110_write_reg
+  94:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     hal_dev_mag3110_write_reg(MAG_CTRL_REG1,0x01); //Active
+ 344              		.loc 1 94 0
+ 345 0018 1020     		mov	r0, #16
+ 346 001a 0121     		mov	r1, #1
+ 347 001c FFF7FEFF 		bl	hal_dev_mag3110_write_reg
+  95:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** }
+ 348              		.loc 1 95 0
+ 349 0020 BD46     		mov	sp, r7
+ 350              		@ sp needed for prologue
+ 351 0022 80BD     		pop	{r7, pc}
+ 352              		.cfi_endproc
+ 353              	.LFE4:
+ 355              		.section	.text.mag_read,"ax",%progbits
+ 356              		.align	2
+ 357              		.global	mag_read
+ 358              		.code	16
+ 359              		.thumb_func
+ 361              	mag_read:
+ 362              	.LFB5:
+  96:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** 
+  97:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** void mag_read(void)
+  98:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** {
+ 363              		.loc 1 98 0
+ 364              		.cfi_startproc
+ 365 0000 80B5     		push	{r7, lr}
+ 366              	.LCFI13:
+ 367              		.cfi_def_cfa_offset 8
+ 368              		.cfi_offset 7, -8
+ 369              		.cfi_offset 14, -4
+ 370 0002 00AF     		add	r7, sp, #0
+ 371              	.LCFI14:
+ 372              		.cfi_def_cfa_register 7
+  99:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     if((hal_dev_mag3110_read_reg(0x00)&0xf) != 0)
+ 373              		.loc 1 99 0
+ 374 0004 0020     		mov	r0, #0
+ 375 0006 FFF7FEFF 		bl	hal_dev_mag3110_read_reg
+ 376 000a 031C     		mov	r3, r0
+ 377 000c 1A1C     		mov	r2, r3
+ 378 000e 0F23     		mov	r3, #15
+ 379 0010 1340     		and	r3, r2
+ 380 0012 71D0     		beq	.L13
+ 100:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     {
+ 101:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****             
+ 102:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****       mag_x   = hal_dev_mag3110_read_reg(0x01)<<8;
+ 381              		.loc 1 102 0
+ 382 0014 0120     		mov	r0, #1
+ 383 0016 FFF7FEFF 		bl	hal_dev_mag3110_read_reg
+ 384 001a 031C     		mov	r3, r0
+ 385 001c 1B02     		lsl	r3, r3, #8
+ 386 001e 9AB2     		uxth	r2, r3
+ 387 0020 364B     		ldr	r3, .L15
+ 388 0022 1A80     		strh	r2, [r3]
+ 103:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****       mag_x  |= hal_dev_mag3110_read_reg(0x02);
+ 389              		.loc 1 103 0
+ 390 0024 0220     		mov	r0, #2
+ 391 0026 FFF7FEFF 		bl	hal_dev_mag3110_read_reg
+ 392 002a 031C     		mov	r3, r0
+ 393 002c 1A1C     		mov	r2, r3
+ 394 002e 334B     		ldr	r3, .L15
+ 395 0030 1B88     		ldrh	r3, [r3]
+ 396 0032 1343     		orr	r3, r2
+ 397 0034 9AB2     		uxth	r2, r3
+ 398 0036 314B     		ldr	r3, .L15
+ 399 0038 1A80     		strh	r2, [r3]
+ 104:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** 
+ 105:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****       mag_y   = hal_dev_mag3110_read_reg(0x03)<<8;
+ 400              		.loc 1 105 0
+ 401 003a 0320     		mov	r0, #3
+ 402 003c FFF7FEFF 		bl	hal_dev_mag3110_read_reg
+ 403 0040 031C     		mov	r3, r0
+ 404 0042 1B02     		lsl	r3, r3, #8
+ 405 0044 9AB2     		uxth	r2, r3
+ 406 0046 2E4B     		ldr	r3, .L15+4
+ 407 0048 1A80     		strh	r2, [r3]
+ 106:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****       mag_y  |= hal_dev_mag3110_read_reg(0x04);
+ 408              		.loc 1 106 0
+ 409 004a 0420     		mov	r0, #4
+ 410 004c FFF7FEFF 		bl	hal_dev_mag3110_read_reg
+ 411 0050 031C     		mov	r3, r0
+ 412 0052 1A1C     		mov	r2, r3
+ 413 0054 2A4B     		ldr	r3, .L15+4
+ 414 0056 1B88     		ldrh	r3, [r3]
+ 415 0058 1343     		orr	r3, r2
+ 416 005a 9AB2     		uxth	r2, r3
+ 417 005c 284B     		ldr	r3, .L15+4
+ 418 005e 1A80     		strh	r2, [r3]
+ 107:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** 
+ 108:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****       mag_z   = hal_dev_mag3110_read_reg(0x05)<<8;
+ 419              		.loc 1 108 0
+ 420 0060 0520     		mov	r0, #5
+ 421 0062 FFF7FEFF 		bl	hal_dev_mag3110_read_reg
+ 422 0066 031C     		mov	r3, r0
+ 423 0068 1B02     		lsl	r3, r3, #8
+ 424 006a 9AB2     		uxth	r2, r3
+ 425 006c 254B     		ldr	r3, .L15+8
+ 426 006e 1A80     		strh	r2, [r3]
+ 109:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****       mag_z  |= hal_dev_mag3110_read_reg(0x06);
+ 427              		.loc 1 109 0
+ 428 0070 0620     		mov	r0, #6
+ 429 0072 FFF7FEFF 		bl	hal_dev_mag3110_read_reg
+ 430 0076 031C     		mov	r3, r0
+ 431 0078 1A1C     		mov	r2, r3
+ 432 007a 224B     		ldr	r3, .L15+8
+ 433 007c 1B88     		ldrh	r3, [r3]
+ 434 007e 1343     		orr	r3, r2
+ 435 0080 9AB2     		uxth	r2, r3
+ 436 0082 204B     		ldr	r3, .L15+8
+ 437 0084 1A80     		strh	r2, [r3]
+ 110:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****   
+ 111:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****       Mresultx   = hal_dev_mag3110_read_reg(0x01)<<8;
+ 438              		.loc 1 111 0
+ 439 0086 0120     		mov	r0, #1
+ 440 0088 FFF7FEFF 		bl	hal_dev_mag3110_read_reg
+ 441 008c 031C     		mov	r3, r0
+ 442 008e 1B02     		lsl	r3, r3, #8
+ 443 0090 9AB2     		uxth	r2, r3
+ 444 0092 1D4B     		ldr	r3, .L15+12
+ 445 0094 1A80     		strh	r2, [r3]
+ 112:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****       Mresultx  |= hal_dev_mag3110_read_reg(0x02);
+ 446              		.loc 1 112 0
+ 447 0096 0220     		mov	r0, #2
+ 448 0098 FFF7FEFF 		bl	hal_dev_mag3110_read_reg
+ 449 009c 031C     		mov	r3, r0
+ 450 009e 1A1C     		mov	r2, r3
+ 451 00a0 194B     		ldr	r3, .L15+12
+ 452 00a2 1B88     		ldrh	r3, [r3]
+ 453 00a4 1343     		orr	r3, r2
+ 454 00a6 9AB2     		uxth	r2, r3
+ 455 00a8 174B     		ldr	r3, .L15+12
+ 456 00aa 1A80     		strh	r2, [r3]
+ 113:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****       
+ 114:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****       Mresulty   = hal_dev_mag3110_read_reg(0x03)<<8;
+ 457              		.loc 1 114 0
+ 458 00ac 0320     		mov	r0, #3
+ 459 00ae FFF7FEFF 		bl	hal_dev_mag3110_read_reg
+ 460 00b2 031C     		mov	r3, r0
+ 461 00b4 1B02     		lsl	r3, r3, #8
+ 462 00b6 9AB2     		uxth	r2, r3
+ 463 00b8 144B     		ldr	r3, .L15+16
+ 464 00ba 1A80     		strh	r2, [r3]
+ 115:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****       Mresulty  |= hal_dev_mag3110_read_reg(0x04);
+ 465              		.loc 1 115 0
+ 466 00bc 0420     		mov	r0, #4
+ 467 00be FFF7FEFF 		bl	hal_dev_mag3110_read_reg
+ 468 00c2 031C     		mov	r3, r0
+ 469 00c4 1A1C     		mov	r2, r3
+ 470 00c6 114B     		ldr	r3, .L15+16
+ 471 00c8 1B88     		ldrh	r3, [r3]
+ 472 00ca 1343     		orr	r3, r2
+ 473 00cc 9AB2     		uxth	r2, r3
+ 474 00ce 0F4B     		ldr	r3, .L15+16
+ 475 00d0 1A80     		strh	r2, [r3]
+ 116:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** 
+ 117:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****       Mresultz   = hal_dev_mag3110_read_reg(0x05)<<8;
+ 476              		.loc 1 117 0
+ 477 00d2 0520     		mov	r0, #5
+ 478 00d4 FFF7FEFF 		bl	hal_dev_mag3110_read_reg
+ 479 00d8 031C     		mov	r3, r0
+ 480 00da 1B02     		lsl	r3, r3, #8
+ 481 00dc 9AB2     		uxth	r2, r3
+ 482 00de 0C4B     		ldr	r3, .L15+20
+ 483 00e0 1A80     		strh	r2, [r3]
+ 118:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****       Mresultz  |= hal_dev_mag3110_read_reg(0x06);
+ 484              		.loc 1 118 0
+ 485 00e2 0620     		mov	r0, #6
+ 486 00e4 FFF7FEFF 		bl	hal_dev_mag3110_read_reg
+ 487 00e8 031C     		mov	r3, r0
+ 488 00ea 1A1C     		mov	r2, r3
+ 489 00ec 084B     		ldr	r3, .L15+20
+ 490 00ee 1B88     		ldrh	r3, [r3]
+ 491 00f0 1343     		orr	r3, r2
+ 492 00f2 9AB2     		uxth	r2, r3
+ 493 00f4 064B     		ldr	r3, .L15+20
+ 494 00f6 1A80     		strh	r2, [r3]
+ 495              	.L13:
+ 119:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     }
+ 120:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** }
+ 496              		.loc 1 120 0
+ 497 00f8 BD46     		mov	sp, r7
+ 498              		@ sp needed for prologue
+ 499 00fa 80BD     		pop	{r7, pc}
+ 500              	.L16:
+ 501              		.align	2
+ 502              	.L15:
+ 503 00fc 00000000 		.word	mag_x
+ 504 0100 00000000 		.word	mag_y
+ 505 0104 00000000 		.word	mag_z
+ 506 0108 00000000 		.word	Mresultx
+ 507 010c 00000000 		.word	Mresulty
+ 508 0110 00000000 		.word	Mresultz
+ 509              		.cfi_endproc
+ 510              	.LFE5:
+ 512              		.section	.rodata
+ 513              		.align	2
+ 514              	.LC12:
+ 515 0000 0A0D204D 		.ascii	"\012\015 Magenotometer Values\000"
+ 515      6167656E 
+ 515      6F746F6D 
+ 515      65746572 
+ 515      2056616C 
+ 516              		.align	2
+ 517              	.LC14:
+ 518 0018 0A0D7820 		.ascii	"\012\015x = %d \011\000"
+ 518      3D202564 
+ 518      200900
+ 519 0023 00       		.align	2
+ 520              	.LC16:
+ 521 0024 79203D20 		.ascii	"y = %d \011\000"
+ 521      25642009 
+ 521      00
+ 522 002d 000000   		.align	2
+ 523              	.LC18:
+ 524 0030 7A203D20 		.ascii	"z = %d \012\015\000"
+ 524      2564200A 
+ 524      0D00
+ 525 003a 0000     		.section	.text.mag_test,"ax",%progbits
+ 526              		.align	2
+ 527              		.global	mag_test
+ 528              		.code	16
+ 529              		.thumb_func
+ 531              	mag_test:
+ 532              	.LFB6:
+ 121:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** 
+ 122:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** void mag_test(void)
+ 123:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** {
+ 533              		.loc 1 123 0
+ 534              		.cfi_startproc
+ 535 0000 80B5     		push	{r7, lr}
+ 536              	.LCFI15:
+ 537              		.cfi_def_cfa_offset 8
+ 538              		.cfi_offset 7, -8
+ 539              		.cfi_offset 14, -4
+ 540 0002 00AF     		add	r7, sp, #0
+ 541              	.LCFI16:
+ 542              		.cfi_def_cfa_register 7
+ 124:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****  mag_read();
+ 543              		.loc 1 124 0
+ 544 0004 FFF7FEFF 		bl	mag_read
+ 125:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****  Mtestx = Mresultx;
+ 545              		.loc 1 125 0
+ 546 0008 144B     		ldr	r3, .L18
+ 547 000a 1B88     		ldrh	r3, [r3]
+ 548 000c 1AB2     		sxth	r2, r3
+ 549 000e 144B     		ldr	r3, .L18+4
+ 550 0010 1A60     		str	r2, [r3]
+ 126:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****  Mtesty = Mresulty;
+ 551              		.loc 1 126 0
+ 552 0012 144B     		ldr	r3, .L18+8
+ 553 0014 1B88     		ldrh	r3, [r3]
+ 554 0016 1AB2     		sxth	r2, r3
+ 555 0018 134B     		ldr	r3, .L18+12
+ 556 001a 1A60     		str	r2, [r3]
+ 127:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****  Mtestz = Mresultz;
+ 557              		.loc 1 127 0
+ 558 001c 134B     		ldr	r3, .L18+16
+ 559 001e 1B88     		ldrh	r3, [r3]
+ 560 0020 1AB2     		sxth	r2, r3
+ 561 0022 134B     		ldr	r3, .L18+20
+ 562 0024 1A60     		str	r2, [r3]
+ 128:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** 
+ 129:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****  printf("\n\r Magenotometer Values");
+ 563              		.loc 1 129 0
+ 564 0026 134B     		ldr	r3, .L18+24
+ 565 0028 181C     		mov	r0, r3
+ 566 002a FFF7FEFF 		bl	printf
+ 130:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****  printf("\n\rx = %d \t",Mtestx);
+ 567              		.loc 1 130 0
+ 568 002e 0C4B     		ldr	r3, .L18+4
+ 569 0030 1B68     		ldr	r3, [r3]
+ 570 0032 114A     		ldr	r2, .L18+28
+ 571 0034 101C     		mov	r0, r2
+ 572 0036 191C     		mov	r1, r3
+ 573 0038 FFF7FEFF 		bl	printf
+ 131:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****  printf("y = %d \t",Mtesty);
+ 574              		.loc 1 131 0
+ 575 003c 0A4B     		ldr	r3, .L18+12
+ 576 003e 1B68     		ldr	r3, [r3]
+ 577 0040 0E4A     		ldr	r2, .L18+32
+ 578 0042 101C     		mov	r0, r2
+ 579 0044 191C     		mov	r1, r3
+ 580 0046 FFF7FEFF 		bl	printf
+ 132:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****  printf("z = %d \n\r",Mtestz);
+ 581              		.loc 1 132 0
+ 582 004a 094B     		ldr	r3, .L18+20
+ 583 004c 1B68     		ldr	r3, [r3]
+ 584 004e 0C4A     		ldr	r2, .L18+36
+ 585 0050 101C     		mov	r0, r2
+ 586 0052 191C     		mov	r1, r3
+ 587 0054 FFF7FEFF 		bl	printf
+ 133:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****   
+ 134:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** }
+ 588              		.loc 1 134 0
+ 589 0058 BD46     		mov	sp, r7
+ 590              		@ sp needed for prologue
+ 591 005a 80BD     		pop	{r7, pc}
+ 592              	.L19:
+ 593              		.align	2
+ 594              	.L18:
+ 595 005c 00000000 		.word	Mresultx
+ 596 0060 00000000 		.word	Mtestx
+ 597 0064 00000000 		.word	Mresulty
+ 598 0068 00000000 		.word	Mtesty
+ 599 006c 00000000 		.word	Mresultz
+ 600 0070 00000000 		.word	Mtestz
+ 601 0074 00000000 		.word	.LC12
+ 602 0078 18000000 		.word	.LC14
+ 603 007c 24000000 		.word	.LC16
+ 604 0080 30000000 		.word	.LC18
+ 605              		.cfi_endproc
+ 606              	.LFE6:
+ 608              		.section	.text.iMagReadX,"ax",%progbits
+ 609              		.align	2
+ 610              		.global	iMagReadX
+ 611              		.code	16
+ 612              		.thumb_func
+ 614              	iMagReadX:
+ 615              	.LFB7:
+ 135:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** 
+ 136:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** int iMagReadX(void) {
+ 616              		.loc 1 136 0
+ 617              		.cfi_startproc
+ 618 0000 80B5     		push	{r7, lr}
+ 619              	.LCFI17:
+ 620              		.cfi_def_cfa_offset 8
+ 621              		.cfi_offset 7, -8
+ 622              		.cfi_offset 14, -4
+ 623 0002 00AF     		add	r7, sp, #0
+ 624              	.LCFI18:
+ 625              		.cfi_def_cfa_register 7
+ 137:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****    if((hal_dev_mag3110_read_reg(0x00)&0xf) != 0)
+ 626              		.loc 1 137 0
+ 627 0004 0020     		mov	r0, #0
+ 628 0006 FFF7FEFF 		bl	hal_dev_mag3110_read_reg
+ 629 000a 031C     		mov	r3, r0
+ 630 000c 1A1C     		mov	r2, r3
+ 631 000e 0F23     		mov	r3, #15
+ 632 0010 1340     		and	r3, r2
+ 633 0012 25D0     		beq	.L21
+ 138:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     {
+ 139:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****       mag_x   = hal_dev_mag3110_read_reg(0x01)<<8;
+ 634              		.loc 1 139 0
+ 635 0014 0120     		mov	r0, #1
+ 636 0016 FFF7FEFF 		bl	hal_dev_mag3110_read_reg
+ 637 001a 031C     		mov	r3, r0
+ 638 001c 1B02     		lsl	r3, r3, #8
+ 639 001e 9AB2     		uxth	r2, r3
+ 640 0020 124B     		ldr	r3, .L23
+ 641 0022 1A80     		strh	r2, [r3]
+ 140:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****       mag_x  |= hal_dev_mag3110_read_reg(0x02);
+ 642              		.loc 1 140 0
+ 643 0024 0220     		mov	r0, #2
+ 644 0026 FFF7FEFF 		bl	hal_dev_mag3110_read_reg
+ 645 002a 031C     		mov	r3, r0
+ 646 002c 1A1C     		mov	r2, r3
+ 647 002e 0F4B     		ldr	r3, .L23
+ 648 0030 1B88     		ldrh	r3, [r3]
+ 649 0032 1343     		orr	r3, r2
+ 650 0034 9AB2     		uxth	r2, r3
+ 651 0036 0D4B     		ldr	r3, .L23
+ 652 0038 1A80     		strh	r2, [r3]
+ 141:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****       
+ 142:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****       Mresultx   = hal_dev_mag3110_read_reg(0x01)<<8;
+ 653              		.loc 1 142 0
+ 654 003a 0120     		mov	r0, #1
+ 655 003c FFF7FEFF 		bl	hal_dev_mag3110_read_reg
+ 656 0040 031C     		mov	r3, r0
+ 657 0042 1B02     		lsl	r3, r3, #8
+ 658 0044 9AB2     		uxth	r2, r3
+ 659 0046 0A4B     		ldr	r3, .L23+4
+ 660 0048 1A80     		strh	r2, [r3]
+ 143:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****       Mresultx  |= hal_dev_mag3110_read_reg(0x02);
+ 661              		.loc 1 143 0
+ 662 004a 0220     		mov	r0, #2
+ 663 004c FFF7FEFF 		bl	hal_dev_mag3110_read_reg
+ 664 0050 031C     		mov	r3, r0
+ 665 0052 1A1C     		mov	r2, r3
+ 666 0054 064B     		ldr	r3, .L23+4
+ 667 0056 1B88     		ldrh	r3, [r3]
+ 668 0058 1343     		orr	r3, r2
+ 669 005a 9AB2     		uxth	r2, r3
+ 670 005c 044B     		ldr	r3, .L23+4
+ 671 005e 1A80     		strh	r2, [r3]
+ 672              	.L21:
+ 144:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     }
+ 145:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     return Mresultx;
+ 673              		.loc 1 145 0
+ 674 0060 034B     		ldr	r3, .L23+4
+ 675 0062 1B88     		ldrh	r3, [r3]
+ 676 0064 1BB2     		sxth	r3, r3
+ 146:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** }
+ 677              		.loc 1 146 0
+ 678 0066 181C     		mov	r0, r3
+ 679 0068 BD46     		mov	sp, r7
+ 680              		@ sp needed for prologue
+ 681 006a 80BD     		pop	{r7, pc}
+ 682              	.L24:
+ 683              		.align	2
+ 684              	.L23:
+ 685 006c 00000000 		.word	mag_x
+ 686 0070 00000000 		.word	Mresultx
+ 687              		.cfi_endproc
+ 688              	.LFE7:
+ 690              		.section	.text.iMagReadY,"ax",%progbits
+ 691              		.align	2
+ 692              		.global	iMagReadY
+ 693              		.code	16
+ 694              		.thumb_func
+ 696              	iMagReadY:
+ 697              	.LFB8:
+ 147:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** 
+ 148:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** int iMagReadY(void) {
+ 698              		.loc 1 148 0
+ 699              		.cfi_startproc
+ 700 0000 80B5     		push	{r7, lr}
+ 701              	.LCFI19:
+ 702              		.cfi_def_cfa_offset 8
+ 703              		.cfi_offset 7, -8
+ 704              		.cfi_offset 14, -4
+ 705 0002 00AF     		add	r7, sp, #0
+ 706              	.LCFI20:
+ 707              		.cfi_def_cfa_register 7
+ 149:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****      if((hal_dev_mag3110_read_reg(0x00)&0xf) != 0)
+ 708              		.loc 1 149 0
+ 709 0004 0020     		mov	r0, #0
+ 710 0006 FFF7FEFF 		bl	hal_dev_mag3110_read_reg
+ 711 000a 031C     		mov	r3, r0
+ 712 000c 1A1C     		mov	r2, r3
+ 713 000e 0F23     		mov	r3, #15
+ 714 0010 1340     		and	r3, r2
+ 715 0012 25D0     		beq	.L26
+ 150:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     {
+ 151:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****       mag_y   = hal_dev_mag3110_read_reg(0x03)<<8;
+ 716              		.loc 1 151 0
+ 717 0014 0320     		mov	r0, #3
+ 718 0016 FFF7FEFF 		bl	hal_dev_mag3110_read_reg
+ 719 001a 031C     		mov	r3, r0
+ 720 001c 1B02     		lsl	r3, r3, #8
+ 721 001e 9AB2     		uxth	r2, r3
+ 722 0020 124B     		ldr	r3, .L28
+ 723 0022 1A80     		strh	r2, [r3]
+ 152:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****       mag_y  |= hal_dev_mag3110_read_reg(0x04);
+ 724              		.loc 1 152 0
+ 725 0024 0420     		mov	r0, #4
+ 726 0026 FFF7FEFF 		bl	hal_dev_mag3110_read_reg
+ 727 002a 031C     		mov	r3, r0
+ 728 002c 1A1C     		mov	r2, r3
+ 729 002e 0F4B     		ldr	r3, .L28
+ 730 0030 1B88     		ldrh	r3, [r3]
+ 731 0032 1343     		orr	r3, r2
+ 732 0034 9AB2     		uxth	r2, r3
+ 733 0036 0D4B     		ldr	r3, .L28
+ 734 0038 1A80     		strh	r2, [r3]
+ 153:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** 
+ 154:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****       Mresulty   = hal_dev_mag3110_read_reg(0x03)<<8;
+ 735              		.loc 1 154 0
+ 736 003a 0320     		mov	r0, #3
+ 737 003c FFF7FEFF 		bl	hal_dev_mag3110_read_reg
+ 738 0040 031C     		mov	r3, r0
+ 739 0042 1B02     		lsl	r3, r3, #8
+ 740 0044 9AB2     		uxth	r2, r3
+ 741 0046 0A4B     		ldr	r3, .L28+4
+ 742 0048 1A80     		strh	r2, [r3]
+ 155:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****       Mresulty  |= hal_dev_mag3110_read_reg(0x04);      
+ 743              		.loc 1 155 0
+ 744 004a 0420     		mov	r0, #4
+ 745 004c FFF7FEFF 		bl	hal_dev_mag3110_read_reg
+ 746 0050 031C     		mov	r3, r0
+ 747 0052 1A1C     		mov	r2, r3
+ 748 0054 064B     		ldr	r3, .L28+4
+ 749 0056 1B88     		ldrh	r3, [r3]
+ 750 0058 1343     		orr	r3, r2
+ 751 005a 9AB2     		uxth	r2, r3
+ 752 005c 044B     		ldr	r3, .L28+4
+ 753 005e 1A80     		strh	r2, [r3]
+ 754              	.L26:
+ 156:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     }
+ 157:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     return Mresulty;
+ 755              		.loc 1 157 0
+ 756 0060 034B     		ldr	r3, .L28+4
+ 757 0062 1B88     		ldrh	r3, [r3]
+ 758 0064 1BB2     		sxth	r3, r3
+ 158:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** }
+ 759              		.loc 1 158 0
+ 760 0066 181C     		mov	r0, r3
+ 761 0068 BD46     		mov	sp, r7
+ 762              		@ sp needed for prologue
+ 763 006a 80BD     		pop	{r7, pc}
+ 764              	.L29:
+ 765              		.align	2
+ 766              	.L28:
+ 767 006c 00000000 		.word	mag_y
+ 768 0070 00000000 		.word	Mresulty
+ 769              		.cfi_endproc
+ 770              	.LFE8:
+ 772              		.section	.text.iMagReadZ,"ax",%progbits
+ 773              		.align	2
+ 774              		.global	iMagReadZ
+ 775              		.code	16
+ 776              		.thumb_func
+ 778              	iMagReadZ:
+ 779              	.LFB9:
+ 159:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** 
+ 160:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** int iMagReadZ(void) {
+ 780              		.loc 1 160 0
+ 781              		.cfi_startproc
+ 782 0000 80B5     		push	{r7, lr}
+ 783              	.LCFI21:
+ 784              		.cfi_def_cfa_offset 8
+ 785              		.cfi_offset 7, -8
+ 786              		.cfi_offset 14, -4
+ 787 0002 00AF     		add	r7, sp, #0
+ 788              	.LCFI22:
+ 789              		.cfi_def_cfa_register 7
+ 161:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****        if((hal_dev_mag3110_read_reg(0x00)&0xf) != 0)
+ 790              		.loc 1 161 0
+ 791 0004 0020     		mov	r0, #0
+ 792 0006 FFF7FEFF 		bl	hal_dev_mag3110_read_reg
+ 793 000a 031C     		mov	r3, r0
+ 794 000c 1A1C     		mov	r2, r3
+ 795 000e 0F23     		mov	r3, #15
+ 796 0010 1340     		and	r3, r2
+ 797 0012 25D0     		beq	.L31
+ 162:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     {
+ 163:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****       mag_z   = hal_dev_mag3110_read_reg(0x05)<<8;
+ 798              		.loc 1 163 0
+ 799 0014 0520     		mov	r0, #5
+ 800 0016 FFF7FEFF 		bl	hal_dev_mag3110_read_reg
+ 801 001a 031C     		mov	r3, r0
+ 802 001c 1B02     		lsl	r3, r3, #8
+ 803 001e 9AB2     		uxth	r2, r3
+ 804 0020 124B     		ldr	r3, .L33
+ 805 0022 1A80     		strh	r2, [r3]
+ 164:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****       mag_z  |= hal_dev_mag3110_read_reg(0x06);
+ 806              		.loc 1 164 0
+ 807 0024 0620     		mov	r0, #6
+ 808 0026 FFF7FEFF 		bl	hal_dev_mag3110_read_reg
+ 809 002a 031C     		mov	r3, r0
+ 810 002c 1A1C     		mov	r2, r3
+ 811 002e 0F4B     		ldr	r3, .L33
+ 812 0030 1B88     		ldrh	r3, [r3]
+ 813 0032 1343     		orr	r3, r2
+ 814 0034 9AB2     		uxth	r2, r3
+ 815 0036 0D4B     		ldr	r3, .L33
+ 816 0038 1A80     		strh	r2, [r3]
+ 165:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** 
+ 166:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****       Mresultz   = hal_dev_mag3110_read_reg(0x05)<<8;
+ 817              		.loc 1 166 0
+ 818 003a 0520     		mov	r0, #5
+ 819 003c FFF7FEFF 		bl	hal_dev_mag3110_read_reg
+ 820 0040 031C     		mov	r3, r0
+ 821 0042 1B02     		lsl	r3, r3, #8
+ 822 0044 9AB2     		uxth	r2, r3
+ 823 0046 0A4B     		ldr	r3, .L33+4
+ 824 0048 1A80     		strh	r2, [r3]
+ 167:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****       Mresultz  |= hal_dev_mag3110_read_reg(0x06);
+ 825              		.loc 1 167 0
+ 826 004a 0620     		mov	r0, #6
+ 827 004c FFF7FEFF 		bl	hal_dev_mag3110_read_reg
+ 828 0050 031C     		mov	r3, r0
+ 829 0052 1A1C     		mov	r2, r3
+ 830 0054 064B     		ldr	r3, .L33+4
+ 831 0056 1B88     		ldrh	r3, [r3]
+ 832 0058 1343     		orr	r3, r2
+ 833 005a 9AB2     		uxth	r2, r3
+ 834 005c 044B     		ldr	r3, .L33+4
+ 835 005e 1A80     		strh	r2, [r3]
+ 836              	.L31:
+ 168:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     }
+ 169:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c ****     return Mresultz;
+ 837              		.loc 1 169 0
+ 838 0060 034B     		ldr	r3, .L33+4
+ 839 0062 1B88     		ldrh	r3, [r3]
+ 840 0064 1BB2     		sxth	r3, r3
+ 170:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C\hal_dev_mag3110.c **** }
+ 841              		.loc 1 170 0
+ 842 0066 181C     		mov	r0, r3
+ 843 0068 BD46     		mov	sp, r7
+ 844              		@ sp needed for prologue
+ 845 006a 80BD     		pop	{r7, pc}
+ 846              	.L34:
+ 847              		.align	2
+ 848              	.L33:
+ 849 006c 00000000 		.word	mag_z
+ 850 0070 00000000 		.word	Mresultz
+ 851              		.cfi_endproc
+ 852              	.LFE9:
+ 854              		.text
+ 855              	.Letext0:
+ 856              		.file 2 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu/arm_cm0.h"
+ 857              		.file 3 "C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint"
+ 858              		.file 4 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu/headers/MKL46Z4.
+DEFINED SYMBOLS
+                            *ABS*:00000000 hal_dev_mag3110.c
+                            *COM*:00000002 mag_x
+                            *COM*:00000002 mag_y
+                            *COM*:00000002 mag_z
+                            *COM*:00000002 Mresultx
+                            *COM*:00000002 Mresulty
+                            *COM*:00000002 Mresultz
+                            *COM*:00000004 Mtestx
+                            *COM*:00000004 Mtesty
+                            *COM*:00000004 Mtestz
+C:\Users\b01252\AppData\Local\Temp\ccoMjove.s:27     .text.hal_dev_mag3110_init:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccoMjove.s:32     .text.hal_dev_mag3110_init:00000000 hal_dev_mag3110_init
+C:\Users\b01252\AppData\Local\Temp\ccoMjove.s:53     .text.pause:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccoMjove.s:57     .text.pause:00000000 pause
+C:\Users\b01252\AppData\Local\Temp\ccoMjove.s:100    .text.hal_dev_mag3110_read_reg:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccoMjove.s:105    .text.hal_dev_mag3110_read_reg:00000000 hal_dev_mag3110_read_reg
+C:\Users\b01252\AppData\Local\Temp\ccoMjove.s:220    .text.hal_dev_mag3110_read_reg:000000c0 $d
+C:\Users\b01252\AppData\Local\Temp\ccoMjove.s:225    .text.hal_dev_mag3110_write_reg:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccoMjove.s:230    .text.hal_dev_mag3110_write_reg:00000000 hal_dev_mag3110_write_reg
+C:\Users\b01252\AppData\Local\Temp\ccoMjove.s:312    .text.hal_dev_mag3110_write_reg:00000084 $d
+C:\Users\b01252\AppData\Local\Temp\ccoMjove.s:317    .text.mag_init:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccoMjove.s:322    .text.mag_init:00000000 mag_init
+C:\Users\b01252\AppData\Local\Temp\ccoMjove.s:356    .text.mag_read:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccoMjove.s:361    .text.mag_read:00000000 mag_read
+C:\Users\b01252\AppData\Local\Temp\ccoMjove.s:503    .text.mag_read:000000fc $d
+C:\Users\b01252\AppData\Local\Temp\ccoMjove.s:513    .rodata:00000000 $d
+C:\Users\b01252\AppData\Local\Temp\ccoMjove.s:526    .text.mag_test:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccoMjove.s:531    .text.mag_test:00000000 mag_test
+C:\Users\b01252\AppData\Local\Temp\ccoMjove.s:595    .text.mag_test:0000005c $d
+C:\Users\b01252\AppData\Local\Temp\ccoMjove.s:609    .text.iMagReadX:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccoMjove.s:614    .text.iMagReadX:00000000 iMagReadX
+C:\Users\b01252\AppData\Local\Temp\ccoMjove.s:685    .text.iMagReadX:0000006c $d
+C:\Users\b01252\AppData\Local\Temp\ccoMjove.s:691    .text.iMagReadY:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccoMjove.s:696    .text.iMagReadY:00000000 iMagReadY
+C:\Users\b01252\AppData\Local\Temp\ccoMjove.s:767    .text.iMagReadY:0000006c $d
+C:\Users\b01252\AppData\Local\Temp\ccoMjove.s:773    .text.iMagReadZ:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccoMjove.s:778    .text.iMagReadZ:00000000 iMagReadZ
+C:\Users\b01252\AppData\Local\Temp\ccoMjove.s:849    .text.iMagReadZ:0000006c $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+i2c_start
+i2c_write_byte
+i2c_wait
+i2c_get_ack
+i2c_repeated_start
+i2c_set_rx_mode
+i2c_give_nack
+i2c_read_byte
+i2c_stop
+printf

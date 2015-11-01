@@ -1,0 +1,80 @@
+\t (00:00:01) allegro_free_viewer 16.5 S006 (v16-5-13S) i86
+\t (00:00:01)     Journal start - Fri May 24 12:19:32 2013
+\t (00:00:01)         Host=B01252-01 User=b01252 Pid=656 CPUs=4
+\t (00:00:01) 
+\t (00:00:01) Opening existing design...
+\d (00:00:01) Database opened: C:/Users/b01252/Documents/Freescale/L4K/hardware/FRDM-KL46Z48M/hardware design package/FRDM-KL46Z-PWB/LAY-27822_B.brd
+\i (00:00:02) trapsize 20256
+\i (00:00:02) trapsize 19419
+\i (00:00:02) trapsize 18603
+\i (00:00:02) trapsize 16330
+\i (00:00:02) trapsize 18603
+\i (00:00:05) zoom in 1 
+\i (00:00:05) setwindow pcb
+\i (00:00:05) zoom in 1118.03 459.24
+\i (00:00:05) trapsize 9302
+\i (00:00:05) zoom in 1 
+\i (00:00:05) setwindow pcb
+\i (00:00:05) zoom in 1118.04 459.24
+\i (00:00:05) trapsize 4651
+\i (00:00:05) zoom in 1 
+\i (00:00:05) setwindow pcb
+\i (00:00:05) zoom in 1118.04 459.24
+\i (00:00:05) trapsize 2325
+\i (00:00:05) zoom in 1 
+\i (00:00:05) setwindow pcb
+\i (00:00:05) zoom in 1118.04 463.89
+\i (00:00:05) trapsize 1163
+\i (00:00:05) zoom in 1 
+\i (00:00:05) setwindow pcb
+\i (00:00:05) zoom in 1118.04 463.89
+\i (00:00:05) trapsize 581
+\i (00:00:06) zoom out 1 
+\i (00:00:06) setwindow pcb
+\i (00:00:06) zoom out 1118.04 460.41
+\i (00:00:06) trapsize 1163
+\i (00:00:07) zoom out 1 
+\i (00:00:07) setwindow pcb
+\i (00:00:07) zoom out 1143.62 427.85
+\i (00:00:07) trapsize 2325
+\i (00:00:14) setwindow form.vf_vis
+\i (00:00:14) FORM vf_vis colorview_list Film: pss.art 
+\i (00:00:15) setwindow pcb
+\i (00:00:15) zoom in 1 
+\i (00:00:15) setwindow pcb
+\i (00:00:15) zoom in 1273.85 665.04
+\i (00:00:15) trapsize 1163
+\i (00:00:15) zoom in 1 
+\i (00:00:15) setwindow pcb
+\i (00:00:15) zoom in 1271.53 665.05
+\i (00:00:15) trapsize 581
+\i (00:00:17) zoom in 1 
+\i (00:00:17) setwindow pcb
+\i (00:00:17) zoom in 1042.48 487.15
+\i (00:00:17) trapsize 291
+\i (00:00:17) zoom in 1 
+\i (00:00:17) setwindow pcb
+\i (00:00:17) zoom in 1042.48 487.15
+\i (00:00:17) trapsize 145
+\i (00:00:17) zoom out 1 
+\i (00:00:17) setwindow pcb
+\i (00:00:17) zoom out 1042.76 487.16
+\i (00:00:17) trapsize 291
+\i (00:00:17) zoom out 1 
+\i (00:00:17) setwindow pcb
+\i (00:00:17) zoom out 1042.77 487.16
+\i (00:00:17) trapsize 581
+\i (00:00:23) setwindow form.vf_vis
+\i (00:00:23) FORM vf_vis all_via_visible YES 
+\i (00:00:24) FORM vf_vis all_pin_visible YES 
+\i (00:00:27) setwindow pcb
+\i (00:00:27) zoom in 1 
+\i (00:00:27) setwindow pcb
+\i (00:00:27) zoom in 809.06 447.62
+\i (00:00:27) trapsize 291
+\i (00:00:28) zoom out 1 
+\i (00:00:28) setwindow pcb
+\i (00:00:28) zoom out 815.46 446.46
+\i (00:00:28) trapsize 581
+\i (00:01:23) exit 
+\t (00:01:24)     Journal end - Fri May 24 12:20:55 2013

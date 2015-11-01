@@ -1,0 +1,14 @@
+platinum.o: ..\..\..\src\projects\platinum\platinum.c
+platinum.o: ..\..\..\src\common\common.h
+platinum.o: ..\..\..\src\platforms\tower.h
+platinum.o: ..\..\..\src\drivers\mcg\mcg.h
+platinum.o: ..\..\..\src\cpu\headers\MKL46Z4_CMSIS.h
+platinum.o: ..\..\..\src\cpu\headers\core_cm0plus.h
+platinum.o: C:\Keil\ARM\ARMCC\bin\..\include\stdint.h
+platinum.o: ..\..\..\src\cpu\headers\core_cmInstr.h
+platinum.o: ..\..\..\src\cpu\headers\core_cmFunc.h
+platinum.o: ..\..\..\src\cpu\system_MKL46Z4.h
+platinum.o: ..\..\..\src\common\assert.h
+platinum.o: ..\..\..\src\common\io.h
+platinum.o: ..\..\..\src\common\startup.h
+platinum.o: ..\..\..\src\common\stdlib.h

@@ -1,0 +1,2253 @@
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"LCD.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.comm	bLCD_CharPosition,1,1
+  18              		.comm	lcd_alternate_mode,1,1
+  19              		.global	bflgLCD_Scroll
+  20              		.section	.data.bflgLCD_Scroll,"aw",%progbits
+  23              	bflgLCD_Scroll:
+  24 0000 01       		.byte	1
+  25              		.comm	lcdBuffer,32,4
+  26              		.section	.rodata
+  27              		.align	2
+  28              	.LC0:
+  29 0000 0A0D204C 		.ascii	"\012\015 LCD_GCR \000"
+  29      43445F47 
+  29      43522000 
+  30              		.section	.text.print_slcd_registers,"ax",%progbits
+  31              		.align	2
+  32              		.global	print_slcd_registers
+  33              		.code	16
+  34              		.thumb_func
+  36              	print_slcd_registers:
+  37              	.LFB0:
+  38              		.file 1 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_De
+   1:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** //#include "derivative.h" /* include peripheral declarations */
+   2:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+   3:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+   4:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** #include "common.h"
+   5:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** #include "LCD.h"
+   6:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** #include "LCDConfig.h"
+   7:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+   8:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+   9:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** /*used to indicate in which position of the LCD is the next charater to write */
+  10:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** uint8 bLCD_CharPosition;
+  11:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** uint8 lcd_alternate_mode;  //this variable must be 0 or 4 
+  12:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** uint8 bflgLCD_Scroll = 0x01;
+  13:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+  14:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+  15:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** extern const uint32 *LCD_TO_PORT[];
+  16:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** extern const uint32 MASK_BIT[32];
+  17:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+  18:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+  19:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** char   lcdBuffer[32]; // used for temporary storage for formatign strings
+  20:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+  21:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+  22:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** /*
+  23:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** local functions
+  24:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** */
+  25:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** void vfnLCD_Init(void);
+  26:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** void vfnEnablePins(void);  // Pin Enable/ BPEN / COM configurations
+  27:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** void vfnSetBackplanes(void); // reconfigure COM to default values
+  28:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** void vfnBP_VScroll(int8 scroll_count);
+  29:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** void vfnLCD_Home (void);
+  30:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** void vfnLCD_Contrast (uint8 lbContrast);
+  31:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** void  vfnLCD_Write_MsgPlace (uint8 *lbpMessage, uint8 lbSize );
+  32:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** void  vfnLCD_Write_Msg (uint8 *lbpMessage);
+  33:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** void vfnLCD_All_Segments_ON (void);    
+  34:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** void vfnLCD_All_Segments_Char (uint8 val);
+  35:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** void vfnLCD_All_Segments_OFF (void);
+  36:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+  37:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+  38:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** void vfnLCD_Write_Char (uint8 lbValue);  // This function is dependent on the LCD panel
+  39:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** void PutPoint(uint8 x, uint8 y);
+  40:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** void ClrPoint(uint8 x, uint8 y);
+  41:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** void SetX(uint8 x, uint8 value);
+  42:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+  43:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+  44:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** void lcd_pinmux(uint8  mux_val);
+  45:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+  46:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** void vfnLCD_interrupt_init(void);
+  47:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** void vfnLCD_isrv(void);
+  48:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+  49:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+  50:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+  51:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** void print_slcd_registers(void)
+  52:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** {
+  39              		.loc 1 52 0
+  40              		.cfi_startproc
+  41 0000 80B5     		push	{r7, lr}
+  42              	.LCFI0:
+  43              		.cfi_def_cfa_offset 8
+  44              		.cfi_offset 7, -8
+  45              		.cfi_offset 14, -4
+  46 0002 00AF     		add	r7, sp, #0
+  47              	.LCFI1:
+  48              		.cfi_def_cfa_register 7
+  53:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****   printf("\n\r LCD_GCR ");
+  49              		.loc 1 53 0
+  50 0004 024B     		ldr	r3, .L2
+  51 0006 181C     		mov	r0, r3
+  52 0008 FFF7FEFF 		bl	printf
+  54:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****   /* 
+  55:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****     printf("\n\r LCD_GCR = %i",LCD_GCR);
+  56:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    printf("\n\r LCD_AR = %i",LCD_AR);
+  57:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    printf("\n\r LCD_FDCR = %i",LCD_FDCR);
+  58:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    printf("\n\r LCD_FDSR = %i",LCD_FDSR);
+  59:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    printf("\n\r LCD_PENL = %i",LCD_PENL);
+  60:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****   
+  61:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    printf("\n\r LCD_PENH = %i",LCD_PENH);
+  62:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    printf("\n\r LCD_BPENL = %i",LCD_BPENL);
+  63:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    printf("\n\r LCD_BPENH = %i",LCD_BPENH);
+  64:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    printf("\n\r LCD_WF3TO0 = %i",LCD_WF3TO0);
+  65:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    printf("\n\r LCD_WF7TO4 = %i",LCD_WF7TO4);
+  66:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    printf("\n\r LCD_WF11TO8 = %i",LCD_WF11TO8);
+  67:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    printf("\n\r LCD_WF15TO12 = %i",LCD_WF15TO12);
+  68:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    printf("\n\r LCD_WF19TO16 = %i",LCD_WF19TO16);
+  69:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    printf("\n\r LCD_WF23TO20 = %i",LCD_WF23TO20);
+  70:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    printf("\n\r LCD_WF27TO24 = %i",LCD_WF27TO24);
+  71:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    printf("\n\r LCD_WF31TO28 = %i",LCD_WF31TO28);
+  72:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    printf("\n\r LCD_WF35TO32 = %i",LCD_WF35TO32);
+  73:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    printf("\n\r LCD_WF39TO36 = %i",LCD_WF39TO36);
+  74:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    printf("\n\r LCD_WF43TO40 = %i",LCD_WF43TO40);
+  75:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    printf("\n\r LCD_WF47TO44 = %i",LCD_WF47TO44);
+  76:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    printf("\n\r LCD_WF51TO48 = %i",LCD_WF51TO48);
+  77:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    printf("\n\r LCD_WF55TO52 = %i",LCD_WF55TO52);
+  78:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    printf("\n\r LCD_WF59TO56 = %i",LCD_WF59TO56);
+  79:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    printf("\n\r LCD_WF63TO60 = %i",LCD_WF63TO60);
+  80:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+  81:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** */
+  82:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    
+  83:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+  84:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+  85:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** }
+  53              		.loc 1 85 0
+  54 000c BD46     		mov	sp, r7
+  55              		@ sp needed for prologue
+  56 000e 80BD     		pop	{r7, pc}
+  57              	.L3:
+  58              		.align	2
+  59              	.L2:
+  60 0010 00000000 		.word	.LC0
+  61              		.cfi_endproc
+  62              	.LFE0:
+  64              		.section	.text.vfnLCD_Init,"ax",%progbits
+  65              		.align	2
+  66              		.global	vfnLCD_Init
+  67              		.code	16
+  68              		.thumb_func
+  70              	vfnLCD_Init:
+  71              	.LFB1:
+  86:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+  87:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+  88:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+  89:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****                       
+  90:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+  91:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** void vfnLCD_Init(void)
+  92:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** {
+  72              		.loc 1 92 0
+  73              		.cfi_startproc
+  74 0000 80B5     		push	{r7, lr}
+  75              	.LCFI2:
+  76              		.cfi_def_cfa_offset 8
+  77              		.cfi_offset 7, -8
+  78              		.cfi_offset 14, -4
+  79 0002 00AF     		add	r7, sp, #0
+  80              	.LCFI3:
+  81              		.cfi_def_cfa_register 7
+  93:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+  94:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    
+  95:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+  96:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****      SIM_SCGC5 |= SIM_SCGC5_SLCD_MASK | SIM_SCGC5_PORTB_MASK | SIM_SCGC5_PORTC_MASK | SIM_SCGC5_POR
+  82              		.loc 1 96 0
+  83 0004 1C4A     		ldr	r2, .L5
+  84 0006 1C49     		ldr	r1, .L5
+  85 0008 1C4B     		ldr	r3, .L5+4
+  86 000a CB58     		ldr	r3, [r1, r3]
+  87 000c 1C49     		ldr	r1, .L5+8
+  88 000e 1943     		orr	r1, r3
+  89 0010 1A4B     		ldr	r3, .L5+4
+  90 0012 D150     		str	r1, [r2, r3]
+  97:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****      
+  98:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****      //* configure pins for LCD operation    
+  99:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****   PORTC_PCR20 = 0x00000000;     //VLL2
+  91              		.loc 1 99 0
+  92 0014 1B4B     		ldr	r3, .L5+12
+  93 0016 0022     		mov	r2, #0
+  94 0018 1A65     		str	r2, [r3, #80]
+ 100:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****   PORTC_PCR21 = 0x00000000;     //VLL1
+  95              		.loc 1 100 0
+  96 001a 1A4B     		ldr	r3, .L5+12
+  97 001c 0022     		mov	r2, #0
+  98 001e 5A65     		str	r2, [r3, #84]
+ 101:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****   PORTC_PCR22 = 0x00000000;     //VCAP2
+  99              		.loc 1 101 0
+ 100 0020 184B     		ldr	r3, .L5+12
+ 101 0022 0022     		mov	r2, #0
+ 102 0024 9A65     		str	r2, [r3, #88]
+ 102:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****   PORTC_PCR23 = 0x00000000;     //VCAP1
+ 103              		.loc 1 102 0
+ 104 0026 174B     		ldr	r3, .L5+12
+ 105 0028 0022     		mov	r2, #0
+ 106 002a DA65     		str	r2, [r3, #92]
+ 103:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 104:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****      
+ 105:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****      
+ 106:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****      // Enable IRCLK 
+ 107:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****      MCG_C1  = MCG_C1_IRCLKEN_MASK | MCG_C1_IREFSTEN_MASK;
+ 107              		.loc 1 107 0
+ 108 002c 164B     		ldr	r3, .L5+16
+ 109 002e 0322     		mov	r2, #3
+ 110 0030 1A70     		strb	r2, [r3]
+ 108:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****      MCG_C2 &= ~MCG_C2_IRCS_MASK ;  //0 32KHZ internal reference clock; 1= 4MHz irc
+ 111              		.loc 1 108 0
+ 112 0032 154B     		ldr	r3, .L5+16
+ 113 0034 144A     		ldr	r2, .L5+16
+ 114 0036 5278     		ldrb	r2, [r2, #1]
+ 115 0038 D2B2     		uxtb	r2, r2
+ 116 003a 0121     		mov	r1, #1
+ 117 003c 8A43     		bic	r2, r1
+ 118 003e D2B2     		uxtb	r2, r2
+ 119 0040 5A70     		strb	r2, [r3, #1]
+ 109:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 110:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 111:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****      vfnLCD_interrupt_init();       
+ 120              		.loc 1 111 0
+ 121 0042 FFF7FEFF 		bl	vfnLCD_interrupt_init
+ 112:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****      
+ 113:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****      LCD_GCR = 0x0;
+ 122              		.loc 1 113 0
+ 123 0046 114B     		ldr	r3, .L5+20
+ 124 0048 0022     		mov	r2, #0
+ 125 004a 1A60     		str	r2, [r3]
+ 114:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****      LCD_AR  = 0x0;
+ 126              		.loc 1 114 0
+ 127 004c 0F4B     		ldr	r3, .L5+20
+ 128 004e 0022     		mov	r2, #0
+ 129 0050 5A60     		str	r2, [r3, #4]
+ 115:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 116:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  //    lcd_pinmux(0); 
+ 117:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****      
+ 118:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** /* LCD configurartion according to */     
+ 119:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****       LCD_GCR =  (   LCD_GCR_RVEN_MASK*_LCDRVEN  
+ 130              		.loc 1 119 0
+ 131 0052 0E4B     		ldr	r3, .L5+20
+ 132 0054 0E4A     		ldr	r2, .L5+24
+ 133 0056 1A60     		str	r2, [r3]
+ 120:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****                    | LCD_GCR_RVTRIM(_LCDRVTRIM)    //0-15
+ 121:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****                    | LCD_GCR_CPSEL_MASK*_LCDCPSEL 
+ 122:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****                    | LCD_GCR_LADJ(_LCDLOADADJUST)     //0-3*/
+ 123:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****                    | LCD_GCR_VSUPPLY_MASK*_LCDSUPPLY  //0-1*/
+ 124:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****                    |!LCD_GCR_FDCIEN_MASK
+ 125:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****                    | LCD_GCR_ALTDIV(_LCDALTDIV)  //0-3
+ 126:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****                    |!LCD_GCR_LCDDOZE_MASK  
+ 127:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****                    |!LCD_GCR_LCDSTP_MASK
+ 128:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****                    |!LCD_GCR_LCDEN_MASK    //WILL BE ENABLE ON SUBSEQUENT STEP
+ 129:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****                    | LCD_GCR_SOURCE_MASK*_LCDCLKSOURCE
+ 130:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****                    | LCD_GCR_ALTSOURCE_MASK*_LCDALRCLKSOURCE  
+ 131:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****                    | LCD_GCR_LCLK(_LCDLCK)   //0-7
+ 132:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****                    | LCD_GCR_DUTY(_LCDDUTY)   //0-7
+ 133:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****                  );    
+ 134:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****      
+ 135:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****       lcd_alternate_mode = LCD_NORMAL_MODE;          //Message will be written to default backplane
+ 134              		.loc 1 135 0
+ 135 0058 0E4B     		ldr	r3, .L5+28
+ 136 005a 0022     		mov	r2, #0
+ 137 005c 1A70     		strb	r2, [r3]
+ 136:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****      
+ 137:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****       vfnEnablePins();         // Enable LCD pins and Configure BackPlanes
+ 138              		.loc 1 137 0
+ 139 005e FFF7FEFF 		bl	vfnEnablePins
+ 138:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  
+ 139:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****       
+ 140:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****       LCD_GCR |= LCD_GCR_LCDEN_MASK;
+ 140              		.loc 1 140 0
+ 141 0062 0A4B     		ldr	r3, .L5+20
+ 142 0064 094A     		ldr	r2, .L5+20
+ 143 0066 1268     		ldr	r2, [r2]
+ 144 0068 8021     		mov	r1, #128
+ 145 006a 0A43     		orr	r2, r1
+ 146 006c 1A60     		str	r2, [r3]
+ 141:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    /*   LCD_GCR |= LCD_GCR_LCDIEN_MASK;    // Enable interrupts */
+ 142:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****       
+ 143:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****       
+ 144:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    /* Configure LCD Auxiliar Register*/   
+ 145:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****       LCD_AR  = LCD_AR_BRATE(_LCDBLINKRATE); // all other flags set as zero
+ 147              		.loc 1 145 0
+ 148 006e 074B     		ldr	r3, .L5+20
+ 149 0070 0322     		mov	r2, #3
+ 150 0072 5A60     		str	r2, [r3, #4]
+ 146:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****      // print_slcd_registers();
+ 147:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****       
+ 148:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****      
+ 149:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****       
+ 150:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****      
+ 151:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****   }
+ 151              		.loc 1 151 0
+ 152 0074 BD46     		mov	sp, r7
+ 153              		@ sp needed for prologue
+ 154 0076 80BD     		pop	{r7, pc}
+ 155              	.L6:
+ 156              		.align	2
+ 157              	.L5:
+ 158 0078 00700440 		.word	1074032640
+ 159 007c 38100000 		.word	4152
+ 160 0080 003C0800 		.word	539648
+ 161 0084 00B00440 		.word	1074049024
+ 162 0088 00400640 		.word	1074151424
+ 163 008c 00300540 		.word	1074081792
+ 164 0090 4B00B288 		.word	-2001600437
+ 165 0094 00000000 		.word	lcd_alternate_mode
+ 166              		.cfi_endproc
+ 167              	.LFE1:
+ 169              		.section	.text.vfnEnablePins,"ax",%progbits
+ 170              		.align	2
+ 171              		.global	vfnEnablePins
+ 172              		.code	16
+ 173              		.thumb_func
+ 175              	vfnEnablePins:
+ 176              	.LFB2:
+ 152:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****   
+ 153:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 154:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** /* Enable pins according  WF_ORDERING_TABLE, BP_ORDERING_TABLE
+ 155:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  //Enable the LCD module frontplane waveform output (FP[39:0])
+ 156:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****   LCD_PENH = 0xFFFFFFFF;
+ 157:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****   LCD_PENL = 0xFFFFFFFF;
+ 158:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 159:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** */
+ 160:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 161:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****   void vfnEnablePins (void)
+ 162:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****   {
+ 177              		.loc 1 162 0
+ 178              		.cfi_startproc
+ 179 0000 80B5     		push	{r7, lr}
+ 180              	.LCFI4:
+ 181              		.cfi_def_cfa_offset 8
+ 182              		.cfi_offset 7, -8
+ 183              		.cfi_offset 14, -4
+ 184 0002 84B0     		sub	sp, sp, #16
+ 185              	.LCFI5:
+ 186              		.cfi_def_cfa_offset 24
+ 187 0004 00AF     		add	r7, sp, #0
+ 188              	.LCFI6:
+ 189              		.cfi_def_cfa_register 7
+ 163:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    uint8 i;
+ 164:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    uint32 *p_pen;
+ 165:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    uint8 pen_offset;   // 0 or 1   
+ 166:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    uint8 pen_bit;      //0 to 31
+ 167:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 168:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    LCD_PENL = 0x0;
+ 190              		.loc 1 168 0
+ 191 0006 394B     		ldr	r3, .L11
+ 192 0008 0022     		mov	r2, #0
+ 193 000a 1A61     		str	r2, [r3, #16]
+ 169:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    LCD_PENH = 0x0;
+ 194              		.loc 1 169 0
+ 195 000c 374B     		ldr	r3, .L11
+ 196 000e 0022     		mov	r2, #0
+ 197 0010 5A61     		str	r2, [r3, #20]
+ 170:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    LCD_BPENL = 0x0;
+ 198              		.loc 1 170 0
+ 199 0012 364B     		ldr	r3, .L11
+ 200 0014 0022     		mov	r2, #0
+ 201 0016 9A61     		str	r2, [r3, #24]
+ 171:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    LCD_BPENH = 0x0;
+ 202              		.loc 1 171 0
+ 203 0018 344B     		ldr	r3, .L11
+ 204 001a 0022     		mov	r2, #0
+ 205 001c DA61     		str	r2, [r3, #28]
+ 172:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    
+ 173:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    p_pen = (uint32 *)&LCD_PENL;
+ 206              		.loc 1 173 0
+ 207 001e 344B     		ldr	r3, .L11+4
+ 208 0020 BB60     		str	r3, [r7, #8]
+ 174:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 175:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****     for (i=0;i<_LCDUSEDPINS;i++) 
+ 209              		.loc 1 175 0
+ 210 0022 3B1C     		mov	r3, r7
+ 211 0024 0F33     		add	r3, r3, #15
+ 212 0026 0022     		mov	r2, #0
+ 213 0028 1A70     		strb	r2, [r3]
+ 214 002a 56E0     		b	.L8
+ 215              	.L10:
+ 176:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****     {
+ 177:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****       pen_offset = WF_ORDERING_TABLE[i]/32;
+ 216              		.loc 1 177 0
+ 217 002c 3B1C     		mov	r3, r7
+ 218 002e 0F33     		add	r3, r3, #15
+ 219 0030 1B78     		ldrb	r3, [r3]
+ 220 0032 304A     		ldr	r2, .L11+8
+ 221 0034 D25C     		ldrb	r2, [r2, r3]
+ 222 0036 FB1D     		add	r3, r7, #7
+ 223 0038 5209     		lsr	r2, r2, #5
+ 224 003a 1A70     		strb	r2, [r3]
+ 178:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****       pen_bit    = WF_ORDERING_TABLE[i]%32;
+ 225              		.loc 1 178 0
+ 226 003c 3B1C     		mov	r3, r7
+ 227 003e 0F33     		add	r3, r3, #15
+ 228 0040 1B78     		ldrb	r3, [r3]
+ 229 0042 2C4A     		ldr	r2, .L11+8
+ 230 0044 D15C     		ldrb	r1, [r2, r3]
+ 231 0046 BB1D     		add	r3, r7, #6
+ 232 0048 1F22     		mov	r2, #31
+ 233 004a 0A40     		and	r2, r1
+ 234 004c 1A70     		strb	r2, [r3]
+ 179:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****       p_pen[pen_offset] |= MASK_BIT[pen_bit];
+ 235              		.loc 1 179 0
+ 236 004e FB1D     		add	r3, r7, #7
+ 237 0050 1B78     		ldrb	r3, [r3]
+ 238 0052 9B00     		lsl	r3, r3, #2
+ 239 0054 BA68     		ldr	r2, [r7, #8]
+ 240 0056 D318     		add	r3, r2, r3
+ 241 0058 FA1D     		add	r2, r7, #7
+ 242 005a 1278     		ldrb	r2, [r2]
+ 243 005c 9200     		lsl	r2, r2, #2
+ 244 005e B968     		ldr	r1, [r7, #8]
+ 245 0060 8A18     		add	r2, r1, r2
+ 246 0062 1168     		ldr	r1, [r2]
+ 247 0064 BA1D     		add	r2, r7, #6
+ 248 0066 1078     		ldrb	r0, [r2]
+ 249 0068 234A     		ldr	r2, .L11+12
+ 250 006a 8000     		lsl	r0, r0, #2
+ 251 006c 8258     		ldr	r2, [r0, r2]
+ 252 006e 0A43     		orr	r2, r1
+ 253 0070 1A60     		str	r2, [r3]
+ 180:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****       if (i>= _LCDFRONTPLANES)    // Pin is a backplane
+ 254              		.loc 1 180 0
+ 255 0072 3B1C     		mov	r3, r7
+ 256 0074 0F33     		add	r3, r3, #15
+ 257 0076 1B78     		ldrb	r3, [r3]
+ 258 0078 072B     		cmp	r3, #7
+ 259 007a 27D9     		bls	.L9
+ 181:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****       {
+ 182:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****         p_pen[pen_offset+2] |= MASK_BIT[pen_bit];  // Enable  BPEN 
+ 260              		.loc 1 182 0
+ 261 007c FB1D     		add	r3, r7, #7
+ 262 007e 1B78     		ldrb	r3, [r3]
+ 263 0080 0233     		add	r3, r3, #2
+ 264 0082 9B00     		lsl	r3, r3, #2
+ 265 0084 BA68     		ldr	r2, [r7, #8]
+ 266 0086 D318     		add	r3, r2, r3
+ 267 0088 FA1D     		add	r2, r7, #7
+ 268 008a 1278     		ldrb	r2, [r2]
+ 269 008c 0232     		add	r2, r2, #2
+ 270 008e 9200     		lsl	r2, r2, #2
+ 271 0090 B968     		ldr	r1, [r7, #8]
+ 272 0092 8A18     		add	r2, r1, r2
+ 273 0094 1168     		ldr	r1, [r2]
+ 274 0096 BA1D     		add	r2, r7, #6
+ 275 0098 1078     		ldrb	r0, [r2]
+ 276 009a 174A     		ldr	r2, .L11+12
+ 277 009c 8000     		lsl	r0, r0, #2
+ 278 009e 8258     		ldr	r2, [r0, r2]
+ 279 00a0 0A43     		orr	r2, r1
+ 280 00a2 1A60     		str	r2, [r3]
+ 183:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****         LCD_WF8B(WF_ORDERING_TABLE[i]) = MASK_BIT[i - _LCDFRONTPLANES];   // fill with 0x01, 0x02, 
+ 281              		.loc 1 183 0
+ 282 00a4 1148     		ldr	r0, .L11
+ 283 00a6 3B1C     		mov	r3, r7
+ 284 00a8 0F33     		add	r3, r3, #15
+ 285 00aa 1B78     		ldrb	r3, [r3]
+ 286 00ac 114A     		ldr	r2, .L11+8
+ 287 00ae D35C     		ldrb	r3, [r2, r3]
+ 288 00b0 191C     		mov	r1, r3
+ 289 00b2 3B1C     		mov	r3, r7
+ 290 00b4 0F33     		add	r3, r3, #15
+ 291 00b6 1B78     		ldrb	r3, [r3]
+ 292 00b8 1A1C     		mov	r2, r3
+ 293 00ba 083A     		sub	r2, r2, #8
+ 294 00bc 0E4B     		ldr	r3, .L11+12
+ 295 00be 9200     		lsl	r2, r2, #2
+ 296 00c0 D358     		ldr	r3, [r2, r3]
+ 297 00c2 DAB2     		uxtb	r2, r3
+ 298 00c4 2023     		mov	r3, #32
+ 299 00c6 4118     		add	r1, r0, r1
+ 300 00c8 CB18     		add	r3, r1, r3
+ 301 00ca 1A70     		strb	r2, [r3]
+ 302              	.L9:
+ 175:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****     for (i=0;i<_LCDUSEDPINS;i++) 
+ 303              		.loc 1 175 0
+ 304 00cc 3B1C     		mov	r3, r7
+ 305 00ce 0F33     		add	r3, r3, #15
+ 306 00d0 3A1C     		mov	r2, r7
+ 307 00d2 0F32     		add	r2, r2, #15
+ 308 00d4 1278     		ldrb	r2, [r2]
+ 309 00d6 0132     		add	r2, r2, #1
+ 310 00d8 1A70     		strb	r2, [r3]
+ 311              	.L8:
+ 175:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****     for (i=0;i<_LCDUSEDPINS;i++) 
+ 312              		.loc 1 175 0 is_stmt 0
+ 313 00da 3B1C     		mov	r3, r7
+ 314 00dc 0F33     		add	r3, r3, #15
+ 315 00de 1B78     		ldrb	r3, [r3]
+ 316 00e0 0B2B     		cmp	r3, #11
+ 317 00e2 A3D9     		bls	.L10
+ 184:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****       } 
+ 185:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****     }
+ 186:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****   }
+ 318              		.loc 1 186 0 is_stmt 1
+ 319 00e4 BD46     		mov	sp, r7
+ 320 00e6 04B0     		add	sp, sp, #16
+ 321              		@ sp needed for prologue
+ 322 00e8 80BD     		pop	{r7, pc}
+ 323              	.L12:
+ 324 00ea C046     		.align	2
+ 325              	.L11:
+ 326 00ec 00300540 		.word	1074081792
+ 327 00f0 10300540 		.word	1074081808
+ 328 00f4 00000000 		.word	WF_ORDERING_TABLE
+ 329 00f8 00000000 		.word	MASK_BIT
+ 330              		.cfi_endproc
+ 331              	.LFE2:
+ 333              		.section	.text.vfnSetBackplanes,"ax",%progbits
+ 334              		.align	2
+ 335              		.global	vfnSetBackplanes
+ 336              		.code	16
+ 337              		.thumb_func
+ 339              	vfnSetBackplanes:
+ 340              	.LFB3:
+ 187:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****   
+ 188:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** /*
+ 189:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****   Fill Backplanes with normal mask for  0x01, 0x02,  according to BP_ORDERING_TABLE;
+ 190:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** */
+ 191:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** void vfnSetBackplanes(void)
+ 192:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  {
+ 341              		.loc 1 192 0
+ 342              		.cfi_startproc
+ 343 0000 90B5     		push	{r4, r7, lr}
+ 344              	.LCFI7:
+ 345              		.cfi_def_cfa_offset 12
+ 346              		.cfi_offset 4, -12
+ 347              		.cfi_offset 7, -8
+ 348              		.cfi_offset 14, -4
+ 349 0002 83B0     		sub	sp, sp, #12
+ 350              	.LCFI8:
+ 351              		.cfi_def_cfa_offset 24
+ 352 0004 00AF     		add	r7, sp, #0
+ 353              	.LCFI9:
+ 354              		.cfi_def_cfa_register 7
+ 193:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    uint8 i;
+ 194:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    for (i=0;i<_LCDBACKPLANES;i++)
+ 355              		.loc 1 194 0
+ 356 0006 FB1D     		add	r3, r7, #7
+ 357 0008 0022     		mov	r2, #0
+ 358 000a 1A70     		strb	r2, [r3]
+ 359 000c 16E0     		b	.L14
+ 360              	.L15:
+ 195:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    {
+ 196:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****        LCD_WF8B(WF_ORDERING_TABLE[i+_LCDFRONTPLANES]) = 0x01<<i;
+ 361              		.loc 1 196 0
+ 362 000e 0F48     		ldr	r0, .L16
+ 363 0010 FB1D     		add	r3, r7, #7
+ 364 0012 1B78     		ldrb	r3, [r3]
+ 365 0014 0833     		add	r3, r3, #8
+ 366 0016 0E4A     		ldr	r2, .L16+4
+ 367 0018 D35C     		ldrb	r3, [r2, r3]
+ 368 001a 191C     		mov	r1, r3
+ 369 001c FB1D     		add	r3, r7, #7
+ 370 001e 1B78     		ldrb	r3, [r3]
+ 371 0020 0122     		mov	r2, #1
+ 372 0022 141C     		mov	r4, r2
+ 373 0024 9C40     		lsl	r4, r4, r3
+ 374 0026 231C     		mov	r3, r4
+ 375 0028 DAB2     		uxtb	r2, r3
+ 376 002a 2023     		mov	r3, #32
+ 377 002c 4118     		add	r1, r0, r1
+ 378 002e CB18     		add	r3, r1, r3
+ 379 0030 1A70     		strb	r2, [r3]
+ 194:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    for (i=0;i<_LCDBACKPLANES;i++)
+ 380              		.loc 1 194 0
+ 381 0032 FB1D     		add	r3, r7, #7
+ 382 0034 FA1D     		add	r2, r7, #7
+ 383 0036 1278     		ldrb	r2, [r2]
+ 384 0038 0132     		add	r2, r2, #1
+ 385 003a 1A70     		strb	r2, [r3]
+ 386              	.L14:
+ 194:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    for (i=0;i<_LCDBACKPLANES;i++)
+ 387              		.loc 1 194 0 is_stmt 0
+ 388 003c FB1D     		add	r3, r7, #7
+ 389 003e 1B78     		ldrb	r3, [r3]
+ 390 0040 032B     		cmp	r3, #3
+ 391 0042 E4D9     		bls	.L15
+ 197:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    }  
+ 198:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****   }
+ 392              		.loc 1 198 0 is_stmt 1
+ 393 0044 BD46     		mov	sp, r7
+ 394 0046 03B0     		add	sp, sp, #12
+ 395              		@ sp needed for prologue
+ 396 0048 90BD     		pop	{r4, r7, pc}
+ 397              	.L17:
+ 398 004a C046     		.align	2
+ 399              	.L16:
+ 400 004c 00300540 		.word	1074081792
+ 401 0050 00000000 		.word	WF_ORDERING_TABLE
+ 402              		.cfi_endproc
+ 403              	.LFE3:
+ 405              		.section	.text.vfnBP_VScroll,"ax",%progbits
+ 406              		.align	2
+ 407              		.global	vfnBP_VScroll
+ 408              		.code	16
+ 409              		.thumb_func
+ 411              	vfnBP_VScroll:
+ 412              	.LFB4:
+ 199:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 200:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  
+ 201:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  /*
+ 202:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  
+ 203:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  rotate Backplanes  scroll_y units
+ 204:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    if scroll_y>0  rotate to the right
+ 205:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    if scroll_y<0  rotate to the left
+ 206:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    if scroll_y=0  set normal configuration
+ 207:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 208:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** */
+ 209:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** void vfnBP_VScroll(int8 scroll_count)
+ 210:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  {
+ 413              		.loc 1 210 0
+ 414              		.cfi_startproc
+ 415 0000 90B5     		push	{r4, r7, lr}
+ 416              	.LCFI10:
+ 417              		.cfi_def_cfa_offset 12
+ 418              		.cfi_offset 4, -12
+ 419              		.cfi_offset 7, -8
+ 420              		.cfi_offset 14, -4
+ 421 0002 85B0     		sub	sp, sp, #20
+ 422              	.LCFI11:
+ 423              		.cfi_def_cfa_offset 32
+ 424 0004 00AF     		add	r7, sp, #0
+ 425              	.LCFI12:
+ 426              		.cfi_def_cfa_register 7
+ 427 0006 021C     		mov	r2, r0
+ 428 0008 FB1D     		add	r3, r7, #7
+ 429 000a 1A70     		strb	r2, [r3]
+ 211:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    uint8 bp_count;
+ 212:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    if (scroll_count != 0)
+ 430              		.loc 1 212 0
+ 431 000c FB1D     		add	r3, r7, #7
+ 432 000e 1B78     		ldrb	r3, [r3]
+ 433 0010 002B     		cmp	r3, #0
+ 434 0012 44D0     		beq	.L19
+ 213:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    {  
+ 214:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****     for (bp_count=0;bp_count< _LCDBACKPLANES; bp_count++)
+ 435              		.loc 1 214 0
+ 436 0014 3B1C     		mov	r3, r7
+ 437 0016 0F33     		add	r3, r3, #15
+ 438 0018 0022     		mov	r2, #0
+ 439 001a 1A70     		strb	r2, [r3]
+ 440 001c 39E0     		b	.L20
+ 441              	.L23:
+ 215:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****     {
+ 216:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****        if (scroll_count>0)
+ 442              		.loc 1 216 0
+ 443 001e FB1D     		add	r3, r7, #7
+ 444 0020 1B78     		ldrb	r3, [r3]
+ 445 0022 002B     		cmp	r3, #0
+ 446 0024 17D0     		beq	.L21
+ 217:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****          LCD_WF8B(WF_ORDERING_TABLE[_LCDFRONTPLANES +bp_count]) =  0x01<<(scroll_count+bp_count);
+ 447              		.loc 1 217 0
+ 448 0026 2048     		ldr	r0, .L25
+ 449 0028 3B1C     		mov	r3, r7
+ 450 002a 0F33     		add	r3, r3, #15
+ 451 002c 1B78     		ldrb	r3, [r3]
+ 452 002e 0833     		add	r3, r3, #8
+ 453 0030 1E4A     		ldr	r2, .L25+4
+ 454 0032 D35C     		ldrb	r3, [r2, r3]
+ 455 0034 191C     		mov	r1, r3
+ 456 0036 FB1D     		add	r3, r7, #7
+ 457 0038 1A78     		ldrb	r2, [r3]
+ 458 003a 3B1C     		mov	r3, r7
+ 459 003c 0F33     		add	r3, r3, #15
+ 460 003e 1B78     		ldrb	r3, [r3]
+ 461 0040 D318     		add	r3, r2, r3
+ 462 0042 0122     		mov	r2, #1
+ 463 0044 141C     		mov	r4, r2
+ 464 0046 9C40     		lsl	r4, r4, r3
+ 465 0048 231C     		mov	r3, r4
+ 466 004a DAB2     		uxtb	r2, r3
+ 467 004c 2023     		mov	r3, #32
+ 468 004e 4118     		add	r1, r0, r1
+ 469 0050 CB18     		add	r3, r1, r3
+ 470 0052 1A70     		strb	r2, [r3]
+ 471 0054 16E0     		b	.L22
+ 472              	.L21:
+ 218:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****       else   //(scroll_count<0)
+ 219:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****         { 
+ 220:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****            LCD_WF8B(WF_ORDERING_TABLE[_LCDFRONTPLANES +bp_count]) =   0x01>>(-scroll_count+bp_count
+ 473              		.loc 1 220 0
+ 474 0056 1448     		ldr	r0, .L25
+ 475 0058 3B1C     		mov	r3, r7
+ 476 005a 0F33     		add	r3, r3, #15
+ 477 005c 1B78     		ldrb	r3, [r3]
+ 478 005e 0833     		add	r3, r3, #8
+ 479 0060 124A     		ldr	r2, .L25+4
+ 480 0062 D35C     		ldrb	r3, [r2, r3]
+ 481 0064 191C     		mov	r1, r3
+ 482 0066 3B1C     		mov	r3, r7
+ 483 0068 0F33     		add	r3, r3, #15
+ 484 006a 1A78     		ldrb	r2, [r3]
+ 485 006c FB1D     		add	r3, r7, #7
+ 486 006e 1B78     		ldrb	r3, [r3]
+ 487 0070 D31A     		sub	r3, r2, r3
+ 488 0072 0122     		mov	r2, #1
+ 489 0074 141C     		mov	r4, r2
+ 490 0076 1C41     		asr	r4, r4, r3
+ 491 0078 231C     		mov	r3, r4
+ 492 007a DAB2     		uxtb	r2, r3
+ 493 007c 2023     		mov	r3, #32
+ 494 007e 4118     		add	r1, r0, r1
+ 495 0080 CB18     		add	r3, r1, r3
+ 496 0082 1A70     		strb	r2, [r3]
+ 497              	.L22:
+ 214:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****     for (bp_count=0;bp_count< _LCDBACKPLANES; bp_count++)
+ 498              		.loc 1 214 0
+ 499 0084 3B1C     		mov	r3, r7
+ 500 0086 0F33     		add	r3, r3, #15
+ 501 0088 3A1C     		mov	r2, r7
+ 502 008a 0F32     		add	r2, r2, #15
+ 503 008c 1278     		ldrb	r2, [r2]
+ 504 008e 0132     		add	r2, r2, #1
+ 505 0090 1A70     		strb	r2, [r3]
+ 506              	.L20:
+ 214:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****     for (bp_count=0;bp_count< _LCDBACKPLANES; bp_count++)
+ 507              		.loc 1 214 0 is_stmt 0
+ 508 0092 3B1C     		mov	r3, r7
+ 509 0094 0F33     		add	r3, r3, #15
+ 510 0096 1B78     		ldrb	r3, [r3]
+ 511 0098 032B     		cmp	r3, #3
+ 512 009a C0D9     		bls	.L23
+ 214:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****     for (bp_count=0;bp_count< _LCDBACKPLANES; bp_count++)
+ 513              		.loc 1 214 0
+ 514 009c 01E0     		b	.L18
+ 515              	.L19:
+ 221:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****         }
+ 222:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****     }  
+ 223:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    }
+ 224:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****     else vfnSetBackplanes(); 
+ 516              		.loc 1 224 0 is_stmt 1
+ 517 009e FFF7FEFF 		bl	vfnSetBackplanes
+ 518              	.L18:
+ 225:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****   }
+ 519              		.loc 1 225 0
+ 520 00a2 BD46     		mov	sp, r7
+ 521 00a4 05B0     		add	sp, sp, #20
+ 522              		@ sp needed for prologue
+ 523 00a6 90BD     		pop	{r4, r7, pc}
+ 524              	.L26:
+ 525              		.align	2
+ 526              	.L25:
+ 527 00a8 00300540 		.word	1074081792
+ 528 00ac 00000000 		.word	WF_ORDERING_TABLE
+ 529              		.cfi_endproc
+ 530              	.LFE4:
+ 532              		.section	.text.vfnLCD_Home,"ax",%progbits
+ 533              		.align	2
+ 534              		.global	vfnLCD_Home
+ 535              		.code	16
+ 536              		.thumb_func
+ 538              	vfnLCD_Home:
+ 539              	.LFB5:
+ 226:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 227:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 228:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 229:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** void vfnLCD_Home (void)
+ 230:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  {
+ 540              		.loc 1 230 0
+ 541              		.cfi_startproc
+ 542 0000 80B5     		push	{r7, lr}
+ 543              	.LCFI13:
+ 544              		.cfi_def_cfa_offset 8
+ 545              		.cfi_offset 7, -8
+ 546              		.cfi_offset 14, -4
+ 547 0002 00AF     		add	r7, sp, #0
+ 548              	.LCFI14:
+ 549              		.cfi_def_cfa_register 7
+ 231:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****       bLCD_CharPosition =  0;
+ 550              		.loc 1 231 0
+ 551 0004 024B     		ldr	r3, .L28
+ 552 0006 0022     		mov	r2, #0
+ 553 0008 1A70     		strb	r2, [r3]
+ 232:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  }
+ 554              		.loc 1 232 0
+ 555 000a BD46     		mov	sp, r7
+ 556              		@ sp needed for prologue
+ 557 000c 80BD     		pop	{r7, pc}
+ 558              	.L29:
+ 559 000e C046     		.align	2
+ 560              	.L28:
+ 561 0010 00000000 		.word	bLCD_CharPosition
+ 562              		.cfi_endproc
+ 563              	.LFE5:
+ 565              		.section	.text.vfnLCD_Contrast,"ax",%progbits
+ 566              		.align	2
+ 567              		.global	vfnLCD_Contrast
+ 568              		.code	16
+ 569              		.thumb_func
+ 571              	vfnLCD_Contrast:
+ 572              	.LFB6:
+ 233:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 234:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** void vfnLCD_Contrast (uint8 lbContrast)
+ 235:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** {
+ 573              		.loc 1 235 0
+ 574              		.cfi_startproc
+ 575 0000 80B5     		push	{r7, lr}
+ 576              	.LCFI15:
+ 577              		.cfi_def_cfa_offset 8
+ 578              		.cfi_offset 7, -8
+ 579              		.cfi_offset 14, -4
+ 580 0002 82B0     		sub	sp, sp, #8
+ 581              	.LCFI16:
+ 582              		.cfi_def_cfa_offset 16
+ 583 0004 00AF     		add	r7, sp, #0
+ 584              	.LCFI17:
+ 585              		.cfi_def_cfa_register 7
+ 586 0006 021C     		mov	r2, r0
+ 587 0008 FB1D     		add	r3, r7, #7
+ 588 000a 1A70     		strb	r2, [r3]
+ 236:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****        lbContrast &= 0x0F;                                               //Forced to the only value
+ 589              		.loc 1 236 0
+ 590 000c FB1D     		add	r3, r7, #7
+ 591 000e FA1D     		add	r2, r7, #7
+ 592 0010 1178     		ldrb	r1, [r2]
+ 593 0012 0F22     		mov	r2, #15
+ 594 0014 0A40     		and	r2, r1
+ 595 0016 1A70     		strb	r2, [r3]
+ 237:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****        LCD_GCR |= LCD_GCR_RVTRIM(lbContrast);
+ 596              		.loc 1 237 0
+ 597 0018 064B     		ldr	r3, .L31
+ 598 001a 064A     		ldr	r2, .L31
+ 599 001c 1168     		ldr	r1, [r2]
+ 600 001e FA1D     		add	r2, r7, #7
+ 601 0020 1278     		ldrb	r2, [r2]
+ 602 0022 1006     		lsl	r0, r2, #24
+ 603 0024 F022     		mov	r2, #240
+ 604 0026 1205     		lsl	r2, r2, #20
+ 605 0028 0240     		and	r2, r0
+ 606 002a 0A43     		orr	r2, r1
+ 607 002c 1A60     		str	r2, [r3]
+ 238:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** }
+ 608              		.loc 1 238 0
+ 609 002e BD46     		mov	sp, r7
+ 610 0030 02B0     		add	sp, sp, #8
+ 611              		@ sp needed for prologue
+ 612 0032 80BD     		pop	{r7, pc}
+ 613              	.L32:
+ 614              		.align	2
+ 615              	.L31:
+ 616 0034 00300540 		.word	1074081792
+ 617              		.cfi_endproc
+ 618              	.LFE6:
+ 620              		.section	.text.vfnLCD_Write_MsgPlace,"ax",%progbits
+ 621              		.align	2
+ 622              		.global	vfnLCD_Write_MsgPlace
+ 623              		.code	16
+ 624              		.thumb_func
+ 626              	vfnLCD_Write_MsgPlace:
+ 627              	.LFB7:
+ 239:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  
+ 240:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  void  vfnLCD_Write_MsgPlace (uint8 *lbpMessage, uint8 lbSize )
+ 241:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  {
+ 628              		.loc 1 241 0
+ 629              		.cfi_startproc
+ 630 0000 80B5     		push	{r7, lr}
+ 631              	.LCFI18:
+ 632              		.cfi_def_cfa_offset 8
+ 633              		.cfi_offset 7, -8
+ 634              		.cfi_offset 14, -4
+ 635 0002 82B0     		sub	sp, sp, #8
+ 636              	.LCFI19:
+ 637              		.cfi_def_cfa_offset 16
+ 638 0004 00AF     		add	r7, sp, #0
+ 639              	.LCFI20:
+ 640              		.cfi_def_cfa_register 7
+ 641 0006 7860     		str	r0, [r7, #4]
+ 642 0008 0A1C     		mov	r2, r1
+ 643 000a FB1C     		add	r3, r7, #3
+ 644 000c 1A70     		strb	r2, [r3]
+ 242:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           
+ 243:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           if (lbSize > _CHARNUM)
+ 645              		.loc 1 243 0
+ 646 000e FB1C     		add	r3, r7, #3
+ 647 0010 1B78     		ldrb	r3, [r3]
+ 648 0012 042B     		cmp	r3, #4
+ 649 0014 07D9     		bls	.L34
+ 244:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           {
+ 245:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****                vfnLCD_Scroll(lbpMessage, lbSize);
+ 650              		.loc 1 245 0
+ 651 0016 7A68     		ldr	r2, [r7, #4]
+ 652 0018 FB1C     		add	r3, r7, #3
+ 653 001a 1B78     		ldrb	r3, [r3]
+ 654 001c 101C     		mov	r0, r2
+ 655 001e 191C     		mov	r1, r3
+ 656 0020 FFF7FEFF 		bl	vfnLCD_Scroll
+ 657 0024 10E0     		b	.L33
+ 658              	.L34:
+ 246:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           }
+ 247:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           else
+ 248:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           {
+ 249:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****             do
+ 250:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****             {
+ 251:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****                     vfnLCD_Write_Char (*lbpMessage);
+ 659              		.loc 1 251 0
+ 660 0026 7B68     		ldr	r3, [r7, #4]
+ 661 0028 1B78     		ldrb	r3, [r3]
+ 662 002a 181C     		mov	r0, r3
+ 663 002c FFF7FEFF 		bl	vfnLCD_Write_Char
+ 252:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****                     lbpMessage ++;     
+ 664              		.loc 1 252 0
+ 665 0030 7B68     		ldr	r3, [r7, #4]
+ 666 0032 0133     		add	r3, r3, #1
+ 667 0034 7B60     		str	r3, [r7, #4]
+ 253:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****              }while (--lbSize);
+ 668              		.loc 1 253 0
+ 669 0036 FB1C     		add	r3, r7, #3
+ 670 0038 FA1C     		add	r2, r7, #3
+ 671 003a 1278     		ldrb	r2, [r2]
+ 672 003c 013A     		sub	r2, r2, #1
+ 673 003e 1A70     		strb	r2, [r3]
+ 674 0040 FB1C     		add	r3, r7, #3
+ 675 0042 1B78     		ldrb	r3, [r3]
+ 676 0044 002B     		cmp	r3, #0
+ 677 0046 EED1     		bne	.L34
+ 678              	.L33:
+ 254:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           }
+ 255:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 256:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  }
+ 679              		.loc 1 256 0
+ 680 0048 BD46     		mov	sp, r7
+ 681 004a 02B0     		add	sp, sp, #8
+ 682              		@ sp needed for prologue
+ 683 004c 80BD     		pop	{r7, pc}
+ 684              		.cfi_endproc
+ 685              	.LFE7:
+ 687 004e C046     		.section	.text.vfnLCD_Write_Msg,"ax",%progbits
+ 688              		.align	2
+ 689              		.global	vfnLCD_Write_Msg
+ 690              		.code	16
+ 691              		.thumb_func
+ 693              	vfnLCD_Write_Msg:
+ 694              	.LFB8:
+ 257:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  
+ 258:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  
+ 259:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  
+ 260:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  /*
+ 261:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  vfnLCD_Write_Msg.  Display a Message starting at the fisrt character of display
+ 262:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    until _CHARNUM  or End of string.
+ 263:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  */
+ 264:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  
+ 265:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  void  vfnLCD_Write_Msg (uint8 *lbpMessage)
+ 266:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  {
+ 695              		.loc 1 266 0
+ 696              		.cfi_startproc
+ 697 0000 80B5     		push	{r7, lr}
+ 698              	.LCFI21:
+ 699              		.cfi_def_cfa_offset 8
+ 700              		.cfi_offset 7, -8
+ 701              		.cfi_offset 14, -4
+ 702 0002 84B0     		sub	sp, sp, #16
+ 703              	.LCFI22:
+ 704              		.cfi_def_cfa_offset 24
+ 705 0004 00AF     		add	r7, sp, #0
+ 706              	.LCFI23:
+ 707              		.cfi_def_cfa_register 7
+ 708 0006 7860     		str	r0, [r7, #4]
+ 267:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 268:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           uint8 lbSize      = 0;          
+ 709              		.loc 1 268 0
+ 710 0008 3B1C     		mov	r3, r7
+ 711 000a 0F33     		add	r3, r3, #15
+ 712 000c 0022     		mov	r2, #0
+ 713 000e 1A70     		strb	r2, [r3]
+ 269:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           bLCD_CharPosition = 0;  //Home display
+ 714              		.loc 1 269 0
+ 715 0010 1C4B     		ldr	r3, .L43
+ 716 0012 0022     		mov	r2, #0
+ 717 0014 1A70     		strb	r2, [r3]
+ 270:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           while (lbSize<_CHARNUM && *lbpMessage) 
+ 718              		.loc 1 270 0
+ 719 0016 0EE0     		b	.L37
+ 720              	.L39:
+ 271:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           {
+ 272:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****             vfnLCD_Write_Char (*lbpMessage++);
+ 721              		.loc 1 272 0
+ 722 0018 7B68     		ldr	r3, [r7, #4]
+ 723 001a 1B78     		ldrb	r3, [r3]
+ 724 001c 7A68     		ldr	r2, [r7, #4]
+ 725 001e 0132     		add	r2, r2, #1
+ 726 0020 7A60     		str	r2, [r7, #4]
+ 727 0022 181C     		mov	r0, r3
+ 728 0024 FFF7FEFF 		bl	vfnLCD_Write_Char
+ 273:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****             lbSize++;     
+ 729              		.loc 1 273 0
+ 730 0028 3B1C     		mov	r3, r7
+ 731 002a 0F33     		add	r3, r3, #15
+ 732 002c 3A1C     		mov	r2, r7
+ 733 002e 0F32     		add	r2, r2, #15
+ 734 0030 1278     		ldrb	r2, [r2]
+ 735 0032 0132     		add	r2, r2, #1
+ 736 0034 1A70     		strb	r2, [r3]
+ 737              	.L37:
+ 270:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           while (lbSize<_CHARNUM && *lbpMessage) 
+ 738              		.loc 1 270 0
+ 739 0036 3B1C     		mov	r3, r7
+ 740 0038 0F33     		add	r3, r3, #15
+ 741 003a 1B78     		ldrb	r3, [r3]
+ 742 003c 032B     		cmp	r3, #3
+ 743 003e 03D8     		bhi	.L38
+ 270:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           while (lbSize<_CHARNUM && *lbpMessage) 
+ 744              		.loc 1 270 0 is_stmt 0
+ 745 0040 7B68     		ldr	r3, [r7, #4]
+ 746 0042 1B78     		ldrb	r3, [r3]
+ 747 0044 002B     		cmp	r3, #0
+ 748 0046 E7D1     		bne	.L39
+ 749              	.L38:
+ 274:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           }
+ 275:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           
+ 276:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           if (lbSize<_CHARNUM) {
+ 750              		.loc 1 276 0 is_stmt 1
+ 751 0048 3B1C     		mov	r3, r7
+ 752 004a 0F33     		add	r3, r3, #15
+ 753 004c 1B78     		ldrb	r3, [r3]
+ 754 004e 032B     		cmp	r3, #3
+ 755 0050 14D8     		bhi	.L36
+ 277:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****             
+ 278:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           while (lbSize++< _CHARNUM) vfnLCD_Write_Char (BLANK_CHARACTER);  // complete data with bl
+ 756              		.loc 1 278 0
+ 757 0052 02E0     		b	.L41
+ 758              	.L42:
+ 759              		.loc 1 278 0 is_stmt 0
+ 760 0054 3E20     		mov	r0, #62
+ 761 0056 FFF7FEFF 		bl	vfnLCD_Write_Char
+ 762              	.L41:
+ 763              		.loc 1 278 0
+ 764 005a 3B1C     		mov	r3, r7
+ 765 005c 0F33     		add	r3, r3, #15
+ 766 005e 1A78     		ldrb	r2, [r3]
+ 767 0060 0321     		mov	r1, #3
+ 768 0062 0023     		mov	r3, #0
+ 769 0064 9142     		cmp	r1, r2
+ 770 0066 5B41     		adc	r3, r3, r3
+ 771 0068 DBB2     		uxtb	r3, r3
+ 772 006a 3A1C     		mov	r2, r7
+ 773 006c 0F32     		add	r2, r2, #15
+ 774 006e 391C     		mov	r1, r7
+ 775 0070 0F31     		add	r1, r1, #15
+ 776 0072 0978     		ldrb	r1, [r1]
+ 777 0074 0131     		add	r1, r1, #1
+ 778 0076 1170     		strb	r1, [r2]
+ 779 0078 002B     		cmp	r3, #0
+ 780 007a EBD1     		bne	.L42
+ 781              	.L36:
+ 279:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           }
+ 280:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****          
+ 281:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** }
+ 782              		.loc 1 281 0 is_stmt 1
+ 783 007c BD46     		mov	sp, r7
+ 784 007e 04B0     		add	sp, sp, #16
+ 785              		@ sp needed for prologue
+ 786 0080 80BD     		pop	{r7, pc}
+ 787              	.L44:
+ 788 0082 C046     		.align	2
+ 789              	.L43:
+ 790 0084 00000000 		.word	bLCD_CharPosition
+ 791              		.cfi_endproc
+ 792              	.LFE8:
+ 794              		.section	.text.vfnLCD_All_Segments_ON,"ax",%progbits
+ 795              		.align	2
+ 796              		.global	vfnLCD_All_Segments_ON
+ 797              		.code	16
+ 798              		.thumb_func
+ 800              	vfnLCD_All_Segments_ON:
+ 801              	.LFB9:
+ 282:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  
+ 283:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  
+ 284:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 285:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 286:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** void vfnLCD_All_Segments_ON (void)
+ 287:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** {
+ 802              		.loc 1 287 0
+ 803              		.cfi_startproc
+ 804 0000 80B5     		push	{r7, lr}
+ 805              	.LCFI24:
+ 806              		.cfi_def_cfa_offset 8
+ 807              		.cfi_offset 7, -8
+ 808              		.cfi_offset 14, -4
+ 809 0002 82B0     		sub	sp, sp, #8
+ 810              	.LCFI25:
+ 811              		.cfi_def_cfa_offset 16
+ 812 0004 00AF     		add	r7, sp, #0
+ 813              	.LCFI26:
+ 814              		.cfi_def_cfa_register 7
+ 288:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  uint8 lbTotalBytes = _CHARNUM * _LCDTYPE;              
+ 815              		.loc 1 288 0
+ 816 0006 BB1D     		add	r3, r7, #6
+ 817 0008 0822     		mov	r2, #8
+ 818 000a 1A70     		strb	r2, [r3]
+ 289:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  uint8 lbCounter=0;
+ 819              		.loc 1 289 0
+ 820 000c FB1D     		add	r3, r7, #7
+ 821 000e 0022     		mov	r2, #0
+ 822 0010 1A70     		strb	r2, [r3]
+ 290:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  uint8 *lbpLCDWF;
+ 291:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  
+ 292:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****     lbpLCDWF = (uint8 *)&LCD_WF3TO0;
+ 823              		.loc 1 292 0
+ 824 0012 0C4B     		ldr	r3, .L48
+ 825 0014 3B60     		str	r3, [r7]
+ 293:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****       
+ 294:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****         while (lbCounter < lbTotalBytes)
+ 826              		.loc 1 294 0
+ 827 0016 0CE0     		b	.L46
+ 828              	.L47:
+ 295:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           {
+ 296:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****               lbpLCDWF[WF_ORDERING_TABLE[lbCounter++]]=_ALLON;
+ 829              		.loc 1 296 0
+ 830 0018 FB1D     		add	r3, r7, #7
+ 831 001a 1B78     		ldrb	r3, [r3]
+ 832 001c 0A4A     		ldr	r2, .L48+4
+ 833 001e D35C     		ldrb	r3, [r2, r3]
+ 834 0020 3A68     		ldr	r2, [r7]
+ 835 0022 D318     		add	r3, r2, r3
+ 836 0024 FF22     		mov	r2, #255
+ 837 0026 1A70     		strb	r2, [r3]
+ 838 0028 FB1D     		add	r3, r7, #7
+ 839 002a FA1D     		add	r2, r7, #7
+ 840 002c 1278     		ldrb	r2, [r2]
+ 841 002e 0132     		add	r2, r2, #1
+ 842 0030 1A70     		strb	r2, [r3]
+ 843              	.L46:
+ 294:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****         while (lbCounter < lbTotalBytes)
+ 844              		.loc 1 294 0
+ 845 0032 FA1D     		add	r2, r7, #7
+ 846 0034 BB1D     		add	r3, r7, #6
+ 847 0036 1278     		ldrb	r2, [r2]
+ 848 0038 1B78     		ldrb	r3, [r3]
+ 849 003a 9A42     		cmp	r2, r3
+ 850 003c ECD3     		bcc	.L47
+ 297:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           }
+ 298:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****          
+ 299:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** }
+ 851              		.loc 1 299 0
+ 852 003e BD46     		mov	sp, r7
+ 853 0040 02B0     		add	sp, sp, #8
+ 854              		@ sp needed for prologue
+ 855 0042 80BD     		pop	{r7, pc}
+ 856              	.L49:
+ 857              		.align	2
+ 858              	.L48:
+ 859 0044 20300540 		.word	1074081824
+ 860 0048 00000000 		.word	WF_ORDERING_TABLE
+ 861              		.cfi_endproc
+ 862              	.LFE9:
+ 864              		.section	.text.vfnLCD_All_Segments_Char,"ax",%progbits
+ 865              		.align	2
+ 866              		.global	vfnLCD_All_Segments_Char
+ 867              		.code	16
+ 868              		.thumb_func
+ 870              	vfnLCD_All_Segments_Char:
+ 871              	.LFB10:
+ 300:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 301:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 302:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** void vfnLCD_All_Segments_Char (uint8 val)
+ 303:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** {
+ 872              		.loc 1 303 0
+ 873              		.cfi_startproc
+ 874 0000 80B5     		push	{r7, lr}
+ 875              	.LCFI27:
+ 876              		.cfi_def_cfa_offset 8
+ 877              		.cfi_offset 7, -8
+ 878              		.cfi_offset 14, -4
+ 879 0002 84B0     		sub	sp, sp, #16
+ 880              	.LCFI28:
+ 881              		.cfi_def_cfa_offset 24
+ 882 0004 00AF     		add	r7, sp, #0
+ 883              	.LCFI29:
+ 884              		.cfi_def_cfa_register 7
+ 885 0006 021C     		mov	r2, r0
+ 886 0008 FB1D     		add	r3, r7, #7
+ 887 000a 1A70     		strb	r2, [r3]
+ 304:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  uint8 lbTotalBytes = _CHARNUM * _LCDTYPE;              
+ 888              		.loc 1 304 0
+ 889 000c 3B1C     		mov	r3, r7
+ 890 000e 0E33     		add	r3, r3, #14
+ 891 0010 0822     		mov	r2, #8
+ 892 0012 1A70     		strb	r2, [r3]
+ 305:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  uint8 lbCounter=0;
+ 893              		.loc 1 305 0
+ 894 0014 3B1C     		mov	r3, r7
+ 895 0016 0F33     		add	r3, r3, #15
+ 896 0018 0022     		mov	r2, #0
+ 897 001a 1A70     		strb	r2, [r3]
+ 306:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  uint8 *lbpLCDWF;
+ 307:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****     lbpLCDWF = (uint8 *)&LCD_WF3TO0;
+ 898              		.loc 1 307 0
+ 899 001c 0F4B     		ldr	r3, .L53
+ 900 001e BB60     		str	r3, [r7, #8]
+ 308:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****         while (lbCounter < lbTotalBytes)
+ 901              		.loc 1 308 0
+ 902 0020 10E0     		b	.L51
+ 903              	.L52:
+ 309:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           {
+ 310:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****               lbpLCDWF[WF_ORDERING_TABLE[lbCounter++]]=val;
+ 904              		.loc 1 310 0
+ 905 0022 3B1C     		mov	r3, r7
+ 906 0024 0F33     		add	r3, r3, #15
+ 907 0026 1B78     		ldrb	r3, [r3]
+ 908 0028 0D4A     		ldr	r2, .L53+4
+ 909 002a D35C     		ldrb	r3, [r2, r3]
+ 910 002c BA68     		ldr	r2, [r7, #8]
+ 911 002e D318     		add	r3, r2, r3
+ 912 0030 FA1D     		add	r2, r7, #7
+ 913 0032 1278     		ldrb	r2, [r2]
+ 914 0034 1A70     		strb	r2, [r3]
+ 915 0036 3B1C     		mov	r3, r7
+ 916 0038 0F33     		add	r3, r3, #15
+ 917 003a 3A1C     		mov	r2, r7
+ 918 003c 0F32     		add	r2, r2, #15
+ 919 003e 1278     		ldrb	r2, [r2]
+ 920 0040 0132     		add	r2, r2, #1
+ 921 0042 1A70     		strb	r2, [r3]
+ 922              	.L51:
+ 308:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****         while (lbCounter < lbTotalBytes)
+ 923              		.loc 1 308 0
+ 924 0044 3A1C     		mov	r2, r7
+ 925 0046 0F32     		add	r2, r2, #15
+ 926 0048 3B1C     		mov	r3, r7
+ 927 004a 0E33     		add	r3, r3, #14
+ 928 004c 1278     		ldrb	r2, [r2]
+ 929 004e 1B78     		ldrb	r3, [r3]
+ 930 0050 9A42     		cmp	r2, r3
+ 931 0052 E6D3     		bcc	.L52
+ 311:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           }
+ 312:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****          
+ 313:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** }
+ 932              		.loc 1 313 0
+ 933 0054 BD46     		mov	sp, r7
+ 934 0056 04B0     		add	sp, sp, #16
+ 935              		@ sp needed for prologue
+ 936 0058 80BD     		pop	{r7, pc}
+ 937              	.L54:
+ 938 005a C046     		.align	2
+ 939              	.L53:
+ 940 005c 20300540 		.word	1074081824
+ 941 0060 00000000 		.word	WF_ORDERING_TABLE
+ 942              		.cfi_endproc
+ 943              	.LFE10:
+ 945              		.section	.text.vfnLCD_All_Segments_OFF,"ax",%progbits
+ 946              		.align	2
+ 947              		.global	vfnLCD_All_Segments_OFF
+ 948              		.code	16
+ 949              		.thumb_func
+ 951              	vfnLCD_All_Segments_OFF:
+ 952              	.LFB11:
+ 314:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 315:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 316:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** void vfnLCD_All_Segments_OFF (void)
+ 317:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** {              
+ 953              		.loc 1 317 0
+ 954              		.cfi_startproc
+ 955 0000 80B5     		push	{r7, lr}
+ 956              	.LCFI30:
+ 957              		.cfi_def_cfa_offset 8
+ 958              		.cfi_offset 7, -8
+ 959              		.cfi_offset 14, -4
+ 960 0002 82B0     		sub	sp, sp, #8
+ 961              	.LCFI31:
+ 962              		.cfi_def_cfa_offset 16
+ 963 0004 00AF     		add	r7, sp, #0
+ 964              	.LCFI32:
+ 965              		.cfi_def_cfa_register 7
+ 318:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  uint8 lbTotalBytes = _CHARNUM * _LCDTYPE;              
+ 966              		.loc 1 318 0
+ 967 0006 BB1D     		add	r3, r7, #6
+ 968 0008 0822     		mov	r2, #8
+ 969 000a 1A70     		strb	r2, [r3]
+ 319:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  uint8 lbCounter=0;
+ 970              		.loc 1 319 0
+ 971 000c FB1D     		add	r3, r7, #7
+ 972 000e 0022     		mov	r2, #0
+ 973 0010 1A70     		strb	r2, [r3]
+ 320:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  uint8 *lbpLCDWF;
+ 321:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  
+ 322:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****     lbpLCDWF = (uint8 *)&LCD_WF3TO0;
+ 974              		.loc 1 322 0
+ 975 0012 0C4B     		ldr	r3, .L58
+ 976 0014 3B60     		str	r3, [r7]
+ 323:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****         while (lbCounter < lbTotalBytes)
+ 977              		.loc 1 323 0
+ 978 0016 0CE0     		b	.L56
+ 979              	.L57:
+ 324:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           {
+ 325:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****               lbpLCDWF[WF_ORDERING_TABLE[lbCounter++]]=0;
+ 980              		.loc 1 325 0
+ 981 0018 FB1D     		add	r3, r7, #7
+ 982 001a 1B78     		ldrb	r3, [r3]
+ 983 001c 0A4A     		ldr	r2, .L58+4
+ 984 001e D35C     		ldrb	r3, [r2, r3]
+ 985 0020 3A68     		ldr	r2, [r7]
+ 986 0022 D318     		add	r3, r2, r3
+ 987 0024 0022     		mov	r2, #0
+ 988 0026 1A70     		strb	r2, [r3]
+ 989 0028 FB1D     		add	r3, r7, #7
+ 990 002a FA1D     		add	r2, r7, #7
+ 991 002c 1278     		ldrb	r2, [r2]
+ 992 002e 0132     		add	r2, r2, #1
+ 993 0030 1A70     		strb	r2, [r3]
+ 994              	.L56:
+ 323:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****         while (lbCounter < lbTotalBytes)
+ 995              		.loc 1 323 0
+ 996 0032 FA1D     		add	r2, r7, #7
+ 997 0034 BB1D     		add	r3, r7, #6
+ 998 0036 1278     		ldrb	r2, [r2]
+ 999 0038 1B78     		ldrb	r3, [r3]
+ 1000 003a 9A42     		cmp	r2, r3
+ 1001 003c ECD3     		bcc	.L57
+ 326:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           }
+ 327:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** }
+ 1002              		.loc 1 327 0
+ 1003 003e BD46     		mov	sp, r7
+ 1004 0040 02B0     		add	sp, sp, #8
+ 1005              		@ sp needed for prologue
+ 1006 0042 80BD     		pop	{r7, pc}
+ 1007              	.L59:
+ 1008              		.align	2
+ 1009              	.L58:
+ 1010 0044 20300540 		.word	1074081824
+ 1011 0048 00000000 		.word	WF_ORDERING_TABLE
+ 1012              		.cfi_endproc
+ 1013              	.LFE11:
+ 1015              		.section	.text.vfnLCD_Write_Char,"ax",%progbits
+ 1016              		.align	2
+ 1017              		.global	vfnLCD_Write_Char
+ 1018              		.code	16
+ 1019              		.thumb_func
+ 1021              	vfnLCD_Write_Char:
+ 1022              	.LFB12:
+ 328:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 329:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 330:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****          
+ 331:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** /*
+ 332:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 333:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  Write a Char at position bLCD_CharPosition;
+ 334:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  After write is complete  bLCD_CharPosition point to next position 
+ 335:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  
+ 336:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  Verify Char is a Valid character  between '0'  and 'z'
+ 337:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  in this case char is between 'a' to 'z' are taken as upper case
+ 338:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  
+ 339:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  If the char is a invalid char it is taken as ':'  code, in this case as SPACE
+ 340:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 341:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** Aug-16   LP  arrayOffset was added due that array size with matrix symbols is greater than uint8
+ 342:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 343:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** */
+ 344:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** #ifdef DOT_MATRIX
+ 345:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 346:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** void vfnLCD_Write_Char (uint8 lbValue)
+ 347:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** {
+ 348:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           uint8 char_val, temp;   //for test only
+ 349:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           uint8 *lbpLCDWF;
+ 350:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           uint8 lbCounter;
+ 351:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           
+ 352:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           uint16 arrayOffset;
+ 353:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           uint8 position;
+ 354:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 355:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           
+ 356:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           lbpLCDWF = (uint8 *)&LCD_WF3TO0;
+ 357:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           
+ 358:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           
+ 359:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** /*only ascci character if value not writeable write as @*/
+ 360:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 361:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           if (lbValue>='a' && lbValue<='z') lbValue -= 32; // UpperCase
+ 362:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           if (lbValue<ASCCI_TABLE_START || lbValue >ASCCI_TABLE_END) lbValue = BLANK_CHARACTER;  //
+ 363:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 364:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           lbValue -=ASCCI_TABLE_START;        // Remove the offset to search in the ascci table
+ 365:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           
+ 366:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           arrayOffset = (lbValue * _CHAR_SIZE); // Compensate matrix offset
+ 367:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           
+ 368:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           
+ 369:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           
+ 370:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** // ensure bLCD position is in valid limit
+ 371:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           
+ 372:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           lbCounter =0;  //number of writings to complete one char
+ 373:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           while (lbCounter<_CHAR_SIZE  && bLCD_CharPosition < _CHARNUM )
+ 374:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           {
+ 375:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****               //    position = (bLCD_CharPosition) *_CHAR_SIZE + lbCounter; //-1 to compensate firs
+ 376:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****               //     position = (bLCD_CharPosition) *_LCDTYPE + lbCounter; //-1 to compensate first
+ 377:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****                      position = bLCD_CharPosition; // for DOt matrix 
+ 378:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****             
+ 379:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****                     
+ 380:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****                     char_val = ASCII_TO_WF_CODIFICATION_TABLE[arrayOffset + lbCounter]; 
+ 381:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****                     if (bLCD_CharPosition==0) //write complete character
+ 382:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****                     {
+ 383:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****                      lbpLCDWF[WF_ORDERING_TABLE[position]] = char_val;  //all 4 bits correspond to 
+ 384:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****                     }
+ 385:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****                     else  //bit0 of second character is a symbol (DP o COL on the LCD) and must not
+ 386:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****                     {
+ 387:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****                     
+ 388:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****                       temp = lbpLCDWF[WF_ORDERING_TABLE[position]] & 0x01;  //bit 0 correspond to a
+ 389:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****                       lbpLCDWF[WF_ORDERING_TABLE[position]] = char_val | temp;  //only bit 1,2,3 co
+ 390:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****                     }  
+ 391:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****                     
+ 392:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****                     if (char_val==0) lbCounter = _CHAR_SIZE; //end of this character
+ 393:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****                     lbCounter++;
+ 394:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****                     bLCD_CharPosition++;
+ 395:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           }
+ 396:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 397:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** }
+ 398:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 399:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** #else
+ 400:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 401:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** // For 7 Segment LCD
+ 402:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** void vfnLCD_Write_Char (uint8 lbValue)
+ 403:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** {
+ 1023              		.loc 1 403 0
+ 1024              		.cfi_startproc
+ 1025 0000 80B5     		push	{r7, lr}
+ 1026              	.LCFI33:
+ 1027              		.cfi_def_cfa_offset 8
+ 1028              		.cfi_offset 7, -8
+ 1029              		.cfi_offset 14, -4
+ 1030 0002 86B0     		sub	sp, sp, #24
+ 1031              	.LCFI34:
+ 1032              		.cfi_def_cfa_offset 32
+ 1033 0004 00AF     		add	r7, sp, #0
+ 1034              	.LCFI35:
+ 1035              		.cfi_def_cfa_register 7
+ 1036 0006 021C     		mov	r2, r0
+ 1037 0008 FB1D     		add	r3, r7, #7
+ 1038 000a 1A70     		strb	r2, [r3]
+ 404:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           uint8 char_val;   //for test only
+ 405:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           uint8 *lbpLCDWF;
+ 406:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           uint8 lbCounter;
+ 407:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           
+ 408:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           uint16 arrayOffset;
+ 409:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           uint8 position;
+ 410:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 411:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           
+ 412:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           lbpLCDWF = (uint8 *)&LCD_WF3TO0;
+ 1039              		.loc 1 412 0
+ 1040 000c 324B     		ldr	r3, .L67
+ 1041 000e 3B61     		str	r3, [r7, #16]
+ 413:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           
+ 414:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           
+ 415:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** /*only ascci character if value not writeable write as @*/
+ 416:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 417:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           if (lbValue>='a' && lbValue<='z') lbValue -= 32; // UpperCase
+ 1042              		.loc 1 417 0
+ 1043 0010 FB1D     		add	r3, r7, #7
+ 1044 0012 1B78     		ldrb	r3, [r3]
+ 1045 0014 602B     		cmp	r3, #96
+ 1046 0016 08D9     		bls	.L61
+ 1047              		.loc 1 417 0 is_stmt 0
+ 1048 0018 FB1D     		add	r3, r7, #7
+ 1049 001a 1B78     		ldrb	r3, [r3]
+ 1050 001c 7A2B     		cmp	r3, #122
+ 1051 001e 04D8     		bhi	.L61
+ 1052 0020 FB1D     		add	r3, r7, #7
+ 1053 0022 FA1D     		add	r2, r7, #7
+ 1054 0024 1278     		ldrb	r2, [r2]
+ 1055 0026 203A     		sub	r2, r2, #32
+ 1056 0028 1A70     		strb	r2, [r3]
+ 1057              	.L61:
+ 418:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           if (lbValue<ASCCI_TABLE_START || lbValue >ASCCI_TABLE_END) lbValue = BLANK_CHARACTER;  //
+ 1058              		.loc 1 418 0 is_stmt 1
+ 1059 002a FB1D     		add	r3, r7, #7
+ 1060 002c 1B78     		ldrb	r3, [r3]
+ 1061 002e 2F2B     		cmp	r3, #47
+ 1062 0030 03D9     		bls	.L62
+ 1063              		.loc 1 418 0 is_stmt 0
+ 1064 0032 FB1D     		add	r3, r7, #7
+ 1065 0034 1B78     		ldrb	r3, [r3]
+ 1066 0036 5A2B     		cmp	r3, #90
+ 1067 0038 02D9     		bls	.L63
+ 1068              	.L62:
+ 1069              		.loc 1 418 0
+ 1070 003a FB1D     		add	r3, r7, #7
+ 1071 003c 3E22     		mov	r2, #62
+ 1072 003e 1A70     		strb	r2, [r3]
+ 1073              	.L63:
+ 419:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 420:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           lbValue -=ASCCI_TABLE_START;        // Remove the offset to search in the ascci table
+ 1074              		.loc 1 420 0 is_stmt 1
+ 1075 0040 FB1D     		add	r3, r7, #7
+ 1076 0042 FA1D     		add	r2, r7, #7
+ 1077 0044 1278     		ldrb	r2, [r2]
+ 1078 0046 303A     		sub	r2, r2, #48
+ 1079 0048 1A70     		strb	r2, [r3]
+ 421:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           
+ 422:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           arrayOffset = (lbValue * _CHAR_SIZE); // Compensate matrix offset
+ 1080              		.loc 1 422 0
+ 1081 004a FB1D     		add	r3, r7, #7
+ 1082 004c 1B78     		ldrb	r3, [r3]
+ 1083 004e 9AB2     		uxth	r2, r3
+ 1084 0050 3B1C     		mov	r3, r7
+ 1085 0052 0E33     		add	r3, r3, #14
+ 1086 0054 5200     		lsl	r2, r2, #1
+ 1087 0056 1A80     		strh	r2, [r3]
+ 423:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           
+ 424:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           
+ 425:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           
+ 426:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** // ensure bLCD position is in valid limit
+ 427:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           
+ 428:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           lbCounter =0;  //number of writings to complete one char
+ 1088              		.loc 1 428 0
+ 1089 0058 3B1C     		mov	r3, r7
+ 1090 005a 1733     		add	r3, r3, #23
+ 1091 005c 0022     		mov	r2, #0
+ 1092 005e 1A70     		strb	r2, [r3]
+ 429:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           while (lbCounter<_CHAR_SIZE  && bLCD_CharPosition < _CHARNUM )
+ 1093              		.loc 1 429 0
+ 1094 0060 28E0     		b	.L64
+ 1095              	.L66:
+ 430:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           {
+ 431:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****                     position = (bLCD_CharPosition) *_LCDTYPE + lbCounter; //-1 to compensate first 
+ 1096              		.loc 1 431 0
+ 1097 0062 1E4B     		ldr	r3, .L67+4
+ 1098 0064 1B78     		ldrb	r3, [r3]
+ 1099 0066 5B00     		lsl	r3, r3, #1
+ 1100 0068 D9B2     		uxtb	r1, r3
+ 1101 006a 3B1C     		mov	r3, r7
+ 1102 006c 0D33     		add	r3, r3, #13
+ 1103 006e 3A1C     		mov	r2, r7
+ 1104 0070 1732     		add	r2, r2, #23
+ 1105 0072 1278     		ldrb	r2, [r2]
+ 1106 0074 8A18     		add	r2, r1, r2
+ 1107 0076 1A70     		strb	r2, [r3]
+ 432:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****          
+ 433:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****                     char_val = ASCII_TO_WF_CODIFICATION_TABLE[arrayOffset + lbCounter];
+ 1108              		.loc 1 433 0
+ 1109 0078 3B1C     		mov	r3, r7
+ 1110 007a 0E33     		add	r3, r3, #14
+ 1111 007c 1A88     		ldrh	r2, [r3]
+ 1112 007e 3B1C     		mov	r3, r7
+ 1113 0080 1733     		add	r3, r3, #23
+ 1114 0082 1B78     		ldrb	r3, [r3]
+ 1115 0084 D218     		add	r2, r2, r3
+ 1116 0086 3B1C     		mov	r3, r7
+ 1117 0088 0C33     		add	r3, r3, #12
+ 1118 008a 1549     		ldr	r1, .L67+8
+ 1119 008c 8A5C     		ldrb	r2, [r1, r2]
+ 1120 008e 1A70     		strb	r2, [r3]
+ 434:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 435:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****                     lbpLCDWF[WF_ORDERING_TABLE[position]] = char_val;
+ 1121              		.loc 1 435 0
+ 1122 0090 3B1C     		mov	r3, r7
+ 1123 0092 0D33     		add	r3, r3, #13
+ 1124 0094 1B78     		ldrb	r3, [r3]
+ 1125 0096 134A     		ldr	r2, .L67+12
+ 1126 0098 D35C     		ldrb	r3, [r2, r3]
+ 1127 009a 3A69     		ldr	r2, [r7, #16]
+ 1128 009c D318     		add	r3, r2, r3
+ 1129 009e 3A1C     		mov	r2, r7
+ 1130 00a0 0C32     		add	r2, r2, #12
+ 1131 00a2 1278     		ldrb	r2, [r2]
+ 1132 00a4 1A70     		strb	r2, [r3]
+ 436:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****        
+ 437:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****                     //  if (char_val==0) lbCounter = _CHAR_SIZE; //end of this character
+ 438:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****                     lbCounter++;
+ 1133              		.loc 1 438 0
+ 1134 00a6 3B1C     		mov	r3, r7
+ 1135 00a8 1733     		add	r3, r3, #23
+ 1136 00aa 3A1C     		mov	r2, r7
+ 1137 00ac 1732     		add	r2, r2, #23
+ 1138 00ae 1278     		ldrb	r2, [r2]
+ 1139 00b0 0132     		add	r2, r2, #1
+ 1140 00b2 1A70     		strb	r2, [r3]
+ 1141              	.L64:
+ 429:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           while (lbCounter<_CHAR_SIZE  && bLCD_CharPosition < _CHARNUM )
+ 1142              		.loc 1 429 0
+ 1143 00b4 3B1C     		mov	r3, r7
+ 1144 00b6 1733     		add	r3, r3, #23
+ 1145 00b8 1B78     		ldrb	r3, [r3]
+ 1146 00ba 012B     		cmp	r3, #1
+ 1147 00bc 03D8     		bhi	.L65
+ 429:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           while (lbCounter<_CHAR_SIZE  && bLCD_CharPosition < _CHARNUM )
+ 1148              		.loc 1 429 0 is_stmt 0
+ 1149 00be 074B     		ldr	r3, .L67+4
+ 1150 00c0 1B78     		ldrb	r3, [r3]
+ 1151 00c2 032B     		cmp	r3, #3
+ 1152 00c4 CDD9     		bls	.L66
+ 1153              	.L65:
+ 439:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****                  
+ 440:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           }
+ 441:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****           bLCD_CharPosition++;
+ 1154              		.loc 1 441 0 is_stmt 1
+ 1155 00c6 054B     		ldr	r3, .L67+4
+ 1156 00c8 1B78     		ldrb	r3, [r3]
+ 1157 00ca 0133     		add	r3, r3, #1
+ 1158 00cc DAB2     		uxtb	r2, r3
+ 1159 00ce 034B     		ldr	r3, .L67+4
+ 1160 00d0 1A70     		strb	r2, [r3]
+ 442:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 443:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** }
+ 1161              		.loc 1 443 0
+ 1162 00d2 BD46     		mov	sp, r7
+ 1163 00d4 06B0     		add	sp, sp, #24
+ 1164              		@ sp needed for prologue
+ 1165 00d6 80BD     		pop	{r7, pc}
+ 1166              	.L68:
+ 1167              		.align	2
+ 1168              	.L67:
+ 1169 00d8 20300540 		.word	1074081824
+ 1170 00dc 00000000 		.word	bLCD_CharPosition
+ 1171 00e0 00000000 		.word	ASCII_TO_WF_CODIFICATION_TABLE
+ 1172 00e4 00000000 		.word	WF_ORDERING_TABLE
+ 1173              		.cfi_endproc
+ 1174              	.LFE12:
+ 1176              		.section	.text.PutPoint,"ax",%progbits
+ 1177              		.align	2
+ 1178              		.global	PutPoint
+ 1179              		.code	16
+ 1180              		.thumb_func
+ 1182              	PutPoint:
+ 1183              	.LFB13:
+ 444:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 445:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** #endif
+ 446:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 447:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 448:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 449:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** void PutPoint(uint8 x, uint8 y)
+ 450:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  {
+ 1184              		.loc 1 450 0
+ 1185              		.cfi_startproc
+ 1186 0000 90B5     		push	{r4, r7, lr}
+ 1187              	.LCFI36:
+ 1188              		.cfi_def_cfa_offset 12
+ 1189              		.cfi_offset 4, -12
+ 1190              		.cfi_offset 7, -8
+ 1191              		.cfi_offset 14, -4
+ 1192 0002 85B0     		sub	sp, sp, #20
+ 1193              	.LCFI37:
+ 1194              		.cfi_def_cfa_offset 32
+ 1195 0004 00AF     		add	r7, sp, #0
+ 1196              	.LCFI38:
+ 1197              		.cfi_def_cfa_register 7
+ 1198 0006 0A1C     		mov	r2, r1
+ 1199 0008 FB1D     		add	r3, r7, #7
+ 1200 000a 011C     		add	r1, r0, #0
+ 1201 000c 1970     		strb	r1, [r3]
+ 1202 000e BB1D     		add	r3, r7, #6
+ 1203 0010 1A70     		strb	r2, [r3]
+ 451:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    uint8 *lbpLCDWF;
+ 452:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    lbpLCDWF = (uint8 *)&LCD_WF3TO0;
+ 1204              		.loc 1 452 0
+ 1205 0012 144B     		ldr	r3, .L74
+ 1206 0014 FB60     		str	r3, [r7, #12]
+ 453:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    
+ 454:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    if (x>= _CHARNUM  || y>7) return;
+ 1207              		.loc 1 454 0
+ 1208 0016 FB1D     		add	r3, r7, #7
+ 1209 0018 1B78     		ldrb	r3, [r3]
+ 1210 001a 032B     		cmp	r3, #3
+ 1211 001c 1DD8     		bhi	.L73
+ 1212              		.loc 1 454 0 is_stmt 0
+ 1213 001e BB1D     		add	r3, r7, #6
+ 1214 0020 1B78     		ldrb	r3, [r3]
+ 1215 0022 072B     		cmp	r3, #7
+ 1216 0024 19D8     		bhi	.L73
+ 1217              	.L71:
+ 455:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    lbpLCDWF[WF_ORDERING_TABLE[x]] |= (1<<y); 
+ 1218              		.loc 1 455 0 is_stmt 1
+ 1219 0026 FB1D     		add	r3, r7, #7
+ 1220 0028 1B78     		ldrb	r3, [r3]
+ 1221 002a 0F4A     		ldr	r2, .L74+4
+ 1222 002c D35C     		ldrb	r3, [r2, r3]
+ 1223 002e FA68     		ldr	r2, [r7, #12]
+ 1224 0030 D318     		add	r3, r2, r3
+ 1225 0032 FA1D     		add	r2, r7, #7
+ 1226 0034 1278     		ldrb	r2, [r2]
+ 1227 0036 0C49     		ldr	r1, .L74+4
+ 1228 0038 8A5C     		ldrb	r2, [r1, r2]
+ 1229 003a F968     		ldr	r1, [r7, #12]
+ 1230 003c 8A18     		add	r2, r1, r2
+ 1231 003e 1278     		ldrb	r2, [r2]
+ 1232 0040 D1B2     		uxtb	r1, r2
+ 1233 0042 BA1D     		add	r2, r7, #6
+ 1234 0044 1278     		ldrb	r2, [r2]
+ 1235 0046 0120     		mov	r0, #1
+ 1236 0048 041C     		mov	r4, r0
+ 1237 004a 9440     		lsl	r4, r4, r2
+ 1238 004c 221C     		mov	r2, r4
+ 1239 004e D2B2     		uxtb	r2, r2
+ 1240 0050 0A43     		orr	r2, r1
+ 1241 0052 D2B2     		uxtb	r2, r2
+ 1242 0054 D2B2     		uxtb	r2, r2
+ 1243 0056 1A70     		strb	r2, [r3]
+ 1244 0058 00E0     		b	.L69
+ 1245              	.L73:
+ 454:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    if (x>= _CHARNUM  || y>7) return;
+ 1246              		.loc 1 454 0
+ 1247 005a C046     		mov	r8, r8
+ 1248              	.L69:
+ 456:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****        
+ 457:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  }
+ 1249              		.loc 1 457 0
+ 1250 005c BD46     		mov	sp, r7
+ 1251 005e 05B0     		add	sp, sp, #20
+ 1252              		@ sp needed for prologue
+ 1253 0060 90BD     		pop	{r4, r7, pc}
+ 1254              	.L75:
+ 1255 0062 C046     		.align	2
+ 1256              	.L74:
+ 1257 0064 20300540 		.word	1074081824
+ 1258 0068 00000000 		.word	WF_ORDERING_TABLE
+ 1259              		.cfi_endproc
+ 1260              	.LFE13:
+ 1262              		.section	.text.ClrPoint,"ax",%progbits
+ 1263              		.align	2
+ 1264              		.global	ClrPoint
+ 1265              		.code	16
+ 1266              		.thumb_func
+ 1268              	ClrPoint:
+ 1269              	.LFB14:
+ 458:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  
+ 459:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 460:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** void ClrPoint(uint8 x, uint8 y)
+ 461:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  {
+ 1270              		.loc 1 461 0
+ 1271              		.cfi_startproc
+ 1272 0000 90B5     		push	{r4, r7, lr}
+ 1273              	.LCFI39:
+ 1274              		.cfi_def_cfa_offset 12
+ 1275              		.cfi_offset 4, -12
+ 1276              		.cfi_offset 7, -8
+ 1277              		.cfi_offset 14, -4
+ 1278 0002 85B0     		sub	sp, sp, #20
+ 1279              	.LCFI40:
+ 1280              		.cfi_def_cfa_offset 32
+ 1281 0004 00AF     		add	r7, sp, #0
+ 1282              	.LCFI41:
+ 1283              		.cfi_def_cfa_register 7
+ 1284 0006 0A1C     		mov	r2, r1
+ 1285 0008 FB1D     		add	r3, r7, #7
+ 1286 000a 011C     		add	r1, r0, #0
+ 1287 000c 1970     		strb	r1, [r3]
+ 1288 000e BB1D     		add	r3, r7, #6
+ 1289 0010 1A70     		strb	r2, [r3]
+ 462:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    uint8 *lbpLCDWF;
+ 463:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****               lbpLCDWF = (uint8 *)&LCD_WF3TO0;
+ 1290              		.loc 1 463 0
+ 1291 0012 154B     		ldr	r3, .L81
+ 1292 0014 FB60     		str	r3, [r7, #12]
+ 464:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****               if (x>= _CHARNUM  || y>7) return;
+ 1293              		.loc 1 464 0
+ 1294 0016 FB1D     		add	r3, r7, #7
+ 1295 0018 1B78     		ldrb	r3, [r3]
+ 1296 001a 032B     		cmp	r3, #3
+ 1297 001c 1FD8     		bhi	.L80
+ 1298              		.loc 1 464 0 is_stmt 0
+ 1299 001e BB1D     		add	r3, r7, #6
+ 1300 0020 1B78     		ldrb	r3, [r3]
+ 1301 0022 072B     		cmp	r3, #7
+ 1302 0024 1BD8     		bhi	.L80
+ 1303              	.L78:
+ 465:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****               lbpLCDWF[WF_ORDERING_TABLE[x]] &= ~(1<<y); 
+ 1304              		.loc 1 465 0 is_stmt 1
+ 1305 0026 FB1D     		add	r3, r7, #7
+ 1306 0028 1B78     		ldrb	r3, [r3]
+ 1307 002a 104A     		ldr	r2, .L81+4
+ 1308 002c D35C     		ldrb	r3, [r2, r3]
+ 1309 002e FA68     		ldr	r2, [r7, #12]
+ 1310 0030 D318     		add	r3, r2, r3
+ 1311 0032 FA1D     		add	r2, r7, #7
+ 1312 0034 1278     		ldrb	r2, [r2]
+ 1313 0036 0D49     		ldr	r1, .L81+4
+ 1314 0038 8A5C     		ldrb	r2, [r1, r2]
+ 1315 003a F968     		ldr	r1, [r7, #12]
+ 1316 003c 8A18     		add	r2, r1, r2
+ 1317 003e 1278     		ldrb	r2, [r2]
+ 1318 0040 D2B2     		uxtb	r2, r2
+ 1319 0042 B91D     		add	r1, r7, #6
+ 1320 0044 0978     		ldrb	r1, [r1]
+ 1321 0046 0120     		mov	r0, #1
+ 1322 0048 041C     		mov	r4, r0
+ 1323 004a 8C40     		lsl	r4, r4, r1
+ 1324 004c 211C     		mov	r1, r4
+ 1325 004e C9B2     		uxtb	r1, r1
+ 1326 0050 C943     		mvn	r1, r1
+ 1327 0052 C9B2     		uxtb	r1, r1
+ 1328 0054 0A40     		and	r2, r1
+ 1329 0056 D2B2     		uxtb	r2, r2
+ 1330 0058 D2B2     		uxtb	r2, r2
+ 1331 005a 1A70     		strb	r2, [r3]
+ 1332 005c 00E0     		b	.L76
+ 1333              	.L80:
+ 464:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****               if (x>= _CHARNUM  || y>7) return;
+ 1334              		.loc 1 464 0
+ 1335 005e C046     		mov	r8, r8
+ 1336              	.L76:
+ 466:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  
+ 467:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  }
+ 1337              		.loc 1 467 0
+ 1338 0060 BD46     		mov	sp, r7
+ 1339 0062 05B0     		add	sp, sp, #20
+ 1340              		@ sp needed for prologue
+ 1341 0064 90BD     		pop	{r4, r7, pc}
+ 1342              	.L82:
+ 1343 0066 C046     		.align	2
+ 1344              	.L81:
+ 1345 0068 20300540 		.word	1074081824
+ 1346 006c 00000000 		.word	WF_ORDERING_TABLE
+ 1347              		.cfi_endproc
+ 1348              	.LFE14:
+ 1350              		.section	.text.SetX,"ax",%progbits
+ 1351              		.align	2
+ 1352              		.global	SetX
+ 1353              		.code	16
+ 1354              		.thumb_func
+ 1356              	SetX:
+ 1357              	.LFB15:
+ 468:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  
+ 469:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  
+ 470:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 471:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** void SetX(uint8 x, uint8 value)
+ 472:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  {
+ 1358              		.loc 1 472 0
+ 1359              		.cfi_startproc
+ 1360 0000 80B5     		push	{r7, lr}
+ 1361              	.LCFI42:
+ 1362              		.cfi_def_cfa_offset 8
+ 1363              		.cfi_offset 7, -8
+ 1364              		.cfi_offset 14, -4
+ 1365 0002 84B0     		sub	sp, sp, #16
+ 1366              	.LCFI43:
+ 1367              		.cfi_def_cfa_offset 24
+ 1368 0004 00AF     		add	r7, sp, #0
+ 1369              	.LCFI44:
+ 1370              		.cfi_def_cfa_register 7
+ 1371 0006 0A1C     		mov	r2, r1
+ 1372 0008 FB1D     		add	r3, r7, #7
+ 1373 000a 011C     		add	r1, r0, #0
+ 1374 000c 1970     		strb	r1, [r3]
+ 1375 000e BB1D     		add	r3, r7, #6
+ 1376 0010 1A70     		strb	r2, [r3]
+ 473:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    uint8 *lbpLCDWF;
+ 474:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    lbpLCDWF = (uint8 *)&LCD_WF3TO0;
+ 1377              		.loc 1 474 0
+ 1378 0012 0A4B     		ldr	r3, .L87
+ 1379 0014 FB60     		str	r3, [r7, #12]
+ 475:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  
+ 476:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****               if (x>= _CHARNUM) return;
+ 1380              		.loc 1 476 0
+ 1381 0016 FB1D     		add	r3, r7, #7
+ 1382 0018 1B78     		ldrb	r3, [r3]
+ 1383 001a 032B     		cmp	r3, #3
+ 1384 001c 09D8     		bhi	.L86
+ 1385              	.L84:
+ 477:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****               lbpLCDWF[WF_ORDERING_TABLE[x]] = value;  
+ 1386              		.loc 1 477 0
+ 1387 001e FB1D     		add	r3, r7, #7
+ 1388 0020 1B78     		ldrb	r3, [r3]
+ 1389 0022 074A     		ldr	r2, .L87+4
+ 1390 0024 D35C     		ldrb	r3, [r2, r3]
+ 1391 0026 FA68     		ldr	r2, [r7, #12]
+ 1392 0028 D318     		add	r3, r2, r3
+ 1393 002a BA1D     		add	r2, r7, #6
+ 1394 002c 1278     		ldrb	r2, [r2]
+ 1395 002e 1A70     		strb	r2, [r3]
+ 1396 0030 00E0     		b	.L83
+ 1397              	.L86:
+ 476:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****               if (x>= _CHARNUM) return;
+ 1398              		.loc 1 476 0
+ 1399 0032 C046     		mov	r8, r8
+ 1400              	.L83:
+ 478:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****       
+ 479:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  }
+ 1401              		.loc 1 479 0
+ 1402 0034 BD46     		mov	sp, r7
+ 1403 0036 04B0     		add	sp, sp, #16
+ 1404              		@ sp needed for prologue
+ 1405 0038 80BD     		pop	{r7, pc}
+ 1406              	.L88:
+ 1407 003a C046     		.align	2
+ 1408              	.L87:
+ 1409 003c 20300540 		.word	1074081824
+ 1410 0040 00000000 		.word	WF_ORDERING_TABLE
+ 1411              		.cfi_endproc
+ 1412              	.LFE15:
+ 1414              		.section	.text.lcd_pinmux,"ax",%progbits
+ 1415              		.align	2
+ 1416              		.global	lcd_pinmux
+ 1417              		.code	16
+ 1418              		.thumb_func
+ 1420              	lcd_pinmux:
+ 1421              	.LFB16:
+ 480:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  
+ 481:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 482:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 483:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** /*
+ 484:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  Configure LCD used pins as MUX=0  for LCD normal operation (analog operation)
+ 485:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  Configure LCD used pins as MUX=7  for LCD Fault detectionoperation (pull resistor  control enabled
+ 486:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  only 0 or 7 is allowed for LCD operation
+ 487:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** */ 
+ 488:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 489:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** void lcd_pinmux(uint8  mux_val)
+ 490:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** {
+ 1422              		.loc 1 490 0
+ 1423              		.cfi_startproc
+ 1424 0000 80B5     		push	{r7, lr}
+ 1425              	.LCFI45:
+ 1426              		.cfi_def_cfa_offset 8
+ 1427              		.cfi_offset 7, -8
+ 1428              		.cfi_offset 14, -4
+ 1429 0002 84B0     		sub	sp, sp, #16
+ 1430              	.LCFI46:
+ 1431              		.cfi_def_cfa_offset 24
+ 1432 0004 00AF     		add	r7, sp, #0
+ 1433              	.LCFI47:
+ 1434              		.cfi_def_cfa_register 7
+ 1435 0006 021C     		mov	r2, r0
+ 1436 0008 FB1D     		add	r3, r7, #7
+ 1437 000a 1A70     		strb	r2, [r3]
+ 491:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    uint8 i;
+ 492:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****   
+ 493:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    for (i=0;i< _LCDUSEDPINS; i++)
+ 1438              		.loc 1 493 0
+ 1439 000c 3B1C     		mov	r3, r7
+ 1440 000e 0F33     		add	r3, r3, #15
+ 1441 0010 0022     		mov	r2, #0
+ 1442 0012 1A70     		strb	r2, [r3]
+ 1443 0014 37E0     		b	.L90
+ 1444              	.L91:
+ 494:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    {
+ 495:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****       *(uint32 *)LCD_TO_PORT[WF_ORDERING_TABLE[i]] &= ~PORT_PCR_MUX_MASK; //Clear previos value
+ 1445              		.loc 1 495 0
+ 1446 0016 3B1C     		mov	r3, r7
+ 1447 0018 0F33     		add	r3, r3, #15
+ 1448 001a 1B78     		ldrb	r3, [r3]
+ 1449 001c 1E4A     		ldr	r2, .L92
+ 1450 001e D35C     		ldrb	r3, [r2, r3]
+ 1451 0020 1A1C     		mov	r2, r3
+ 1452 0022 1E4B     		ldr	r3, .L92+4
+ 1453 0024 9200     		lsl	r2, r2, #2
+ 1454 0026 D358     		ldr	r3, [r2, r3]
+ 1455 0028 3A1C     		mov	r2, r7
+ 1456 002a 0F32     		add	r2, r2, #15
+ 1457 002c 1278     		ldrb	r2, [r2]
+ 1458 002e 1A49     		ldr	r1, .L92
+ 1459 0030 8A5C     		ldrb	r2, [r1, r2]
+ 1460 0032 111C     		mov	r1, r2
+ 1461 0034 194A     		ldr	r2, .L92+4
+ 1462 0036 8900     		lsl	r1, r1, #2
+ 1463 0038 8A58     		ldr	r2, [r1, r2]
+ 1464 003a 1168     		ldr	r1, [r2]
+ 1465 003c 184A     		ldr	r2, .L92+8
+ 1466 003e 0A40     		and	r2, r1
+ 1467 0040 1A60     		str	r2, [r3]
+ 496:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****       *(uint32 *)LCD_TO_PORT[WF_ORDERING_TABLE[i]] |= PORT_PCR_MUX(mux_val); // Set new value
+ 1468              		.loc 1 496 0
+ 1469 0042 3B1C     		mov	r3, r7
+ 1470 0044 0F33     		add	r3, r3, #15
+ 1471 0046 1B78     		ldrb	r3, [r3]
+ 1472 0048 134A     		ldr	r2, .L92
+ 1473 004a D35C     		ldrb	r3, [r2, r3]
+ 1474 004c 1A1C     		mov	r2, r3
+ 1475 004e 134B     		ldr	r3, .L92+4
+ 1476 0050 9200     		lsl	r2, r2, #2
+ 1477 0052 D358     		ldr	r3, [r2, r3]
+ 1478 0054 3A1C     		mov	r2, r7
+ 1479 0056 0F32     		add	r2, r2, #15
+ 1480 0058 1278     		ldrb	r2, [r2]
+ 1481 005a 0F49     		ldr	r1, .L92
+ 1482 005c 8A5C     		ldrb	r2, [r1, r2]
+ 1483 005e 111C     		mov	r1, r2
+ 1484 0060 0E4A     		ldr	r2, .L92+4
+ 1485 0062 8900     		lsl	r1, r1, #2
+ 1486 0064 8A58     		ldr	r2, [r1, r2]
+ 1487 0066 1168     		ldr	r1, [r2]
+ 1488 0068 FA1D     		add	r2, r7, #7
+ 1489 006a 1278     		ldrb	r2, [r2]
+ 1490 006c 1002     		lsl	r0, r2, #8
+ 1491 006e E022     		mov	r2, #224
+ 1492 0070 D200     		lsl	r2, r2, #3
+ 1493 0072 0240     		and	r2, r0
+ 1494 0074 0A43     		orr	r2, r1
+ 1495 0076 1A60     		str	r2, [r3]
+ 493:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    for (i=0;i< _LCDUSEDPINS; i++)
+ 1496              		.loc 1 493 0
+ 1497 0078 3B1C     		mov	r3, r7
+ 1498 007a 0F33     		add	r3, r3, #15
+ 1499 007c 3A1C     		mov	r2, r7
+ 1500 007e 0F32     		add	r2, r2, #15
+ 1501 0080 1278     		ldrb	r2, [r2]
+ 1502 0082 0132     		add	r2, r2, #1
+ 1503 0084 1A70     		strb	r2, [r3]
+ 1504              	.L90:
+ 493:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    for (i=0;i< _LCDUSEDPINS; i++)
+ 1505              		.loc 1 493 0 is_stmt 0
+ 1506 0086 3B1C     		mov	r3, r7
+ 1507 0088 0F33     		add	r3, r3, #15
+ 1508 008a 1B78     		ldrb	r3, [r3]
+ 1509 008c 0B2B     		cmp	r3, #11
+ 1510 008e C2D9     		bls	.L91
+ 497:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    }
+ 498:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** }
+ 1511              		.loc 1 498 0 is_stmt 1
+ 1512 0090 BD46     		mov	sp, r7
+ 1513 0092 04B0     		add	sp, sp, #16
+ 1514              		@ sp needed for prologue
+ 1515 0094 80BD     		pop	{r7, pc}
+ 1516              	.L93:
+ 1517 0096 C046     		.align	2
+ 1518              	.L92:
+ 1519 0098 00000000 		.word	WF_ORDERING_TABLE
+ 1520 009c 00000000 		.word	LCD_TO_PORT
+ 1521 00a0 FFF8FFFF 		.word	-1793
+ 1522              		.cfi_endproc
+ 1523              	.LFE16:
+ 1525              		.section	.text.vfnLCD_interrupt_init,"ax",%progbits
+ 1526              		.align	2
+ 1527              		.global	vfnLCD_interrupt_init
+ 1528              		.code	16
+ 1529              		.thumb_func
+ 1531              	vfnLCD_interrupt_init:
+ 1532              	.LFB17:
+ 499:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  
+ 500:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** /*
+ 501:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****   vfnLCD_interrupt_init
+ 502:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  for kinetis NVIC must be initialized in order to 
+ 503:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 504:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** */
+ 505:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** void vfnLCD_interrupt_init(void)
+ 506:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** {
+ 1533              		.loc 1 506 0
+ 1534              		.cfi_startproc
+ 1535 0000 80B5     		push	{r7, lr}
+ 1536              	.LCFI48:
+ 1537              		.cfi_def_cfa_offset 8
+ 1538              		.cfi_offset 7, -8
+ 1539              		.cfi_offset 14, -4
+ 1540 0002 00AF     		add	r7, sp, #0
+ 1541              	.LCFI49:
+ 1542              		.cfi_def_cfa_register 7
+ 507:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 508:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** }
+ 1543              		.loc 1 508 0
+ 1544 0004 BD46     		mov	sp, r7
+ 1545              		@ sp needed for prologue
+ 1546 0006 80BD     		pop	{r7, pc}
+ 1547              		.cfi_endproc
+ 1548              	.LFE17:
+ 1550              		.section	.text.vfnLCD_isrv,"ax",%progbits
+ 1551              		.align	2
+ 1552              		.global	vfnLCD_isrv
+ 1553              		.code	16
+ 1554              		.thumb_func
+ 1556              	vfnLCD_isrv:
+ 1557              	.LFB18:
+ 509:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 510:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** /*
+ 511:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 512:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** 
+ 513:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** */
+ 514:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c **** void vfnLCD_isrv(void) 
+ 515:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  {
+ 1558              		.loc 1 515 0
+ 1559              		.cfi_startproc
+ 1560 0000 80B5     		push	{r7, lr}
+ 1561              	.LCFI50:
+ 1562              		.cfi_def_cfa_offset 8
+ 1563              		.cfi_offset 7, -8
+ 1564              		.cfi_offset 14, -4
+ 1565 0002 00AF     		add	r7, sp, #0
+ 1566              	.LCFI51:
+ 1567              		.cfi_def_cfa_register 7
+ 516:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****    LcdInterruptCallBack(); // User defined function
+ 1568              		.loc 1 516 0
+ 1569 0004 FFF7FEFF 		bl	LcdInterruptCallBack
+ 517:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd\LCD.c ****  }
+ 1570              		.loc 1 517 0
+ 1571 0008 BD46     		mov	sp, r7
+ 1572              		@ sp needed for prologue
+ 1573 000a 80BD     		pop	{r7, pc}
+ 1574              		.cfi_endproc
+ 1575              	.LFE18:
+ 1577              		.global	LCD_TO_PORT
+ 1578              		.section	.data.LCD_TO_PORT,"aw",%progbits
+ 1579              		.align	2
+ 1582              	LCD_TO_PORT:
+ 1583 0000 00A00440 		.word	1074044928
+ 1584 0004 04A00440 		.word	1074044932
+ 1585 0008 08A00440 		.word	1074044936
+ 1586 000c 0CA00440 		.word	1074044940
+ 1587 0010 50B00440 		.word	1074049104
+ 1588 0014 54B00440 		.word	1074049108
+ 1589 0018 00A00440 		.word	1074044928
+ 1590 001c 1CA00440 		.word	1074044956
+ 1591 0020 20A00440 		.word	1074044960
+ 1592 0024 24A00440 		.word	1074044964
+ 1593 0028 28A00440 		.word	1074044968
+ 1594 002c 2CA00440 		.word	1074044972
+ 1595 0030 40A00440 		.word	1074044992
+ 1596 0034 44A00440 		.word	1074044996
+ 1597 0038 48A00440 		.word	1074045000
+ 1598 003c 4CA00440 		.word	1074045004
+ 1599 0040 50A00440 		.word	1074045008
+ 1600 0044 54A00440 		.word	1074045012
+ 1601 0048 58A00440 		.word	1074045016
+ 1602 004c 5CA00440 		.word	1074045020
+ 1603 0050 00B00440 		.word	1074049024
+ 1604 0054 04B00440 		.word	1074049028
+ 1605 0058 08B00440 		.word	1074049032
+ 1606 005c 0CB00440 		.word	1074049036
+ 1607 0060 10B00440 		.word	1074049040
+ 1608 0064 14B00440 		.word	1074049044
+ 1609 0068 18B00440 		.word	1074049048
+ 1610 006c 1CB00440 		.word	1074049052
+ 1611 0070 20B00440 		.word	1074049056
+ 1612 0074 24B00440 		.word	1074049060
+ 1613 0078 28B00440 		.word	1074049064
+ 1614 007c 2CB00440 		.word	1074049068
+ 1615 0080 30B00440 		.word	1074049072
+ 1616 0084 34B00440 		.word	1074049076
+ 1617 0088 40B00440 		.word	1074049088
+ 1618 008c 44B00440 		.word	1074049092
+ 1619 0090 48B00440 		.word	1074049096
+ 1620 0094 5CB00440 		.word	1074049116
+ 1621 0098 00C00440 		.word	1074053120
+ 1622 009c 04C00440 		.word	1074053124
+ 1623 00a0 08C00440 		.word	1074053128
+ 1624 00a4 0CC00440 		.word	1074053132
+ 1625 00a8 10C00440 		.word	1074053136
+ 1626 00ac 14C00440 		.word	1074053140
+ 1627 00b0 18C00440 		.word	1074053144
+ 1628 00b4 1CC00440 		.word	1074053148
+ 1629 00b8 00D00440 		.word	1074057216
+ 1630 00bc 04D00440 		.word	1074057220
+ 1631 00c0 08D00440 		.word	1074057224
+ 1632 00c4 0CD00440 		.word	1074057228
+ 1633 00c8 10D00440 		.word	1074057232
+ 1634 00cc 14D00440 		.word	1074057236
+ 1635 00d0 18D00440 		.word	1074057240
+ 1636 00d4 40D00440 		.word	1074057280
+ 1637 00d8 44D00440 		.word	1074057284
+ 1638 00dc 48D00440 		.word	1074057288
+ 1639 00e0 4CD00440 		.word	1074057292
+ 1640 00e4 50D00440 		.word	1074057296
+ 1641 00e8 54D00440 		.word	1074057300
+ 1642 00ec 00000000 		.space	4
+ 1643              		.global	MASK_BIT
+ 1644              		.section	.rodata.MASK_BIT,"a",%progbits
+ 1645              		.align	2
+ 1648              	MASK_BIT:
+ 1649 0000 01000000 		.word	1
+ 1650 0004 02000000 		.word	2
+ 1651 0008 04000000 		.word	4
+ 1652 000c 08000000 		.word	8
+ 1653 0010 10000000 		.word	16
+ 1654 0014 20000000 		.word	32
+ 1655 0018 40000000 		.word	64
+ 1656 001c 80000000 		.word	128
+ 1657 0020 00010000 		.word	256
+ 1658 0024 00020000 		.word	512
+ 1659 0028 00040000 		.word	1024
+ 1660 002c 00080000 		.word	2048
+ 1661 0030 00100000 		.word	4096
+ 1662 0034 00200000 		.word	8192
+ 1663 0038 00400000 		.word	16384
+ 1664 003c 00800000 		.word	32768
+ 1665 0040 00000100 		.word	65536
+ 1666 0044 00000200 		.word	131072
+ 1667 0048 00000400 		.word	262144
+ 1668 004c 00000800 		.word	524288
+ 1669 0050 00001000 		.word	1048576
+ 1670 0054 00002000 		.word	2097152
+ 1671 0058 00004000 		.word	4194304
+ 1672 005c 00008000 		.word	8388608
+ 1673 0060 00000001 		.word	16777216
+ 1674 0064 00000002 		.word	33554432
+ 1675 0068 00000004 		.word	67108864
+ 1676 006c 00000008 		.word	134217728
+ 1677 0070 00000010 		.word	268435456
+ 1678 0074 00000020 		.word	536870912
+ 1679 0078 00000040 		.word	1073741824
+ 1680 007c 00000080 		.word	-2147483648
+ 1681              		.text
+ 1682              	.Letext0:
+ 1683              		.file 2 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu/arm_cm0.h"
+ 1684              		.file 3 "C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint"
+ 1685              		.file 4 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu/headers/MKL46Z4.
+ 1686              		.file 5 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_De
+DEFINED SYMBOLS
+                            *ABS*:00000000 LCD.c
+                            *COM*:00000001 bLCD_CharPosition
+                            *COM*:00000001 lcd_alternate_mode
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:23     .data.bflgLCD_Scroll:00000000 bflgLCD_Scroll
+                            *COM*:00000020 lcdBuffer
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:27     .rodata:00000000 $d
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:31     .text.print_slcd_registers:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:36     .text.print_slcd_registers:00000000 print_slcd_registers
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:60     .text.print_slcd_registers:00000010 $d
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:65     .text.vfnLCD_Init:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:70     .text.vfnLCD_Init:00000000 vfnLCD_Init
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:1531   .text.vfnLCD_interrupt_init:00000000 vfnLCD_interrupt_init
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:175    .text.vfnEnablePins:00000000 vfnEnablePins
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:158    .text.vfnLCD_Init:00000078 $d
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:170    .text.vfnEnablePins:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:326    .text.vfnEnablePins:000000ec $d
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:1648   .rodata.MASK_BIT:00000000 MASK_BIT
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:334    .text.vfnSetBackplanes:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:339    .text.vfnSetBackplanes:00000000 vfnSetBackplanes
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:400    .text.vfnSetBackplanes:0000004c $d
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:406    .text.vfnBP_VScroll:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:411    .text.vfnBP_VScroll:00000000 vfnBP_VScroll
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:527    .text.vfnBP_VScroll:000000a8 $d
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:533    .text.vfnLCD_Home:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:538    .text.vfnLCD_Home:00000000 vfnLCD_Home
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:561    .text.vfnLCD_Home:00000010 $d
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:566    .text.vfnLCD_Contrast:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:571    .text.vfnLCD_Contrast:00000000 vfnLCD_Contrast
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:616    .text.vfnLCD_Contrast:00000034 $d
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:621    .text.vfnLCD_Write_MsgPlace:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:626    .text.vfnLCD_Write_MsgPlace:00000000 vfnLCD_Write_MsgPlace
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:1021   .text.vfnLCD_Write_Char:00000000 vfnLCD_Write_Char
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:688    .text.vfnLCD_Write_Msg:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:693    .text.vfnLCD_Write_Msg:00000000 vfnLCD_Write_Msg
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:790    .text.vfnLCD_Write_Msg:00000084 $d
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:795    .text.vfnLCD_All_Segments_ON:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:800    .text.vfnLCD_All_Segments_ON:00000000 vfnLCD_All_Segments_ON
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:859    .text.vfnLCD_All_Segments_ON:00000044 $d
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:865    .text.vfnLCD_All_Segments_Char:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:870    .text.vfnLCD_All_Segments_Char:00000000 vfnLCD_All_Segments_Char
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:940    .text.vfnLCD_All_Segments_Char:0000005c $d
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:946    .text.vfnLCD_All_Segments_OFF:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:951    .text.vfnLCD_All_Segments_OFF:00000000 vfnLCD_All_Segments_OFF
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:1010   .text.vfnLCD_All_Segments_OFF:00000044 $d
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:1016   .text.vfnLCD_Write_Char:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:1169   .text.vfnLCD_Write_Char:000000d8 $d
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:1177   .text.PutPoint:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:1182   .text.PutPoint:00000000 PutPoint
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:1257   .text.PutPoint:00000064 $d
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:1263   .text.ClrPoint:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:1268   .text.ClrPoint:00000000 ClrPoint
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:1345   .text.ClrPoint:00000068 $d
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:1351   .text.SetX:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:1356   .text.SetX:00000000 SetX
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:1409   .text.SetX:0000003c $d
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:1415   .text.lcd_pinmux:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:1420   .text.lcd_pinmux:00000000 lcd_pinmux
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:1519   .text.lcd_pinmux:00000098 $d
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:1582   .data.LCD_TO_PORT:00000000 LCD_TO_PORT
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:1526   .text.vfnLCD_interrupt_init:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:1551   .text.vfnLCD_isrv:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:1556   .text.vfnLCD_isrv:00000000 vfnLCD_isrv
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:1579   .data.LCD_TO_PORT:00000000 $d
+C:\Users\b01252\AppData\Local\Temp\ccwM8lSt.s:1645   .rodata.MASK_BIT:00000000 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+printf
+WF_ORDERING_TABLE
+vfnLCD_Scroll
+ASCII_TO_WF_CODIFICATION_TABLE
+LcdInterruptCallBack

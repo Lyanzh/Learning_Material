@@ -1,0 +1,15 @@
+assert.o: ..\..\..\src\common\assert.c
+assert.o: ..\..\..\src\common\common.h
+assert.o: ..\..\..\src\platforms\tower.h
+assert.o: ..\..\..\src\drivers\mcg\mcg.h
+assert.o: ..\..\..\src\cpu\headers\MKL46Z4_CMSIS.h
+assert.o: ..\..\..\src\cpu\headers\core_cm0plus.h
+assert.o: C:\Keil\ARM\ARMCC\bin\..\include\stdint.h
+assert.o: ..\..\..\src\cpu\headers\core_cmInstr.h
+assert.o: ..\..\..\src\cpu\headers\core_cmFunc.h
+assert.o: ..\..\..\src\cpu\system_MKL46Z4.h
+assert.o: ..\..\..\src\common\assert.h
+assert.o: ..\..\..\src\common\io.h
+assert.o: ..\..\..\src\common\startup.h
+assert.o: ..\..\..\src\common\stdlib.h
+assert.o: ..\..\..\src\cpu\headers\MemMapPtr_KL46Z4.h

@@ -1,0 +1,300 @@
+Dependencies for Project 'platinum', Target 'KL46Z256 - Flash': (DO NOT MODIFY !)
+F (..\..\..\src\projects\platinum\platinum.c)(0x5126A9B7)(-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\platinum -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I C:\Keil\ARM\RV31\INC -I C:\Keil\ARM\CMSIS\Include -I C:\Keil\ARM\Inc\Freescale\Kinetis -DKEIL -DTOWER -DCMSIS -o "platinum.o" --omf_browse "platinum.crf" --depend "platinum.d")
+I (..\..\..\src\common\common.h)(0x51266FFC)
+I (..\..\..\src\platforms\tower.h)(0x5126658C)
+I (..\..\..\src\drivers\mcg\mcg.h)(0x512664D4)
+I (..\..\..\src\cpu\headers\MKL46Z4_CMSIS.h)(0x512664D1)
+I (..\..\..\src\cpu\headers\core_cm0plus.h)(0x512664D1)
+I (C:\Keil\ARM\ARMCC\bin\..\include\stdint.h)(0x4EB19764)
+I (..\..\..\src\cpu\headers\core_cmInstr.h)(0x512664D1)
+I (..\..\..\src\cpu\headers\core_cmFunc.h)(0x512664D1)
+I (..\..\..\src\cpu\system_MKL46Z4.h)(0x512664D1)
+I (..\..\..\src\common\assert.h)(0x512664D2)
+I (..\..\..\src\common\io.h)(0x512664D2)
+I (..\..\..\src\common\startup.h)(0x512664D2)
+I (..\..\..\src\common\stdlib.h)(0x512664D2)
+F (..\..\..\src\common\uif.c)(0x512664D2)(-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\platinum -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I C:\Keil\ARM\RV31\INC -I C:\Keil\ARM\CMSIS\Include -I C:\Keil\ARM\Inc\Freescale\Kinetis -DKEIL -DTOWER -DCMSIS -o "uif.o" --omf_browse "uif.crf" --depend "uif.d")
+I (..\..\..\src\common\common.h)(0x51266FFC)
+I (..\..\..\src\platforms\tower.h)(0x5126658C)
+I (..\..\..\src\drivers\mcg\mcg.h)(0x512664D4)
+I (..\..\..\src\cpu\headers\MKL46Z4_CMSIS.h)(0x512664D1)
+I (..\..\..\src\cpu\headers\core_cm0plus.h)(0x512664D1)
+I (C:\Keil\ARM\ARMCC\bin\..\include\stdint.h)(0x4EB19764)
+I (..\..\..\src\cpu\headers\core_cmInstr.h)(0x512664D1)
+I (..\..\..\src\cpu\headers\core_cmFunc.h)(0x512664D1)
+I (..\..\..\src\cpu\system_MKL46Z4.h)(0x512664D1)
+I (..\..\..\src\common\assert.h)(0x512664D2)
+I (..\..\..\src\common\io.h)(0x512664D2)
+I (..\..\..\src\common\startup.h)(0x512664D2)
+I (..\..\..\src\common\stdlib.h)(0x512664D2)
+F (..\..\..\src\common\alloc.c)(0x512664D2)(-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\platinum -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I C:\Keil\ARM\RV31\INC -I C:\Keil\ARM\CMSIS\Include -I C:\Keil\ARM\Inc\Freescale\Kinetis -DKEIL -DTOWER -DCMSIS -o "alloc.o" --omf_browse "alloc.crf" --depend "alloc.d")
+I (..\..\..\src\common\common.h)(0x51266FFC)
+I (..\..\..\src\platforms\tower.h)(0x5126658C)
+I (..\..\..\src\drivers\mcg\mcg.h)(0x512664D4)
+I (..\..\..\src\cpu\headers\MKL46Z4_CMSIS.h)(0x512664D1)
+I (..\..\..\src\cpu\headers\core_cm0plus.h)(0x512664D1)
+I (C:\Keil\ARM\ARMCC\bin\..\include\stdint.h)(0x4EB19764)
+I (..\..\..\src\cpu\headers\core_cmInstr.h)(0x512664D1)
+I (..\..\..\src\cpu\headers\core_cmFunc.h)(0x512664D1)
+I (..\..\..\src\cpu\system_MKL46Z4.h)(0x512664D1)
+I (..\..\..\src\common\assert.h)(0x512664D2)
+I (..\..\..\src\common\io.h)(0x512664D2)
+I (..\..\..\src\common\startup.h)(0x512664D2)
+I (..\..\..\src\common\stdlib.h)(0x512664D2)
+F (..\..\..\src\common\assert.c)(0x512664D2)(-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\platinum -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I C:\Keil\ARM\RV31\INC -I C:\Keil\ARM\CMSIS\Include -I C:\Keil\ARM\Inc\Freescale\Kinetis -DKEIL -DTOWER -DCMSIS -o "assert.o" --omf_browse "assert.crf" --depend "assert.d")
+I (..\..\..\src\common\common.h)(0x51266FFC)
+I (..\..\..\src\platforms\tower.h)(0x5126658C)
+I (..\..\..\src\drivers\mcg\mcg.h)(0x512664D4)
+I (..\..\..\src\cpu\headers\MKL46Z4_CMSIS.h)(0x512664D1)
+I (..\..\..\src\cpu\headers\core_cm0plus.h)(0x512664D1)
+I (C:\Keil\ARM\ARMCC\bin\..\include\stdint.h)(0x4EB19764)
+I (..\..\..\src\cpu\headers\core_cmInstr.h)(0x512664D1)
+I (..\..\..\src\cpu\headers\core_cmFunc.h)(0x512664D1)
+I (..\..\..\src\cpu\system_MKL46Z4.h)(0x512664D1)
+I (..\..\..\src\common\assert.h)(0x512664D2)
+I (..\..\..\src\common\io.h)(0x512664D2)
+I (..\..\..\src\common\startup.h)(0x512664D2)
+I (..\..\..\src\common\stdlib.h)(0x512664D2)
+F (..\..\..\src\common\io.c)(0x512664D2)(-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\platinum -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I C:\Keil\ARM\RV31\INC -I C:\Keil\ARM\CMSIS\Include -I C:\Keil\ARM\Inc\Freescale\Kinetis -DKEIL -DTOWER -DCMSIS -o "io.o" --omf_browse "io.crf" --depend "io.d")
+I (..\..\..\src\common\common.h)(0x51266FFC)
+I (..\..\..\src\platforms\tower.h)(0x5126658C)
+I (..\..\..\src\drivers\mcg\mcg.h)(0x512664D4)
+I (..\..\..\src\cpu\headers\MKL46Z4_CMSIS.h)(0x512664D1)
+I (..\..\..\src\cpu\headers\core_cm0plus.h)(0x512664D1)
+I (C:\Keil\ARM\ARMCC\bin\..\include\stdint.h)(0x4EB19764)
+I (..\..\..\src\cpu\headers\core_cmInstr.h)(0x512664D1)
+I (..\..\..\src\cpu\headers\core_cmFunc.h)(0x512664D1)
+I (..\..\..\src\cpu\system_MKL46Z4.h)(0x512664D1)
+I (..\..\..\src\common\assert.h)(0x512664D2)
+I (..\..\..\src\common\io.h)(0x512664D2)
+I (..\..\..\src\common\startup.h)(0x512664D2)
+I (..\..\..\src\common\stdlib.h)(0x512664D2)
+F (..\..\..\src\common\memtest.c)(0x512664D2)(-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\platinum -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I C:\Keil\ARM\RV31\INC -I C:\Keil\ARM\CMSIS\Include -I C:\Keil\ARM\Inc\Freescale\Kinetis -DKEIL -DTOWER -DCMSIS -o "memtest.o" --omf_browse "memtest.crf" --depend "memtest.d")
+I (..\..\..\src\common\memtest.h)(0x512664D2)
+F (..\..\..\src\common\queue.c)(0x512664D2)(-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\platinum -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I C:\Keil\ARM\RV31\INC -I C:\Keil\ARM\CMSIS\Include -I C:\Keil\ARM\Inc\Freescale\Kinetis -DKEIL -DTOWER -DCMSIS -o "queue.o" --omf_browse "queue.crf" --depend "queue.d")
+I (..\..\..\src\common\common.h)(0x51266FFC)
+I (..\..\..\src\platforms\tower.h)(0x5126658C)
+I (..\..\..\src\drivers\mcg\mcg.h)(0x512664D4)
+I (..\..\..\src\cpu\headers\MKL46Z4_CMSIS.h)(0x512664D1)
+I (..\..\..\src\cpu\headers\core_cm0plus.h)(0x512664D1)
+I (C:\Keil\ARM\ARMCC\bin\..\include\stdint.h)(0x4EB19764)
+I (..\..\..\src\cpu\headers\core_cmInstr.h)(0x512664D1)
+I (..\..\..\src\cpu\headers\core_cmFunc.h)(0x512664D1)
+I (..\..\..\src\cpu\system_MKL46Z4.h)(0x512664D1)
+I (..\..\..\src\common\assert.h)(0x512664D2)
+I (..\..\..\src\common\io.h)(0x512664D2)
+I (..\..\..\src\common\startup.h)(0x512664D2)
+I (..\..\..\src\common\stdlib.h)(0x512664D2)
+F (..\..\..\src\common\stdlib.c)(0x512664D2)(-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\platinum -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I C:\Keil\ARM\RV31\INC -I C:\Keil\ARM\CMSIS\Include -I C:\Keil\ARM\Inc\Freescale\Kinetis -DKEIL -DTOWER -DCMSIS -o "stdlib.o" --omf_browse "stdlib.crf" --depend "stdlib.d")
+I (..\..\..\src\common\common.h)(0x51266FFC)
+I (..\..\..\src\platforms\tower.h)(0x5126658C)
+I (..\..\..\src\drivers\mcg\mcg.h)(0x512664D4)
+I (..\..\..\src\cpu\headers\MKL46Z4_CMSIS.h)(0x512664D1)
+I (..\..\..\src\cpu\headers\core_cm0plus.h)(0x512664D1)
+I (C:\Keil\ARM\ARMCC\bin\..\include\stdint.h)(0x4EB19764)
+I (..\..\..\src\cpu\headers\core_cmInstr.h)(0x512664D1)
+I (..\..\..\src\cpu\headers\core_cmFunc.h)(0x512664D1)
+I (..\..\..\src\cpu\system_MKL46Z4.h)(0x512664D1)
+I (..\..\..\src\common\assert.h)(0x512664D2)
+I (..\..\..\src\common\io.h)(0x512664D2)
+I (..\..\..\src\common\startup.h)(0x512664D2)
+I (..\..\..\src\common\stdlib.h)(0x512664D2)
+F (..\..\..\src\cpu\nmi_isr_handler.c)(0x512664D1)(-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\platinum -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I C:\Keil\ARM\RV31\INC -I C:\Keil\ARM\CMSIS\Include -I C:\Keil\ARM\Inc\Freescale\Kinetis -DKEIL -DTOWER -DCMSIS -o "nmi_isr_handler.o" --omf_browse "nmi_isr_handler.crf" --depend "nmi_isr_handler.d")
+I (..\..\..\src\common\common.h)(0x51266FFC)
+I (..\..\..\src\platforms\tower.h)(0x5126658C)
+I (..\..\..\src\drivers\mcg\mcg.h)(0x512664D4)
+I (..\..\..\src\cpu\headers\MKL46Z4_CMSIS.h)(0x512664D1)
+I (..\..\..\src\cpu\headers\core_cm0plus.h)(0x512664D1)
+I (C:\Keil\ARM\ARMCC\bin\..\include\stdint.h)(0x4EB19764)
+I (..\..\..\src\cpu\headers\core_cmInstr.h)(0x512664D1)
+I (..\..\..\src\cpu\headers\core_cmFunc.h)(0x512664D1)
+I (..\..\..\src\cpu\system_MKL46Z4.h)(0x512664D1)
+I (..\..\..\src\common\assert.h)(0x512664D2)
+I (..\..\..\src\common\io.h)(0x512664D2)
+I (..\..\..\src\common\startup.h)(0x512664D2)
+I (..\..\..\src\common\stdlib.h)(0x512664D2)
+F (..\..\..\src\cpu\start.c)(0x512664D1)(-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\platinum -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I C:\Keil\ARM\RV31\INC -I C:\Keil\ARM\CMSIS\Include -I C:\Keil\ARM\Inc\Freescale\Kinetis -DKEIL -DTOWER -DCMSIS -o "start.o" --omf_browse "start.crf" --depend "start.d")
+I (..\..\..\src\cpu\start.h)(0x512664D0)
+I (..\..\..\src\common\common.h)(0x51266FFC)
+I (..\..\..\src\platforms\tower.h)(0x5126658C)
+I (..\..\..\src\drivers\mcg\mcg.h)(0x512664D4)
+I (..\..\..\src\cpu\headers\MKL46Z4_CMSIS.h)(0x512664D1)
+I (..\..\..\src\cpu\headers\core_cm0plus.h)(0x512664D1)
+I (C:\Keil\ARM\ARMCC\bin\..\include\stdint.h)(0x4EB19764)
+I (..\..\..\src\cpu\headers\core_cmInstr.h)(0x512664D1)
+I (..\..\..\src\cpu\headers\core_cmFunc.h)(0x512664D1)
+I (..\..\..\src\cpu\system_MKL46Z4.h)(0x512664D1)
+I (..\..\..\src\common\assert.h)(0x512664D2)
+I (..\..\..\src\common\io.h)(0x512664D2)
+I (..\..\..\src\common\startup.h)(0x512664D2)
+I (..\..\..\src\common\stdlib.h)(0x512664D2)
+F (..\..\..\src\cpu\sysinit.c)(0x5126A807)(-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\platinum -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I C:\Keil\ARM\RV31\INC -I C:\Keil\ARM\CMSIS\Include -I C:\Keil\ARM\Inc\Freescale\Kinetis -DKEIL -DTOWER -DCMSIS -o "sysinit.o" --omf_browse "sysinit.crf" --depend "sysinit.d")
+I (..\..\..\src\common\common.h)(0x51266FFC)
+I (..\..\..\src\platforms\tower.h)(0x5126658C)
+I (..\..\..\src\drivers\mcg\mcg.h)(0x512664D4)
+I (..\..\..\src\cpu\headers\MKL46Z4_CMSIS.h)(0x512664D1)
+I (..\..\..\src\cpu\headers\core_cm0plus.h)(0x512664D1)
+I (C:\Keil\ARM\ARMCC\bin\..\include\stdint.h)(0x4EB19764)
+I (..\..\..\src\cpu\headers\core_cmInstr.h)(0x512664D1)
+I (..\..\..\src\cpu\headers\core_cmFunc.h)(0x512664D1)
+I (..\..\..\src\cpu\system_MKL46Z4.h)(0x512664D1)
+I (..\..\..\src\common\assert.h)(0x512664D2)
+I (..\..\..\src\common\io.h)(0x512664D2)
+I (..\..\..\src\common\startup.h)(0x512664D2)
+I (..\..\..\src\common\stdlib.h)(0x512664D2)
+F (..\..\..\src\cpu\arm_cm0.c)(0x512664D1)()
+F (..\..\..\src\cpu\startup_MKL46Z4.s)(0x512664D1)(--cpu Cortex-M0+ -g --apcs=interwork --pd "__MICROLIB SETA 1" -I C:\Keil\ARM\RV31\INC -I C:\Keil\ARM\CMSIS\Include -I C:\Keil\ARM\Inc\Freescale\Kinetis --list ".\startup_MKL46Z4.lst" --xref -o ".\startup_MKL46Z4.o" --depend ".\startup_MKL46Z4.d")
+F (..\..\..\src\cpu\system_MKL46Z4.c)(0x512664D1)(-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\platinum -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I C:\Keil\ARM\RV31\INC -I C:\Keil\ARM\CMSIS\Include -I C:\Keil\ARM\Inc\Freescale\Kinetis -DKEIL -DTOWER -DCMSIS -o "system_mkl46z4.o" --omf_browse "system_mkl46z4.crf" --depend "system_mkl46z4.d")
+I (C:\Keil\ARM\ARMCC\bin\..\include\stdint.h)(0x4EB19764)
+I (..\..\..\src\cpu\headers\MKL46Z4_CMSIS.h)(0x512664D1)
+I (..\..\..\src\cpu\headers\core_cm0plus.h)(0x512664D1)
+I (..\..\..\src\cpu\headers\core_cmInstr.h)(0x512664D1)
+I (..\..\..\src\cpu\headers\core_cmFunc.h)(0x512664D1)
+I (..\..\..\src\cpu\system_MKL46Z4.h)(0x512664D1)
+F (..\..\..\src\drivers\cmp\cmp.c)(0x512664D4)(-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\platinum -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I C:\Keil\ARM\RV31\INC -I C:\Keil\ARM\CMSIS\Include -I C:\Keil\ARM\Inc\Freescale\Kinetis -DKEIL -DTOWER -DCMSIS -o "cmp.o" --omf_browse "cmp.crf" --depend "cmp.d")
+I (..\..\..\src\common\common.h)(0x51266FFC)
+I (..\..\..\src\platforms\tower.h)(0x5126658C)
+I (..\..\..\src\drivers\mcg\mcg.h)(0x512664D4)
+I (..\..\..\src\cpu\headers\MKL46Z4_CMSIS.h)(0x512664D1)
+I (..\..\..\src\cpu\headers\core_cm0plus.h)(0x512664D1)
+I (C:\Keil\ARM\ARMCC\bin\..\include\stdint.h)(0x4EB19764)
+I (..\..\..\src\cpu\headers\core_cmInstr.h)(0x512664D1)
+I (..\..\..\src\cpu\headers\core_cmFunc.h)(0x512664D1)
+I (..\..\..\src\cpu\system_MKL46Z4.h)(0x512664D1)
+I (..\..\..\src\common\assert.h)(0x512664D2)
+I (..\..\..\src\common\io.h)(0x512664D2)
+I (..\..\..\src\common\startup.h)(0x512664D2)
+I (..\..\..\src\common\stdlib.h)(0x512664D2)
+F (..\..\..\src\drivers\llwu\llwu.c)(0x512664D4)(-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\platinum -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I C:\Keil\ARM\RV31\INC -I C:\Keil\ARM\CMSIS\Include -I C:\Keil\ARM\Inc\Freescale\Kinetis -DKEIL -DTOWER -DCMSIS -o "llwu.o" --omf_browse "llwu.crf" --depend "llwu.d")
+I (..\..\..\src\common\common.h)(0x51266FFC)
+I (..\..\..\src\platforms\tower.h)(0x5126658C)
+I (..\..\..\src\drivers\mcg\mcg.h)(0x512664D4)
+I (..\..\..\src\cpu\headers\MKL46Z4_CMSIS.h)(0x512664D1)
+I (..\..\..\src\cpu\headers\core_cm0plus.h)(0x512664D1)
+I (C:\Keil\ARM\ARMCC\bin\..\include\stdint.h)(0x4EB19764)
+I (..\..\..\src\cpu\headers\core_cmInstr.h)(0x512664D1)
+I (..\..\..\src\cpu\headers\core_cmFunc.h)(0x512664D1)
+I (..\..\..\src\cpu\system_MKL46Z4.h)(0x512664D1)
+I (..\..\..\src\common\assert.h)(0x512664D2)
+I (..\..\..\src\common\io.h)(0x512664D2)
+I (..\..\..\src\common\startup.h)(0x512664D2)
+I (..\..\..\src\common\stdlib.h)(0x512664D2)
+F (..\..\..\src\drivers\lptmr\lptmr.c)(0x512664D5)(-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\platinum -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I C:\Keil\ARM\RV31\INC -I C:\Keil\ARM\CMSIS\Include -I C:\Keil\ARM\Inc\Freescale\Kinetis -DKEIL -DTOWER -DCMSIS -o "lptmr.o" --omf_browse "lptmr.crf" --depend "lptmr.d")
+I (..\..\..\src\common\common.h)(0x51266FFC)
+I (..\..\..\src\platforms\tower.h)(0x5126658C)
+I (..\..\..\src\drivers\mcg\mcg.h)(0x512664D4)
+I (..\..\..\src\cpu\headers\MKL46Z4_CMSIS.h)(0x512664D1)
+I (..\..\..\src\cpu\headers\core_cm0plus.h)(0x512664D1)
+I (C:\Keil\ARM\ARMCC\bin\..\include\stdint.h)(0x4EB19764)
+I (..\..\..\src\cpu\headers\core_cmInstr.h)(0x512664D1)
+I (..\..\..\src\cpu\headers\core_cmFunc.h)(0x512664D1)
+I (..\..\..\src\cpu\system_MKL46Z4.h)(0x512664D1)
+I (..\..\..\src\common\assert.h)(0x512664D2)
+I (..\..\..\src\common\io.h)(0x512664D2)
+I (..\..\..\src\common\startup.h)(0x512664D2)
+I (..\..\..\src\common\stdlib.h)(0x512664D2)
+F (..\..\..\src\drivers\mcg\mcg.c)(0x512664D4)(-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\platinum -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I C:\Keil\ARM\RV31\INC -I C:\Keil\ARM\CMSIS\Include -I C:\Keil\ARM\Inc\Freescale\Kinetis -DKEIL -DTOWER -DCMSIS -o "mcg.o" --omf_browse "mcg.crf" --depend "mcg.d")
+I (..\..\..\src\common\common.h)(0x51266FFC)
+I (..\..\..\src\platforms\tower.h)(0x5126658C)
+I (..\..\..\src\drivers\mcg\mcg.h)(0x512664D4)
+I (..\..\..\src\cpu\headers\MKL46Z4_CMSIS.h)(0x512664D1)
+I (..\..\..\src\cpu\headers\core_cm0plus.h)(0x512664D1)
+I (C:\Keil\ARM\ARMCC\bin\..\include\stdint.h)(0x4EB19764)
+I (..\..\..\src\cpu\headers\core_cmInstr.h)(0x512664D1)
+I (..\..\..\src\cpu\headers\core_cmFunc.h)(0x512664D1)
+I (..\..\..\src\cpu\system_MKL46Z4.h)(0x512664D1)
+I (..\..\..\src\common\assert.h)(0x512664D2)
+I (..\..\..\src\common\io.h)(0x512664D2)
+I (..\..\..\src\common\startup.h)(0x512664D2)
+I (..\..\..\src\common\stdlib.h)(0x512664D2)
+F (..\..\..\src\drivers\pmc\pmc.c)(0x512664D4)(-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\platinum -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I C:\Keil\ARM\RV31\INC -I C:\Keil\ARM\CMSIS\Include -I C:\Keil\ARM\Inc\Freescale\Kinetis -DKEIL -DTOWER -DCMSIS -o "pmc.o" --omf_browse "pmc.crf" --depend "pmc.d")
+I (..\..\..\src\common\common.h)(0x51266FFC)
+I (..\..\..\src\platforms\tower.h)(0x5126658C)
+I (..\..\..\src\drivers\mcg\mcg.h)(0x512664D4)
+I (..\..\..\src\cpu\headers\MKL46Z4_CMSIS.h)(0x512664D1)
+I (..\..\..\src\cpu\headers\core_cm0plus.h)(0x512664D1)
+I (C:\Keil\ARM\ARMCC\bin\..\include\stdint.h)(0x4EB19764)
+I (..\..\..\src\cpu\headers\core_cmInstr.h)(0x512664D1)
+I (..\..\..\src\cpu\headers\core_cmFunc.h)(0x512664D1)
+I (..\..\..\src\cpu\system_MKL46Z4.h)(0x512664D1)
+I (..\..\..\src\common\assert.h)(0x512664D2)
+I (..\..\..\src\common\io.h)(0x512664D2)
+I (..\..\..\src\common\startup.h)(0x512664D2)
+I (..\..\..\src\common\stdlib.h)(0x512664D2)
+F (..\..\..\src\drivers\rcm\rcm.c)(0x512664D4)(-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\platinum -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I C:\Keil\ARM\RV31\INC -I C:\Keil\ARM\CMSIS\Include -I C:\Keil\ARM\Inc\Freescale\Kinetis -DKEIL -DTOWER -DCMSIS -o "rcm.o" --omf_browse "rcm.crf" --depend "rcm.d")
+I (..\..\..\src\common\common.h)(0x51266FFC)
+I (..\..\..\src\platforms\tower.h)(0x5126658C)
+I (..\..\..\src\drivers\mcg\mcg.h)(0x512664D4)
+I (..\..\..\src\cpu\headers\MKL46Z4_CMSIS.h)(0x512664D1)
+I (..\..\..\src\cpu\headers\core_cm0plus.h)(0x512664D1)
+I (C:\Keil\ARM\ARMCC\bin\..\include\stdint.h)(0x4EB19764)
+I (..\..\..\src\cpu\headers\core_cmInstr.h)(0x512664D1)
+I (..\..\..\src\cpu\headers\core_cmFunc.h)(0x512664D1)
+I (..\..\..\src\cpu\system_MKL46Z4.h)(0x512664D1)
+I (..\..\..\src\common\assert.h)(0x512664D2)
+I (..\..\..\src\common\io.h)(0x512664D2)
+I (..\..\..\src\common\startup.h)(0x512664D2)
+I (..\..\..\src\common\stdlib.h)(0x512664D2)
+F (..\..\..\src\drivers\rtc\rtc.c)(0x512664D5)(-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\platinum -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I C:\Keil\ARM\RV31\INC -I C:\Keil\ARM\CMSIS\Include -I C:\Keil\ARM\Inc\Freescale\Kinetis -DKEIL -DTOWER -DCMSIS -o "rtc.o" --omf_browse "rtc.crf" --depend "rtc.d")
+I (..\..\..\src\common\common.h)(0x51266FFC)
+I (..\..\..\src\platforms\tower.h)(0x5126658C)
+I (..\..\..\src\drivers\mcg\mcg.h)(0x512664D4)
+I (..\..\..\src\cpu\headers\MKL46Z4_CMSIS.h)(0x512664D1)
+I (..\..\..\src\cpu\headers\core_cm0plus.h)(0x512664D1)
+I (C:\Keil\ARM\ARMCC\bin\..\include\stdint.h)(0x4EB19764)
+I (..\..\..\src\cpu\headers\core_cmInstr.h)(0x512664D1)
+I (..\..\..\src\cpu\headers\core_cmFunc.h)(0x512664D1)
+I (..\..\..\src\cpu\system_MKL46Z4.h)(0x512664D1)
+I (..\..\..\src\common\assert.h)(0x512664D2)
+I (..\..\..\src\common\io.h)(0x512664D2)
+I (..\..\..\src\common\startup.h)(0x512664D2)
+I (..\..\..\src\common\stdlib.h)(0x512664D2)
+F (..\..\..\src\drivers\smc\smc.c)(0x512664D4)(-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\platinum -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I C:\Keil\ARM\RV31\INC -I C:\Keil\ARM\CMSIS\Include -I C:\Keil\ARM\Inc\Freescale\Kinetis -DKEIL -DTOWER -DCMSIS -o "smc.o" --omf_browse "smc.crf" --depend "smc.d")
+I (..\..\..\src\common\common.h)(0x51266FFC)
+I (..\..\..\src\platforms\tower.h)(0x5126658C)
+I (..\..\..\src\drivers\mcg\mcg.h)(0x512664D4)
+I (..\..\..\src\cpu\headers\MKL46Z4_CMSIS.h)(0x512664D1)
+I (..\..\..\src\cpu\headers\core_cm0plus.h)(0x512664D1)
+I (C:\Keil\ARM\ARMCC\bin\..\include\stdint.h)(0x4EB19764)
+I (..\..\..\src\cpu\headers\core_cmInstr.h)(0x512664D1)
+I (..\..\..\src\cpu\headers\core_cmFunc.h)(0x512664D1)
+I (..\..\..\src\cpu\system_MKL46Z4.h)(0x512664D1)
+I (..\..\..\src\common\assert.h)(0x512664D2)
+I (..\..\..\src\common\io.h)(0x512664D2)
+I (..\..\..\src\common\startup.h)(0x512664D2)
+I (..\..\..\src\common\stdlib.h)(0x512664D2)
+F (..\..\..\src\drivers\uart\uart.c)(0x512674F8)(-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\platinum -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I C:\Keil\ARM\RV31\INC -I C:\Keil\ARM\CMSIS\Include -I C:\Keil\ARM\Inc\Freescale\Kinetis -DKEIL -DTOWER -DCMSIS -o "uart.o" --omf_browse "uart.crf" --depend "uart.d")
+I (..\..\..\src\common\common.h)(0x51266FFC)
+I (..\..\..\src\platforms\tower.h)(0x5126658C)
+I (..\..\..\src\drivers\mcg\mcg.h)(0x512664D4)
+I (..\..\..\src\cpu\headers\MKL46Z4_CMSIS.h)(0x512664D1)
+I (..\..\..\src\cpu\headers\core_cm0plus.h)(0x512664D1)
+I (C:\Keil\ARM\ARMCC\bin\..\include\stdint.h)(0x4EB19764)
+I (..\..\..\src\cpu\headers\core_cmInstr.h)(0x512664D1)
+I (..\..\..\src\cpu\headers\core_cmFunc.h)(0x512664D1)
+I (..\..\..\src\cpu\system_MKL46Z4.h)(0x512664D1)
+I (..\..\..\src\common\assert.h)(0x512664D2)
+I (..\..\..\src\common\io.h)(0x512664D2)
+I (..\..\..\src\common\startup.h)(0x512664D2)
+I (..\..\..\src\common\stdlib.h)(0x512664D2)
+F (..\..\..\src\drivers\uart\Serial.c)(0x512664D5)(-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\platinum -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I C:\Keil\ARM\RV31\INC -I C:\Keil\ARM\CMSIS\Include -I C:\Keil\ARM\Inc\Freescale\Kinetis -DKEIL -DTOWER -DCMSIS -o "serial.o" --omf_browse "serial.crf" --depend "serial.d")
+I (..\..\..\src\common\common.h)(0x51266FFC)
+I (..\..\..\src\platforms\tower.h)(0x5126658C)
+I (..\..\..\src\drivers\mcg\mcg.h)(0x512664D4)
+I (..\..\..\src\cpu\headers\MKL46Z4_CMSIS.h)(0x512664D1)
+I (..\..\..\src\cpu\headers\core_cm0plus.h)(0x512664D1)
+I (C:\Keil\ARM\ARMCC\bin\..\include\stdint.h)(0x4EB19764)
+I (..\..\..\src\cpu\headers\core_cmInstr.h)(0x512664D1)
+I (..\..\..\src\cpu\headers\core_cmFunc.h)(0x512664D1)
+I (..\..\..\src\cpu\system_MKL46Z4.h)(0x512664D1)
+I (..\..\..\src\common\assert.h)(0x512664D2)
+I (..\..\..\src\common\io.h)(0x512664D2)
+I (..\..\..\src\common\startup.h)(0x512664D2)
+I (..\..\..\src\common\stdlib.h)(0x512664D2)
+F (..\..\..\src\drivers\uart\Retarget.c)(0x512664D5)(-c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\platinum -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I C:\Keil\ARM\RV31\INC -I C:\Keil\ARM\CMSIS\Include -I C:\Keil\ARM\Inc\Freescale\Kinetis -DKEIL -DTOWER -DCMSIS -o "retarget.o" --omf_browse "retarget.crf" --depend "retarget.d")
+I (C:\Keil\ARM\ARMCC\bin\..\include\stdio.h)(0x4EB19766)
+I (C:\Keil\ARM\ARMCC\bin\..\include\rt_misc.h)(0x4EB19760)
+I (..\..\..\src\drivers\uart\serial.h)(0x512664D5)
+F (..\..\..\src\platforms\tower.h)(0x5126658C)()
+F (..\..\..\src\cpu\headers\MKL46Z4.h)(0x512664D1)()
+F (..\..\..\src\cpu\headers\MemMapPtr_KL46Z4.h)(0x512664D1)()

@@ -1,0 +1,555 @@
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"sysinit.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.comm	mcg_clk_hz,4,4
+  18              		.comm	mcg_clk_khz,4,4
+  19              		.comm	core_clk_khz,4,4
+  20              		.comm	periph_clk_khz,4,4
+  21              		.comm	pll_clk_khz,4,4
+  22              		.comm	uart0_clk_khz,4,4
+  23              		.comm	uart0_clk_hz,4,4
+  24              		.global	__aeabi_idiv
+  25              		.global	__aeabi_uidiv
+  26              		.section	.text.sysinit,"ax",%progbits
+  27              		.align	2
+  28              		.global	sysinit
+  29              		.code	16
+  30              		.thumb_func
+  32              	sysinit:
+  33              	.LFB0:
+  34              		.file 1 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu/sysinit.c"
+   1:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** /*
+   2:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****  * File:        sysinit.c
+   3:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****  * Purpose:     Kinetis L Family Configuration
+   4:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****  *              Initializes processor to a default state
+   5:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****  *
+   6:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****  * Notes:
+   7:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****  *
+   8:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****  *
+   9:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****  */
+  10:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** 
+  11:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** #include "common.h"
+  12:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** #include "sysinit.h"
+  13:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** #include "UART.h"
+  14:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** 
+  15:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** /********************************************************************/
+  16:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** 
+  17:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** /* System clock frequency variables - Represents the current system clock
+  18:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****  * settings
+  19:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****  */
+  20:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** int mcg_clk_hz;
+  21:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** int mcg_clk_khz;
+  22:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** int core_clk_khz;
+  23:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** int periph_clk_khz;
+  24:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** int pll_clk_khz;
+  25:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** int uart0_clk_khz;
+  26:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** uint32 uart0_clk_hz;
+  27:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** 
+  28:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** 
+  29:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** 
+  30:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** /********************************************************************/
+  31:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** void sysinit (void)
+  32:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** {
+  35              		.loc 1 32 0
+  36              		.cfi_startproc
+  37 0000 80B5     		push	{r7, lr}
+  38              	.LCFI0:
+  39              		.cfi_def_cfa_offset 8
+  40              		.cfi_offset 7, -8
+  41              		.cfi_offset 14, -4
+  42 0002 82B0     		sub	sp, sp, #8
+  43              	.LCFI1:
+  44              		.cfi_def_cfa_offset 16
+  45 0004 02AF     		add	r7, sp, #8
+  46              	.LCFI2:
+  47              		.cfi_def_cfa 7, 8
+  33:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****         /* Enable all of the port clocks. These have to be enabled to configure
+  34:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****          * pin muxing options, so most code will need all of these on anyway.
+  35:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****          */
+  36:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****         SIM_SCGC5 |= (SIM_SCGC5_PORTA_MASK
+  48              		.loc 1 36 0
+  49 0006 484A     		ldr	r2, .L5
+  50 0008 4749     		ldr	r1, .L5
+  51 000a 484B     		ldr	r3, .L5+4
+  52 000c CB58     		ldr	r3, [r1, r3]
+  53 000e F821     		mov	r1, #248
+  54 0010 8901     		lsl	r1, r1, #6
+  55 0012 1943     		orr	r1, r3
+  56 0014 454B     		ldr	r3, .L5+4
+  57 0016 D150     		str	r1, [r2, r3]
+  37:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****                       | SIM_SCGC5_PORTB_MASK
+  38:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****                       | SIM_SCGC5_PORTC_MASK
+  39:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****                       | SIM_SCGC5_PORTD_MASK
+  40:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****                       | SIM_SCGC5_PORTE_MASK );
+  41:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****         
+  42:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****         // Release hold with ACKISO:  Only has an effect if recovering from VLLS1, VLLS2, or VLLS3
+  43:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****         // if ACKISO is set you must clear ackiso before calling pll_init 
+  44:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****         //    or pll init hangs waiting for OSC to initialize
+  45:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****         // if osc enabled in low power modes - enable it first before ack
+  46:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****         // if I/O needs to be maintained without glitches enable outputs and modules first before a
+  47:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****         if (PMC_REGSC &  PMC_REGSC_ACKISO_MASK)
+  58              		.loc 1 47 0
+  59 0018 454B     		ldr	r3, .L5+8
+  60 001a 9B78     		ldrb	r3, [r3, #2]
+  61 001c DBB2     		uxtb	r3, r3
+  62 001e 1A1C     		mov	r2, r3
+  63 0020 0823     		mov	r3, #8
+  64 0022 1340     		and	r3, r2
+  65 0024 07D0     		beq	.L2
+  48:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****         PMC_REGSC |= PMC_REGSC_ACKISO_MASK;
+  66              		.loc 1 48 0
+  67 0026 424B     		ldr	r3, .L5+8
+  68 0028 414A     		ldr	r2, .L5+8
+  69 002a 9278     		ldrb	r2, [r2, #2]
+  70 002c D2B2     		uxtb	r2, r2
+  71 002e 0821     		mov	r1, #8
+  72 0030 0A43     		orr	r2, r1
+  73 0032 D2B2     		uxtb	r2, r2
+  74 0034 9A70     		strb	r2, [r3, #2]
+  75              	.L2:
+  49:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****         
+  50:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** #ifdef ENABLE_CLKOUT
+  51:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****         // Initialize trace clk functionality
+  52:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****         clk_out_init();
+  53:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** #endif
+  54:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** 
+  55:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** #if defined(NO_PLL_INIT)
+  56:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****         mcg_clk_hz = 21000000; //FEI mode
+  57:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****         
+  58:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****         SIM_SOPT2 &= ~SIM_SOPT2_PLLFLLSEL_MASK; // clear PLLFLLSEL to select the FLL for this clock
+  59:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****         
+  60:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****         uart0_clk_khz = (mcg_clk_hz / 1000); // the uart0 clock frequency will equal the FLL freque
+  61:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****        
+  62:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** #else 
+  63:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****        /* Ramp up the system clock */
+  64:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****        /* Set the system dividers */
+  65:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****        /* NOTE: The PLL init will not configure the system clock dividers,
+  66:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****         * so they must be configured appropriately before calling the PLL
+  67:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****         * init function to ensure that clocks remain in valid ranges.
+  68:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****         */  
+  69:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****         SIM_CLKDIV1 = ( 0
+  76              		.loc 1 69 0
+  77 0036 3C4A     		ldr	r2, .L5
+  78 0038 3E4B     		ldr	r3, .L5+12
+  79 003a 8021     		mov	r1, #128
+  80 003c 4902     		lsl	r1, r1, #9
+  81 003e D150     		str	r1, [r2, r3]
+  70:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****                         | SIM_CLKDIV1_OUTDIV1(0)
+  71:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****                         | SIM_CLKDIV1_OUTDIV4(1) );
+  72:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****  
+  73:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****        /* Initialize PLL */
+  74:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****        /* PLL will be the source for MCG CLKOUT so the core, system, and flash clocks are derived f
+  75:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****        mcg_clk_hz = pll_init(CLK0_FREQ_HZ,  /* CLKIN0 frequency */
+  82              		.loc 1 75 0
+  83 0040 3D4B     		ldr	r3, .L5+16
+  84 0042 1822     		mov	r2, #24
+  85 0044 0092     		str	r2, [sp]
+  86 0046 0122     		mov	r2, #1
+  87 0048 0192     		str	r2, [sp, #4]
+  88 004a 181C     		mov	r0, r3
+  89 004c 0021     		mov	r1, #0
+  90 004e 0122     		mov	r2, #1
+  91 0050 0423     		mov	r3, #4
+  92 0052 FFF7FEFF 		bl	pll_init
+  93 0056 021C     		mov	r2, r0
+  94 0058 384B     		ldr	r3, .L5+20
+  95 005a 1A60     		str	r2, [r3]
+  76:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****                              LOW_POWER,     /* Set the oscillator for low power mode */
+  77:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****                              CLK0_TYPE,     /* Crystal or canned oscillator clock input */
+  78:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****                              PLL0_PRDIV,    /* PLL predivider value */
+  79:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****                              PLL0_VDIV,     /* PLL multiplier */
+  80:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****                              MCGOUT);       /* Use the output from this PLL as the MCGOUT */
+  81:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** 
+  82:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****        /* Check the value returned from pll_init() to make sure there wasn't an error */
+  83:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****        if (mcg_clk_hz < 0x100)
+  96              		.loc 1 83 0
+  97 005c 374B     		ldr	r3, .L5+20
+  98 005e 1B68     		ldr	r3, [r3]
+  99 0060 FF2B     		cmp	r3, #255
+ 100 0062 00DC     		bgt	.L3
+ 101              	.L4:
+  84:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****          while(1);
+ 102              		.loc 1 84 0
+ 103 0064 FEE7     		b	.L4
+ 104              	.L3:
+  85:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****        
+  86:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****        SIM_SOPT2 |= SIM_SOPT2_PLLFLLSEL_MASK; // set PLLFLLSEL to select the PLL for this clock sou
+ 105              		.loc 1 86 0
+ 106 0066 304A     		ldr	r2, .L5
+ 107 0068 2F49     		ldr	r1, .L5
+ 108 006a 354B     		ldr	r3, .L5+24
+ 109 006c CB58     		ldr	r3, [r1, r3]
+ 110 006e 8021     		mov	r1, #128
+ 111 0070 4902     		lsl	r1, r1, #9
+ 112 0072 1943     		orr	r1, r3
+ 113 0074 324B     		ldr	r3, .L5+24
+ 114 0076 D150     		str	r1, [r2, r3]
+  87:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****        
+  88:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****        uart0_clk_khz = ((mcg_clk_hz / 2) / 1000); // UART0 clock frequency will equal half the PLL 
+ 115              		.loc 1 88 0
+ 116 0078 304B     		ldr	r3, .L5+20
+ 117 007a 1B68     		ldr	r3, [r3]
+ 118 007c 181C     		mov	r0, r3
+ 119 007e FA23     		mov	r3, #250
+ 120 0080 D900     		lsl	r1, r3, #3
+ 121 0082 FFF7FEFF 		bl	__aeabi_idiv
+ 122 0086 031C     		mov	r3, r0
+ 123 0088 1A1C     		mov	r2, r3
+ 124 008a 2E4B     		ldr	r3, .L5+28
+ 125 008c 1A60     		str	r2, [r3]
+  89:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** #endif      
+  90:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** 
+  91:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** 	/*
+  92:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****          * Use the value obtained from the pll_init function to define variables
+  93:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** 	 * for the core clock in kHz and also the peripheral clock. These
+  94:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** 	 * variables can be used by other functions that need awareness of the
+  95:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** 	 * system frequency.
+  96:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** 	 */
+  97:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****         mcg_clk_khz = mcg_clk_hz / 1000;
+ 126              		.loc 1 97 0
+ 127 008e 2B4B     		ldr	r3, .L5+20
+ 128 0090 1B68     		ldr	r3, [r3]
+ 129 0092 181C     		mov	r0, r3
+ 130 0094 FA23     		mov	r3, #250
+ 131 0096 9900     		lsl	r1, r3, #2
+ 132 0098 FFF7FEFF 		bl	__aeabi_idiv
+ 133 009c 031C     		mov	r3, r0
+ 134 009e 1A1C     		mov	r2, r3
+ 135 00a0 294B     		ldr	r3, .L5+32
+ 136 00a2 1A60     		str	r2, [r3]
+  98:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****   	core_clk_khz = mcg_clk_khz / (((SIM_CLKDIV1 & SIM_CLKDIV1_OUTDIV1_MASK) >> 28)+ 1);
+ 137              		.loc 1 98 0
+ 138 00a4 284B     		ldr	r3, .L5+32
+ 139 00a6 1B68     		ldr	r3, [r3]
+ 140 00a8 1A1C     		mov	r2, r3
+ 141 00aa 1F49     		ldr	r1, .L5
+ 142 00ac 214B     		ldr	r3, .L5+12
+ 143 00ae CB58     		ldr	r3, [r1, r3]
+ 144 00b0 1B0F     		lsr	r3, r3, #28
+ 145 00b2 0133     		add	r3, r3, #1
+ 146 00b4 101C     		mov	r0, r2
+ 147 00b6 191C     		mov	r1, r3
+ 148 00b8 FFF7FEFF 		bl	__aeabi_uidiv
+ 149 00bc 031C     		mov	r3, r0
+ 150 00be 1A1C     		mov	r2, r3
+ 151 00c0 224B     		ldr	r3, .L5+36
+ 152 00c2 1A60     		str	r2, [r3]
+  99:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****         periph_clk_khz = core_clk_khz / (((SIM_CLKDIV1 & SIM_CLKDIV1_OUTDIV4_MASK) >> 16)+ 1);
+ 153              		.loc 1 99 0
+ 154 00c4 214B     		ldr	r3, .L5+36
+ 155 00c6 1B68     		ldr	r3, [r3]
+ 156 00c8 1A1C     		mov	r2, r3
+ 157 00ca 1749     		ldr	r1, .L5
+ 158 00cc 194B     		ldr	r3, .L5+12
+ 159 00ce C958     		ldr	r1, [r1, r3]
+ 160 00d0 E023     		mov	r3, #224
+ 161 00d2 DB02     		lsl	r3, r3, #11
+ 162 00d4 0B40     		and	r3, r1
+ 163 00d6 1B0C     		lsr	r3, r3, #16
+ 164 00d8 0133     		add	r3, r3, #1
+ 165 00da 101C     		mov	r0, r2
+ 166 00dc 191C     		mov	r1, r3
+ 167 00de FFF7FEFF 		bl	__aeabi_uidiv
+ 168 00e2 031C     		mov	r3, r0
+ 169 00e4 1A1C     		mov	r2, r3
+ 170 00e6 1A4B     		ldr	r3, .L5+40
+ 171 00e8 1A60     		str	r2, [r3]
+ 100:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****         
+ 101:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****         /* Enable pin interrupt for the abort button - PTA4 */
+ 102:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****         /* This pin could also be used as the NMI interrupt, but since the NMI
+ 103:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****          * is level sensitive each button press will cause multiple interrupts.
+ 104:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****          * Using the GPIO interrupt instead means we can configure for an edge
+ 105:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****          * sensitive interrupt instead = one interrupt per button press.
+ 106:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****          */
+ 107:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****         enable_abort_button();
+ 172              		.loc 1 107 0
+ 173 00ea FFF7FEFF 		bl	enable_abort_button
+ 108:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****         
+ 109:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****         
+ 110:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****         if (TERM_PORT_NUM == 0)
+ 111:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****         {
+ 112:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****   	  /* Enable the pins for the selected UART */
+ 113:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** #ifdef FREEDOM
+ 114:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****           /* Enable the UART_TXD function on PTA1 */
+ 115:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****           PORTA_PCR1 = PORT_PCR_MUX(0x2);
+ 174              		.loc 1 115 0
+ 175 00ee 194B     		ldr	r3, .L5+44
+ 176 00f0 8022     		mov	r2, #128
+ 177 00f2 9200     		lsl	r2, r2, #2
+ 178 00f4 5A60     		str	r2, [r3, #4]
+ 116:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****           
+ 117:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****           /* Enable the UART_TXD function on PTA2 */
+ 118:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****           PORTA_PCR2 = PORT_PCR_MUX(0x2);
+ 179              		.loc 1 118 0
+ 180 00f6 174B     		ldr	r3, .L5+44
+ 181 00f8 8022     		mov	r2, #128
+ 182 00fa 9200     		lsl	r2, r2, #2
+ 183 00fc 9A60     		str	r2, [r3, #8]
+ 119:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** #endif
+ 120:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** 
+ 121:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** #ifdef BACES
+ 122:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****           /* Enable the UART_TXD function on PTA1 */
+ 123:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****           PORTA_PCR1 = PORT_PCR_MUX(0x2);
+ 124:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****           
+ 125:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****           /* Enable the UART_TXD function on PTA2 */
+ 126:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****           PORTA_PCR2 = PORT_PCR_MUX(0x2);
+ 127:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** #endif          
+ 128:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****           
+ 129:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** #ifdef FIREBIRD        
+ 130:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****           /* Enable the UART_TXD function on PTA1 */
+ 131:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****           PORTA_PCR1 = PORT_PCR_MUX(0x2);
+ 132:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****           
+ 133:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****           /* Enable the UART_TXD function on PTA2 */
+ 134:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****           PORTA_PCR2 = PORT_PCR_MUX(0x2);
+ 135:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** #endif
+ 136:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****           
+ 137:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** #ifdef TOWER          
+ 138:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****           
+ 139:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****           /* Enable the UART_TXD function on PTA14 */
+ 140:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****   	  PORTA_PCR14 = PORT_PCR_MUX(0x3); // UART0 is alt3 function for this pin
+ 141:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****   		
+ 142:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****   	  /* Enable the UART_RXD function on PTA15 */
+ 143:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****   	  PORTA_PCR15 = PORT_PCR_MUX(0x3); // UART0 is alt3 function for this pin
+ 144:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** #endif
+ 145:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****           
+ 146:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****           
+ 147:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****          
+ 148:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****           SIM_SOPT2 |= SIM_SOPT2_UART0SRC(1); // select the PLLFLLCLK as UART0 clock source
+ 184              		.loc 1 148 0
+ 185 00fe 0A4A     		ldr	r2, .L5
+ 186 0100 0949     		ldr	r1, .L5
+ 187 0102 0F4B     		ldr	r3, .L5+24
+ 188 0104 CB58     		ldr	r3, [r1, r3]
+ 189 0106 8021     		mov	r1, #128
+ 190 0108 C904     		lsl	r1, r1, #19
+ 191 010a 1943     		orr	r1, r3
+ 192 010c 0C4B     		ldr	r3, .L5+24
+ 193 010e D150     		str	r1, [r2, r3]
+ 149:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****         }
+ 150:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****   	if (TERM_PORT_NUM == 1)
+ 151:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****   	{
+ 152:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****                 /* Enable the UART_TXD function on PTC4 */
+ 153:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****   		PORTC_PCR4 = PORT_PCR_MUX(0x3); // UART1 is alt3 function for this pin
+ 154:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****   		
+ 155:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****   		/* Enable the UART_RXD function on PTC3 */
+ 156:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****   		PORTC_PCR3 = PORT_PCR_MUX(0x3); // UART1 is alt3 function for this pin
+ 157:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****   	}
+ 158:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****         
+ 159:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****         if (TERM_PORT_NUM == 2)
+ 160:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****   	{
+ 161:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****                  /* Enable the UART_TXD function on PTD3 */
+ 162:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****   		PORTE_PCR16 = PORT_PCR_MUX(0x3); // UART2 is alt3 function for this pin
+ 163:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****   		
+ 164:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****   		/* Enable the UART_RXD function on PTD2 */
+ 165:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****   		PORTE_PCR17 = PORT_PCR_MUX(0x3); // UART2 is alt3 function for this pin
+ 166:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****   	}
+ 167:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****         
+ 168:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****   	/* UART0 is clocked asynchronously to the core clock, but all other UARTs are
+ 169:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****          * clocked from the peripheral clock. So we have to determine which clock
+ 170:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****          * to send to the UART_init function.
+ 171:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****          */
+ 172:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****         if (TERM_PORT_NUM == 0)
+ 173:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****             uart0_init (UART0_BASE_PTR, uart0_clk_khz, TERMINAL_BAUD);
+ 194              		.loc 1 173 0
+ 195 0110 0C4B     		ldr	r3, .L5+28
+ 196 0112 1A68     		ldr	r2, [r3]
+ 197 0114 1049     		ldr	r1, .L5+48
+ 198 0116 E123     		mov	r3, #225
+ 199 0118 5B02     		lsl	r3, r3, #9
+ 200 011a 081C     		mov	r0, r1
+ 201 011c 111C     		mov	r1, r2
+ 202 011e 1A1C     		mov	r2, r3
+ 203 0120 FFF7FEFF 		bl	uart0_init
+ 174:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****         else if (TERM_PORT_NUM == 1)
+ 175:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****   	    uart_init (UART1_BASE_PTR, periph_clk_khz, TERMINAL_BAUD);
+ 176:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****         else if (TERM_PORT_NUM == 2)
+ 177:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****             uart_init (UART2_BASE_PTR, periph_clk_khz, TERMINAL_BAUD);
+ 178:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****         else
+ 179:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****           while(1);
+ 180:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** }
+ 204              		.loc 1 180 0
+ 205 0124 BD46     		mov	sp, r7
+ 206              		@ sp needed for prologue
+ 207 0126 80BD     		pop	{r7, pc}
+ 208              	.L6:
+ 209              		.align	2
+ 210              	.L5:
+ 211 0128 00700440 		.word	1074032640
+ 212 012c 38100000 		.word	4152
+ 213 0130 00D00740 		.word	1074253824
+ 214 0134 44100000 		.word	4164
+ 215 0138 00127A00 		.word	8000000
+ 216 013c 00000000 		.word	mcg_clk_hz
+ 217 0140 04100000 		.word	4100
+ 218 0144 00000000 		.word	uart0_clk_khz
+ 219 0148 00000000 		.word	mcg_clk_khz
+ 220 014c 00000000 		.word	core_clk_khz
+ 221 0150 00000000 		.word	periph_clk_khz
+ 222 0154 00900440 		.word	1074040832
+ 223 0158 00A00640 		.word	1074176000
+ 224              		.cfi_endproc
+ 225              	.LFE0:
+ 227              		.section	.text.enable_abort_button,"ax",%progbits
+ 228              		.align	2
+ 229              		.global	enable_abort_button
+ 230              		.code	16
+ 231              		.thumb_func
+ 233              	enable_abort_button:
+ 234              	.LFB1:
+ 181:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** /********************************************************************/
+ 182:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** void enable_abort_button(void)
+ 183:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** {
+ 235              		.loc 1 183 0
+ 236              		.cfi_startproc
+ 237 0000 80B5     		push	{r7, lr}
+ 238              	.LCFI3:
+ 239              		.cfi_def_cfa_offset 8
+ 240              		.cfi_offset 7, -8
+ 241              		.cfi_offset 14, -4
+ 242 0002 00AF     		add	r7, sp, #0
+ 243              	.LCFI4:
+ 244              		.cfi_def_cfa_register 7
+ 184:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****     /* Configure the PTA4 pin for its GPIO function */
+ 185:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****     PORTA_PCR4 = PORT_PCR_MUX(0x1) | PORT_PCR_PE_MASK | PORT_PCR_PS_MASK; // GPIO is alt1 function 
+ 245              		.loc 1 185 0
+ 246 0004 074B     		ldr	r3, .L8
+ 247 0006 084A     		ldr	r2, .L8+4
+ 248 0008 1A61     		str	r2, [r3, #16]
+ 186:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****     
+ 187:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****     /* Configure the PTA4 pin for rising edge interrupts */
+ 188:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****     PORTA_PCR4 |= PORT_PCR_IRQC(0x9); 
+ 249              		.loc 1 188 0
+ 250 000a 064B     		ldr	r3, .L8
+ 251 000c 054A     		ldr	r2, .L8
+ 252 000e 1269     		ldr	r2, [r2, #16]
+ 253 0010 9021     		mov	r1, #144
+ 254 0012 0903     		lsl	r1, r1, #12
+ 255 0014 0A43     		orr	r2, r1
+ 256 0016 1A61     		str	r2, [r3, #16]
+ 189:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****      
+ 190:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****     /* Enable the associated IRQ in the NVIC */
+ 191:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** #ifndef CMSIS
+ 192:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****     enable_irq(INT_PORTA-16);      
+ 257              		.loc 1 192 0
+ 258 0018 1E20     		mov	r0, #30
+ 259 001a FFF7FEFF 		bl	enable_irq
+ 193:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** #else
+ 194:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****    // NVIC_EnableIRQ(PORTA_IRQn);
+ 195:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** #endif
+ 196:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** }
+ 260              		.loc 1 196 0
+ 261 001e BD46     		mov	sp, r7
+ 262              		@ sp needed for prologue
+ 263 0020 80BD     		pop	{r7, pc}
+ 264              	.L9:
+ 265 0022 C046     		.align	2
+ 266              	.L8:
+ 267 0024 00900440 		.word	1074040832
+ 268 0028 03010000 		.word	259
+ 269              		.cfi_endproc
+ 270              	.LFE1:
+ 272              		.section	.text.clk_out_init,"ax",%progbits
+ 273              		.align	2
+ 274              		.global	clk_out_init
+ 275              		.code	16
+ 276              		.thumb_func
+ 278              	clk_out_init:
+ 279              	.LFB2:
+ 197:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** /********************************************************************/
+ 198:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** 
+ 199:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** /********************************************************************/
+ 200:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** void clk_out_init(void)
+ 201:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** {
+ 280              		.loc 1 201 0
+ 281              		.cfi_startproc
+ 282 0000 80B5     		push	{r7, lr}
+ 283              	.LCFI5:
+ 284              		.cfi_def_cfa_offset 8
+ 285              		.cfi_offset 7, -8
+ 286              		.cfi_offset 14, -4
+ 287 0002 00AF     		add	r7, sp, #0
+ 288              	.LCFI6:
+ 289              		.cfi_def_cfa_register 7
+ 202:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** 
+ 203:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****     // If you are using UART1 for serial communications do not
+ 204:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****     // initialize the clock out function or you may break the UART!
+ 205:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****     if (TERM_PORT_NUM != 1)
+ 206:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****     {
+ 207:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****         /* Enable the CLKOUT function on PTC3 (alt5 function) */
+ 208:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** 	PORTC_PCR3 = ( PORT_PCR_MUX(0x5));
+ 290              		.loc 1 208 0
+ 291 0004 064B     		ldr	r3, .L11
+ 292 0006 A022     		mov	r2, #160
+ 293 0008 D200     		lsl	r2, r2, #3
+ 294 000a DA60     		str	r2, [r3, #12]
+ 209:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****         
+ 210:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****         /* Select the CLKOUT in the SMI_SOPT2 mux to be bus clk*/
+ 211:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****         SIM_SOPT2 |= SIM_SOPT2_CLKOUTSEL(2);
+ 295              		.loc 1 211 0
+ 296 000c 054A     		ldr	r2, .L11+4
+ 297 000e 0549     		ldr	r1, .L11+4
+ 298 0010 054B     		ldr	r3, .L11+8
+ 299 0012 CB58     		ldr	r3, [r1, r3]
+ 300 0014 4021     		mov	r1, #64
+ 301 0016 1943     		orr	r1, r3
+ 302 0018 034B     		ldr	r3, .L11+8
+ 303 001a D150     		str	r1, [r2, r3]
+ 212:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****     }
+ 213:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c ****         
+ 214:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\sysinit.c **** }
+ 304              		.loc 1 214 0
+ 305 001c BD46     		mov	sp, r7
+ 306              		@ sp needed for prologue
+ 307 001e 80BD     		pop	{r7, pc}
+ 308              	.L12:
+ 309              		.align	2
+ 310              	.L11:
+ 311 0020 00B00440 		.word	1074049024
+ 312 0024 00700440 		.word	1074032640
+ 313 0028 04100000 		.word	4100
+ 314              		.cfi_endproc
+ 315              	.LFE2:
+ 317              		.text
+ 318              	.Letext0:
+ 319              		.file 2 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu/arm_cm0.h"
+ 320              		.file 3 "C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint"
+ 321              		.file 4 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu/headers/MKL46Z4.
+DEFINED SYMBOLS
+                            *ABS*:00000000 sysinit.c
+                            *COM*:00000004 mcg_clk_hz
+                            *COM*:00000004 mcg_clk_khz
+                            *COM*:00000004 core_clk_khz
+                            *COM*:00000004 periph_clk_khz
+                            *COM*:00000004 pll_clk_khz
+                            *COM*:00000004 uart0_clk_khz
+                            *COM*:00000004 uart0_clk_hz
+C:\Users\b01252\AppData\Local\Temp\ccbRxwDv.s:27     .text.sysinit:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccbRxwDv.s:32     .text.sysinit:00000000 sysinit
+C:\Users\b01252\AppData\Local\Temp\ccbRxwDv.s:233    .text.enable_abort_button:00000000 enable_abort_button
+C:\Users\b01252\AppData\Local\Temp\ccbRxwDv.s:211    .text.sysinit:00000128 $d
+C:\Users\b01252\AppData\Local\Temp\ccbRxwDv.s:228    .text.enable_abort_button:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccbRxwDv.s:267    .text.enable_abort_button:00000024 $d
+C:\Users\b01252\AppData\Local\Temp\ccbRxwDv.s:273    .text.clk_out_init:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccbRxwDv.s:278    .text.clk_out_init:00000000 clk_out_init
+C:\Users\b01252\AppData\Local\Temp\ccbRxwDv.s:311    .text.clk_out_init:00000020 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+__aeabi_idiv
+__aeabi_uidiv
+pll_init
+uart0_init
+enable_irq

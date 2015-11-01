@@ -1,0 +1,17 @@
+io.o: ..\..\..\src\common\io.c
+io.o: ..\..\..\src\common\common.h
+io.o: ..\..\..\src\platforms\tower.h
+io.o: ..\..\..\src\drivers\mcg\mcg.h
+io.o: ..\..\..\src\cpu\headers\MKL46Z4_CMSIS.h
+io.o: ..\..\..\src\cpu\headers\core_cm0plus.h
+io.o: C:\Keil\ARM\ARMCC\bin\..\include\stdint.h
+io.o: ..\..\..\src\cpu\headers\core_cmInstr.h
+io.o: ..\..\..\src\cpu\headers\core_cmFunc.h
+io.o: ..\..\..\src\cpu\system_MKL46Z4.h
+io.o: ..\..\..\src\common\assert.h
+io.o: ..\..\..\src\common\io.h
+io.o: ..\..\..\src\common\startup.h
+io.o: ..\..\..\src\common\stdlib.h
+io.o: ..\..\..\src\cpu\headers\MemMapPtr_KL46Z4.h
+io.o: ..\..\..\src\drivers\uart\uart.h
+io.o: C:\Keil\ARM\ARMCC\bin\..\include\stdio.h

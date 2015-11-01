@@ -1,0 +1,130 @@
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"sqrt16.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.global	__aeabi_uidiv
+  18              		.section	.text.sqrt_16,"ax",%progbits
+  19              		.align	2
+  20              		.global	sqrt_16
+  21              		.code	16
+  22              		.thumb_func
+  24              	sqrt_16:
+  25              	.LFB0:
+  26              		.file 1 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_De
+   1:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/angle_calculation\sqrt16.c **** /**
+   2:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/angle_calculation\sqrt16.c ****  * \brief  Calculates the square root of the value
+   3:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/angle_calculation\sqrt16.c ****  * \author  Luis Puebla
+   4:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/angle_calculation\sqrt16.c ****  * \param   value
+   5:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/angle_calculation\sqrt16.c ****  * \return  (unsigend long)square root
+   6:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/angle_calculation\sqrt16.c ****  * \todo    
+   7:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/angle_calculation\sqrt16.c ****  * \warning
+   8:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/angle_calculation\sqrt16.c ****  */   
+   9:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/angle_calculation\sqrt16.c **** unsigned int sqrt_16(unsigned int value)
+  10:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/angle_calculation\sqrt16.c ****   {
+  27              		.loc 1 10 0
+  28              		.cfi_startproc
+  29 0000 80B5     		push	{r7, lr}
+  30              	.LCFI0:
+  31              		.cfi_def_cfa_offset 8
+  32              		.cfi_offset 7, -8
+  33              		.cfi_offset 14, -4
+  34 0002 86B0     		sub	sp, sp, #24
+  35              	.LCFI1:
+  36              		.cfi_def_cfa_offset 32
+  37 0004 00AF     		add	r7, sp, #0
+  38              	.LCFI2:
+  39              		.cfi_def_cfa_register 7
+  40 0006 7860     		str	r0, [r7, #4]
+  11:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/angle_calculation\sqrt16.c ****   unsigned char num_iter=0;
+  41              		.loc 1 11 0
+  42 0008 3B1C     		mov	r3, r7
+  43 000a 1733     		add	r3, r3, #23
+  44 000c 0022     		mov	r2, #0
+  45 000e 1A70     		strb	r2, [r3]
+  12:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/angle_calculation\sqrt16.c ****   unsigned long result = 1000;
+  46              		.loc 1 12 0
+  47 0010 FA23     		mov	r3, #250
+  48 0012 9B00     		lsl	r3, r3, #2
+  49 0014 3B61     		str	r3, [r7, #16]
+  13:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/angle_calculation\sqrt16.c ****   unsigned long last_result = 1000;
+  50              		.loc 1 13 0
+  51 0016 FA23     		mov	r3, #250
+  52 0018 9B00     		lsl	r3, r3, #2
+  53 001a FB60     		str	r3, [r7, #12]
+  54              	.L3:
+  14:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/angle_calculation\sqrt16.c ****    do
+  15:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/angle_calculation\sqrt16.c ****     {
+  16:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/angle_calculation\sqrt16.c ****      last_result = result;
+  55              		.loc 1 16 0
+  56 001c 3B69     		ldr	r3, [r7, #16]
+  57 001e FB60     		str	r3, [r7, #12]
+  17:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/angle_calculation\sqrt16.c ****      result = (result + value/result)/2;
+  58              		.loc 1 17 0
+  59 0020 7868     		ldr	r0, [r7, #4]
+  60 0022 3969     		ldr	r1, [r7, #16]
+  61 0024 FFF7FEFF 		bl	__aeabi_uidiv
+  62 0028 031C     		mov	r3, r0
+  63 002a 1A1C     		mov	r2, r3
+  64 002c 3B69     		ldr	r3, [r7, #16]
+  65 002e D318     		add	r3, r2, r3
+  66 0030 5B08     		lsr	r3, r3, #1
+  67 0032 3B61     		str	r3, [r7, #16]
+  18:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/angle_calculation\sqrt16.c ****     }
+  19:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/angle_calculation\sqrt16.c ****    while (num_iter++<7 && last_result!= result);
+  68              		.loc 1 19 0
+  69 0034 3B1C     		mov	r3, r7
+  70 0036 1733     		add	r3, r3, #23
+  71 0038 1A78     		ldrb	r2, [r3]
+  72 003a 0621     		mov	r1, #6
+  73 003c 0023     		mov	r3, #0
+  74 003e 9142     		cmp	r1, r2
+  75 0040 5B41     		adc	r3, r3, r3
+  76 0042 DBB2     		uxtb	r3, r3
+  77 0044 3A1C     		mov	r2, r7
+  78 0046 1732     		add	r2, r2, #23
+  79 0048 391C     		mov	r1, r7
+  80 004a 1731     		add	r1, r1, #23
+  81 004c 0978     		ldrb	r1, [r1]
+  82 004e 0131     		add	r1, r1, #1
+  83 0050 1170     		strb	r1, [r2]
+  84 0052 002B     		cmp	r3, #0
+  85 0054 03D0     		beq	.L2
+  86 0056 FA68     		ldr	r2, [r7, #12]
+  87 0058 3B69     		ldr	r3, [r7, #16]
+  88 005a 9A42     		cmp	r2, r3
+  89 005c DED1     		bne	.L3
+  90              	.L2:
+  20:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/angle_calculation\sqrt16.c ****    return (unsigned int)result;
+  91              		.loc 1 20 0
+  92 005e 3B69     		ldr	r3, [r7, #16]
+  21:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/angle_calculation\sqrt16.c ****   }
+  93              		.loc 1 21 0
+  94 0060 181C     		mov	r0, r3
+  95 0062 BD46     		mov	sp, r7
+  96 0064 06B0     		add	sp, sp, #24
+  97              		@ sp needed for prologue
+  98 0066 80BD     		pop	{r7, pc}
+  99              		.cfi_endproc
+ 100              	.LFE0:
+ 102              		.text
+ 103              	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 sqrt16.c
+C:\Users\b01252\AppData\Local\Temp\cc1l1Srk.s:19     .text.sqrt_16:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\cc1l1Srk.s:24     .text.sqrt_16:00000000 sqrt_16
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+__aeabi_uidiv

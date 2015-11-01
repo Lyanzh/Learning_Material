@@ -1,0 +1,43 @@
+-mcpu=cortex-m0
+-mthumb
+-mfloat-abi=soft
+-g3
+-gdwarf-2
+-gstrict-dwarf
+-nostdinc
+-DCW
+-DTOWER=1
+-I"C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo"
+-I"C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/build/cw/linker files"
+-I"C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu"
+-I"C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu/headers"
+-I"C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/platforms"
+-I"C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/cmp"
+-I"C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/llwu"
+-I"C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr"
+-I"C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/mcg"
+-I"C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/pmc"
+-I"C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm"
+-I"C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc"
+-I"C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart"
+-I"C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common"
+-I"C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/build/cw"
+-I"C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/EWL_C/include"
+-I"C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/EWL_Runtime/include"
+-I"C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc"
+-I"C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/LCD"
+-I"C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/bsp"
+-I"C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/tsi"
+-I"C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/task_mgr"
+-I"C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/pit"
+-I"C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/usb"
+-I"C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/adc16"
+-I"C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/adc_test"
+-I"C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation"
+-I"C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/median"
+-I"C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/i2c"
+-O0
+-ffunction-sections
+-fdata-sections
+-c
+-fmessage-length=0

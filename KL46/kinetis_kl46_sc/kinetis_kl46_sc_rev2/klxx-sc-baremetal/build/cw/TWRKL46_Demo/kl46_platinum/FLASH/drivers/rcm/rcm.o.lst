@@ -1,0 +1,528 @@
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"rcm.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.rodata
+  18              		.align	2
+  19              	.LC0:
+  20 0000 0A0D5374 		.ascii	"\012\015Stop Mode Acknowledge Error Reset\000"
+  20      6F70204D 
+  20      6F646520 
+  20      41636B6E 
+  20      6F776C65 
+  21              		.align	2
+  22              	.LC2:
+  23 0024 0A0D4D44 		.ascii	"\012\015MDM-AP Reset\000"
+  23      4D2D4150 
+  23      20526573 
+  23      657400
+  24 0033 00       		.align	2
+  25              	.LC4:
+  26 0034 0A0D536F 		.ascii	"\012\015Software Reset\000"
+  26      66747761 
+  26      72652052 
+  26      65736574 
+  26      00
+  27 0045 000000   		.align	2
+  28              	.LC6:
+  29 0048 0A0D436F 		.ascii	"\012\015Core Lockup Event Reset\000"
+  29      7265204C 
+  29      6F636B75 
+  29      70204576 
+  29      656E7420 
+  30 0062 0000     		.align	2
+  31              	.LC8:
+  32 0064 0A0D506F 		.ascii	"\012\015Power-on Reset\000"
+  32      7765722D 
+  32      6F6E2052 
+  32      65736574 
+  32      00
+  33 0075 000000   		.align	2
+  34              	.LC10:
+  35 0078 0A0D4578 		.ascii	"\012\015External Pin Reset\000"
+  35      7465726E 
+  35      616C2050 
+  35      696E2052 
+  35      65736574 
+  36 008d 000000   		.align	2
+  37              	.LC12:
+  38 0090 0A0D5761 		.ascii	"\012\015Watchdog(COP) Reset\000"
+  38      74636864 
+  38      6F672843 
+  38      4F502920 
+  38      52657365 
+  39 00a6 0000     		.align	2
+  40              	.LC14:
+  41 00a8 0A0D4C6F 		.ascii	"\012\015Loss of External Clock Reset\000"
+  41      7373206F 
+  41      66204578 
+  41      7465726E 
+  41      616C2043 
+  42 00c7 00       		.align	2
+  43              	.LC16:
+  44 00c8 0A0D4C6F 		.ascii	"\012\015Loss of Lock in PLL Reset\000"
+  44      7373206F 
+  44      66204C6F 
+  44      636B2069 
+  44      6E20504C 
+  45              		.align	2
+  46              	.LC18:
+  47 00e4 0A0D4C6F 		.ascii	"\012\015Low-voltage Detect Reset\000"
+  47      772D766F 
+  47      6C746167 
+  47      65204465 
+  47      74656374 
+  48 00ff 00       		.align	2
+  49              	.LC20:
+  50 0100 0A0D5B6F 		.ascii	"\012\015[outSRS]Wakeup bit set from low power mode "
+  50      75745352 
+  50      535D5761 
+  50      6B657570 
+  50      20626974 
+  51 012d 00       		.ascii	"\000"
+  52 012e 0000     		.align	2
+  53              	.LC22:
+  54 0130 4C4C5320 		.ascii	"LLS exit \000"
+  54      65786974 
+  54      2000
+  55 013a 0000     		.align	2
+  56              	.LC24:
+  57 013c 564C4C53 		.ascii	"VLLS0 exit \000"
+  57      30206578 
+  57      69742000 
+  58              		.align	2
+  59              	.LC26:
+  60 0148 564C4C53 		.ascii	"VLLS1 exit \000"
+  60      31206578 
+  60      69742000 
+  61              		.align	2
+  62              	.LC28:
+  63 0154 564C4C53 		.ascii	"VLLS2 exit\000"
+  63      32206578 
+  63      697400
+  64 015f 00       		.align	2
+  65              	.LC30:
+  66 0160 564C4C53 		.ascii	"VLLS3 exit \000"
+  66      33206578 
+  66      69742000 
+  67              		.align	2
+  68              	.LC32:
+  69 016c 5B6F7574 		.ascii	"[outSRS]RCM_SRS0 is ZERO   = %#02X \015\012\015\000"
+  69      5352535D 
+  69      52434D5F 
+  69      53525330 
+  69      20697320 
+  70 0193 00       		.align	2
+  71              	.LC34:
+  72 0194 5B6F7574 		.ascii	"[outSRS]RCM_SRS1 is ZERO   = %#02X \015\012\015\000"
+  72      5352535D 
+  72      52434D5F 
+  72      53525331 
+  72      20697320 
+  73 01bb 00       		.section	.text.outSRS,"ax",%progbits
+  74              		.align	2
+  75              		.global	outSRS
+  76              		.code	16
+  77              		.thumb_func
+  79              	outSRS:
+  80              	.LFB0:
+  81              		.file 1 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm/rcm.c"
+   1:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c **** /*
+   2:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c ****  * File:        rcm.c
+   3:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c ****  * Purpose:     Provides routines for the reset controller module
+   4:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c ****  *              
+   5:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c ****  */
+   6:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c **** 
+   7:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c **** #include "common.h"
+   8:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c **** #include "rcm.h"
+   9:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c **** 
+  10:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c **** /* OutSRS routine - checks the value in the SRS registers and sends
+  11:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c ****  * messages to the terminal announcing the status at the start of the 
+  12:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c ****  * code.
+  13:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c ****  */
+  14:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c **** void outSRS(void){                         //[outSRS]
+  82              		.loc 1 14 0
+  83              		.cfi_startproc
+  84 0000 80B5     		push	{r7, lr}
+  85              	.LCFI0:
+  86              		.cfi_def_cfa_offset 8
+  87              		.cfi_offset 7, -8
+  88              		.cfi_offset 14, -4
+  89 0002 00AF     		add	r7, sp, #0
+  90              	.LCFI1:
+  91              		.cfi_def_cfa_register 7
+  15:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c **** 
+  16:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c ****   
+  17:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c **** 	if (RCM_SRS1 & RCM_SRS1_SACKERR_MASK)
+  92              		.loc 1 17 0
+  93 0004 774B     		ldr	r3, .L18
+  94 0006 5B78     		ldrb	r3, [r3, #1]
+  95 0008 DBB2     		uxtb	r3, r3
+  96 000a 1A1C     		mov	r2, r3
+  97 000c 2023     		mov	r3, #32
+  98 000e 1340     		and	r3, r2
+  99 0010 03D0     		beq	.L2
+  18:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c **** 		printf("\n\rStop Mode Acknowledge Error Reset");
+ 100              		.loc 1 18 0
+ 101 0012 754B     		ldr	r3, .L18+4
+ 102 0014 181C     		mov	r0, r3
+ 103 0016 FFF7FEFF 		bl	printf
+ 104              	.L2:
+  19:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c **** 	if (RCM_SRS1 & RCM_SRS1_MDM_AP_MASK)
+ 105              		.loc 1 19 0
+ 106 001a 724B     		ldr	r3, .L18
+ 107 001c 5B78     		ldrb	r3, [r3, #1]
+ 108 001e DBB2     		uxtb	r3, r3
+ 109 0020 1A1C     		mov	r2, r3
+ 110 0022 0823     		mov	r3, #8
+ 111 0024 1340     		and	r3, r2
+ 112 0026 03D0     		beq	.L3
+  20:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c **** 		printf("\n\rMDM-AP Reset");
+ 113              		.loc 1 20 0
+ 114 0028 704B     		ldr	r3, .L18+8
+ 115 002a 181C     		mov	r0, r3
+ 116 002c FFF7FEFF 		bl	printf
+ 117              	.L3:
+  21:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c **** 	if (RCM_SRS1 & RCM_SRS1_SW_MASK)
+ 118              		.loc 1 21 0
+ 119 0030 6C4B     		ldr	r3, .L18
+ 120 0032 5B78     		ldrb	r3, [r3, #1]
+ 121 0034 DBB2     		uxtb	r3, r3
+ 122 0036 1A1C     		mov	r2, r3
+ 123 0038 0423     		mov	r3, #4
+ 124 003a 1340     		and	r3, r2
+ 125 003c 03D0     		beq	.L4
+  22:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c **** 		printf("\n\rSoftware Reset");
+ 126              		.loc 1 22 0
+ 127 003e 6C4B     		ldr	r3, .L18+12
+ 128 0040 181C     		mov	r0, r3
+ 129 0042 FFF7FEFF 		bl	printf
+ 130              	.L4:
+  23:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c **** 	if (RCM_SRS1 & RCM_SRS1_LOCKUP_MASK)
+ 131              		.loc 1 23 0
+ 132 0046 674B     		ldr	r3, .L18
+ 133 0048 5B78     		ldrb	r3, [r3, #1]
+ 134 004a DBB2     		uxtb	r3, r3
+ 135 004c 1A1C     		mov	r2, r3
+ 136 004e 0223     		mov	r3, #2
+ 137 0050 1340     		and	r3, r2
+ 138 0052 03D0     		beq	.L5
+  24:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c **** 		printf("\n\rCore Lockup Event Reset");
+ 139              		.loc 1 24 0
+ 140 0054 674B     		ldr	r3, .L18+16
+ 141 0056 181C     		mov	r0, r3
+ 142 0058 FFF7FEFF 		bl	printf
+ 143              	.L5:
+  25:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c **** 	
+  26:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c **** 	if (RCM_SRS0 & RCM_SRS0_POR_MASK)
+ 144              		.loc 1 26 0
+ 145 005c 614B     		ldr	r3, .L18
+ 146 005e 1B78     		ldrb	r3, [r3]
+ 147 0060 DBB2     		uxtb	r3, r3
+ 148 0062 DBB2     		uxtb	r3, r3
+ 149 0064 5BB2     		sxtb	r3, r3
+ 150 0066 002B     		cmp	r3, #0
+ 151 0068 03DA     		bge	.L6
+  27:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c **** 		printf("\n\rPower-on Reset");
+ 152              		.loc 1 27 0
+ 153 006a 634B     		ldr	r3, .L18+20
+ 154 006c 181C     		mov	r0, r3
+ 155 006e FFF7FEFF 		bl	printf
+ 156              	.L6:
+  28:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c **** 	if (RCM_SRS0 & RCM_SRS0_PIN_MASK)
+ 157              		.loc 1 28 0
+ 158 0072 5C4B     		ldr	r3, .L18
+ 159 0074 1B78     		ldrb	r3, [r3]
+ 160 0076 DBB2     		uxtb	r3, r3
+ 161 0078 1A1C     		mov	r2, r3
+ 162 007a 4023     		mov	r3, #64
+ 163 007c 1340     		and	r3, r2
+ 164 007e 03D0     		beq	.L7
+  29:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c **** 		printf("\n\rExternal Pin Reset");
+ 165              		.loc 1 29 0
+ 166 0080 5E4B     		ldr	r3, .L18+24
+ 167 0082 181C     		mov	r0, r3
+ 168 0084 FFF7FEFF 		bl	printf
+ 169              	.L7:
+  30:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c **** 	if (RCM_SRS0 & RCM_SRS0_WDOG_MASK)
+ 170              		.loc 1 30 0
+ 171 0088 564B     		ldr	r3, .L18
+ 172 008a 1B78     		ldrb	r3, [r3]
+ 173 008c DBB2     		uxtb	r3, r3
+ 174 008e 1A1C     		mov	r2, r3
+ 175 0090 2023     		mov	r3, #32
+ 176 0092 1340     		and	r3, r2
+ 177 0094 03D0     		beq	.L8
+  31:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c **** 		printf("\n\rWatchdog(COP) Reset");
+ 178              		.loc 1 31 0
+ 179 0096 5A4B     		ldr	r3, .L18+28
+ 180 0098 181C     		mov	r0, r3
+ 181 009a FFF7FEFF 		bl	printf
+ 182              	.L8:
+  32:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c **** 	if (RCM_SRS0 & RCM_SRS0_LOC_MASK)
+ 183              		.loc 1 32 0
+ 184 009e 514B     		ldr	r3, .L18
+ 185 00a0 1B78     		ldrb	r3, [r3]
+ 186 00a2 DBB2     		uxtb	r3, r3
+ 187 00a4 1A1C     		mov	r2, r3
+ 188 00a6 0423     		mov	r3, #4
+ 189 00a8 1340     		and	r3, r2
+ 190 00aa 03D0     		beq	.L9
+  33:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c **** 		printf("\n\rLoss of External Clock Reset");
+ 191              		.loc 1 33 0
+ 192 00ac 554B     		ldr	r3, .L18+32
+ 193 00ae 181C     		mov	r0, r3
+ 194 00b0 FFF7FEFF 		bl	printf
+ 195              	.L9:
+  34:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c **** 	if (RCM_SRS0 & RCM_SRS0_LOL_MASK)
+ 196              		.loc 1 34 0
+ 197 00b4 4B4B     		ldr	r3, .L18
+ 198 00b6 1B78     		ldrb	r3, [r3]
+ 199 00b8 DBB2     		uxtb	r3, r3
+ 200 00ba 1A1C     		mov	r2, r3
+ 201 00bc 0823     		mov	r3, #8
+ 202 00be 1340     		and	r3, r2
+ 203 00c0 03D0     		beq	.L10
+  35:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c **** 		printf("\n\rLoss of Lock in PLL Reset");
+ 204              		.loc 1 35 0
+ 205 00c2 514B     		ldr	r3, .L18+36
+ 206 00c4 181C     		mov	r0, r3
+ 207 00c6 FFF7FEFF 		bl	printf
+ 208              	.L10:
+  36:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c **** 	if (RCM_SRS0 & RCM_SRS0_LVD_MASK)
+ 209              		.loc 1 36 0
+ 210 00ca 464B     		ldr	r3, .L18
+ 211 00cc 1B78     		ldrb	r3, [r3]
+ 212 00ce DBB2     		uxtb	r3, r3
+ 213 00d0 1A1C     		mov	r2, r3
+ 214 00d2 0223     		mov	r3, #2
+ 215 00d4 1340     		and	r3, r2
+ 216 00d6 03D0     		beq	.L11
+  37:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c **** 		printf("\n\rLow-voltage Detect Reset");
+ 217              		.loc 1 37 0
+ 218 00d8 4C4B     		ldr	r3, .L18+40
+ 219 00da 181C     		mov	r0, r3
+ 220 00dc FFF7FEFF 		bl	printf
+ 221              	.L11:
+  38:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c **** 	if (RCM_SRS0 & RCM_SRS0_WAKEUP_MASK)
+ 222              		.loc 1 38 0
+ 223 00e0 404B     		ldr	r3, .L18
+ 224 00e2 1B78     		ldrb	r3, [r3]
+ 225 00e4 DBB2     		uxtb	r3, r3
+ 226 00e6 1A1C     		mov	r2, r3
+ 227 00e8 0123     		mov	r3, #1
+ 228 00ea 1340     		and	r3, r2
+ 229 00ec 5ED0     		beq	.L12
+  39:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c ****         {
+  40:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c ****           printf("\n\r[outSRS]Wakeup bit set from low power mode ");
+ 230              		.loc 1 40 0
+ 231 00ee 484B     		ldr	r3, .L18+44
+ 232 00f0 181C     		mov	r0, r3
+ 233 00f2 FFF7FEFF 		bl	printf
+  41:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c ****           if ((SMC_PMCTRL & SMC_PMCTRL_STOPM_MASK)== 3)
+ 234              		.loc 1 41 0
+ 235 00f6 474B     		ldr	r3, .L18+48
+ 236 00f8 5B78     		ldrb	r3, [r3, #1]
+ 237 00fa DBB2     		uxtb	r3, r3
+ 238 00fc 1A1C     		mov	r2, r3
+ 239 00fe 0723     		mov	r3, #7
+ 240 0100 1340     		and	r3, r2
+ 241 0102 032B     		cmp	r3, #3
+ 242 0104 03D1     		bne	.L13
+  42:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c ****             printf("LLS exit ") ;
+ 243              		.loc 1 42 0
+ 244 0106 444B     		ldr	r3, .L18+52
+ 245 0108 181C     		mov	r0, r3
+ 246 010a FFF7FEFF 		bl	printf
+ 247              	.L13:
+  43:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c ****           if (((SMC_PMCTRL & SMC_PMCTRL_STOPM_MASK)== 4) && ((SMC_STOPCTRL & SMC_STOPCTRL_VLLSM_MAS
+ 248              		.loc 1 43 0
+ 249 010e 414B     		ldr	r3, .L18+48
+ 250 0110 5B78     		ldrb	r3, [r3, #1]
+ 251 0112 DBB2     		uxtb	r3, r3
+ 252 0114 1A1C     		mov	r2, r3
+ 253 0116 0723     		mov	r3, #7
+ 254 0118 1340     		and	r3, r2
+ 255 011a 042B     		cmp	r3, #4
+ 256 011c 0AD1     		bne	.L14
+ 257              		.loc 1 43 0 is_stmt 0
+ 258 011e 3D4B     		ldr	r3, .L18+48
+ 259 0120 9B78     		ldrb	r3, [r3, #2]
+ 260 0122 DBB2     		uxtb	r3, r3
+ 261 0124 1A1C     		mov	r2, r3
+ 262 0126 0723     		mov	r3, #7
+ 263 0128 1340     		and	r3, r2
+ 264 012a 03D1     		bne	.L14
+  44:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c ****             printf("VLLS0 exit ") ;
+ 265              		.loc 1 44 0 is_stmt 1
+ 266 012c 3B4B     		ldr	r3, .L18+56
+ 267 012e 181C     		mov	r0, r3
+ 268 0130 FFF7FEFF 		bl	printf
+ 269              	.L14:
+  45:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c ****           if (((SMC_PMCTRL & SMC_PMCTRL_STOPM_MASK)== 4) && ((SMC_STOPCTRL & SMC_STOPCTRL_VLLSM_MAS
+ 270              		.loc 1 45 0
+ 271 0134 374B     		ldr	r3, .L18+48
+ 272 0136 5B78     		ldrb	r3, [r3, #1]
+ 273 0138 DBB2     		uxtb	r3, r3
+ 274 013a 1A1C     		mov	r2, r3
+ 275 013c 0723     		mov	r3, #7
+ 276 013e 1340     		and	r3, r2
+ 277 0140 042B     		cmp	r3, #4
+ 278 0142 0BD1     		bne	.L15
+ 279              		.loc 1 45 0 is_stmt 0
+ 280 0144 334B     		ldr	r3, .L18+48
+ 281 0146 9B78     		ldrb	r3, [r3, #2]
+ 282 0148 DBB2     		uxtb	r3, r3
+ 283 014a 1A1C     		mov	r2, r3
+ 284 014c 0723     		mov	r3, #7
+ 285 014e 1340     		and	r3, r2
+ 286 0150 012B     		cmp	r3, #1
+ 287 0152 03D1     		bne	.L15
+  46:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c ****             printf("VLLS1 exit ") ;
+ 288              		.loc 1 46 0 is_stmt 1
+ 289 0154 324B     		ldr	r3, .L18+60
+ 290 0156 181C     		mov	r0, r3
+ 291 0158 FFF7FEFF 		bl	printf
+ 292              	.L15:
+  47:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c ****           if (((SMC_PMCTRL & SMC_PMCTRL_STOPM_MASK)== 4) && ((SMC_STOPCTRL & SMC_STOPCTRL_VLLSM_MAS
+ 293              		.loc 1 47 0
+ 294 015c 2D4B     		ldr	r3, .L18+48
+ 295 015e 5B78     		ldrb	r3, [r3, #1]
+ 296 0160 DBB2     		uxtb	r3, r3
+ 297 0162 1A1C     		mov	r2, r3
+ 298 0164 0723     		mov	r3, #7
+ 299 0166 1340     		and	r3, r2
+ 300 0168 042B     		cmp	r3, #4
+ 301 016a 0BD1     		bne	.L16
+ 302              		.loc 1 47 0 is_stmt 0
+ 303 016c 294B     		ldr	r3, .L18+48
+ 304 016e 9B78     		ldrb	r3, [r3, #2]
+ 305 0170 DBB2     		uxtb	r3, r3
+ 306 0172 1A1C     		mov	r2, r3
+ 307 0174 0723     		mov	r3, #7
+ 308 0176 1340     		and	r3, r2
+ 309 0178 022B     		cmp	r3, #2
+ 310 017a 03D1     		bne	.L16
+  48:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c ****             printf("VLLS2 exit") ;
+ 311              		.loc 1 48 0 is_stmt 1
+ 312 017c 294B     		ldr	r3, .L18+64
+ 313 017e 181C     		mov	r0, r3
+ 314 0180 FFF7FEFF 		bl	printf
+ 315              	.L16:
+  49:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c ****           if (((SMC_PMCTRL & SMC_PMCTRL_STOPM_MASK)== 4) && ((SMC_STOPCTRL & SMC_STOPCTRL_VLLSM_MAS
+ 316              		.loc 1 49 0
+ 317 0184 234B     		ldr	r3, .L18+48
+ 318 0186 5B78     		ldrb	r3, [r3, #1]
+ 319 0188 DBB2     		uxtb	r3, r3
+ 320 018a 1A1C     		mov	r2, r3
+ 321 018c 0723     		mov	r3, #7
+ 322 018e 1340     		and	r3, r2
+ 323 0190 042B     		cmp	r3, #4
+ 324 0192 0BD1     		bne	.L12
+ 325              		.loc 1 49 0 is_stmt 0
+ 326 0194 1F4B     		ldr	r3, .L18+48
+ 327 0196 9B78     		ldrb	r3, [r3, #2]
+ 328 0198 DBB2     		uxtb	r3, r3
+ 329 019a 1A1C     		mov	r2, r3
+ 330 019c 0723     		mov	r3, #7
+ 331 019e 1340     		and	r3, r2
+ 332 01a0 032B     		cmp	r3, #3
+ 333 01a2 03D1     		bne	.L12
+  50:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c ****             printf("VLLS3 exit ") ; 
+ 334              		.loc 1 50 0 is_stmt 1
+ 335 01a4 204B     		ldr	r3, .L18+68
+ 336 01a6 181C     		mov	r0, r3
+ 337 01a8 FFF7FEFF 		bl	printf
+ 338              	.L12:
+  51:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c **** 	}
+  52:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c **** 
+  53:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c ****         if ((RCM_SRS0 == 0) && (RCM_SRS1 == 0)) 
+ 339              		.loc 1 53 0
+ 340 01ac 0D4B     		ldr	r3, .L18
+ 341 01ae 1B78     		ldrb	r3, [r3]
+ 342 01b0 DBB2     		uxtb	r3, r3
+ 343 01b2 002B     		cmp	r3, #0
+ 344 01b4 14D1     		bne	.L1
+ 345              		.loc 1 53 0 is_stmt 0
+ 346 01b6 0B4B     		ldr	r3, .L18
+ 347 01b8 5B78     		ldrb	r3, [r3, #1]
+ 348 01ba DBB2     		uxtb	r3, r3
+ 349 01bc 002B     		cmp	r3, #0
+ 350 01be 0FD1     		bne	.L1
+  54:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c ****         {
+  55:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c **** 	       printf("[outSRS]RCM_SRS0 is ZERO   = %#02X \r\n\r", (RCM_SRS0))  ;
+ 351              		.loc 1 55 0 is_stmt 1
+ 352 01c0 084B     		ldr	r3, .L18
+ 353 01c2 1B78     		ldrb	r3, [r3]
+ 354 01c4 DBB2     		uxtb	r3, r3
+ 355 01c6 194A     		ldr	r2, .L18+72
+ 356 01c8 101C     		mov	r0, r2
+ 357 01ca 191C     		mov	r1, r3
+ 358 01cc FFF7FEFF 		bl	printf
+  56:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c **** 	       printf("[outSRS]RCM_SRS1 is ZERO   = %#02X \r\n\r", (RCM_SRS1))  ;	 
+ 359              		.loc 1 56 0
+ 360 01d0 044B     		ldr	r3, .L18
+ 361 01d2 5B78     		ldrb	r3, [r3, #1]
+ 362 01d4 DBB2     		uxtb	r3, r3
+ 363 01d6 164A     		ldr	r2, .L18+76
+ 364 01d8 101C     		mov	r0, r2
+ 365 01da 191C     		mov	r1, r3
+ 366 01dc FFF7FEFF 		bl	printf
+ 367              	.L1:
+  57:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c ****         }
+  58:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm\rcm.c ****   }
+ 368              		.loc 1 58 0
+ 369 01e0 BD46     		mov	sp, r7
+ 370              		@ sp needed for prologue
+ 371 01e2 80BD     		pop	{r7, pc}
+ 372              	.L19:
+ 373              		.align	2
+ 374              	.L18:
+ 375 01e4 00F00740 		.word	1074262016
+ 376 01e8 00000000 		.word	.LC0
+ 377 01ec 24000000 		.word	.LC2
+ 378 01f0 34000000 		.word	.LC4
+ 379 01f4 48000000 		.word	.LC6
+ 380 01f8 64000000 		.word	.LC8
+ 381 01fc 78000000 		.word	.LC10
+ 382 0200 90000000 		.word	.LC12
+ 383 0204 A8000000 		.word	.LC14
+ 384 0208 C8000000 		.word	.LC16
+ 385 020c E4000000 		.word	.LC18
+ 386 0210 00010000 		.word	.LC20
+ 387 0214 00E00740 		.word	1074257920
+ 388 0218 30010000 		.word	.LC22
+ 389 021c 3C010000 		.word	.LC24
+ 390 0220 48010000 		.word	.LC26
+ 391 0224 54010000 		.word	.LC28
+ 392 0228 60010000 		.word	.LC30
+ 393 022c 6C010000 		.word	.LC32
+ 394 0230 94010000 		.word	.LC34
+ 395              		.cfi_endproc
+ 396              	.LFE0:
+ 398              		.text
+ 399              	.Letext0:
+ 400              		.file 2 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu/headers/MKL46Z4.
+ 401              		.file 3 "C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint"
+DEFINED SYMBOLS
+                            *ABS*:00000000 rcm.c
+C:\Users\b01252\AppData\Local\Temp\ccFkzXGY.s:18     .rodata:00000000 $d
+C:\Users\b01252\AppData\Local\Temp\ccFkzXGY.s:74     .text.outSRS:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccFkzXGY.s:79     .text.outSRS:00000000 outSRS
+C:\Users\b01252\AppData\Local\Temp\ccFkzXGY.s:375    .text.outSRS:000001e4 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+printf

@@ -1,0 +1,401 @@
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"GPIO.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.gpio_init,"ax",%progbits
+  18              		.align	2
+  19              		.global	gpio_init
+  20              		.code	16
+  21              		.thumb_func
+  23              	gpio_init:
+  24              	.LFB0:
+  25              		.file 1 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Dem
+   1:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** /**************************************************************************************************
+   2:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** /**
+   3:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** Copyright (c) 2011 Freescale Semiconductor
+   4:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** Freescale Confidential Proprietary
+   5:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** \file      freedom.c
+   6:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** 
+   7:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** \brief      
+   8:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** \author     
+   9:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** \author     
+  10:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** \version    1.0
+  11:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** \date       Sep 26, 2011
+  12:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** */
+  13:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** 
+  14:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** 
+  15:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** #include "gpio.h"
+  16:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** #include "common.h"
+  17:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** 
+  18:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** 
+  19:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** void  gpio_init(void);
+  20:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** 
+  21:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** 
+  22:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** /*
+  23:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** Initialize GPIO of TWRK40
+  24:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c ****    LEDS as outputs and simple test
+  25:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** 
+  26:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** SW3 (IRQ0) PTC5 
+  27:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** SW4 (IRQ1) PTC13 
+  28:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** SW5 (RESET) RESET_b 
+  29:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** 
+  30:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** 
+  31:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** 
+  32:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** */
+  33:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** 
+  34:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** void  gpio_init(void)
+  35:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** {
+  26              		.loc 1 35 0
+  27              		.cfi_startproc
+  28 0000 80B5     		push	{r7, lr}
+  29              	.LCFI0:
+  30              		.cfi_def_cfa_offset 8
+  31              		.cfi_offset 7, -8
+  32              		.cfi_offset 14, -4
+  33 0002 00AF     		add	r7, sp, #0
+  34              	.LCFI1:
+  35              		.cfi_def_cfa_register 7
+  36:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** /*  
+  37:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c ****  PORTC_PCR7 = PCR_OUTPUT_CONFIG;
+  38:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c ****  PORTC_PCR8 = PCR_OUTPUT_CONFIG;
+  39:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c ****  GPIOC_PDDR |= (1<<8) | (1<<7);
+  40:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c ****  */
+  41:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c ****   
+  42:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** #ifdef LED1
+  43:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c ****   LED1_PCR = PCR_OUTPUT_CONFIG;
+  36              		.loc 1 43 0
+  37 0004 2C4B     		ldr	r3, .L2
+  38 0006 A022     		mov	r2, #160
+  39 0008 5200     		lsl	r2, r2, #1
+  40 000a 5A64     		str	r2, [r3, #68]
+  44:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c ****   LED1_OFF;
+  41              		.loc 1 44 0
+  42 000c 2B4B     		ldr	r3, .L2+4
+  43 000e 2B4A     		ldr	r2, .L2+4
+  44 0010 5268     		ldr	r2, [r2, #4]
+  45 0012 8021     		mov	r1, #128
+  46 0014 8902     		lsl	r1, r1, #10
+  47 0016 0A43     		orr	r2, r1
+  48 0018 5A60     		str	r2, [r3, #4]
+  45:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c ****   LED1_OUTPUT_EN;
+  49              		.loc 1 45 0
+  50 001a 284B     		ldr	r3, .L2+4
+  51 001c 274A     		ldr	r2, .L2+4
+  52 001e 5269     		ldr	r2, [r2, #20]
+  53 0020 8021     		mov	r1, #128
+  54 0022 8902     		lsl	r1, r1, #10
+  55 0024 0A43     		orr	r2, r1
+  56 0026 5A61     		str	r2, [r3, #20]
+  46:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** #endif
+  47:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c ****     
+  48:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** #ifdef LED2
+  49:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c ****   LED2_PCR = PCR_OUTPUT_CONFIG;
+  57              		.loc 1 49 0
+  58 0028 254B     		ldr	r3, .L2+8
+  59 002a A022     		mov	r2, #160
+  60 002c 5200     		lsl	r2, r2, #1
+  61 002e 1A62     		str	r2, [r3, #32]
+  50:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c ****   LED2_OFF;
+  62              		.loc 1 50 0
+  63 0030 244B     		ldr	r3, .L2+12
+  64 0032 244A     		ldr	r2, .L2+12
+  65 0034 5268     		ldr	r2, [r2, #4]
+  66 0036 8021     		mov	r1, #128
+  67 0038 4900     		lsl	r1, r1, #1
+  68 003a 0A43     		orr	r2, r1
+  69 003c 5A60     		str	r2, [r3, #4]
+  51:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c ****   LED2_OUTPUT_EN;
+  70              		.loc 1 51 0
+  71 003e 214B     		ldr	r3, .L2+12
+  72 0040 204A     		ldr	r2, .L2+12
+  73 0042 5269     		ldr	r2, [r2, #20]
+  74 0044 8021     		mov	r1, #128
+  75 0046 4900     		lsl	r1, r1, #1
+  76 0048 0A43     		orr	r2, r1
+  77 004a 5A61     		str	r2, [r3, #20]
+  52:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** #endif
+  53:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** 
+  54:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** #ifdef LED3
+  55:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c ****   LED3_PCR = PCR_OUTPUT_CONFIG;
+  78              		.loc 1 55 0
+  79 004c 1A4B     		ldr	r3, .L2
+  80 004e A022     		mov	r2, #160
+  81 0050 5200     		lsl	r2, r2, #1
+  82 0052 5A61     		str	r2, [r3, #20]
+  56:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c ****   LED3_OFF;
+  83              		.loc 1 56 0
+  84 0054 194B     		ldr	r3, .L2+4
+  85 0056 194A     		ldr	r2, .L2+4
+  86 0058 5268     		ldr	r2, [r2, #4]
+  87 005a 2021     		mov	r1, #32
+  88 005c 0A43     		orr	r2, r1
+  89 005e 5A60     		str	r2, [r3, #4]
+  57:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c ****   LED3_OUTPUT_EN;
+  90              		.loc 1 57 0
+  91 0060 164B     		ldr	r3, .L2+4
+  92 0062 164A     		ldr	r2, .L2+4
+  93 0064 5269     		ldr	r2, [r2, #20]
+  94 0066 2021     		mov	r1, #32
+  95 0068 0A43     		orr	r2, r1
+  96 006a 5A61     		str	r2, [r3, #20]
+  58:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** #endif
+  59:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c ****   
+  60:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** #ifdef LED4
+  61:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c ****   LED4_PCR = PCR_OUTPUT_CONFIG;
+  97              		.loc 1 61 0
+  98 006c 124B     		ldr	r3, .L2
+  99 006e A022     		mov	r2, #160
+ 100 0070 5200     		lsl	r2, r2, #1
+ 101 0072 1A64     		str	r2, [r3, #64]
+  62:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c ****   LED4_OFF;
+ 102              		.loc 1 62 0
+ 103 0074 114B     		ldr	r3, .L2+4
+ 104 0076 114A     		ldr	r2, .L2+4
+ 105 0078 5268     		ldr	r2, [r2, #4]
+ 106 007a 8021     		mov	r1, #128
+ 107 007c 4902     		lsl	r1, r1, #9
+ 108 007e 0A43     		orr	r2, r1
+ 109 0080 5A60     		str	r2, [r3, #4]
+  63:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c ****   LED4_OUTPUT_EN;
+ 110              		.loc 1 63 0
+ 111 0082 0E4B     		ldr	r3, .L2+4
+ 112 0084 0D4A     		ldr	r2, .L2+4
+ 113 0086 5269     		ldr	r2, [r2, #20]
+ 114 0088 8021     		mov	r1, #128
+ 115 008a 4902     		lsl	r1, r1, #9
+ 116 008c 0A43     		orr	r2, r1
+ 117 008e 5A61     		str	r2, [r3, #20]
+  64:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** #endif
+  65:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c ****   
+  66:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** #ifdef SW1
+  67:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c ****    SW1_PCR = PCR_INPUT_CONFIG;
+ 118              		.loc 1 67 0
+ 119 0090 094B     		ldr	r3, .L2
+ 120 0092 0D4A     		ldr	r2, .L2+16
+ 121 0094 1A61     		str	r2, [r3, #16]
+  68:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c ****    SW1_INPUT_EN;
+ 122              		.loc 1 68 0
+ 123 0096 094B     		ldr	r3, .L2+4
+ 124 0098 084A     		ldr	r2, .L2+4
+ 125 009a 5269     		ldr	r2, [r2, #20]
+ 126 009c 1021     		mov	r1, #16
+ 127 009e 8A43     		bic	r2, r1
+ 128 00a0 5A61     		str	r2, [r3, #20]
+  69:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** #endif
+  70:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c ****   
+  71:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** #ifdef SW2
+  72:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c ****    SW2_PCR = PCR_INPUT_CONFIG;
+ 129              		.loc 1 72 0
+ 130 00a2 0A4B     		ldr	r3, .L2+20
+ 131 00a4 084A     		ldr	r2, .L2+16
+ 132 00a6 DA60     		str	r2, [r3, #12]
+  73:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c ****    SW2_INPUT_EN;
+ 133              		.loc 1 73 0
+ 134 00a8 094B     		ldr	r3, .L2+24
+ 135 00aa 094A     		ldr	r2, .L2+24
+ 136 00ac 5269     		ldr	r2, [r2, #20]
+ 137 00ae 0821     		mov	r1, #8
+ 138 00b0 8A43     		bic	r2, r1
+ 139 00b2 5A61     		str	r2, [r3, #20]
+  74:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** #endif
+  75:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** 
+  76:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c ****    
+  77:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c ****  
+  78:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** }
+ 140              		.loc 1 78 0
+ 141 00b4 BD46     		mov	sp, r7
+ 142              		@ sp needed for prologue
+ 143 00b6 80BD     		pop	{r7, pc}
+ 144              	.L3:
+ 145              		.align	2
+ 146              	.L2:
+ 147 00b8 00900440 		.word	1074040832
+ 148 00bc 00F00F40 		.word	1074786304
+ 149 00c0 00A00440 		.word	1074044928
+ 150 00c4 40F00F40 		.word	1074786368
+ 151 00c8 03010000 		.word	259
+ 152 00cc 00B00440 		.word	1074049024
+ 153 00d0 80F00F40 		.word	1074786432
+ 154              		.cfi_endproc
+ 155              	.LFE0:
+ 157              		.section	.text.input_rise,"ax",%progbits
+ 158              		.align	2
+ 159              		.global	input_rise
+ 160              		.code	16
+ 161              		.thumb_func
+ 163              	input_rise:
+ 164              	.LFB1:
+  79:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** 
+  80:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** 
+  81:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** /* 
+  82:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c ****  raising(input,aux_mem 
+  83:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c ****   return 1
+  84:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c ****      when input=1 and aux=0
+  85:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c ****      aux=input
+  86:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** */
+  87:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** 
+  88:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** char input_rise(char input,char *mem)
+  89:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** {
+ 165              		.loc 1 89 0
+ 166              		.cfi_startproc
+ 167 0000 80B5     		push	{r7, lr}
+ 168              	.LCFI2:
+ 169              		.cfi_def_cfa_offset 8
+ 170              		.cfi_offset 7, -8
+ 171              		.cfi_offset 14, -4
+ 172 0002 84B0     		sub	sp, sp, #16
+ 173              	.LCFI3:
+ 174              		.cfi_def_cfa_offset 24
+ 175 0004 00AF     		add	r7, sp, #0
+ 176              	.LCFI4:
+ 177              		.cfi_def_cfa_register 7
+ 178 0006 021C     		mov	r2, r0
+ 179 0008 3960     		str	r1, [r7]
+ 180 000a FB1D     		add	r3, r7, #7
+ 181 000c 1A70     		strb	r2, [r3]
+  90:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c ****  char result=0;
+ 182              		.loc 1 90 0
+ 183 000e 3B1C     		mov	r3, r7
+ 184 0010 0F33     		add	r3, r3, #15
+ 185 0012 0022     		mov	r2, #0
+ 186 0014 1A70     		strb	r2, [r3]
+  91:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c ****  if (input && !*mem) result=1;
+ 187              		.loc 1 91 0
+ 188 0016 FB1D     		add	r3, r7, #7
+ 189 0018 1B78     		ldrb	r3, [r3]
+ 190 001a 002B     		cmp	r3, #0
+ 191 001c 07D0     		beq	.L5
+ 192              		.loc 1 91 0 is_stmt 0
+ 193 001e 3B68     		ldr	r3, [r7]
+ 194 0020 1B78     		ldrb	r3, [r3]
+ 195 0022 002B     		cmp	r3, #0
+ 196 0024 03D1     		bne	.L5
+ 197 0026 3B1C     		mov	r3, r7
+ 198 0028 0F33     		add	r3, r3, #15
+ 199 002a 0122     		mov	r2, #1
+ 200 002c 1A70     		strb	r2, [r3]
+ 201              	.L5:
+  92:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c ****  *mem = input;
+ 202              		.loc 1 92 0 is_stmt 1
+ 203 002e 3B68     		ldr	r3, [r7]
+ 204 0030 FA1D     		add	r2, r7, #7
+ 205 0032 1278     		ldrb	r2, [r2]
+ 206 0034 1A70     		strb	r2, [r3]
+  93:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c ****  return result;
+ 207              		.loc 1 93 0
+ 208 0036 3B1C     		mov	r3, r7
+ 209 0038 0F33     		add	r3, r3, #15
+ 210 003a 1B78     		ldrb	r3, [r3]
+  94:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** }
+ 211              		.loc 1 94 0
+ 212 003c 181C     		mov	r0, r3
+ 213 003e BD46     		mov	sp, r7
+ 214 0040 04B0     		add	sp, sp, #16
+ 215              		@ sp needed for prologue
+ 216 0042 80BD     		pop	{r7, pc}
+ 217              		.cfi_endproc
+ 218              	.LFE1:
+ 220              		.section	.text.input_fall,"ax",%progbits
+ 221              		.align	2
+ 222              		.global	input_fall
+ 223              		.code	16
+ 224              		.thumb_func
+ 226              	input_fall:
+ 227              	.LFB2:
+  95:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** 
+  96:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** /* 
+  97:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** 
+  98:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c ****   return 1
+  99:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c ****      when input=1 and aux=0
+ 100:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c ****      aux=input
+ 101:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** */
+ 102:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** 
+ 103:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** char input_fall(char input,char *mem)
+ 104:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** {
+ 228              		.loc 1 104 0
+ 229              		.cfi_startproc
+ 230 0000 80B5     		push	{r7, lr}
+ 231              	.LCFI5:
+ 232              		.cfi_def_cfa_offset 8
+ 233              		.cfi_offset 7, -8
+ 234              		.cfi_offset 14, -4
+ 235 0002 84B0     		sub	sp, sp, #16
+ 236              	.LCFI6:
+ 237              		.cfi_def_cfa_offset 24
+ 238 0004 00AF     		add	r7, sp, #0
+ 239              	.LCFI7:
+ 240              		.cfi_def_cfa_register 7
+ 241 0006 021C     		mov	r2, r0
+ 242 0008 3960     		str	r1, [r7]
+ 243 000a FB1D     		add	r3, r7, #7
+ 244 000c 1A70     		strb	r2, [r3]
+ 105:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c ****  char result=0;
+ 245              		.loc 1 105 0
+ 246 000e 3B1C     		mov	r3, r7
+ 247 0010 0F33     		add	r3, r3, #15
+ 248 0012 0022     		mov	r2, #0
+ 249 0014 1A70     		strb	r2, [r3]
+ 106:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c ****  if (!input && *mem) result=1;
+ 250              		.loc 1 106 0
+ 251 0016 FB1D     		add	r3, r7, #7
+ 252 0018 1B78     		ldrb	r3, [r3]
+ 253 001a 002B     		cmp	r3, #0
+ 254 001c 07D1     		bne	.L8
+ 255              		.loc 1 106 0 is_stmt 0
+ 256 001e 3B68     		ldr	r3, [r7]
+ 257 0020 1B78     		ldrb	r3, [r3]
+ 258 0022 002B     		cmp	r3, #0
+ 259 0024 03D0     		beq	.L8
+ 260 0026 3B1C     		mov	r3, r7
+ 261 0028 0F33     		add	r3, r3, #15
+ 262 002a 0122     		mov	r2, #1
+ 263 002c 1A70     		strb	r2, [r3]
+ 264              	.L8:
+ 107:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c ****  *mem = input;
+ 265              		.loc 1 107 0 is_stmt 1
+ 266 002e 3B68     		ldr	r3, [r7]
+ 267 0030 FA1D     		add	r2, r7, #7
+ 268 0032 1278     		ldrb	r2, [r2]
+ 269 0034 1A70     		strb	r2, [r3]
+ 108:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c ****  return result;
+ 270              		.loc 1 108 0
+ 271 0036 3B1C     		mov	r3, r7
+ 272 0038 0F33     		add	r3, r3, #15
+ 273 003a 1B78     		ldrb	r3, [r3]
+ 109:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo\GPIO.c **** }
+ 274              		.loc 1 109 0
+ 275 003c 181C     		mov	r0, r3
+ 276 003e BD46     		mov	sp, r7
+ 277 0040 04B0     		add	sp, sp, #16
+ 278              		@ sp needed for prologue
+ 279 0042 80BD     		pop	{r7, pc}
+ 280              		.cfi_endproc
+ 281              	.LFE2:
+ 283              		.text
+ 284              	.Letext0:
+ 285              		.file 2 "C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint"
+ 286              		.file 3 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu/headers/MKL46Z4.
+DEFINED SYMBOLS
+                            *ABS*:00000000 GPIO.c
+C:\Users\b01252\AppData\Local\Temp\ccNMRScN.s:18     .text.gpio_init:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccNMRScN.s:23     .text.gpio_init:00000000 gpio_init
+C:\Users\b01252\AppData\Local\Temp\ccNMRScN.s:147    .text.gpio_init:000000b8 $d
+C:\Users\b01252\AppData\Local\Temp\ccNMRScN.s:158    .text.input_rise:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccNMRScN.s:163    .text.input_rise:00000000 input_rise
+C:\Users\b01252\AppData\Local\Temp\ccNMRScN.s:221    .text.input_fall:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccNMRScN.s:226    .text.input_fall:00000000 input_fall
+                     .debug_frame:00000010 $d
+
+NO UNDEFINED SYMBOLS

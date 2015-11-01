@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<workspace>
+  <project>
+    <path>$WS_DIR$\freedom_red_led_freedom.ewp</path>
+  </project>
+  <project>
+    <path>$WS_DIR$\freedom_red_led_tower.ewp</path>
+  </project>
+   <batchBuild/>
+</workspace>
+
+

@@ -1,0 +1,2309 @@
+Archive member included because of file (symbol)
+
+C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(putchar.o)
+                              ./common/uif.o (putchar)
+C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(puts.o)
+                              ./common/uif.o (puts)
+C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(printformat_.o)
+                              (__pformatter_)
+C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(__putchar.o)
+                              C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(putchar.o) (__put_char)
+C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(ansi_files.o)
+                              C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(putchar.o) (__files)
+C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(fflush.o)
+                              C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(ansi_files.o) (fflush)
+C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(memchr.o)
+                              C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(printformat_.o) (memchr)
+C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(strchr.o)
+                              C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(printformat_.o) (strchr)
+C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(__buffer_io.o)
+                              C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(__putchar.o) (__prep_buffer)
+c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_udivsi3.o)
+                              ./common/printf.o (__aeabi_uidiv)
+c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_divsi3.o)
+                              ./common/printf.o (__aeabi_idiv)
+c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_dvmd_tls.o)
+                              c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_udivsi3.o) (__aeabi_idiv0)
+c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_fixunssfsi.o)
+                              ./drivers/mcg/mcg.o (__aeabi_f2uiz)
+c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(divsf3.o)
+                              ./drivers/mcg/mcg.o (__aeabi_fdiv)
+c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(mulsf3.o)
+                              ./drivers/mcg/mcg.o (__aeabi_fmul)
+c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(subsf3.o)
+                              c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_fixunssfsi.o) (__aeabi_fsub)
+c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(fixsfsi.o)
+                              c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_fixunssfsi.o) (__aeabi_f2iz)
+c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(floatsisf.o)
+                              ./drivers/mcg/mcg.o (__aeabi_i2f)
+c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_arm_cmpsf2.o)
+                              c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_fixunssfsi.o) (__aeabi_fcmpge)
+c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_clzsi2.o)
+                              c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(divsf3.o) (__clzsi2)
+c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(eqsf2.o)
+                              c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_arm_cmpsf2.o) (__eqsf2)
+c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(gesf2.o)
+                              c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_arm_cmpsf2.o) (__gesf2)
+c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(lesf2.o)
+                              c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_arm_cmpsf2.o) (__lesf2)
+
+Allocating common symbols
+Common symbol       size              file
+
+gu16TSICount        0x20              ./project/tsi/TSIDrv.o
+ptr_next_task       0x4               ./project/task_mgr/task_mgr.o
+gu8EP3_OUT_EVEN_Buffer
+                    0x20              ./project/usb/usb.o
+gu8IN_Counter       0x1               ./project/usb/usb.o
+ti_tsi1             0x2               ./project/global.o
+mcg_clk_hz          0x4               ./cpu/sysinit.o
+Mresultz            0x2               ./project/I2C/hal_dev_mag3110.o
+ongoing_elec        0x1               ./project/tsi/TSIDrv.o
+Mtestz              0x4               ./project/I2C/hal_dev_mag3110.o
+OUT_EndAddress      0x4               ./project/usb/ring_buffer.o
+last_adc_channel    0x1               ./project/adc_test/adc_test.o
+accel_x             0x2               ./project/I2C/hal_dev_mma8451.o
+gu8EP1_OUT_EVEN_Buffer
+                    0x20              ./project/usb/usb.o
+adc_reading_channel
+                    0x1               ./project/adc_test/adc_test.o
+ti_fall             0x2               ./project/global.o
+yz_mag              0x4               ./project/angle_calculation/angle_cal.o
+Electrode1          0x1               ./project/tsi/TSIDrv.o
+adc_sample          0x2               ./project/global.o
+seconds_count       0x4               ./project/rtc/rtc.o
+core_clk_khz        0x4               ./cpu/sysinit.o
+isr_flag            0x4               ./project/adc_test/adc_test.o
+cat                 0x4               ./project/angle_calculation/angle_cal.o
+gu16Baseline        0x20              ./project/tsi/TSIDrv.o
+Setup_Pkt           0x4               ./project/usb/usb.o
+gu8EP1_OUT_ODD_Buffer
+                    0x20              ./project/usb/usb.o
+gu8HALT_EP          0x1               ./project/usb/usb.o
+xy_angle            0x4               ./project/angle_calculation/angle_cal.o
+OUT_SciPointer      0x4               ./project/usb/ring_buffer.o
+mag_x               0x2               ./project/I2C/hal_dev_mag3110.o
+gu8USB_PingPong_flags
+                    0x1               ./project/usb/usb.o
+xz_mag              0x4               ./project/angle_calculation/angle_cal.o
+gu8EP2_IN_ODD_Buffer
+                    0x20              ./project/usb/usb.o
+gu8Status           0x2               ./project/usb/usb.o
+gu8EP1_IN_ODD_Buffer
+                    0x20              ./project/usb/usb.o
+ti_tsi_multiplexing
+                    0x2               ./project/global.o
+gu8EP0_OUT_ODD_Buffer
+                    0x20              ./project/usb/usb.o
+ti_test_adc         0x2               ./project/global.o
+periph_clk_khz      0x4               ./cpu/sysinit.o
+base_time125m       0x2               ./project/global.o
+ti_delay            0x2               ./project/global.o
+Atesty              0x4               ./project/I2C/hal_dev_mma8451.o
+gu8USB_Toogle_flags
+                    0x1               ./project/usb/usb.o
+uart0_clk_khz       0x4               ./cpu/sysinit.o
+accel_y             0x2               ./project/I2C/hal_dev_mma8451.o
+fall_input          0x1               ./project/angle_calculation/angle_cal.o
+Mresulty            0x2               ./project/I2C/hal_dev_mag3110.o
+adc_sample0         0x2               ./project/adc_test/adc_test.o
+stdout_buff         0x40              C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(ansi_files.o)
+gu8EP3_IN_EVEN_Buffer
+                    0x20              ./project/usb/usb.o
+OUT_StartAddress    0x4               ./project/usb/ring_buffer.o
+arr_medianas        0x90              ./project/TWRKL46_Demo.o
+uart0_clk_hz        0x4               ./cpu/sysinit.o
+Aresultx            0x2               ./project/I2C/hal_dev_mma8451.o
+Master_Adc_Config   0x10              ./project/adc_test/adc_test.o
+LineCoding          0x8               ./project/usb/usb_cdc.o
+resultz             0x2               ./project/TWRKL46_Demo.o
+OUT_UsbPointer      0x4               ./project/usb/ring_buffer.o
+i                   0x4               ./drivers/pmc/pmc.o
+gu8EP1_IN_EVEN_Buffer
+                    0x20              ./project/usb/usb.o
+mag_y               0x2               ./project/I2C/hal_dev_mag3110.o
+pit1_isrv_count     0x2               ./project/global.o
+gu16Delta           0x20              ./project/tsi/TSIDrv.o
+memLCD_PENH         0x4               ./project/lcd/LcdDrv.o
+adc_sample1         0x2               ./project/adc_test/adc_test.o
+intnum              0x4               ./project/adc_test/adc_test.o
+resp_ptr_next_task  0x4               ./project/task_mgr/task_mgr.o
+gu8USB_Flags        0x1               ./project/usb/usb.o
+resultx             0x2               ./project/TWRKL46_Demo.o
+buffer_adc          0x1               ./project/adc_test/adc_test.o
+xy_mag              0x4               ./project/angle_calculation/angle_cal.o
+ti_print            0x2               ./project/global.o
+lcd_alternate_mode  0x1               ./project/lcd/LcdDrv.o
+CDC_OUT_Data        0x80              ./project/usb/usb_cdc.o
+arr_medianas2       0x6c              ./project/angle_calculation/angle_cal.o
+Z_acc               0x4               ./project/angle_calculation/angle_cal.o
+gu8BufferOverFlow   0x1               ./project/usb/ring_buffer.o
+gu8USB_Buffer       0x40              ./project/TWRKL46_Demo.o
+X_acc               0x4               ./project/angle_calculation/angle_cal.o
+gu8Interface        0x1               ./project/usb/usb.o
+gu8LCD_CharPosition
+                    0x1               ./project/lcd/LcdDrv.o
+rtc_seconds_isrv_count
+                    0x2               ./project/global.o
+Atestx              0x4               ./project/I2C/hal_dev_mma8451.o
+gu8EP2_OUT_EVEN_Buffer
+                    0x20              ./project/usb/usb.o
+gu8USBClearFlags    0x1               ./project/usb/usb.o
+gu8EP0_IN_ODD_Buffer
+                    0x20              ./project/usb/usb.o
+yz_angle            0x4               ./project/angle_calculation/angle_cal.o
+gu8EP0_OUT_EVEN_Buffer
+                    0x20              ./project/usb/usb.o
+gu8USB_State        0x1               ./project/usb/usb.o
+mag_z               0x2               ./project/I2C/hal_dev_mag3110.o
+gu8Dummy            0x1               ./project/usb/usb.o
+Electrode2          0x1               ./project/tsi/TSIDrv.o
+Mtesty              0x4               ./project/I2C/hal_dev_mag3110.o
+gu8EP2_IN_EVEN_Buffer
+                    0x20              ./project/usb/usb.o
+memLCD_PENL         0x4               ./project/lcd/LcdDrv.o
+gu8BufferMaxSize    0x1               ./project/usb/ring_buffer.o
+tBDTtable           0x80              ./project/usb/usb.o
+ti_console          0x2               ./project/global.o
+pu8IN_DataPointer   0x4               ./project/usb/usb.o
+ti_tsi0             0x2               ./project/global.o
+mcg_clk_khz         0x4               ./cpu/sysinit.o
+Aresulty            0x2               ./project/I2C/hal_dev_mma8451.o
+offset              0x4               ./project/angle_calculation/angle_cal.o
+memLCD_BPENL        0x4               ./project/lcd/LcdDrv.o
+adc_buffer_adc      0x400             ./project/adc_test/adc_test.o
+adc_pot             0x4               ./project/TWRKL46_Demo.o
+drs_val             0x1               ./drivers/mcg/mcg.o
+channel_no          0x4               ./project/adc_test/adc_test.o
+stdin_buff          0x40              C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(ansi_files.o)
+CalibrationStore    0x34              ./project/adc_test/adc_test.o
+dmx32_val           0x1               ./drivers/mcg/mcg.o
+gu8EP0_IN_EVEN_Buffer
+                    0x20              ./project/usb/usb.o
+Mtestx              0x4               ./project/I2C/hal_dev_mag3110.o
+memLCD_BPENH        0x4               ./project/lcd/LcdDrv.o
+Mresultx            0x2               ./project/I2C/hal_dev_mag3110.o
+Y_acc               0x4               ./project/angle_calculation/angle_cal.o
+task_status         0x4               ./project/task_mgr/task_mgr.o
+accel_z             0x2               ./project/I2C/hal_dev_mma8451.o
+resulty             0x2               ./project/TWRKL46_Demo.o
+xz_angle            0x4               ./project/angle_calculation/angle_cal.o
+DMA_errorCount      0x2               ./project/adc_test/adc_test.o
+dmaIsrCount         0x2               ./project/adc_test/adc_test.o
+Atestz              0x4               ./project/I2C/hal_dev_mma8451.o
+gu8EP3_IN_ODD_Buffer
+                    0x20              ./project/usb/usb.o
+Aresultz            0x2               ./project/I2C/hal_dev_mma8451.o
+ti_task             0x2               ./project/global.o
+ti_led              0x2               ./project/global.o
+aux1                0x1               ./project/I2C/hal_dev_mma8451.o
+pll_clk_khz         0x4               ./cpu/sysinit.o
+ti_accel_sampling   0x2               ./project/global.o
+gu8EP3_OUT_ODD_Buffer
+                    0x20              ./project/usb/usb.o
+stderr_buff         0x40              C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(ansi_files.o)
+gu8EP2_OUT_ODD_Buffer
+                    0x20              ./project/usb/usb.o
+
+Discarded input sections
+
+ .text          0x00000000        0x0 ./common/uif.o
+ .data          0x00000000        0x0 ./common/uif.o
+ .bss           0x00000000        0x0 ./common/uif.o
+ .rodata.HELPMSG
+                0x00000000       0x18 ./common/uif.o
+ .rodata.INVARG
+                0x00000000       0x20 ./common/uif.o
+ .rodata.INVALUE
+                0x00000000       0x1c ./common/uif.o
+ .rodata.INVCMD
+                0x00000000       0x1c ./common/uif.o
+ .rodata.HELPFORMAT
+                0x00000000       0x14 ./common/uif.o
+ .rodata.SYNTAX
+                0x00000000       0x20 ./common/uif.o
+ .rodata.INVOPT
+                0x00000000       0x28 ./common/uif.o
+ .rodata.OPTFMT
+                0x00000000        0x8 ./common/uif.o
+ .bss.cmdline1  0x00000000       0x50 ./common/uif.o
+ .bss.cmdline2  0x00000000       0x50 ./common/uif.o
+ .text.get_line
+                0x00000000       0xb4 ./common/uif.o
+ .text.make_argv
+                0x00000000       0xa4 ./common/uif.o
+ .rodata        0x00000000       0x54 ./common/uif.o
+ .text.run_cmd  0x00000000      0x144 ./common/uif.o
+ .text.get_value
+                0x00000000       0x4c ./common/uif.o
+ .text.uif_cmd_help
+                0x00000000       0x8c ./common/uif.o
+ .text.uif_cmd_set
+                0x00000000      0x14c ./common/uif.o
+ .text.uif_cmd_show
+                0x00000000      0x164 ./common/uif.o
+ .debug_info    0x00000000      0x56c ./common/uif.o
+ .debug_abbrev  0x00000000      0x161 ./common/uif.o
+ .debug_loc     0x00000000      0x18a ./common/uif.o
+ .debug_aranges
+                0x00000000       0x50 ./common/uif.o
+ .debug_macinfo
+                0x00000000    0x3277e ./common/uif.o
+ .debug_line    0x00000000      0x4aa ./common/uif.o
+ .debug_str     0x00000000      0x281 ./common/uif.o
+ .comment       0x00000000       0x7a ./common/uif.o
+ .ARM.attributes
+                0x00000000       0x31 ./common/uif.o
+ .debug_frame   0x00000000       0xf8 ./common/uif.o
+ .text          0x00000000        0x0 ./common/stdlib.o
+ .data          0x00000000        0x0 ./common/stdlib.o
+ .bss           0x00000000        0x0 ./common/stdlib.o
+ .text.isspace  0x00000000       0x24 ./common/stdlib.o
+ .text.isalnum  0x00000000       0x3c ./common/stdlib.o
+ .text.isdigit  0x00000000       0x24 ./common/stdlib.o
+ .text.isupper  0x00000000       0x24 ./common/stdlib.o
+ .text.strcasecmp
+                0x00000000       0xb4 ./common/stdlib.o
+ .text.strncasecmp
+                0x00000000       0xcc ./common/stdlib.o
+ .text.strtoul  0x00000000      0x160 ./common/stdlib.o
+ .text.strcat   0x00000000       0x58 ./common/stdlib.o
+ .text.strncat  0x00000000       0x74 ./common/stdlib.o
+ .text.strcpy   0x00000000       0x4c ./common/stdlib.o
+ .text.strncpy  0x00000000       0x68 ./common/stdlib.o
+ .text.strcmp   0x00000000       0x4c ./common/stdlib.o
+ .text.strncmp  0x00000000       0x6c ./common/stdlib.o
+ .text.memcpy   0x00000000       0x9c ./common/stdlib.o
+ .text.memset   0x00000000       0x48 ./common/stdlib.o
+ .text          0x00000000        0x0 ./common/startup.o
+ .data          0x00000000        0x0 ./common/startup.o
+ .bss           0x00000000        0x0 ./common/startup.o
+ .text          0x00000000        0x0 ./common/queue.o
+ .data          0x00000000        0x0 ./common/queue.o
+ .bss           0x00000000        0x0 ./common/queue.o
+ .text.queue_init
+                0x00000000       0x14 ./common/queue.o
+ .text.queue_isempty
+                0x00000000       0x1c ./common/queue.o
+ .text.queue_add
+                0x00000000       0x44 ./common/queue.o
+ .text.queue_remove
+                0x00000000       0x34 ./common/queue.o
+ .text.queue_peek
+                0x00000000       0x14 ./common/queue.o
+ .text.queue_move
+                0x00000000       0x54 ./common/queue.o
+ .debug_info    0x00000000      0x1eb ./common/queue.o
+ .debug_abbrev  0x00000000       0xd9 ./common/queue.o
+ .debug_loc     0x00000000      0x150 ./common/queue.o
+ .debug_aranges
+                0x00000000       0x48 ./common/queue.o
+ .debug_macinfo
+                0x00000000    0x325cf ./common/queue.o
+ .debug_line    0x00000000      0x400 ./common/queue.o
+ .debug_str     0x00000000      0x19d ./common/queue.o
+ .comment       0x00000000       0x7a ./common/queue.o
+ .ARM.attributes
+                0x00000000       0x31 ./common/queue.o
+ .debug_frame   0x00000000       0xd0 ./common/queue.o
+ .text          0x00000000        0x0 ./common/printf.o
+ .data          0x00000000        0x0 ./common/printf.o
+ .bss           0x00000000        0x0 ./common/printf.o
+ .text          0x00000000        0x0 ./common/memtest.o
+ .data          0x00000000        0x0 ./common/memtest.o
+ .bss           0x00000000        0x0 ./common/memtest.o
+ .text.memTestDataBus
+                0x00000000       0x38 ./common/memtest.o
+ .text.memTestAddressBus
+                0x00000000      0x10c ./common/memtest.o
+ .text.memTestDevice
+                0x00000000       0xcc ./common/memtest.o
+ .debug_info    0x00000000      0x169 ./common/memtest.o
+ .debug_abbrev  0x00000000       0x86 ./common/memtest.o
+ .debug_loc     0x00000000       0xa8 ./common/memtest.o
+ .debug_aranges
+                0x00000000       0x30 ./common/memtest.o
+ .debug_macinfo
+                0x00000000     0x23f3 ./common/memtest.o
+ .debug_line    0x00000000      0x10e ./common/memtest.o
+ .debug_str     0x00000000      0x143 ./common/memtest.o
+ .comment       0x00000000       0x7a ./common/memtest.o
+ .ARM.attributes
+                0x00000000       0x31 ./common/memtest.o
+ .debug_frame   0x00000000       0x70 ./common/memtest.o
+ .text          0x00000000        0x0 ./common/io.o
+ .data          0x00000000        0x0 ./common/io.o
+ .bss           0x00000000        0x0 ./common/io.o
+ .text.char_present
+                0x00000000       0x18 ./common/io.o
+ .text          0x00000000        0x0 ./common/assert.o
+ .data          0x00000000        0x0 ./common/assert.o
+ .bss           0x00000000        0x0 ./common/assert.o
+ .rodata.ASSERT_FAILED_STR
+                0x00000000       0x24 ./common/assert.o
+ .text.assert_failed
+                0x00000000       0x48 ./common/assert.o
+ .debug_info    0x00000000       0xda ./common/assert.o
+ .debug_abbrev  0x00000000       0x8e ./common/assert.o
+ .debug_loc     0x00000000       0x38 ./common/assert.o
+ .debug_aranges
+                0x00000000       0x20 ./common/assert.o
+ .debug_macinfo
+                0x00000000    0x325be ./common/assert.o
+ .debug_line    0x00000000      0x395 ./common/assert.o
+ .debug_str     0x00000000      0x156 ./common/assert.o
+ .comment       0x00000000       0x7a ./common/assert.o
+ .ARM.attributes
+                0x00000000       0x31 ./common/assert.o
+ .debug_frame   0x00000000       0x30 ./common/assert.o
+ .text          0x00000000        0x0 ./common/alloc.o
+ .data          0x00000000        0x0 ./common/alloc.o
+ .bss           0x00000000        0x0 ./common/alloc.o
+ .bss.base      0x00000000       0x10 ./common/alloc.o
+ .bss.freep     0x00000000        0x4 ./common/alloc.o
+ .text.free     0x00000000       0xc0 ./common/alloc.o
+ .text.malloc   0x00000000       0xcc ./common/alloc.o
+ .debug_info    0x00000000      0x1e5 ./common/alloc.o
+ .debug_abbrev  0x00000000      0x108 ./common/alloc.o
+ .debug_loc     0x00000000       0x70 ./common/alloc.o
+ .debug_aranges
+                0x00000000       0x28 ./common/alloc.o
+ .debug_macinfo
+                0x00000000    0x325be ./common/alloc.o
+ .debug_line    0x00000000      0x3cb ./common/alloc.o
+ .debug_str     0x00000000      0x197 ./common/alloc.o
+ .comment       0x00000000       0x7a ./common/alloc.o
+ .ARM.attributes
+                0x00000000       0x31 ./common/alloc.o
+ .debug_frame   0x00000000       0x50 ./common/alloc.o
+ .text          0x00000000        0x0 ./cpu/vectors.o
+ .data          0x00000000        0x0 ./cpu/vectors.o
+ .bss           0x00000000        0x0 ./cpu/vectors.o
+ .text.hard_fault_handler_c
+                0x00000000      0x134 ./cpu/vectors.o
+ .text.SRTC_ISR
+                0x00000000       0xb0 ./cpu/vectors.o
+ .text          0x00000000        0x0 ./cpu/sysinit.o
+ .data          0x00000000        0x0 ./cpu/sysinit.o
+ .bss           0x00000000        0x0 ./cpu/sysinit.o
+ .text.clk_out_init
+                0x00000000       0x2c ./cpu/sysinit.o
+ .text          0x00000000        0x0 ./cpu/start.o
+ .data          0x00000000        0x0 ./cpu/start.o
+ .bss           0x00000000        0x0 ./cpu/start.o
+ .text          0x00000000        0x0 ./cpu/nmi_isr_handler.o
+ .data          0x00000000        0x0 ./cpu/nmi_isr_handler.o
+ .bss           0x00000000        0x0 ./cpu/nmi_isr_handler.o
+ .text.nmi_isr  0x00000000       0x60 ./cpu/nmi_isr_handler.o
+ .text.enable_NMI_button
+                0x00000000       0x18 ./cpu/nmi_isr_handler.o
+ .debug_info    0x00000000      0x279 ./cpu/nmi_isr_handler.o
+ .debug_abbrev  0x00000000       0xca ./cpu/nmi_isr_handler.o
+ .debug_loc     0x00000000       0x64 ./cpu/nmi_isr_handler.o
+ .debug_aranges
+                0x00000000       0x28 ./cpu/nmi_isr_handler.o
+ .debug_macinfo
+                0x00000000    0x325c2 ./cpu/nmi_isr_handler.o
+ .debug_line    0x00000000      0x3c9 ./cpu/nmi_isr_handler.o
+ .debug_str     0x00000000      0x20e ./cpu/nmi_isr_handler.o
+ .comment       0x00000000       0x7a ./cpu/nmi_isr_handler.o
+ .ARM.attributes
+                0x00000000       0x31 ./cpu/nmi_isr_handler.o
+ .debug_frame   0x00000000       0x4c ./cpu/nmi_isr_handler.o
+ .data          0x00000000        0x0 ./cpu/cw_crt0.o
+ .bss           0x00000000        0x0 ./cpu/cw_crt0.o
+ .text          0x00000000        0x0 ./cpu/arm_cm0.o
+ .data          0x00000000        0x0 ./cpu/arm_cm0.o
+ .bss           0x00000000        0x0 ./cpu/arm_cm0.o
+ .text.stop     0x00000000       0x24 ./cpu/arm_cm0.o
+ .text.wait     0x00000000       0x28 ./cpu/arm_cm0.o
+ .text.disable_irq
+                0x00000000       0x4c ./cpu/arm_cm0.o
+ .text.set_irq_priority
+                0x00000000       0x8c ./cpu/arm_cm0.o
+ .text          0x00000000        0x0 ./drivers/llwu/llwu.o
+ .data          0x00000000        0x0 ./drivers/llwu/llwu.o
+ .bss           0x00000000        0x0 ./drivers/llwu/llwu.o
+ .rodata        0x00000000      0x4d8 ./drivers/llwu/llwu.o
+ .text.llwu_configure
+                0x00000000      0x3c0 ./drivers/llwu/llwu.o
+ .text.llwu_configure_filter
+                0x00000000       0xdc ./drivers/llwu/llwu.o
+ .text.llwu_isr
+                0x00000000      0x1f0 ./drivers/llwu/llwu.o
+ .debug_info    0x00000000      0x56c ./drivers/llwu/llwu.o
+ .debug_abbrev  0x00000000       0xf1 ./drivers/llwu/llwu.o
+ .debug_loc     0x00000000       0x9c ./drivers/llwu/llwu.o
+ .debug_aranges
+                0x00000000       0x30 ./drivers/llwu/llwu.o
+ .debug_macinfo
+                0x00000000    0x32e49 ./drivers/llwu/llwu.o
+ .debug_line    0x00000000      0x483 ./drivers/llwu/llwu.o
+ .debug_str     0x00000000      0x310 ./drivers/llwu/llwu.o
+ .comment       0x00000000       0x7a ./drivers/llwu/llwu.o
+ .ARM.attributes
+                0x00000000       0x31 ./drivers/llwu/llwu.o
+ .debug_frame   0x00000000       0x6c ./drivers/llwu/llwu.o
+ .text          0x00000000        0x0 ./drivers/lptmr/lptmr.o
+ .data          0x00000000        0x0 ./drivers/lptmr/lptmr.o
+ .bss           0x00000000        0x0 ./drivers/lptmr/lptmr.o
+ .text.time_delay_ms
+                0x00000000       0x64 ./drivers/lptmr/lptmr.o
+ .rodata        0x00000000       0xbc ./drivers/lptmr/lptmr.o
+ .text.lptmr_isr
+                0x00000000       0x38 ./drivers/lptmr/lptmr.o
+ .text.lptmr_init
+                0x00000000       0xd4 ./drivers/lptmr/lptmr.o
+ .debug_info    0x00000000      0x495 ./drivers/lptmr/lptmr.o
+ .debug_abbrev  0x00000000       0xf7 ./drivers/lptmr/lptmr.o
+ .debug_loc     0x00000000       0x9c ./drivers/lptmr/lptmr.o
+ .debug_aranges
+                0x00000000       0x30 ./drivers/lptmr/lptmr.o
+ .debug_macinfo
+                0x00000000    0x32627 ./drivers/lptmr/lptmr.o
+ .debug_line    0x00000000      0x429 ./drivers/lptmr/lptmr.o
+ .debug_str     0x00000000      0x2e5 ./drivers/lptmr/lptmr.o
+ .comment       0x00000000       0x7a ./drivers/lptmr/lptmr.o
+ .ARM.attributes
+                0x00000000       0x31 ./drivers/lptmr/lptmr.o
+ .debug_frame   0x00000000       0x6c ./drivers/lptmr/lptmr.o
+ .text          0x00000000        0x0 ./drivers/mcg/mcg.o
+ .data          0x00000000        0x0 ./drivers/mcg/mcg.o
+ .bss           0x00000000        0x0 ./drivers/mcg/mcg.o
+ .text.pee_pbe  0x00000000       0xb0 ./drivers/mcg/mcg.o
+ .text.pbe_pee  0x00000000      0x144 ./drivers/mcg/mcg.o
+ .text.pbe_fbe  0x00000000       0xb4 ./drivers/mcg/mcg.o
+ .text.fbe_pbe  0x00000000      0x220 ./drivers/mcg/mcg.o
+ .text.pbe_blpe
+                0x00000000       0x68 ./drivers/mcg/mcg.o
+ .text.blpe_pbe
+                0x00000000      0x1ec ./drivers/mcg/mcg.o
+ .text.blpe_fbe
+                0x00000000       0xb8 ./drivers/mcg/mcg.o
+ .text.fbe_blpe
+                0x00000000       0x68 ./drivers/mcg/mcg.o
+ .text.fbe_fei  0x00000000      0x168 ./drivers/mcg/mcg.o
+ .text.fei_fbe  0x00000000      0x31c ./drivers/mcg/mcg.o
+ .text.fbe_fee  0x00000000      0x138 ./drivers/mcg/mcg.o
+ .text.fee_fbe  0x00000000       0xb0 ./drivers/mcg/mcg.o
+ .text.fbe_fbi  0x00000000      0x278 ./drivers/mcg/mcg.o
+ .text.fbi_fbe  0x00000000      0x32c ./drivers/mcg/mcg.o
+ .text.fbi_blpi
+                0x00000000       0xa0 ./drivers/mcg/mcg.o
+ .text.blpi_fbi
+                0x00000000       0xa0 ./drivers/mcg/mcg.o
+ .text.fbi_fee  0x00000000      0x384 ./drivers/mcg/mcg.o
+ .text.fee_fbi  0x00000000      0x244 ./drivers/mcg/mcg.o
+ .text.fbi_fei  0x00000000      0x164 ./drivers/mcg/mcg.o
+ .text.fei_fbi  0x00000000      0x210 ./drivers/mcg/mcg.o
+ .text.fei_fee  0x00000000      0x2fc ./drivers/mcg/mcg.o
+ .text.fee_fei  0x00000000       0xe8 ./drivers/mcg/mcg.o
+ .text.atc      0x00000000      0x2ac ./drivers/mcg/mcg.o
+ .text.fll_freq
+                0x00000000      0x1d8 ./drivers/mcg/mcg.o
+ .text.what_mcg_mode
+                0x00000000      0x1d4 ./drivers/mcg/mcg.o
+ .text.clk_monitor_0
+                0x00000000       0x40 ./drivers/mcg/mcg.o
+ COMMON         0x00000000        0x2 ./drivers/mcg/mcg.o
+ .text          0x00000000        0x0 ./drivers/pmc/pmc.o
+ .data          0x00000000        0x0 ./drivers/pmc/pmc.o
+ .bss           0x00000000        0x0 ./drivers/pmc/pmc.o
+ .text.LVD_Initalize
+                0x00000000       0x6c ./drivers/pmc/pmc.o
+ .text.LVD_Init
+                0x00000000       0x38 ./drivers/pmc/pmc.o
+ .rodata        0x00000000       0x50 ./drivers/pmc/pmc.o
+ .text.pmc_lvd_isr
+                0x00000000       0x60 ./drivers/pmc/pmc.o
+ .debug_info    0x00000000      0x16d ./drivers/pmc/pmc.o
+ .debug_abbrev  0x00000000       0xbc ./drivers/pmc/pmc.o
+ .debug_loc     0x00000000       0x90 ./drivers/pmc/pmc.o
+ .debug_aranges
+                0x00000000       0x30 ./drivers/pmc/pmc.o
+ .debug_macinfo
+                0x00000000    0x32ca6 ./drivers/pmc/pmc.o
+ .debug_line    0x00000000      0x51f ./drivers/pmc/pmc.o
+ .debug_str     0x00000000      0x243 ./drivers/pmc/pmc.o
+ .comment       0x00000000       0x7a ./drivers/pmc/pmc.o
+ .ARM.attributes
+                0x00000000       0x31 ./drivers/pmc/pmc.o
+ .debug_frame   0x00000000       0x6c ./drivers/pmc/pmc.o
+ COMMON         0x00000000        0x4 ./drivers/pmc/pmc.o
+ .text          0x00000000        0x0 ./drivers/rcm/rcm.o
+ .data          0x00000000        0x0 ./drivers/rcm/rcm.o
+ .bss           0x00000000        0x0 ./drivers/rcm/rcm.o
+ .text          0x00000000        0x0 ./drivers/smc/smc.o
+ .data          0x00000000        0x0 ./drivers/smc/smc.o
+ .bss           0x00000000        0x0 ./drivers/smc/smc.o
+ .text.sleep    0x00000000       0x28 ./drivers/smc/smc.o
+ .text.deepsleep
+                0x00000000       0x24 ./drivers/smc/smc.o
+ .text.enter_wait
+                0x00000000        0xc ./drivers/smc/smc.o
+ .text.enter_stop
+                0x00000000       0x64 ./drivers/smc/smc.o
+ .text.enter_vlpr
+                0x00000000       0xb8 ./drivers/smc/smc.o
+ .text.exit_vlpr
+                0x00000000       0x5c ./drivers/smc/smc.o
+ .text.enter_vlps
+                0x00000000       0x44 ./drivers/smc/smc.o
+ .text.enter_lls
+                0x00000000       0x44 ./drivers/smc/smc.o
+ .text.enter_vlls3
+                0x00000000       0x48 ./drivers/smc/smc.o
+ .text.enter_vlls2
+                0x00000000       0x48 ./drivers/smc/smc.o
+ .text.enter_vlls1
+                0x00000000       0x48 ./drivers/smc/smc.o
+ .text.enter_vlls0
+                0x00000000       0xc4 ./drivers/smc/smc.o
+ .text.enter_vlls0_nopor
+                0x00000000       0xa0 ./drivers/smc/smc.o
+ .debug_info    0x00000000      0x4a2 ./drivers/smc/smc.o
+ .debug_abbrev  0x00000000      0x172 ./drivers/smc/smc.o
+ .debug_loc     0x00000000      0x2b4 ./drivers/smc/smc.o
+ .debug_aranges
+                0x00000000       0x80 ./drivers/smc/smc.o
+ .debug_macinfo
+                0x00000000    0x325cf ./drivers/smc/smc.o
+ .debug_line    0x00000000      0x515 ./drivers/smc/smc.o
+ .debug_str     0x00000000      0x2ee ./drivers/smc/smc.o
+ .comment       0x00000000       0x7a ./drivers/smc/smc.o
+ .ARM.attributes
+                0x00000000       0x31 ./drivers/smc/smc.o
+ .debug_frame   0x00000000      0x1a4 ./drivers/smc/smc.o
+ .text          0x00000000        0x0 ./drivers/uart/uart.o
+ .data          0x00000000        0x0 ./drivers/uart/uart.o
+ .bss           0x00000000        0x0 ./drivers/uart/uart.o
+ .text.uart0_init
+                0x00000000       0xa0 ./drivers/uart/uart.o
+ .text.uart0_getchar
+                0x00000000       0x28 ./drivers/uart/uart.o
+ .text.uart0_putchar
+                0x00000000       0x2c ./drivers/uart/uart.o
+ .text.uart0_getchar_present
+                0x00000000       0x1c ./drivers/uart/uart.o
+ .text          0x00000000        0x0 ./project/I2C/hal_i2c.o
+ .data          0x00000000        0x0 ./project/I2C/hal_i2c.o
+ .bss           0x00000000        0x0 ./project/I2C/hal_i2c.o
+ .text.i2c_give_ack
+                0x00000000       0x20 ./project/I2C/hal_i2c.o
+ .text.hal_i2c0_init
+                0x00000000       0x5c ./project/I2C/hal_i2c.o
+ .text.hal_i2c_deinit
+                0x00000000       0x30 ./project/I2C/hal_i2c.o
+ .text          0x00000000        0x0 ./project/I2C/hal_dev_mma8451.o
+ .data          0x00000000        0x0 ./project/I2C/hal_dev_mma8451.o
+ .bss           0x00000000        0x0 ./project/I2C/hal_dev_mma8451.o
+ .rodata        0x00000000       0x3c ./project/I2C/hal_dev_mma8451.o
+ .text.accel_test
+                0x00000000       0x84 ./project/I2C/hal_dev_mma8451.o
+ .text.iAcclReadX
+                0x00000000       0x90 ./project/I2C/hal_dev_mma8451.o
+ .text.iAcclReadY
+                0x00000000       0x90 ./project/I2C/hal_dev_mma8451.o
+ .text.iAcclReadZ
+                0x00000000       0x90 ./project/I2C/hal_dev_mma8451.o
+ .text          0x00000000        0x0 ./project/I2C/hal_dev_mag3110.o
+ .data          0x00000000        0x0 ./project/I2C/hal_dev_mag3110.o
+ .bss           0x00000000        0x0 ./project/I2C/hal_dev_mag3110.o
+ .text.hal_dev_mag3110_init
+                0x00000000       0x14 ./project/I2C/hal_dev_mag3110.o
+ .text.pause    0x00000000       0x20 ./project/I2C/hal_dev_mag3110.o
+ .text.hal_dev_mag3110_read_reg
+                0x00000000       0xc4 ./project/I2C/hal_dev_mag3110.o
+ .text.hal_dev_mag3110_write_reg
+                0x00000000       0x88 ./project/I2C/hal_dev_mag3110.o
+ .text.mag_init
+                0x00000000       0x24 ./project/I2C/hal_dev_mag3110.o
+ .text.mag_read
+                0x00000000      0x114 ./project/I2C/hal_dev_mag3110.o
+ .rodata        0x00000000       0x3c ./project/I2C/hal_dev_mag3110.o
+ .text.mag_test
+                0x00000000       0x84 ./project/I2C/hal_dev_mag3110.o
+ .text.iMagReadX
+                0x00000000       0x74 ./project/I2C/hal_dev_mag3110.o
+ .text.iMagReadY
+                0x00000000       0x74 ./project/I2C/hal_dev_mag3110.o
+ .text.iMagReadZ
+                0x00000000       0x74 ./project/I2C/hal_dev_mag3110.o
+ .debug_info    0x00000000      0x325 ./project/I2C/hal_dev_mag3110.o
+ .debug_abbrev  0x00000000      0x12c ./project/I2C/hal_dev_mag3110.o
+ .debug_loc     0x00000000      0x1dc ./project/I2C/hal_dev_mag3110.o
+ .debug_aranges
+                0x00000000       0x68 ./project/I2C/hal_dev_mag3110.o
+ .debug_macinfo
+                0x00000000    0x3279e ./project/I2C/hal_dev_mag3110.o
+ .debug_line    0x00000000      0x4fb ./project/I2C/hal_dev_mag3110.o
+ .debug_str     0x00000000      0x253 ./project/I2C/hal_dev_mag3110.o
+ .comment       0x00000000       0x7a ./project/I2C/hal_dev_mag3110.o
+ .ARM.attributes
+                0x00000000       0x31 ./project/I2C/hal_dev_mag3110.o
+ .debug_frame   0x00000000      0x138 ./project/I2C/hal_dev_mag3110.o
+ COMMON         0x00000000       0x1a ./project/I2C/hal_dev_mag3110.o
+ .text          0x00000000        0x0 ./project/adc16/adc16.o
+ .data          0x00000000        0x0 ./project/adc16/adc16.o
+ .bss           0x00000000        0x0 ./project/adc16/adc16.o
+ .text          0x00000000        0x0 ./project/adc_test/adc_test.o
+ .data          0x00000000        0x0 ./project/adc_test/adc_test.o
+ .bss           0x00000000        0x0 ./project/adc_test/adc_test.o
+ .bss.foobar    0x00000000        0x1 ./project/adc_test/adc_test.o
+ .bss.dma_error
+                0x00000000        0x4 ./project/adc_test/adc_test.o
+ .text.adc_readB
+                0x00000000       0x38 ./project/adc_test/adc_test.o
+ .text.adc0_isrv
+                0x00000000       0x3c ./project/adc_test/adc_test.o
+ .text          0x00000000        0x0 ./project/angle_calculation/sqrt16.o
+ .data          0x00000000        0x0 ./project/angle_calculation/sqrt16.o
+ .bss           0x00000000        0x0 ./project/angle_calculation/sqrt16.o
+ .text          0x00000000        0x0 ./project/angle_calculation/asin.o
+ .data          0x00000000        0x0 ./project/angle_calculation/asin.o
+ .bss           0x00000000        0x0 ./project/angle_calculation/asin.o
+ .text          0x00000000        0x0 ./project/angle_calculation/angle_cal.o
+ .data          0x00000000        0x0 ./project/angle_calculation/angle_cal.o
+ .bss           0x00000000        0x0 ./project/angle_calculation/angle_cal.o
+ .text          0x00000000        0x0 ./project/bsp/bsp_KL25.o
+ .data          0x00000000        0x0 ./project/bsp/bsp_KL25.o
+ .bss           0x00000000        0x0 ./project/bsp/bsp_KL25.o
+ .text          0x00000000        0x0 ./project/global.o
+ .data          0x00000000        0x0 ./project/global.o
+ .bss           0x00000000        0x0 ./project/global.o
+ .text          0x00000000        0x0 ./project/TWRKL46_Demo.o
+ .data          0x00000000        0x0 ./project/TWRKL46_Demo.o
+ .bss           0x00000000        0x0 ./project/TWRKL46_Demo.o
+ .data.t_flash  0x00000000        0x4 ./project/TWRKL46_Demo.o
+ .text.vfn_led_test
+                0x00000000      0x100 ./project/TWRKL46_Demo.o
+ .rodata.vfn_led_test
+                0x00000000       0x18 ./project/TWRKL46_Demo.o
+ .text.task_hello
+                0x00000000       0x14 ./project/TWRKL46_Demo.o
+ .text.task_test_lcd
+                0x00000000       0xe0 ./project/TWRKL46_Demo.o
+ .rodata.task_test_lcd
+                0x00000000       0x28 ./project/TWRKL46_Demo.o
+ .text.task_test_slider
+                0x00000000       0x98 ./project/TWRKL46_Demo.o
+ .text.task_accel_sensor
+                0x00000000       0x20 ./project/TWRKL46_Demo.o
+ .data.touch_slider_last_valid_value.5717
+                0x00000000        0x4 ./project/TWRKL46_Demo.o
+ .bss.count_mode.5702
+                0x00000000        0x1 ./project/TWRKL46_Demo.o
+ .bss.cont_sec.5676
+                0x00000000        0x1 ./project/TWRKL46_Demo.o
+ .text          0x00000000        0x0 ./project/GPIO.o
+ .data          0x00000000        0x0 ./project/GPIO.o
+ .bss           0x00000000        0x0 ./project/GPIO.o
+ .text.input_fall
+                0x00000000       0x44 ./project/GPIO.o
+ .text          0x00000000        0x0 ./project/lcd/LcdDrv.o
+ .data          0x00000000        0x0 ./project/lcd/LcdDrv.o
+ .bss           0x00000000        0x0 ./project/lcd/LcdDrv.o
+ .text.vfnLCD_Scroll
+                0x00000000       0x14 ./project/lcd/LcdDrv.o
+ .text.vfnLCD_ConfigureBackplanes
+                0x00000000       0x54 ./project/lcd/LcdDrv.o
+ .text.vfnBP_VScroll
+                0x00000000       0xb0 ./project/lcd/LcdDrv.o
+ .text.vfnLCD_Home
+                0x00000000       0x14 ./project/lcd/LcdDrv.o
+ .text.vfnLCD_Contrast
+                0x00000000       0x38 ./project/lcd/LcdDrv.o
+ .text.vfnLCD_Write_MsgPlace
+                0x00000000       0x50 ./project/lcd/LcdDrv.o
+ .text.vfnLCD_Write_Msg_GoTo
+                0x00000000       0x5c ./project/lcd/LcdDrv.o
+ .text.vfnLCD_All_Segments_OFF
+                0x00000000       0x50 ./project/lcd/LcdDrv.o
+ .text.PutPoint
+                0x00000000       0x74 ./project/lcd/LcdDrv.o
+ .text.ClrPoint
+                0x00000000       0x78 ./project/lcd/LcdDrv.o
+ .text.SetX     0x00000000       0x44 ./project/lcd/LcdDrv.o
+ .text.vfnlcd_pinmux
+                0x00000000       0xa4 ./project/lcd/LcdDrv.o
+ .data.LCD_TO_PORT
+                0x00000000       0xf0 ./project/lcd/LcdDrv.o
+ .text.u8fnlcd_measure_pin_cap
+                0x00000000       0xc0 ./project/lcd/LcdDrv.o
+ .text          0x00000000        0x0 ./project/lcd/GD-6363P.o
+ .data          0x00000000        0x0 ./project/lcd/GD-6363P.o
+ .bss           0x00000000        0x0 ./project/lcd/GD-6363P.o
+ .text          0x00000000        0x0 ./project/median/median.o
+ .data          0x00000000        0x0 ./project/median/median.o
+ .bss           0x00000000        0x0 ./project/median/median.o
+ .text          0x00000000        0x0 ./project/pit/pit.o
+ .data          0x00000000        0x0 ./project/pit/pit.o
+ .bss           0x00000000        0x0 ./project/pit/pit.o
+ .text          0x00000000        0x0 ./project/rtc/rtc.o
+ .data          0x00000000        0x0 ./project/rtc/rtc.o
+ .bss           0x00000000        0x0 ./project/rtc/rtc.o
+ .text.deinit_rtc
+                0x00000000       0x10 ./project/rtc/rtc.o
+ .text          0x00000000        0x0 ./project/task_mgr/task_mgr.o
+ .data          0x00000000        0x0 ./project/task_mgr/task_mgr.o
+ .bss           0x00000000        0x0 ./project/task_mgr/task_mgr.o
+ .text          0x00000000        0x0 ./project/tsi/TSIDrv.o
+ .data          0x00000000        0x0 ./project/tsi/TSIDrv.o
+ .bss           0x00000000        0x0 ./project/tsi/TSIDrv.o
+ .bss.SliderPercentegePosition
+                0x00000000        0x4 ./project/tsi/TSIDrv.o
+ .bss.SliderDistancePosition
+                0x00000000        0x4 ./project/tsi/TSIDrv.o
+ .bss.AbsolutePercentegePosition
+                0x00000000        0x1 ./project/tsi/TSIDrv.o
+ .bss.AbsoluteDistancePosition
+                0x00000000        0x1 ./project/tsi/TSIDrv.o
+ .text.TSI_SimpleApp
+                0x00000000       0x40 ./project/tsi/TSIDrv.o
+ .rodata        0x00000000       0x3c ./project/tsi/TSIDrv.o
+ .text.TSI_SliderApp
+                0x00000000      0x148 ./project/tsi/TSIDrv.o
+ .text.TSI_SliderRead
+                0x00000000      0x130 ./project/tsi/TSIDrv.o
+ .text          0x00000000        0x0 ./project/usb/usb_reg.o
+ .data          0x00000000        0x0 ./project/usb/usb_reg.o
+ .bss           0x00000000        0x0 ./project/usb/usb_reg.o
+ .rodata        0x00000000       0x8c ./project/usb/usb_reg.o
+ .text.USBReg_Testing
+                0x00000000      0x148 ./project/usb/usb_reg.o
+ .debug_info    0x00000000      0x2ba ./project/usb/usb_reg.o
+ .debug_abbrev  0x00000000       0x9e ./project/usb/usb_reg.o
+ .debug_loc     0x00000000       0x2c ./project/usb/usb_reg.o
+ .debug_aranges
+                0x00000000       0x20 ./project/usb/usb_reg.o
+ .debug_macinfo
+                0x00000000    0x329ff ./project/usb/usb_reg.o
+ .debug_line    0x00000000      0x46d ./project/usb/usb_reg.o
+ .debug_str     0x00000000      0x246 ./project/usb/usb_reg.o
+ .comment       0x00000000       0x7a ./project/usb/usb_reg.o
+ .ARM.attributes
+                0x00000000       0x31 ./project/usb/usb_reg.o
+ .debug_frame   0x00000000       0x2c ./project/usb/usb_reg.o
+ .text          0x00000000        0x0 ./project/usb/usb_cdc.o
+ .data          0x00000000        0x0 ./project/usb/usb_cdc.o
+ .bss           0x00000000        0x0 ./project/usb/usb_cdc.o
+ .text.CDC_Engine
+                0x00000000       0x7c ./project/usb/usb_cdc.o
+ .text          0x00000000        0x0 ./project/usb/usb.o
+ .data          0x00000000        0x0 ./project/usb/usb.o
+ .bss           0x00000000        0x0 ./project/usb/usb.o
+ .rodata.Device_Qualifier
+                0x00000000        0xc ./project/usb/usb.o
+ .text.USB_Testing_Read_Registers
+                0x00000000       0xb4 ./project/usb/usb.o
+ .text.USB_Testing_Write_Registers
+                0x00000000       0x84 ./project/usb/usb.o
+ .text.EP_OUT_Transfer
+                0x00000000       0x88 ./project/usb/usb.o
+ .text          0x00000000        0x0 ./project/usb/ring_buffer.o
+ .data          0x00000000        0x0 ./project/usb/ring_buffer.o
+ .bss           0x00000000        0x0 ./project/usb/ring_buffer.o
+ .text.Buffer_Request
+                0x00000000       0xf0 ./project/usb/ring_buffer.o
+ .text          0x00000000        0x0 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(putchar.o)
+ .data          0x00000000        0x0 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(putchar.o)
+ .bss           0x00000000        0x0 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(putchar.o)
+ .text          0x00000000        0x0 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(puts.o)
+ .data          0x00000000        0x0 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(puts.o)
+ .bss           0x00000000        0x0 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(puts.o)
+ .text          0x00000000        0x0 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(printformat_.o)
+ .data          0x00000000        0x0 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(printformat_.o)
+ .bss           0x00000000        0x0 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(printformat_.o)
+ .text          0x00000000        0x0 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(__putchar.o)
+ .data          0x00000000        0x0 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(__putchar.o)
+ .bss           0x00000000        0x0 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(__putchar.o)
+ .text          0x00000000        0x0 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(ansi_files.o)
+ .data          0x00000000        0x0 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(ansi_files.o)
+ .bss           0x00000000        0x0 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(ansi_files.o)
+ .text.__flush_line_buffered_output_files
+                0x00000000       0x40 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(ansi_files.o)
+ .text.__flush_all
+                0x00000000       0x34 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(ansi_files.o)
+ .text          0x00000000        0x0 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(fflush.o)
+ .data          0x00000000        0x0 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(fflush.o)
+ .bss           0x00000000        0x0 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(fflush.o)
+ .text.fflush   0x00000000       0x5e C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(fflush.o)
+ .debug_info    0x00000000      0x3e9 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(fflush.o)
+ .debug_abbrev  0x00000000       0xf6 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(fflush.o)
+ .debug_loc     0x00000000       0x54 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(fflush.o)
+ .debug_aranges
+                0x00000000       0x20 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(fflush.o)
+ .debug_line    0x00000000       0xb6 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(fflush.o)
+ .debug_str     0x00000000      0x39a C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(fflush.o)
+ .comment       0x00000000       0x7a C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(fflush.o)
+ .ARM.attributes
+                0x00000000       0x31 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(fflush.o)
+ .debug_frame   0x00000000       0x2c C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(fflush.o)
+ .text          0x00000000        0x0 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(memchr.o)
+ .data          0x00000000        0x0 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(memchr.o)
+ .bss           0x00000000        0x0 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(memchr.o)
+ .text          0x00000000        0x0 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(strchr.o)
+ .data          0x00000000        0x0 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(strchr.o)
+ .bss           0x00000000        0x0 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(strchr.o)
+ .text          0x00000000        0x0 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(__buffer_io.o)
+ .data          0x00000000        0x0 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(__buffer_io.o)
+ .bss           0x00000000        0x0 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(__buffer_io.o)
+ .text.__load_buffer
+                0x00000000       0x44 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(__buffer_io.o)
+ .data          0x00000000        0x0 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_udivsi3.o)
+ .bss           0x00000000        0x0 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_udivsi3.o)
+ .data          0x00000000        0x0 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_divsi3.o)
+ .bss           0x00000000        0x0 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_divsi3.o)
+ .data          0x00000000        0x0 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_dvmd_tls.o)
+ .bss           0x00000000        0x0 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_dvmd_tls.o)
+ .text          0x00000000       0x30 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_fixunssfsi.o)
+ .data          0x00000000        0x0 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_fixunssfsi.o)
+ .bss           0x00000000        0x0 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_fixunssfsi.o)
+ .ARM.attributes
+                0x00000000       0x2c c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_fixunssfsi.o)
+ .debug_frame   0x00000000       0x28 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_fixunssfsi.o)
+ .text          0x00000000      0x274 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(divsf3.o)
+ .data          0x00000000        0x0 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(divsf3.o)
+ .bss           0x00000000        0x0 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(divsf3.o)
+ .rodata        0x00000000       0x40 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(divsf3.o)
+ .ARM.attributes
+                0x00000000       0x2c c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(divsf3.o)
+ .debug_frame   0x00000000       0x3c c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(divsf3.o)
+ .text          0x00000000      0x260 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(mulsf3.o)
+ .data          0x00000000        0x0 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(mulsf3.o)
+ .bss           0x00000000        0x0 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(mulsf3.o)
+ .rodata        0x00000000       0x40 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(mulsf3.o)
+ .ARM.attributes
+                0x00000000       0x2c c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(mulsf3.o)
+ .debug_frame   0x00000000       0x3c c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(mulsf3.o)
+ .text          0x00000000      0x3ac c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(subsf3.o)
+ .data          0x00000000        0x0 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(subsf3.o)
+ .bss           0x00000000        0x0 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(subsf3.o)
+ .ARM.attributes
+                0x00000000       0x2c c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(subsf3.o)
+ .debug_frame   0x00000000       0x30 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(subsf3.o)
+ .text          0x00000000       0x40 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(fixsfsi.o)
+ .data          0x00000000        0x0 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(fixsfsi.o)
+ .bss           0x00000000        0x0 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(fixsfsi.o)
+ .ARM.attributes
+                0x00000000       0x2c c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(fixsfsi.o)
+ .debug_frame   0x00000000       0x28 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(fixsfsi.o)
+ .text          0x00000000       0xa8 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(floatsisf.o)
+ .data          0x00000000        0x0 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(floatsisf.o)
+ .bss           0x00000000        0x0 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(floatsisf.o)
+ .ARM.attributes
+                0x00000000       0x2c c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(floatsisf.o)
+ .debug_frame   0x00000000       0x2c c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(floatsisf.o)
+ .text          0x00000000       0x74 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_arm_cmpsf2.o)
+ .data          0x00000000        0x0 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_arm_cmpsf2.o)
+ .bss           0x00000000        0x0 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_arm_cmpsf2.o)
+ .ARM.attributes
+                0x00000000       0x1e c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_arm_cmpsf2.o)
+ .text          0x00000000       0x3c c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_clzsi2.o)
+ .data          0x00000000        0x0 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_clzsi2.o)
+ .bss           0x00000000        0x0 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_clzsi2.o)
+ .ARM.attributes
+                0x00000000       0x1e c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_clzsi2.o)
+ .text          0x00000000       0x50 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(eqsf2.o)
+ .data          0x00000000        0x0 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(eqsf2.o)
+ .bss           0x00000000        0x0 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(eqsf2.o)
+ .ARM.attributes
+                0x00000000       0x2c c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(eqsf2.o)
+ .debug_frame   0x00000000       0x2c c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(eqsf2.o)
+ .text          0x00000000       0x90 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(gesf2.o)
+ .data          0x00000000        0x0 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(gesf2.o)
+ .bss           0x00000000        0x0 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(gesf2.o)
+ .ARM.attributes
+                0x00000000       0x2c c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(gesf2.o)
+ .debug_frame   0x00000000       0x30 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(gesf2.o)
+ .text          0x00000000       0x90 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(lesf2.o)
+ .data          0x00000000        0x0 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(lesf2.o)
+ .bss           0x00000000        0x0 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(lesf2.o)
+ .ARM.attributes
+                0x00000000       0x2c c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(lesf2.o)
+ .debug_frame   0x00000000       0x30 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(lesf2.o)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+m_interrupts     0x00000000         0x00000400         xr
+m_vectram        0x1fffe000         0x00000410         xr
+m_text           0x00000410         0x0003fbf0         xr
+m_data_1FFFF000  0x1fffe410         0x00001bf0         rw
+m_data           0x20000000         0x00006000         rw
+m_cfmprotrom     0x00000400         0x00000010         xr
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD ./common/uif.o
+LOAD ./common/stdlib.o
+LOAD ./common/startup.o
+LOAD ./common/queue.o
+LOAD ./common/printf.o
+LOAD ./common/memtest.o
+LOAD ./common/io.o
+LOAD ./common/assert.o
+LOAD ./common/alloc.o
+LOAD ./cpu/vectors.o
+LOAD ./cpu/sysinit.o
+LOAD ./cpu/start.o
+LOAD ./cpu/nmi_isr_handler.o
+LOAD ./cpu/cw_crt0.o
+LOAD ./cpu/arm_cm0.o
+LOAD ./drivers/llwu/llwu.o
+LOAD ./drivers/lptmr/lptmr.o
+LOAD ./drivers/mcg/mcg.o
+LOAD ./drivers/pmc/pmc.o
+LOAD ./drivers/rcm/rcm.o
+LOAD ./drivers/smc/smc.o
+LOAD ./drivers/uart/uart.o
+LOAD ./project/I2C/hal_i2c.o
+LOAD ./project/I2C/hal_dev_mma8451.o
+LOAD ./project/I2C/hal_dev_mag3110.o
+LOAD ./project/adc16/adc16.o
+LOAD ./project/adc_test/adc_test.o
+LOAD ./project/angle_calculation/sqrt16.o
+LOAD ./project/angle_calculation/asin.o
+LOAD ./project/angle_calculation/angle_cal.o
+LOAD ./project/bsp/bsp_KL25.o
+LOAD ./project/global.o
+LOAD ./project/TWRKL46_Demo.o
+LOAD ./project/GPIO.o
+LOAD ./project/lcd/LcdDrv.o
+LOAD ./project/lcd/GD-6363P.o
+LOAD ./project/median/median.o
+LOAD ./project/pit/pit.o
+LOAD ./project/rtc/rtc.o
+LOAD ./project/task_mgr/task_mgr.o
+LOAD ./project/tsi/TSIDrv.o
+LOAD ./project/usb/usb_reg.o
+LOAD ./project/usb/usb_cdc.o
+LOAD ./project/usb/usb.o
+LOAD ./project/usb/ring_buffer.o
+                0x00004f28                __pformatter = __pformatter_
+START GROUP
+LOAD C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a
+LOAD C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libm.a
+LOAD c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a
+LOAD C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libuart.a
+LOAD C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a
+END GROUP
+                0x20002ff8                _estack = 0x20002ff8
+                0x20002ff8                __SP_INIT = _estack
+                0x00000000                __heap_size = 0x0
+                0x00000400                __stack_size = 0x400
+
+.interrupts     0x00000000      0x400
+                0x00000000                __vector_table = .
+                0x00000000                . = ALIGN (0x4)
+ *(.vectortable)
+ .vectortable   0x00000000      0x400 ./cpu/vectors.o
+                0x00000400                . = ALIGN (0x4)
+
+.ram_vectors    0x1fffe000        0x0
+                0x1fffe000                __vector_ram = .
+                0x1fffe000                . = ALIGN (0x4)
+
+.cfmprotect     0x00000400       0x10
+                0x00000400                . = ALIGN (0x4)
+ *(.cfmconfig)
+ .cfmconfig     0x00000400       0x10 ./cpu/vectors.o
+                0x00000400                flash_config
+                0x00000410                . = ALIGN (0x4)
+
+.text           0x00000410     0x5fa8
+                0x00000410                . = ALIGN (0x4)
+ *(.text)
+ .text          0x00000410       0x18 ./cpu/cw_crt0.o
+                0x00000410                __startup
+                0x00000410                startup
+ .text          0x00000428       0x9c c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_udivsi3.o)
+                0x00000428                __aeabi_uidiv
+                0x00000428                __udivsi3
+                0x000004b0                __aeabi_uidivmod
+ .text          0x000004c4       0xc0 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_divsi3.o)
+                0x000004c4                __divsi3
+                0x000004c4                __aeabi_idiv
+                0x00000570                __aeabi_idivmod
+ .text          0x00000584        0x4 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_dvmd_tls.o)
+                0x00000584                __aeabi_idiv0
+                0x00000584                __aeabi_ldiv0
+ *(.text*)
+ .text.strlen   0x00000588       0x44 ./common/stdlib.o
+                0x00000588                strlen
+ .text.common_startup
+                0x000005cc       0xcc ./common/startup.o
+                0x000005cc                common_startup
+ .text.printk_putc
+                0x00000698       0x50 ./common/printf.o
+ .text.printk_mknumstr
+                0x000006e8      0x100 ./common/printf.o
+ .text.printk_pad_zero
+                0x000007e8       0x38 ./common/printf.o
+ .text.printk_pad_space
+                0x00000820       0x38 ./common/printf.o
+ .text.printk   0x00000858      0x588 ./common/printf.o
+                0x00000858                printk
+ .text.printf   0x00000de0       0x44 ./common/printf.o
+                0x00000de0                printf
+ .text.sprintf  0x00000e24       0x5c ./common/printf.o
+                0x00000e24                sprintf
+ .text.in_char  0x00000e80       0x18 ./common/io.o
+                0x00000e80                in_char
+ .text.out_char
+                0x00000e98       0x24 ./common/io.o
+                0x00000e98                out_char
+ .text.default_isr
+                0x00000ebc       0x20 ./cpu/vectors.o
+                0x00000ebc                default_isr
+ .text.NMI_isr  0x00000edc       0x40 ./cpu/vectors.o
+                0x00000edc                NMI_isr
+ .text.abort_isr
+                0x00000f1c       0x28 ./cpu/vectors.o
+                0x00000f1c                abort_isr
+ .text.sysinit  0x00000f44      0x14c ./cpu/sysinit.o
+                0x00000f44                sysinit
+ .text.enable_abort_button
+                0x00001090       0x2c ./cpu/sysinit.o
+                0x00001090                enable_abort_button
+ .text.start    0x000010bc       0x34 ./cpu/start.o
+                0x000010bc                start
+ .text.cpu_identify
+                0x000010f0      0x2c0 ./cpu/start.o
+                0x000010f0                cpu_identify
+ .text.flash_identify
+                0x000013b0      0x10c ./cpu/start.o
+                0x000013b0                flash_identify
+ .text.write_vtor
+                0x000014bc       0x20 ./cpu/arm_cm0.o
+                0x000014bc                write_vtor
+ .text.enable_irq
+                0x000014dc       0x7c ./cpu/arm_cm0.o
+                0x000014dc                enable_irq
+ .text.pll_init
+                0x00001558      0x548 ./drivers/mcg/mcg.o
+                0x00001558                pll_init
+ .text.outSRS   0x00001aa0      0x234 ./drivers/rcm/rcm.o
+                0x00001aa0                outSRS
+ .text.uart_init
+                0x00001cd4       0xc0 ./drivers/uart/uart.o
+                0x00001cd4                uart_init
+ .text.uart_getchar
+                0x00001d94       0x28 ./drivers/uart/uart.o
+                0x00001d94                uart_getchar
+ .text.uart_putchar
+                0x00001dbc       0x2c ./drivers/uart/uart.o
+                0x00001dbc                uart_putchar
+ .text.uart_getchar_present
+                0x00001de8       0x1c ./drivers/uart/uart.o
+                0x00001de8                uart_getchar_present
+ .text.__read_console
+                0x00001e04       0x38 ./drivers/uart/uart.o
+                0x00001e04                __read_console
+ .text.__write_console
+                0x00001e3c       0x4c ./drivers/uart/uart.o
+                0x00001e3c                __write_console
+ .text.__close_console
+                0x00001e88       0x14 ./drivers/uart/uart.o
+                0x00001e88                __close_console
+ .text.i2c_set_tx_mode
+                0x00001e9c       0x20 ./project/I2C/hal_i2c.o
+                0x00001e9c                i2c_set_tx_mode
+ .text.i2c_set_rx_mode
+                0x00001ebc       0x20 ./project/I2C/hal_i2c.o
+                0x00001ebc                i2c_set_rx_mode
+ .text.i2c_set_slave_mode
+                0x00001edc       0x20 ./project/I2C/hal_i2c.o
+                0x00001edc                i2c_set_slave_mode
+ .text.i2c_set_master_mode
+                0x00001efc       0x20 ./project/I2C/hal_i2c.o
+                0x00001efc                i2c_set_master_mode
+ .text.i2c_give_nack
+                0x00001f1c       0x20 ./project/I2C/hal_i2c.o
+                0x00001f1c                i2c_give_nack
+ .text.i2c_repeated_start
+                0x00001f3c       0x20 ./project/I2C/hal_i2c.o
+                0x00001f3c                i2c_repeated_start
+ .text.i2c_write_byte
+                0x00001f5c       0x1c ./project/I2C/hal_i2c.o
+                0x00001f5c                i2c_write_byte
+ .text.i2c_read_byte
+                0x00001f78       0x18 ./project/I2C/hal_i2c.o
+                0x00001f78                i2c_read_byte
+ .text.i2c_start
+                0x00001f90       0x20 ./project/I2C/hal_i2c.o
+                0x00001f90                i2c_start
+ .text.i2c_stop
+                0x00001fb0       0x20 ./project/I2C/hal_i2c.o
+                0x00001fb0                i2c_stop
+ .text.i2c_wait
+                0x00001fd0       0x30 ./project/I2C/hal_i2c.o
+                0x00001fd0                i2c_wait
+ .text.i2c_get_ack
+                0x00002000       0x24 ./project/I2C/hal_i2c.o
+                0x00002000                i2c_get_ack
+ .text.hal_i2c1_init
+                0x00002024       0x5c ./project/I2C/hal_i2c.o
+                0x00002024                hal_i2c1_init
+ .text.hal_dev_mma8451_init
+                0x00002080       0x14 ./project/I2C/hal_dev_mma8451.o
+                0x00002080                hal_dev_mma8451_init
+ .text.pause    0x00002094       0x20 ./project/I2C/hal_dev_mma8451.o
+ .text.hal_dev_mma8451_read_reg
+                0x000020b4       0xc4 ./project/I2C/hal_dev_mma8451.o
+                0x000020b4                hal_dev_mma8451_read_reg
+ .text.hal_dev_mma8451_write_reg
+                0x00002178       0x88 ./project/I2C/hal_dev_mma8451.o
+                0x00002178                hal_dev_mma8451_write_reg
+ .text.accel_init
+                0x00002200       0x30 ./project/I2C/hal_dev_mma8451.o
+                0x00002200                accel_init
+ .text.accel_read
+                0x00002230      0x16c ./project/I2C/hal_dev_mma8451.o
+                0x00002230                accel_read
+ .text.ADC_Cal  0x0000239c      0x1b4 ./project/adc16/adc16.o
+                0x0000239c                ADC_Cal
+ .text.ADC_Config_Alt
+                0x00002550       0x60 ./project/adc16/adc16.o
+                0x00002550                ADC_Config_Alt
+ .text.ADC_Read_Cal
+                0x000025b0       0xbc ./project/adc16/adc16.o
+                0x000025b0                ADC_Read_Cal
+ .text.adc_init
+                0x0000266c       0xe8 ./project/adc_test/adc_test.o
+                0x0000266c                adc_init
+ .text.adc_read
+                0x00002754       0x38 ./project/adc_test/adc_test.o
+                0x00002754                adc_read
+ .text.sqrt_16  0x0000278c       0x68 ./project/angle_calculation/sqrt16.o
+                0x0000278c                sqrt_16
+ .text.angle_calculation
+                0x000027f4      0x23c ./project/angle_calculation/angle_cal.o
+                0x000027f4                angle_calculation
+ .text.detect_fall_detection
+                0x00002a30       0x50 ./project/angle_calculation/angle_cal.o
+                0x00002a30                detect_fall_detection
+ .text.vfnInitUSBClock
+                0x00002a80       0xac ./project/bsp/bsp_KL25.o
+                0x00002a80                vfnInitUSBClock
+ .text.fll_init
+                0x00002b2c        0x8 ./project/bsp/bsp_KL25.o
+                0x00002b2c                fll_init
+ .text.vfnMcuConfig
+                0x00002b34      0x168 ./project/TWRKL46_Demo.o
+                0x00002b34                vfnMcuConfig
+ .text.task_accel_led_test
+                0x00002c9c      0x418 ./project/TWRKL46_Demo.o
+                0x00002c9c                task_accel_led_test
+ .text.usb_init
+                0x000030b4       0x48 ./project/TWRKL46_Demo.o
+                0x000030b4                usb_init
+ .text.usb_service
+                0x000030fc       0x90 ./project/TWRKL46_Demo.o
+                0x000030fc                usb_service
+ .text.tpm_init
+                0x0000318c       0x60 ./project/TWRKL46_Demo.o
+                0x0000318c                tpm_init
+ .text.task_lcd_init_test
+                0x000031ec       0x48 ./project/TWRKL46_Demo.o
+                0x000031ec                task_lcd_init_test
+ .text.accel_demo
+                0x00003234       0xc4 ./project/TWRKL46_Demo.o
+                0x00003234                accel_demo
+ .text.check_uart_present_character
+                0x000032f8       0x1c ./project/TWRKL46_Demo.o
+                0x000032f8                check_uart_present_character
+ .text.main     0x00003314      0x1a0 ./project/TWRKL46_Demo.o
+                0x00003314                main
+ .text.gpio_init
+                0x000034b4       0xd4 ./project/GPIO.o
+                0x000034b4                gpio_init
+ .text.input_rise
+                0x00003588       0x44 ./project/GPIO.o
+                0x00003588                input_rise
+ .text.vfnLCD_Init
+                0x000035cc       0x90 ./project/lcd/LcdDrv.o
+                0x000035cc                vfnLCD_Init
+ .text.vfnLCD_EnablePins
+                0x0000365c       0xfc ./project/lcd/LcdDrv.o
+                0x0000365c                vfnLCD_EnablePins
+ .text.vfnLCD_Write_Msg
+                0x00003758       0x88 ./project/lcd/LcdDrv.o
+                0x00003758                vfnLCD_Write_Msg
+ .text.vfnLCD_disable_module
+                0x000037e0       0x54 ./project/lcd/LcdDrv.o
+                0x000037e0                vfnLCD_disable_module
+ .text.vfnLCD_enable_module
+                0x00003834       0x3c ./project/lcd/LcdDrv.o
+                0x00003834                vfnLCD_enable_module
+ .text.vfnLCD_Set_Display
+                0x00003870       0x88 ./project/lcd/LcdDrv.o
+                0x00003870                vfnLCD_Set_Display
+ .text.vfnLCD_Clear_Display
+                0x000038f8       0x88 ./project/lcd/LcdDrv.o
+                0x000038f8                vfnLCD_Clear_Display
+ .text.vfnLCD_Write_Char
+                0x00003980      0x1f8 ./project/lcd/LcdDrv.o
+                0x00003980                vfnLCD_Write_Char
+ .text.median   0x00003b78       0xd8 ./project/median/median.o
+                0x00003b78                median
+ .text.Pit_init
+                0x00003c50       0x74 ./project/pit/pit.o
+                0x00003c50                Pit_init
+ .text.PIT_IRQHandler
+                0x00003cc4       0xf0 ./project/pit/pit.o
+                0x00003cc4                PIT_IRQHandler
+ .text.rtc_init
+                0x00003db4       0x84 ./project/rtc/rtc.o
+                0x00003db4                rtc_init
+ .text.RTC_IRQHandler
+                0x00003e38       0x70 ./project/rtc/rtc.o
+                0x00003e38                RTC_IRQHandler
+ .text.RTC_Seconds_IRQHandler
+                0x00003ea8       0x18 ./project/rtc/rtc.o
+                0x00003ea8                RTC_Seconds_IRQHandler
+ .text.TSI_SelfCalibration
+                0x00003ec0      0x118 ./project/tsi/TSIDrv.o
+                0x00003ec0                TSI_SelfCalibration
+ .text.vfn_start_tsi_scan
+                0x00003fd8       0x28 ./project/tsi/TSIDrv.o
+                0x00003fd8                vfn_start_tsi_scan
+ .text.TSI_Init
+                0x00004000       0x5c ./project/tsi/TSIDrv.o
+                0x00004000                TSI_Init
+ .text.change_electrode
+                0x0000405c       0xc8 ./project/tsi/TSIDrv.o
+                0x0000405c                change_electrode
+ .text.TSI_Electrode_detection
+                0x00004124       0x60 ./project/tsi/TSIDrv.o
+                0x00004124                TSI_Electrode_detection
+ .text.TSI0_IRQHandler
+                0x00004184       0x28 ./project/tsi/TSIDrv.o
+                0x00004184                TSI0_IRQHandler
+ .text.CDC_Init
+                0x000041ac       0x4c ./project/usb/usb_cdc.o
+                0x000041ac                CDC_Init
+ .text.CDC_InterfaceReq_Handler
+                0x000041f8       0xac ./project/usb/usb_cdc.o
+                0x000041f8                CDC_InterfaceReq_Handler
+ .text.LWordSwap
+                0x000042a4       0x44 ./project/usb/usb_cdc.o
+                0x000042a4                LWordSwap
+ .text.USB_Init
+                0x000042e8       0xf4 ./project/usb/usb.o
+                0x000042e8                USB_Init
+ .text.EP_IN_Transfer
+                0x000043dc      0x1e4 ./project/usb/usb.o
+                0x000043dc                EP_IN_Transfer
+ .text.USB_EP_OUT_SizeCheck
+                0x000045c0       0x50 ./project/usb/usb.o
+                0x000045c0                USB_EP_OUT_SizeCheck
+ .text.USB_Set_Interface
+                0x00004610       0x8c ./project/usb/usb.o
+                0x00004610                USB_Set_Interface
+ .text.USB_StdReq_Handler
+                0x0000469c      0x118 ./project/usb/usb.o
+                0x0000469c                USB_StdReq_Handler
+ .text.USB_Setup_Handler
+                0x000047b4       0xa4 ./project/usb/usb.o
+                0x000047b4                USB_Setup_Handler
+ .text.USB_Endpoint_Setup_Handler
+                0x00004858       0xb8 ./project/usb/usb.o
+                0x00004858                USB_Endpoint_Setup_Handler
+ .text.USB_Handler
+                0x00004910       0x9c ./project/usb/usb.o
+                0x00004910                USB_Handler
+ .text.USB_EP0_IN_Handler
+                0x000049ac       0x4c ./project/usb/usb.o
+                0x000049ac                USB_EP0_IN_Handler
+ .text.USB_EP0_Stall
+                0x000049f8       0x30 ./project/usb/usb.o
+                0x000049f8                USB_EP0_Stall
+ .text.USB_EP0_OUT_Handler
+                0x00004a28       0x24 ./project/usb/usb.o
+                0x00004a28                USB_EP0_OUT_Handler
+ .text.USB_Stall_Handler
+                0x00004a4c       0x48 ./project/usb/usb.o
+                0x00004a4c                USB_Stall_Handler
+ .text.USB_Reset_Handler
+                0x00004a94      0x144 ./project/usb/usb.o
+                0x00004a94                USB_Reset_Handler
+ .text.USB0_IRQHandler
+                0x00004bd8       0xdc ./project/usb/usb.o
+                0x00004bd8                USB0_IRQHandler
+ .text.Buffer_Init
+                0x00004cb4       0x5c ./project/usb/ring_buffer.o
+                0x00004cb4                Buffer_Init
+ .text.putchar  0x00004d10       0x28 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(putchar.o)
+                0x00004d10                putchar
+ .text.puts     0x00004d38       0x54 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(puts.o)
+                0x00004d38                puts
+ .text.long2str.isra.0
+                0x00004d8c      0x19c C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(printformat_.o)
+ .text.__pformatter_
+                0x00004f28      0x428 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(printformat_.o)
+                0x00004f28                __pformatter_
+ .text.__put_char
+                0x00005350       0x90 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(__putchar.o)
+                0x00005350                __put_char
+ .text.memchr   0x000053e0       0x1a C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(memchr.o)
+                0x000053e0                memchr
+ .text.strchr   0x000053fa       0x1e C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(strchr.o)
+                0x000053fa                strchr
+ .text.__prep_buffer
+                0x00005418       0x14 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(__buffer_io.o)
+                0x00005418                __prep_buffer
+ .text.__flush_buffer
+                0x0000542c       0x38 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(__buffer_io.o)
+                0x0000542c                __flush_buffer
+ *(.rodata)
+ .rodata        0x00005464      0x1ac ./cpu/vectors.o
+ .rodata        0x00005610      0x40c ./cpu/start.o
+ .rodata        0x00005a1c       0xec ./cpu/arm_cm0.o
+ .rodata        0x00005b08      0x1bc ./drivers/rcm/rcm.o
+ .rodata        0x00005cc4       0x18 ./project/adc_test/adc_test.o
+ .rodata        0x00005cdc      0x194 ./project/TWRKL46_Demo.o
+ .rodata        0x00005e70       0x18 ./project/lcd/LcdDrv.o
+ *(.rodata*)
+ .rodata.printk
+                0x00005e88       0xc8 ./common/printf.o
+ .rodata.cpu_identify
+                0x00005f50       0x98 ./cpu/start.o
+ .rodata.myasin
+                0x00005fe8      0x200 ./project/angle_calculation/asin.o
+                0x00005fe8                myasin
+ .rodata.RAIN_SEQUENCE
+                0x000061e8        0x8 ./project/TWRKL46_Demo.o
+                0x000061e8                RAIN_SEQUENCE
+ .rodata.MASK_BIT
+                0x000061f0       0x80 ./project/lcd/LcdDrv.o
+                0x000061f0                MASK_BIT
+ .rodata.WF_ORDERING_TABLE
+                0x00006270        0xc ./project/lcd/GD-6363P.o
+                0x00006270                WF_ORDERING_TABLE
+ .rodata.ASCII_TO_WF_CODIFICATION_TABLE
+                0x0000627c       0x60 ./project/lcd/GD-6363P.o
+                0x0000627c                ASCII_TO_WF_CODIFICATION_TABLE
+ .rodata.Device_Descriptor
+                0x000062dc       0x14 ./project/usb/usb.o
+                0x000062dc                Device_Descriptor
+ .rodata.String_Descriptor0
+                0x000062f0        0x4 ./project/usb/usb.o
+                0x000062f0                String_Descriptor0
+ .rodata.String_Descriptor1
+                0x000062f4       0x14 ./project/usb/usb.o
+                0x000062f4                String_Descriptor1
+ .rodata.String_Descriptor2
+                0x00006308       0x14 ./project/usb/usb.o
+                0x00006308                String_Descriptor2
+ .rodata.String_Descriptor3
+                0x0000631c       0x14 ./project/usb/usb.o
+                0x0000631c                String_Descriptor3
+ .rodata.Configuration_Descriptor
+                0x00006330       0x44 ./project/usb/usb.o
+                0x00006330                Configuration_Descriptor
+ .rodata.cEP_Size
+                0x00006374       0x10 ./project/usb/usb.o
+                0x00006374                cEP_Size
+ .rodata.USB_StdReq_Handler
+                0x00006384       0x28 ./project/usb/usb.o
+ .rodata.str1.1
+                0x000063ac        0x1 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(printformat_.o)
+ .rodata.CSWTCH.20
+                0x000063ad        0x5 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(printformat_.o)
+ .rodata.CSWTCH.21
+                0x000063b2        0x5 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(printformat_.o)
+ *(.glue_7)
+ .glue_7        0x00000000        0x0 linker stubs
+ *(.glue_7t)
+ .glue_7t       0x00000000        0x0 linker stubs
+ *(.eh_frame)
+ *(.init)
+ *(.fini)
+                0x000063b8                . = ALIGN (0x4)
+ *fill*         0x000063b7        0x1 00
+                0x000063b8                _etext = .
+                0x000063b8                __DATA_ROM = .
+
+.vfp11_veneer   0x000063b8        0x0
+ .vfp11_veneer  0x00000000        0x0 linker stubs
+
+.v4_bx          0x000063b8        0x0
+ .v4_bx         0x00000000        0x0 linker stubs
+
+.iplt           0x000063b8        0x0
+ .iplt          0x00000000        0x0 ./common/uif.o
+
+.rel.dyn        0x000063b8        0x0
+ .rel.iplt      0x00000000        0x0 ./common/uif.o
+
+.ARM.extab
+ *(.ARM.extab* .gnu.linkonce.armextab.*)
+
+.ARM            0x000063b8        0x0
+                0x000063b8                __exidx_start = .
+ *(.ARM.exidx*)
+                0x000063b8                __exidx_end = .
+
+.ctors          0x000063b8        0x0
+                0x000063b8                __CTOR_LIST__ = .
+ *crtbegin.o(.ctors)
+ *(EXCLUDE_FILE(*crtend.o) .ctors)
+ *(SORT(.ctors.*))
+ *(.ctors)
+                0x000063b8                __CTOR_END__ = .
+
+.dtors          0x000063b8        0x0
+                0x000063b8                __DTOR_LIST__ = .
+ *crtbegin.o(.dtors)
+ *(EXCLUDE_FILE(*crtend.o) .dtors)
+ *(SORT(.dtors.*))
+ *(.dtors)
+                0x000063b8                __DTOR_END__ = .
+
+.preinit_array  0x000063b8        0x0
+                0x000063b8                PROVIDE (__preinit_array_start, .)
+ *(.preinit_array*)
+                0x000063b8                PROVIDE (__preinit_array_end, .)
+
+.init_array     0x000063b8        0x0
+                0x000063b8                PROVIDE (__init_array_start, .)
+ *(SORT(.init_array.*))
+ *(.init_array*)
+                0x000063b8                PROVIDE (__init_array_end, .)
+
+.fini_array     0x000063b8        0x0
+                0x000063b8                PROVIDE (__fini_array_start, .)
+ *(SORT(.fini_array.*))
+ *(.fini_array*)
+                0x000063b8                PROVIDE (__fini_array_end, .)
+                0x000063b8                ___ROM_AT = .
+
+.data           0x20000000      0x158 load address 0x000063b8
+                0x20000000                __DATA_RAM = .
+                0x20000000                . = ALIGN (0x4)
+                0x20000000                _sdata = .
+ *(.data)
+ *(.data*)
+ .data.cont.5726
+                0x20000000        0x4 ./project/TWRKL46_Demo.o
+ .data.count_mseg.4849
+                0x20000004        0x1 ./project/pit/pit.o
+ .data.total_electrode
+                0x20000005        0x1 ./project/tsi/TSIDrv.o
+                0x20000005                total_electrode
+ *fill*         0x20000006        0x2 00
+ .data.elec_array
+                0x20000008       0x10 ./project/tsi/TSIDrv.o
+                0x20000008                elec_array
+ .data.gu16Threshold
+                0x20000018       0x20 ./project/tsi/TSIDrv.o
+                0x20000018                gu16Threshold
+ .data.end_flag
+                0x20000038        0x1 ./project/tsi/TSIDrv.o
+                0x20000038                end_flag
+ *fill*         0x20000039        0x3 00
+ .data.BufferPointer
+                0x2000003c       0x40 ./project/usb/usb.o
+                0x2000003c                BufferPointer
+ .data.String_Table
+                0x2000007c       0x10 ./project/usb/usb.o
+                0x2000007c                String_Table
+ .data.__files  0x2000008c       0xcc C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(ansi_files.o)
+                0x2000008c                __files
+                0x20000158                __DATA_END = .
+                0x20000158                . = ALIGN (0x4)
+                0x20000158                _edata = .
+                0x00000158                ___data_size = (_edata - _sdata)
+                0x00006510                ___m_data_1FFFF000_ROMStart = (___ROM_AT + SIZEOF (.data))
+
+.igot.plt       0x20000158        0x0 load address 0x00006510
+ .igot.plt      0x00000000        0x0 ./common/uif.o
+
+.m_data_1FFFF000
+                0x1fffe410        0x0 load address 0x00006510
+                0x1fffe410                . = ALIGN (0x4)
+                0x1fffe410                ___m_data_1FFFF000_RAMStart = .
+ *(.m_data_1FFFF000)
+                0x1fffe410                ___m_data_1FFFF000_RAMEnd = .
+                0x1fffe410                . = ALIGN (0x4)
+                0x00000000                ___m_data_1FFFF000_ROMSize = (___m_data_1FFFF000_RAMEnd - ___m_data_1FFFF000_RAMStart)
+                0x1fffe410                . = ALIGN (0x4)
+
+.bss            0x20000200      0xbd8 load address 0x00006600
+                0x20000200                __START_BSS = .
+                0x20000200                __bss_start__ = __START_BSS
+ *(.bss)
+ *(.bss*)
+ .bss.note.5724
+                0x20000200        0x4 ./project/TWRKL46_Demo.o
+ .bss.notez.5725
+                0x20000204        0x4 ./project/TWRKL46_Demo.o
+ .bss.note.5666
+                0x20000208        0x4 ./project/TWRKL46_Demo.o
+ .bss.notez.5667
+                0x2000020c        0x4 ./project/TWRKL46_Demo.o
+ .bss.rain_sequence_off.5665
+                0x20000210        0x4 ./project/TWRKL46_Demo.o
+ .bss.aux_SW1.5669
+                0x20000214        0x1 ./project/TWRKL46_Demo.o
+ *fill*         0x20000215        0x1 00
+ .bss.sw1_count.5663
+                0x20000216        0x2 ./project/TWRKL46_Demo.o
+ .bss.aux_SW2.5670
+                0x20000218        0x1 ./project/TWRKL46_Demo.o
+ *fill*         0x20000219        0x1 00
+ .bss.sw2_count.5664
+                0x2000021a        0x2 ./project/TWRKL46_Demo.o
+ .bss.period_led.5662
+                0x2000021c        0x2 ./project/TWRKL46_Demo.o
+ .bss.aux_1.5668
+                0x2000021e        0x1 ./project/TWRKL46_Demo.o
+ .bss.u8CDCState
+                0x2000021f        0x1 ./project/usb/usb_cdc.o
+                0x2000021f                u8CDCState
+ *(COMMON)
+ COMMON         0x20000220       0x1c ./cpu/sysinit.o
+                0x20000220                mcg_clk_hz
+                0x20000224                core_clk_khz
+                0x20000228                periph_clk_khz
+                0x2000022c                uart0_clk_khz
+                0x20000230                uart0_clk_hz
+                0x20000234                mcg_clk_khz
+                0x20000238                pll_clk_khz
+ COMMON         0x2000023c       0x1b ./project/I2C/hal_dev_mma8451.o
+                0x2000023c                accel_x
+                0x20000240                Atesty
+                0x20000244                accel_y
+                0x20000246                Aresultx
+                0x20000248                Atestx
+                0x2000024c                Aresulty
+                0x2000024e                accel_z
+                0x20000250                Atestz
+                0x20000254                Aresultz
+                0x20000256                aux1
+ *fill*         0x20000257        0x1 00
+ COMMON         0x20000258      0x464 ./project/adc_test/adc_test.o
+                0x20000258                last_adc_channel
+                0x20000259                adc_reading_channel
+                0x2000025c                isr_flag
+                0x20000260                adc_sample0
+                0x20000264                Master_Adc_Config
+                0x20000274                adc_sample1
+                0x20000278                intnum
+                0x2000027c                buffer_adc
+                0x20000280                adc_buffer_adc
+                0x20000680                channel_no
+                0x20000684                CalibrationStore
+                0x200006b8                DMA_errorCount
+                0x200006ba                dmaIsrCount
+ COMMON         0x200006bc       0x9c ./project/angle_calculation/angle_cal.o
+                0x200006bc                yz_mag
+                0x200006c0                cat
+                0x200006c4                xy_angle
+                0x200006c8                xz_mag
+                0x200006cc                fall_input
+                0x200006d0                xy_mag
+                0x200006d4                arr_medianas2
+                0x20000740                Z_acc
+                0x20000744                X_acc
+                0x20000748                yz_angle
+                0x2000074c                offset
+                0x20000750                Y_acc
+                0x20000754                xz_angle
+ COMMON         0x20000758       0x1e ./project/global.o
+                0x20000758                ti_tsi1
+                0x2000075a                ti_fall
+                0x2000075c                adc_sample
+                0x2000075e                ti_tsi_multiplexing
+                0x20000760                ti_test_adc
+                0x20000762                base_time125m
+                0x20000764                ti_delay
+                0x20000766                pit1_isrv_count
+                0x20000768                ti_print
+                0x2000076a                rtc_seconds_isrv_count
+                0x2000076c                ti_console
+                0x2000076e                ti_tsi0
+                0x20000770                ti_task
+                0x20000772                ti_led
+                0x20000774                ti_accel_sampling
+ *fill*         0x20000776        0x2 00
+ COMMON         0x20000778       0xda ./project/TWRKL46_Demo.o
+                0x20000778                arr_medianas
+                0x20000808                resultz
+                0x2000080a                resultx
+                0x2000080c                gu8USB_Buffer
+                0x2000084c                adc_pot
+                0x20000850                resulty
+ *fill*         0x20000852        0x2 00
+ COMMON         0x20000854       0x14 ./project/lcd/LcdDrv.o
+                0x20000854                memLCD_PENH
+                0x20000858                lcd_alternate_mode
+                0x20000859                gu8LCD_CharPosition
+                0x2000085c                memLCD_PENL
+                0x20000860                memLCD_BPENL
+                0x20000864                memLCD_BPENH
+ COMMON         0x20000868        0x4 ./project/rtc/rtc.o
+                0x20000868                seconds_count
+ COMMON         0x2000086c        0xc ./project/task_mgr/task_mgr.o
+                0x2000086c                ptr_next_task
+                0x20000870                resp_ptr_next_task
+                0x20000874                task_status
+ COMMON         0x20000878       0x65 ./project/tsi/TSIDrv.o
+                0x20000878                gu16TSICount
+                0x20000898                ongoing_elec
+                0x20000899                Electrode1
+                0x2000089c                gu16Baseline
+                0x200008bc                gu16Delta
+                0x200008dc                Electrode2
+ *fill*         0x200008dd        0x3 00
+ COMMON         0x200008e0       0x88 ./project/usb/usb_cdc.o
+                0x200008e0                LineCoding
+                0x200008e8                CDC_OUT_Data
+ *fill*         0x20000968       0x98 00
+ COMMON         0x20000a00      0x304 ./project/usb/usb.o
+                0x20000a00                gu8EP3_OUT_EVEN_Buffer
+                0x20000a20                gu8IN_Counter
+                0x20000a24                gu8EP1_OUT_EVEN_Buffer
+                0x20000a44                Setup_Pkt
+                0x20000a48                gu8EP1_OUT_ODD_Buffer
+                0x20000a68                gu8HALT_EP
+                0x20000a69                gu8USB_PingPong_flags
+                0x20000a6c                gu8EP2_IN_ODD_Buffer
+                0x20000a8c                gu8Status
+                0x20000a90                gu8EP1_IN_ODD_Buffer
+                0x20000ab0                gu8EP0_OUT_ODD_Buffer
+                0x20000ad0                gu8USB_Toogle_flags
+                0x20000ad4                gu8EP3_IN_EVEN_Buffer
+                0x20000af4                gu8EP1_IN_EVEN_Buffer
+                0x20000b14                gu8USB_Flags
+                0x20000b15                gu8Interface
+                0x20000b18                gu8EP2_OUT_EVEN_Buffer
+                0x20000b38                gu8USBClearFlags
+                0x20000b3c                gu8EP0_IN_ODD_Buffer
+                0x20000b5c                gu8EP0_OUT_EVEN_Buffer
+                0x20000b7c                gu8USB_State
+                0x20000b7d                gu8Dummy
+                0x20000b80                gu8EP2_IN_EVEN_Buffer
+                0x20000c00                tBDTtable
+                0x20000c80                pu8IN_DataPointer
+                0x20000c84                gu8EP0_IN_EVEN_Buffer
+                0x20000ca4                gu8EP3_IN_ODD_Buffer
+                0x20000cc4                gu8EP3_OUT_ODD_Buffer
+                0x20000ce4                gu8EP2_OUT_ODD_Buffer
+ COMMON         0x20000d04       0x12 ./project/usb/ring_buffer.o
+                0x20000d04                OUT_EndAddress
+                0x20000d08                OUT_SciPointer
+                0x20000d0c                OUT_StartAddress
+                0x20000d10                OUT_UsbPointer
+                0x20000d14                gu8BufferOverFlow
+                0x20000d15                gu8BufferMaxSize
+ COMMON         0x20000d16       0xc0 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(ansi_files.o)
+                0x20000d16                stdout_buff
+                0x20000d56                stdin_buff
+                0x20000d96                stderr_buff
+                0x20000dd8                . = ALIGN (0x4)
+ *fill*         0x20000dd6        0x2 00
+                0x20000dd8                __END_BSS = .
+                0x20000dd8                __bss_end__ = __END_BSS
+
+._user_heap_stack
+                0x20000dd8      0x400 load address 0x000071d8
+                0x20000dd8                . = ALIGN (0x4)
+                0x20000dd8                PROVIDE (end, .)
+                0x20000dd8                PROVIDE (_end, .)
+                0x20000dd8                __heap_addr = .
+                0x20000dd8                . = (. + __heap_size)
+                0x200011d8                . = (. + __stack_size)
+ *fill*         0x20000dd8      0x400 00
+                0x200011d8                . = ALIGN (0x4)
+                0x00006510                _romp_at = ((___ROM_AT + SIZEOF (.data)) + SIZEOF (.m_data_1FFFF000))
+
+.romp           0x1fffe410       0x24 load address 0x00006510
+                0x00006510                __S_romp = _romp_at
+                0x1fffe410        0x4 LONG 0x63b8 ___ROM_AT
+                0x1fffe414        0x4 LONG 0x20000000 _sdata
+                0x1fffe418        0x4 LONG 0x158 ___data_size
+                0x1fffe41c        0x4 LONG 0x6510 ___m_data_1FFFF000_ROMStart
+                0x1fffe420        0x4 LONG 0x1fffe410 ___m_data_1FFFF000_RAMStart
+                0x1fffe424        0x4 LONG 0x0 ___m_data_1FFFF000_ROMSize
+                0x1fffe428        0x4 LONG 0x0
+                0x1fffe42c        0x4 LONG 0x0
+                0x1fffe430        0x4 LONG 0x0
+
+.ARM.attributes
+                0x00000000       0x2f
+ *(.ARM.attributes)
+ .ARM.attributes
+                0x00000000       0x31 ./common/stdlib.o
+ .ARM.attributes
+                0x00000031       0x31 ./common/startup.o
+ .ARM.attributes
+                0x00000062       0x31 ./common/printf.o
+ .ARM.attributes
+                0x00000093       0x31 ./common/io.o
+ .ARM.attributes
+                0x000000c4       0x31 ./cpu/vectors.o
+ .ARM.attributes
+                0x000000f5       0x31 ./cpu/sysinit.o
+ .ARM.attributes
+                0x00000126       0x31 ./cpu/start.o
+ .ARM.attributes
+                0x00000157       0x21 ./cpu/cw_crt0.o
+ .ARM.attributes
+                0x00000178       0x31 ./cpu/arm_cm0.o
+ .ARM.attributes
+                0x000001a9       0x31 ./drivers/mcg/mcg.o
+ .ARM.attributes
+                0x000001da       0x31 ./drivers/rcm/rcm.o
+ .ARM.attributes
+                0x0000020b       0x31 ./drivers/uart/uart.o
+ .ARM.attributes
+                0x0000023c       0x31 ./project/I2C/hal_i2c.o
+ .ARM.attributes
+                0x0000026d       0x31 ./project/I2C/hal_dev_mma8451.o
+ .ARM.attributes
+                0x0000029e       0x31 ./project/adc16/adc16.o
+ .ARM.attributes
+                0x000002cf       0x31 ./project/adc_test/adc_test.o
+ .ARM.attributes
+                0x00000300       0x31 ./project/angle_calculation/sqrt16.o
+ .ARM.attributes
+                0x00000331       0x31 ./project/angle_calculation/asin.o
+ .ARM.attributes
+                0x00000362       0x31 ./project/angle_calculation/angle_cal.o
+ .ARM.attributes
+                0x00000393       0x31 ./project/bsp/bsp_KL25.o
+ .ARM.attributes
+                0x000003c4       0x31 ./project/global.o
+ .ARM.attributes
+                0x000003f5       0x31 ./project/TWRKL46_Demo.o
+ .ARM.attributes
+                0x00000426       0x31 ./project/GPIO.o
+ .ARM.attributes
+                0x00000457       0x31 ./project/lcd/LcdDrv.o
+ .ARM.attributes
+                0x00000488       0x31 ./project/lcd/GD-6363P.o
+ .ARM.attributes
+                0x000004b9       0x31 ./project/median/median.o
+ .ARM.attributes
+                0x000004ea       0x31 ./project/pit/pit.o
+ .ARM.attributes
+                0x0000051b       0x31 ./project/rtc/rtc.o
+ .ARM.attributes
+                0x0000054c       0x31 ./project/task_mgr/task_mgr.o
+ .ARM.attributes
+                0x0000057d       0x31 ./project/tsi/TSIDrv.o
+ .ARM.attributes
+                0x000005ae       0x31 ./project/usb/usb_cdc.o
+ .ARM.attributes
+                0x000005df       0x31 ./project/usb/usb.o
+ .ARM.attributes
+                0x00000610       0x31 ./project/usb/ring_buffer.o
+ .ARM.attributes
+                0x00000641       0x31 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(putchar.o)
+ .ARM.attributes
+                0x00000672       0x31 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(puts.o)
+ .ARM.attributes
+                0x000006a3       0x31 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(printformat_.o)
+ .ARM.attributes
+                0x000006d4       0x31 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(__putchar.o)
+ .ARM.attributes
+                0x00000705       0x31 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(ansi_files.o)
+ .ARM.attributes
+                0x00000736       0x31 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(memchr.o)
+ .ARM.attributes
+                0x00000767       0x31 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(strchr.o)
+ .ARM.attributes
+                0x00000798       0x31 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(__buffer_io.o)
+ .ARM.attributes
+                0x000007c9       0x1e c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_udivsi3.o)
+ .ARM.attributes
+                0x000007e7       0x1e c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_divsi3.o)
+ .ARM.attributes
+                0x00000805       0x1e c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_dvmd_tls.o)
+                0x00000823                __BOOT_STACK_ADDRESS = .
+OUTPUT(TWRKL46_Demo.elf elf32-littlearm)
+
+.debug_info     0x00000000     0xbd31
+ .debug_info    0x00000000      0x64a ./common/stdlib.o
+ .debug_info    0x0000064a      0x1bf ./common/startup.o
+ .debug_info    0x00000809      0x4dd ./common/printf.o
+ .debug_info    0x00000ce6      0x24e ./common/io.o
+ .debug_info    0x00000f34      0x69c ./cpu/vectors.o
+ .debug_info    0x000015d0      0x6fb ./cpu/sysinit.o
+ .debug_info    0x00001ccb      0x453 ./cpu/start.o
+ .debug_info    0x0000211e       0xe6 ./cpu/cw_crt0.o
+ .debug_info    0x00002204      0x3c7 ./cpu/arm_cm0.o
+ .debug_info    0x000025cb      0xd81 ./drivers/mcg/mcg.o
+ .debug_info    0x0000334c      0x16c ./drivers/rcm/rcm.o
+ .debug_info    0x000034b8      0x79a ./drivers/uart/uart.o
+ .debug_info    0x00003c52      0x68f ./project/I2C/hal_i2c.o
+ .debug_info    0x000042e1      0x34a ./project/I2C/hal_dev_mma8451.o
+ .debug_info    0x0000462b      0x4b0 ./project/adc16/adc16.o
+ .debug_info    0x00004adb      0x921 ./project/adc_test/adc_test.o
+ .debug_info    0x000053fc       0x89 ./project/angle_calculation/sqrt16.o
+ .debug_info    0x00005485       0x53 ./project/angle_calculation/asin.o
+ .debug_info    0x000054d8      0x264 ./project/angle_calculation/angle_cal.o
+ .debug_info    0x0000573c      0x317 ./project/bsp/bsp_KL25.o
+ .debug_info    0x00005a53      0x184 ./project/global.o
+ .debug_info    0x00005bd7     0x1243 ./project/TWRKL46_Demo.o
+ .debug_info    0x00006e1a      0x23b ./project/GPIO.o
+ .debug_info    0x00007055      0xa79 ./project/lcd/LcdDrv.o
+ .debug_info    0x00007ace       0xb9 ./project/lcd/GD-6363P.o
+ .debug_info    0x00007b87       0xe2 ./project/median/median.o
+ .debug_info    0x00007c69      0x57b ./project/pit/pit.o
+ .debug_info    0x000081e4      0x598 ./project/rtc/rtc.o
+ .debug_info    0x0000877c       0xa9 ./project/task_mgr/task_mgr.o
+ .debug_info    0x00008825      0x5c9 ./project/tsi/TSIDrv.o
+ .debug_info    0x00008dee      0x2dc ./project/usb/usb_cdc.o
+ .debug_info    0x000090ca      0xfdf ./project/usb/usb.o
+ .debug_info    0x0000a0a9      0x159 ./project/usb/ring_buffer.o
+ .debug_info    0x0000a202      0x357 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(putchar.o)
+ .debug_info    0x0000a559      0x38a C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(puts.o)
+ .debug_info    0x0000a8e3      0x50d C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(printformat_.o)
+ .debug_info    0x0000adf0      0x3fa C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(__putchar.o)
+ .debug_info    0x0000b1ea      0x4be C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(ansi_files.o)
+ .debug_info    0x0000b6a8      0x121 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(memchr.o)
+ .debug_info    0x0000b7c9      0x10b C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(strchr.o)
+ .debug_info    0x0000b8d4      0x45d C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(__buffer_io.o)
+
+.debug_abbrev   0x00000000     0x28fa
+ .debug_abbrev  0x00000000       0xf9 ./common/stdlib.o
+ .debug_abbrev  0x000000f9       0x90 ./common/startup.o
+ .debug_abbrev  0x00000189      0x1b2 ./common/printf.o
+ .debug_abbrev  0x0000033b       0xad ./common/io.o
+ .debug_abbrev  0x000003e8      0x132 ./cpu/vectors.o
+ .debug_abbrev  0x0000051a       0xe5 ./cpu/sysinit.o
+ .debug_abbrev  0x000005ff       0xd3 ./cpu/start.o
+ .debug_abbrev  0x000006d2       0x14 ./cpu/cw_crt0.o
+ .debug_abbrev  0x000006e6      0x100 ./cpu/arm_cm0.o
+ .debug_abbrev  0x000007e6      0x18b ./drivers/mcg/mcg.o
+ .debug_abbrev  0x00000971       0x95 ./drivers/rcm/rcm.o
+ .debug_abbrev  0x00000a06      0x1bb ./drivers/uart/uart.o
+ .debug_abbrev  0x00000bc1      0x10a ./project/I2C/hal_i2c.o
+ .debug_abbrev  0x00000ccb      0x12c ./project/I2C/hal_dev_mma8451.o
+ .debug_abbrev  0x00000df7      0x119 ./project/adc16/adc16.o
+ .debug_abbrev  0x00000f10      0x16f ./project/adc_test/adc_test.o
+ .debug_abbrev  0x0000107f       0x52 ./project/angle_calculation/sqrt16.o
+ .debug_abbrev  0x000010d1       0x50 ./project/angle_calculation/asin.o
+ .debug_abbrev  0x00001121       0xdd ./project/angle_calculation/angle_cal.o
+ .debug_abbrev  0x000011fe       0xdc ./project/bsp/bsp_KL25.o
+ .debug_abbrev  0x000012da       0x44 ./project/global.o
+ .debug_abbrev  0x0000131e      0x26f ./project/TWRKL46_Demo.o
+ .debug_abbrev  0x0000158d      0x101 ./project/GPIO.o
+ .debug_abbrev  0x0000168e      0x1f0 ./project/lcd/LcdDrv.o
+ .debug_abbrev  0x0000187e       0x50 ./project/lcd/GD-6363P.o
+ .debug_abbrev  0x000018ce       0xa5 ./project/median/median.o
+ .debug_abbrev  0x00001973      0x107 ./project/pit/pit.o
+ .debug_abbrev  0x00001a7a      0x11a ./project/rtc/rtc.o
+ .debug_abbrev  0x00001b94       0x47 ./project/task_mgr/task_mgr.o
+ .debug_abbrev  0x00001bdb      0x102 ./project/tsi/TSIDrv.o
+ .debug_abbrev  0x00001cdd      0x122 ./project/usb/usb_cdc.o
+ .debug_abbrev  0x00001dff      0x218 ./project/usb/usb.o
+ .debug_abbrev  0x00002017       0xa2 ./project/usb/ring_buffer.o
+ .debug_abbrev  0x000020b9       0xe7 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(putchar.o)
+ .debug_abbrev  0x000021a0      0x10a C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(puts.o)
+ .debug_abbrev  0x000022aa      0x200 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(printformat_.o)
+ .debug_abbrev  0x000024aa       0xf8 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(__putchar.o)
+ .debug_abbrev  0x000025a2      0x107 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(ansi_files.o)
+ .debug_abbrev  0x000026a9       0x95 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(memchr.o)
+ .debug_abbrev  0x0000273e       0x7a C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(strchr.o)
+ .debug_abbrev  0x000027b8      0x142 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(__buffer_io.o)
+
+.debug_loc      0x00000000     0x3cc6
+ .debug_loc     0x00000000      0x380 ./common/stdlib.o
+ .debug_loc     0x00000380       0x38 ./common/startup.o
+ .debug_loc     0x000003b8      0x1a2 ./common/printf.o
+ .debug_loc     0x0000055a       0x90 ./common/io.o
+ .debug_loc     0x000005ea       0xf4 ./cpu/vectors.o
+ .debug_loc     0x000006de       0x90 ./cpu/sysinit.o
+ .debug_loc     0x0000076e       0x90 ./cpu/start.o
+ .debug_loc     0x000007fe      0x138 ./cpu/arm_cm0.o
+ .debug_loc     0x00000936      0x5dc ./drivers/mcg/mcg.o
+ .debug_loc     0x00000f12       0x2c ./drivers/rcm/rcm.o
+ .debug_loc     0x00000f3e      0x268 ./drivers/uart/uart.o
+ .debug_loc     0x000011a6      0x380 ./project/I2C/hal_i2c.o
+ .debug_loc     0x00001526      0x1e8 ./project/I2C/hal_dev_mma8451.o
+ .debug_loc     0x0000170e       0xa8 ./project/adc16/adc16.o
+ .debug_loc     0x000017b6       0xd4 ./project/adc_test/adc_test.o
+ .debug_loc     0x0000188a       0x38 ./project/angle_calculation/sqrt16.o
+ .debug_loc     0x000018c2       0x64 ./project/angle_calculation/angle_cal.o
+ .debug_loc     0x00001926       0x64 ./project/bsp/bsp_KL25.o
+ .debug_loc     0x0000198a      0x280 ./project/TWRKL46_Demo.o
+ .debug_loc     0x00001c0a       0x9c ./project/GPIO.o
+ .debug_loc     0x00001ca6      0x450 ./project/lcd/LcdDrv.o
+ .debug_loc     0x000020f6       0x3a ./project/median/median.o
+ .debug_loc     0x00002130       0x58 ./project/pit/pit.o
+ .debug_loc     0x00002188       0xbc ./project/rtc/rtc.o
+ .debug_loc     0x00002244      0x1a4 ./project/tsi/TSIDrv.o
+ .debug_loc     0x000023e8       0xc8 ./project/usb/usb_cdc.o
+ .debug_loc     0x000024b0      0x34c ./project/usb/usb.o
+ .debug_loc     0x000027fc       0x70 ./project/usb/ring_buffer.o
+ .debug_loc     0x0000286c       0x3e C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(putchar.o)
+ .debug_loc     0x000028aa       0x72 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(puts.o)
+ .debug_loc     0x0000291c     0x104b C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(printformat_.o)
+ .debug_loc     0x00003967       0x87 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(__putchar.o)
+ .debug_loc     0x000039ee       0x8c C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(ansi_files.o)
+ .debug_loc     0x00003a7a       0x77 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(memchr.o)
+ .debug_loc     0x00003af1       0xaf C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(strchr.o)
+ .debug_loc     0x00003ba0      0x126 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(__buffer_io.o)
+
+.debug_aranges  0x00000000      0xa70
+ .debug_aranges
+                0x00000000       0x98 ./common/stdlib.o
+ .debug_aranges
+                0x00000098       0x20 ./common/startup.o
+ .debug_aranges
+                0x000000b8       0x50 ./common/printf.o
+ .debug_aranges
+                0x00000108       0x30 ./common/io.o
+ .debug_aranges
+                0x00000138       0x40 ./cpu/vectors.o
+ .debug_aranges
+                0x00000178       0x30 ./cpu/sysinit.o
+ .debug_aranges
+                0x000001a8       0x30 ./cpu/start.o
+ .debug_aranges
+                0x000001d8       0x20 ./cpu/cw_crt0.o
+ .debug_aranges
+                0x000001f8       0x48 ./cpu/arm_cm0.o
+ .debug_aranges
+                0x00000240       0xf0 ./drivers/mcg/mcg.o
+ .debug_aranges
+                0x00000330       0x20 ./drivers/rcm/rcm.o
+ .debug_aranges
+                0x00000350       0x70 ./drivers/uart/uart.o
+ .debug_aranges
+                0x000003c0       0x98 ./project/I2C/hal_i2c.o
+ .debug_aranges
+                0x00000458       0x68 ./project/I2C/hal_dev_mma8451.o
+ .debug_aranges
+                0x000004c0       0x30 ./project/adc16/adc16.o
+ .debug_aranges
+                0x000004f0       0x38 ./project/adc_test/adc_test.o
+ .debug_aranges
+                0x00000528       0x20 ./project/angle_calculation/sqrt16.o
+ .debug_aranges
+                0x00000548       0x18 ./project/angle_calculation/asin.o
+ .debug_aranges
+                0x00000560       0x28 ./project/angle_calculation/angle_cal.o
+ .debug_aranges
+                0x00000588       0x28 ./project/bsp/bsp_KL25.o
+ .debug_aranges
+                0x000005b0       0x18 ./project/global.o
+ .debug_aranges
+                0x000005c8       0x88 ./project/TWRKL46_Demo.o
+ .debug_aranges
+                0x00000650       0x30 ./project/GPIO.o
+ .debug_aranges
+                0x00000680       0xc0 ./project/lcd/LcdDrv.o
+ .debug_aranges
+                0x00000740       0x18 ./project/lcd/GD-6363P.o
+ .debug_aranges
+                0x00000758       0x20 ./project/median/median.o
+ .debug_aranges
+                0x00000778       0x28 ./project/pit/pit.o
+ .debug_aranges
+                0x000007a0       0x38 ./project/rtc/rtc.o
+ .debug_aranges
+                0x000007d8       0x18 ./project/task_mgr/task_mgr.o
+ .debug_aranges
+                0x000007f0       0x60 ./project/tsi/TSIDrv.o
+ .debug_aranges
+                0x00000850       0x38 ./project/usb/usb_cdc.o
+ .debug_aranges
+                0x00000888       0xa0 ./project/usb/usb.o
+ .debug_aranges
+                0x00000928       0x28 ./project/usb/ring_buffer.o
+ .debug_aranges
+                0x00000950       0x20 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(putchar.o)
+ .debug_aranges
+                0x00000970       0x20 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(puts.o)
+ .debug_aranges
+                0x00000990       0x28 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(printformat_.o)
+ .debug_aranges
+                0x000009b8       0x20 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(__putchar.o)
+ .debug_aranges
+                0x000009d8       0x28 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(ansi_files.o)
+ .debug_aranges
+                0x00000a00       0x20 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(memchr.o)
+ .debug_aranges
+                0x00000a20       0x20 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(strchr.o)
+ .debug_aranges
+                0x00000a40       0x30 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(__buffer_io.o)
+
+.debug_macinfo  0x00000000   0x59b1d2
+ .debug_macinfo
+                0x00000000    0x325be ./common/stdlib.o
+ .debug_macinfo
+                0x000325be    0x325fa ./common/startup.o
+ .debug_macinfo
+                0x00064bb8    0x32a37 ./common/printf.o
+ .debug_macinfo
+                0x000975ef    0x32c04 ./common/io.o
+ .debug_macinfo
+                0x000ca1f3    0x32e5c ./cpu/vectors.o
+ .debug_macinfo
+                0x000fd04f    0x32c08 ./cpu/sysinit.o
+ .debug_macinfo
+                0x0012fc57    0x325d7 ./cpu/start.o
+ .debug_macinfo
+                0x0016222e    0x325be ./cpu/arm_cm0.o
+ .debug_macinfo
+                0x001947ec    0x325c2 ./drivers/mcg/mcg.o
+ .debug_macinfo
+                0x001c6dae    0x325cf ./drivers/rcm/rcm.o
+ .debug_macinfo
+                0x001f937d    0x32c04 ./drivers/uart/uart.o
+ .debug_macinfo
+                0x0022bf81    0x325be ./project/I2C/hal_i2c.o
+ .debug_macinfo
+                0x0025e53f    0x32629 ./project/I2C/hal_dev_mma8451.o
+ .debug_macinfo
+                0x00290b68    0x3442e ./project/adc16/adc16.o
+ .debug_macinfo
+                0x002c4f96    0x3447e ./project/adc_test/adc_test.o
+ .debug_macinfo
+                0x002f9414     0x23cf ./project/angle_calculation/sqrt16.o
+ .debug_macinfo
+                0x002fb7e3     0x23cf ./project/angle_calculation/asin.o
+ .debug_macinfo
+                0x002fdbb2    0x326d5 ./project/angle_calculation/angle_cal.o
+ .debug_macinfo
+                0x00330287    0x32767 ./project/bsp/bsp_KL25.o
+ .debug_macinfo
+                0x003629ee    0x325be ./project/global.o
+ .debug_macinfo
+                0x00394fac    0x37e60 ./project/TWRKL46_Demo.o
+ .debug_macinfo
+                0x003cce0c    0x33503 ./project/GPIO.o
+ .debug_macinfo
+                0x0040030f    0x33831 ./project/lcd/LcdDrv.o
+ .debug_macinfo
+                0x00433b40    0x32c2e ./project/lcd/GD-6363P.o
+ .debug_macinfo
+                0x0046676e     0x23ed ./project/median/median.o
+ .debug_macinfo
+                0x00468b5b    0x325c2 ./project/pit/pit.o
+ .debug_macinfo
+                0x0049b11d    0x325d5 ./project/rtc/rtc.o
+ .debug_macinfo
+                0x004cd6f2    0x3269b ./project/task_mgr/task_mgr.o
+ .debug_macinfo
+                0x004ffd8d    0x3305a ./project/tsi/TSIDrv.o
+ .debug_macinfo
+                0x00532de7    0x32f26 ./project/usb/usb_cdc.o
+ .debug_macinfo
+                0x00565d0d    0x32f81 ./project/usb/usb.o
+ .debug_macinfo
+                0x00598c8e     0x2544 ./project/usb/ring_buffer.o
+
+.debug_line     0x00000000     0x9ef6
+ .debug_line    0x00000000      0x58c ./common/stdlib.o
+ .debug_line    0x0000058c      0x3a6 ./common/startup.o
+ .debug_line    0x00000932      0x565 ./common/printf.o
+ .debug_line    0x00000e97      0x4b5 ./common/io.o
+ .debug_line    0x0000134c      0x47d ./cpu/vectors.o
+ .debug_line    0x000017c9      0x4e6 ./cpu/sysinit.o
+ .debug_line    0x00001caf      0x48f ./cpu/start.o
+ .debug_line    0x0000213e       0x8c ./cpu/cw_crt0.o
+ .debug_line    0x000021ca      0x3fa ./cpu/arm_cm0.o
+ .debug_line    0x000025c4      0xab7 ./drivers/mcg/mcg.o
+ .debug_line    0x0000307b      0x413 ./drivers/rcm/rcm.o
+ .debug_line    0x0000348e      0x582 ./drivers/uart/uart.o
+ .debug_line    0x00003a10      0x4fe ./project/I2C/hal_i2c.o
+ .debug_line    0x00003f0e      0x507 ./project/I2C/hal_dev_mma8451.o
+ .debug_line    0x00004415      0x450 ./project/adc16/adc16.o
+ .debug_line    0x00004865      0x531 ./project/adc_test/adc_test.o
+ .debug_line    0x00004d96       0xae ./project/angle_calculation/sqrt16.o
+ .debug_line    0x00004e44       0x94 ./project/angle_calculation/asin.o
+ .debug_line    0x00004ed8      0x5a9 ./project/angle_calculation/angle_cal.o
+ .debug_line    0x00005481      0x47a ./project/bsp/bsp_KL25.o
+ .debug_line    0x000058fb      0x3d5 ./project/global.o
+ .debug_line    0x00005cd0      0xc39 ./project/TWRKL46_Demo.o
+ .debug_line    0x00006909      0x42d ./project/GPIO.o
+ .debug_line    0x00006d36      0x643 ./project/lcd/LcdDrv.o
+ .debug_line    0x00007379      0x3fd ./project/lcd/GD-6363P.o
+ .debug_line    0x00007776       0xc1 ./project/median/median.o
+ .debug_line    0x00007837      0x488 ./project/pit/pit.o
+ .debug_line    0x00007cbf      0x49e ./project/rtc/rtc.o
+ .debug_line    0x0000815d      0x3ee ./project/task_mgr/task_mgr.o
+ .debug_line    0x0000854b      0x508 ./project/tsi/TSIDrv.o
+ .debug_line    0x00008a53      0x4db ./project/usb/usb_cdc.o
+ .debug_line    0x00008f2e      0x714 ./project/usb/usb.o
+ .debug_line    0x00009642      0x132 ./project/usb/ring_buffer.o
+ .debug_line    0x00009774       0x97 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(putchar.o)
+ .debug_line    0x0000980b       0x9a C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(puts.o)
+ .debug_line    0x000098a5      0x2c3 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(printformat_.o)
+ .debug_line    0x00009b68       0xc2 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(__putchar.o)
+ .debug_line    0x00009c2a       0xc0 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(ansi_files.o)
+ .debug_line    0x00009cea       0x9f C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(memchr.o)
+ .debug_line    0x00009d89       0x7d C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(strchr.o)
+ .debug_line    0x00009e06       0xf0 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(__buffer_io.o)
+
+.debug_str      0x00000000     0x371b
+ .debug_str     0x00000000      0x1b7 ./common/stdlib.o
+                                0x1f7 (size before relaxing)
+ .debug_str     0x000001b7       0xe9 ./common/startup.o
+                                0x1cd (size before relaxing)
+ .debug_str     0x000002a0      0x1aa ./common/printf.o
+                                0x2bc (size before relaxing)
+ .debug_str     0x0000044a       0xa2 ./common/io.o
+                                0x1fe (size before relaxing)
+ .debug_str     0x000004ec      0x2a2 ./cpu/vectors.o
+                                0x3a9 (size before relaxing)
+ .debug_str     0x0000078e      0x32e ./cpu/sysinit.o
+                                0x5df (size before relaxing)
+ .debug_str     0x00000abc      0x115 ./cpu/start.o
+                                0x2ee (size before relaxing)
+ .debug_str     0x00000bd1       0xc3 ./cpu/arm_cm0.o
+                                0x23f (size before relaxing)
+ .debug_str     0x00000c94      0x266 ./drivers/mcg/mcg.o
+                                0x44f (size before relaxing)
+ .debug_str     0x00000efa       0xc2 ./drivers/rcm/rcm.o
+                                0x1ac (size before relaxing)
+ .debug_str     0x00000fbc      0x19e ./drivers/uart/uart.o
+                                0x456 (size before relaxing)
+ .debug_str     0x0000115a      0x176 ./project/I2C/hal_i2c.o
+                                0x37d (size before relaxing)
+ .debug_str     0x000012d0      0x153 ./project/I2C/hal_dev_mma8451.o
+                                0x267 (size before relaxing)
+ .debug_str     0x00001423      0x185 ./project/adc16/adc16.o
+                                0x288 (size before relaxing)
+ .debug_str     0x000015a8      0x169 ./project/adc_test/adc_test.o
+                                0x662 (size before relaxing)
+ .debug_str     0x00001711       0x93 ./project/angle_calculation/sqrt16.o
+                                0x11f (size before relaxing)
+ .debug_str     0x000017a4       0x7b ./project/angle_calculation/asin.o
+                                 0xd6 (size before relaxing)
+ .debug_str     0x0000181f      0x12b ./project/angle_calculation/angle_cal.o
+                                0x23f (size before relaxing)
+ .debug_str     0x0000194a       0xae ./project/bsp/bsp_KL25.o
+                                0x289 (size before relaxing)
+ .debug_str     0x000019f8      0x107 ./project/global.o
+                                0x1f8 (size before relaxing)
+ .debug_str     0x00001aff      0x54f ./project/TWRKL46_Demo.o
+                                0x93f (size before relaxing)
+ .debug_str     0x0000204e       0x82 ./project/GPIO.o
+                                0x1e7 (size before relaxing)
+ .debug_str     0x000020d0      0x338 ./project/lcd/LcdDrv.o
+                                0x5a3 (size before relaxing)
+ .debug_str     0x00002408       0x6a ./project/lcd/GD-6363P.o
+                                0x172 (size before relaxing)
+ .debug_str     0x00002472       0x9e ./project/median/median.o
+                                0x12e (size before relaxing)
+ .debug_str     0x00002510       0xcf ./project/pit/pit.o
+                                0x52f (size before relaxing)
+ .debug_str     0x000025df       0xb4 ./project/rtc/rtc.o
+                                0x517 (size before relaxing)
+ .debug_str     0x00002693       0x82 ./project/task_mgr/task_mgr.o
+                                0x173 (size before relaxing)
+ .debug_str     0x00002715      0x1d6 ./project/tsi/TSIDrv.o
+                                0x42e (size before relaxing)
+ .debug_str     0x000028eb      0x195 ./project/usb/usb_cdc.o
+                                0x2d7 (size before relaxing)
+ .debug_str     0x00002a80      0x557 ./project/usb/usb.o
+                                0xa89 (size before relaxing)
+ .debug_str     0x00002fd7      0x11e ./project/usb/ring_buffer.o
+                                0x1ce (size before relaxing)
+ .debug_str     0x000030f5      0x175 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(putchar.o)
+                                0x2c6 (size before relaxing)
+ .debug_str     0x0000326a       0x16 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(puts.o)
+                                0x2cc (size before relaxing)
+ .debug_str     0x00003280      0x225 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(printformat_.o)
+                                0x3b3 (size before relaxing)
+ .debug_str     0x000034a5       0xe4 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(__putchar.o)
+                                0x39e (size before relaxing)
+ .debug_str     0x00003589       0xc6 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(ansi_files.o)
+                                0x442 (size before relaxing)
+ .debug_str     0x0000364f       0x1c C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(memchr.o)
+                                0x148 (size before relaxing)
+ .debug_str     0x0000366b       0x1c C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(strchr.o)
+                                0x137 (size before relaxing)
+ .debug_str     0x00003687       0x94 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(__buffer_io.o)
+                                0x373 (size before relaxing)
+
+.comment        0x00000000       0x79
+ .comment       0x00000000       0x79 ./common/stdlib.o
+                                 0x7a (size before relaxing)
+ .comment       0x00000000       0x7a ./common/startup.o
+ .comment       0x00000000       0x7a ./common/printf.o
+ .comment       0x00000000       0x7a ./common/io.o
+ .comment       0x00000000       0x7a ./cpu/vectors.o
+ .comment       0x00000000       0x7a ./cpu/sysinit.o
+ .comment       0x00000000       0x7a ./cpu/start.o
+ .comment       0x00000000       0x7a ./cpu/arm_cm0.o
+ .comment       0x00000000       0x7a ./drivers/mcg/mcg.o
+ .comment       0x00000000       0x7a ./drivers/rcm/rcm.o
+ .comment       0x00000000       0x7a ./drivers/uart/uart.o
+ .comment       0x00000000       0x7a ./project/I2C/hal_i2c.o
+ .comment       0x00000000       0x7a ./project/I2C/hal_dev_mma8451.o
+ .comment       0x00000000       0x7a ./project/adc16/adc16.o
+ .comment       0x00000000       0x7a ./project/adc_test/adc_test.o
+ .comment       0x00000000       0x7a ./project/angle_calculation/sqrt16.o
+ .comment       0x00000000       0x7a ./project/angle_calculation/asin.o
+ .comment       0x00000000       0x7a ./project/angle_calculation/angle_cal.o
+ .comment       0x00000000       0x7a ./project/bsp/bsp_KL25.o
+ .comment       0x00000000       0x7a ./project/global.o
+ .comment       0x00000000       0x7a ./project/TWRKL46_Demo.o
+ .comment       0x00000000       0x7a ./project/GPIO.o
+ .comment       0x00000000       0x7a ./project/lcd/LcdDrv.o
+ .comment       0x00000000       0x7a ./project/lcd/GD-6363P.o
+ .comment       0x00000000       0x7a ./project/median/median.o
+ .comment       0x00000000       0x7a ./project/pit/pit.o
+ .comment       0x00000000       0x7a ./project/rtc/rtc.o
+ .comment       0x00000000       0x7a ./project/task_mgr/task_mgr.o
+ .comment       0x00000000       0x7a ./project/tsi/TSIDrv.o
+ .comment       0x00000000       0x7a ./project/usb/usb_cdc.o
+ .comment       0x00000000       0x7a ./project/usb/usb.o
+ .comment       0x00000000       0x7a ./project/usb/ring_buffer.o
+ .comment       0x00000000       0x7a C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(putchar.o)
+ .comment       0x00000000       0x7a C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(puts.o)
+ .comment       0x00000000       0x7a C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(printformat_.o)
+ .comment       0x00000000       0x7a C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(__putchar.o)
+ .comment       0x00000000       0x7a C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(ansi_files.o)
+ .comment       0x00000000       0x7a C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(memchr.o)
+ .comment       0x00000000       0x7a C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(strchr.o)
+ .comment       0x00000000       0x7a C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(__buffer_io.o)
+
+.debug_frame    0x00000000     0x1be0
+ .debug_frame   0x00000000      0x210 ./common/stdlib.o
+ .debug_frame   0x00000210       0x30 ./common/startup.o
+ .debug_frame   0x00000240       0xf8 ./common/printf.o
+ .debug_frame   0x00000338       0x68 ./common/io.o
+ .debug_frame   0x000003a0       0xa4 ./cpu/vectors.o
+ .debug_frame   0x00000444       0x68 ./cpu/sysinit.o
+ .debug_frame   0x000004ac       0x68 ./cpu/start.o
+ .debug_frame   0x00000514       0xcc ./cpu/arm_cm0.o
+ .debug_frame   0x000005e0      0x370 ./drivers/mcg/mcg.o
+ .debug_frame   0x00000950       0x2c ./drivers/rcm/rcm.o
+ .debug_frame   0x0000097c      0x174 ./drivers/uart/uart.o
+ .debug_frame   0x00000af0      0x210 ./project/I2C/hal_i2c.o
+ .debug_frame   0x00000d00      0x140 ./project/I2C/hal_dev_mma8451.o
+ .debug_frame   0x00000e40       0x70 ./project/adc16/adc16.o
+ .debug_frame   0x00000eb0       0x90 ./project/adc_test/adc_test.o
+ .debug_frame   0x00000f40       0x30 ./project/angle_calculation/sqrt16.o
+ .debug_frame   0x00000f70       0x4c ./project/angle_calculation/angle_cal.o
+ .debug_frame   0x00000fbc       0x4c ./project/bsp/bsp_KL25.o
+ .debug_frame   0x00001008      0x1b4 ./project/TWRKL46_Demo.o
+ .debug_frame   0x000011bc       0x6c ./project/GPIO.o
+ .debug_frame   0x00001228      0x2c0 ./project/lcd/LcdDrv.o
+ .debug_frame   0x000014e8       0x30 ./project/median/median.o
+ .debug_frame   0x00001518       0x48 ./project/pit/pit.o
+ .debug_frame   0x00001560       0x84 ./project/rtc/rtc.o
+ .debug_frame   0x000015e4      0x114 ./project/tsi/TSIDrv.o
+ .debug_frame   0x000016f8       0x88 ./project/usb/usb_cdc.o
+ .debug_frame   0x00001780      0x210 ./project/usb/usb.o
+ .debug_frame   0x00001990       0x50 ./project/usb/ring_buffer.o
+ .debug_frame   0x000019e0       0x28 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(putchar.o)
+ .debug_frame   0x00001a08       0x28 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(puts.o)
+ .debug_frame   0x00001a30       0x54 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(printformat_.o)
+ .debug_frame   0x00001a84       0x2c C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(__putchar.o)
+ .debug_frame   0x00001ab0       0x48 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(ansi_files.o)
+ .debug_frame   0x00001af8       0x28 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(memchr.o)
+ .debug_frame   0x00001b20       0x28 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(strchr.o)
+ .debug_frame   0x00001b48       0x58 C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(__buffer_io.o)
+ .debug_frame   0x00001ba0       0x20 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_udivsi3.o)
+ .debug_frame   0x00001bc0       0x20 c:/freescale/cw mcu v10.4/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_divsi3.o)

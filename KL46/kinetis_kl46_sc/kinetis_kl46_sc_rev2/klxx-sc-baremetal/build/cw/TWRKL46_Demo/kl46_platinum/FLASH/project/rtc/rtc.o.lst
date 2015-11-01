@@ -1,0 +1,391 @@
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"rtc.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.comm	seconds_count,4,4
+  18              		.section	.text.rtc_init,"ax",%progbits
+  19              		.align	2
+  20              		.global	rtc_init
+  21              		.code	16
+  22              		.thumb_func
+  24              	rtc_init:
+  25              	.LFB0:
+  26              		.file 1 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Dem
+   1:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** 
+   2:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** /**
+   3:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** Copyright (c) 2008 Freescale Semiconductor
+   4:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** Freescale Confidential Proprietary
+   5:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** \file       rtc.h
+   6:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** \brief      real time clock basic functionality
+   7:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** \author     Freescale Semiconductor
+   8:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** \version    1.0
+   9:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** \date       Sep 14, 2011
+  10:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** */
+  11:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** 
+  12:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** #include "common.h"
+  13:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** #include "rtc.h"
+  14:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** #include "global.h"
+  15:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** 
+  16:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** 
+  17:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** /**  rtc_init
+  18:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****  * \brief    Initialize RTC module to count seconds
+  19:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****  * \author   
+  20:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****  * \param none
+  21:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****  * \return none
+  22:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****  */ 
+  23:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** 
+  24:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** 
+  25:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** uint32 seconds_count;
+  26:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** 
+  27:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** void rtc_init(void)
+  28:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** {
+  27              		.loc 1 28 0
+  28              		.cfi_startproc
+  29 0000 80B5     		push	{r7, lr}
+  30              	.LCFI0:
+  31              		.cfi_def_cfa_offset 8
+  32              		.cfi_offset 7, -8
+  33              		.cfi_offset 14, -4
+  34 0002 00AF     		add	r7, sp, #0
+  35              	.LCFI1:
+  36              		.cfi_def_cfa_register 7
+  29:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****   /*enable the clock to SRTC module register space*/
+  30:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****   SIM_SCGC6 |= SIM_SCGC6_RTC_MASK;
+  37              		.loc 1 30 0
+  38 0004 1A4A     		ldr	r2, .L2
+  39 0006 1A49     		ldr	r1, .L2
+  40 0008 1A4B     		ldr	r3, .L2+4
+  41 000a CB58     		ldr	r3, [r1, r3]
+  42 000c 8021     		mov	r1, #128
+  43 000e 8905     		lsl	r1, r1, #22
+  44 0010 1943     		orr	r1, r3
+  45 0012 184B     		ldr	r3, .L2+4
+  46 0014 D150     		str	r1, [r2, r3]
+  31:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****   
+  32:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****   // Ensure  PTC1 configured as RTC inpuit cloclk
+  33:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****   PORTC_PCR1  &=  ~PORT_PCR_MUX_MASK ;
+  47              		.loc 1 33 0
+  48 0016 184B     		ldr	r3, .L2+8
+  49 0018 174A     		ldr	r2, .L2+8
+  50 001a 5168     		ldr	r1, [r2, #4]
+  51 001c 174A     		ldr	r2, .L2+12
+  52 001e 0A40     		and	r2, r1
+  53 0020 5A60     		str	r2, [r3, #4]
+  34:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****   PORTC_PCR1   =   PORT_PCR_MUX(1) ;
+  54              		.loc 1 34 0
+  55 0022 154B     		ldr	r3, .L2+8
+  56 0024 8022     		mov	r2, #128
+  57 0026 5200     		lsl	r2, r2, #1
+  58 0028 5A60     		str	r2, [r3, #4]
+  35:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****   
+  36:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****   SIM_SOPT1 |= SIM_SOPT1_OSC32KSEL(2); // RTC clock in
+  59              		.loc 1 36 0
+  60 002a 114B     		ldr	r3, .L2
+  61 002c 104A     		ldr	r2, .L2
+  62 002e 1268     		ldr	r2, [r2]
+  63 0030 8021     		mov	r1, #128
+  64 0032 0903     		lsl	r1, r1, #12
+  65 0034 0A43     		orr	r2, r1
+  66 0036 1A60     		str	r2, [r3]
+  37:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****   #ifdef CMSIS
+  38:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****   //enable_irq((IRQn_Type)(INT_RTC-16));
+  39:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****   //enable_irq((IRQn_Type)(INT_RTC_Seconds-16));
+  40:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** 	NVIC_EnableIRQ(RTC_IRQn);
+  41:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** 	NVIC_EnableIRQ(RTC_Seconds_IRQn);
+  42:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****   #else
+  43:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****   enable_irq(INT_RTC-16);
+  67              		.loc 1 43 0
+  68 0038 1420     		mov	r0, #20
+  69 003a FFF7FEFF 		bl	enable_irq
+  44:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****   enable_irq(INT_RTC_Seconds-16);
+  70              		.loc 1 44 0
+  71 003e 1520     		mov	r0, #21
+  72 0040 FFF7FEFF 		bl	enable_irq
+  45:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****   #endif
+  46:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****   
+  47:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****   //Configure the TSR and TAR
+  48:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****   RTC_TSR =  0; //RTC Time Seconds Register
+  73              		.loc 1 48 0
+  74 0044 0E4B     		ldr	r3, .L2+16
+  75 0046 0022     		mov	r2, #0
+  76 0048 1A60     		str	r2, [r3]
+  49:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****   RTC_TAR = RTC_TSR + ALARM_TIME; //RTC Time Alarm Register
+  77              		.loc 1 49 0
+  78 004a 0D4B     		ldr	r3, .L2+16
+  79 004c 0C4A     		ldr	r2, .L2+16
+  80 004e 1268     		ldr	r2, [r2]
+  81 0050 0532     		add	r2, r2, #5
+  82 0052 9A60     		str	r2, [r3, #8]
+  50:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****   
+  51:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****   RTC_IER |= RTC_IER_TSIE_MASK | RTC_IER_TAIE_MASK;
+  83              		.loc 1 51 0
+  84 0054 0A4B     		ldr	r3, .L2+16
+  85 0056 0A4A     		ldr	r2, .L2+16
+  86 0058 D269     		ldr	r2, [r2, #28]
+  87 005a 1421     		mov	r1, #20
+  88 005c 0A43     		orr	r2, r1
+  89 005e DA61     		str	r2, [r3, #28]
+  52:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****   RTC_SR  |= RTC_SR_TCE_MASK;       //Enable RTC_SR_TCE 
+  90              		.loc 1 52 0
+  91 0060 074B     		ldr	r3, .L2+16
+  92 0062 074A     		ldr	r2, .L2+16
+  93 0064 5269     		ldr	r2, [r2, #20]
+  94 0066 1021     		mov	r1, #16
+  95 0068 0A43     		orr	r2, r1
+  96 006a 5A61     		str	r2, [r3, #20]
+  53:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****  
+  54:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****      
+  55:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** }
+  97              		.loc 1 55 0
+  98 006c BD46     		mov	sp, r7
+  99              		@ sp needed for prologue
+ 100 006e 80BD     		pop	{r7, pc}
+ 101              	.L3:
+ 102              		.align	2
+ 103              	.L2:
+ 104 0070 00700440 		.word	1074032640
+ 105 0074 3C100000 		.word	4156
+ 106 0078 00B00440 		.word	1074049024
+ 107 007c FFF8FFFF 		.word	-1793
+ 108 0080 00D00340 		.word	1073991680
+ 109              		.cfi_endproc
+ 110              	.LFE0:
+ 112              		.section	.text.deinit_rtc,"ax",%progbits
+ 113              		.align	2
+ 114              		.global	deinit_rtc
+ 115              		.code	16
+ 116              		.thumb_func
+ 118              	deinit_rtc:
+ 119              	.LFB1:
+  56:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** 
+  57:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** 
+  58:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** void deinit_rtc(void)
+  59:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** {    
+ 120              		.loc 1 59 0
+ 121              		.cfi_startproc
+ 122 0000 80B5     		push	{r7, lr}
+ 123              	.LCFI2:
+ 124              		.cfi_def_cfa_offset 8
+ 125              		.cfi_offset 7, -8
+ 126              		.cfi_offset 14, -4
+ 127 0002 00AF     		add	r7, sp, #0
+ 128              	.LCFI3:
+ 129              		.cfi_def_cfa_register 7
+  60:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** #ifdef CMSIS
+  61:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** NVIC_DisableIRQ(RTC_IRQn);
+  62:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** #else
+  63:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****     disable_irq(INT_RTC-16);
+ 130              		.loc 1 63 0
+ 131 0004 1420     		mov	r0, #20
+ 132 0006 FFF7FEFF 		bl	disable_irq
+  64:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****     #endif
+  65:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** }
+ 133              		.loc 1 65 0
+ 134 000a BD46     		mov	sp, r7
+ 135              		@ sp needed for prologue
+ 136 000c 80BD     		pop	{r7, pc}
+ 137              		.cfi_endproc
+ 138              	.LFE1:
+ 140 000e C046     		.section	.text.RTC_IRQHandler,"ax",%progbits
+ 141              		.align	2
+ 142              		.global	RTC_IRQHandler
+ 143              		.code	16
+ 144              		.thumb_func
+ 146              	RTC_IRQHandler:
+ 147              	.LFB2:
+  66:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** 
+  67:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** 
+  68:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** #ifdef CMSIS
+  69:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** void RTC_IRQHandler(void)
+  70:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** #else
+  71:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** void RTC_IRQHandler(void)
+  72:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** #endif
+  73:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** {
+ 148              		.loc 1 73 0
+ 149              		.cfi_startproc
+ 150 0000 80B5     		push	{r7, lr}
+ 151              	.LCFI4:
+ 152              		.cfi_def_cfa_offset 8
+ 153              		.cfi_offset 7, -8
+ 154              		.cfi_offset 14, -4
+ 155 0002 82B0     		sub	sp, sp, #8
+ 156              	.LCFI5:
+ 157              		.cfi_def_cfa_offset 16
+ 158 0004 00AF     		add	r7, sp, #0
+ 159              	.LCFI6:
+ 160              		.cfi_def_cfa_register 7
+  74:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****     uint32 rtc_sr = RTC_SR;
+ 161              		.loc 1 74 0
+ 162 0006 184B     		ldr	r3, .L9
+ 163 0008 5B69     		ldr	r3, [r3, #20]
+ 164 000a 7B60     		str	r3, [r7, #4]
+  75:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****     
+  76:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****     if(rtc_sr & RTC_SR_TAF_MASK) // RTC timer alarm flag is set
+ 165              		.loc 1 76 0
+ 166 000c 7A68     		ldr	r2, [r7, #4]
+ 167 000e 0423     		mov	r3, #4
+ 168 0010 1340     		and	r3, r2
+ 169 0012 09D0     		beq	.L6
+  77:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****     {
+  78:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****       RTC_TAR = RTC_TAR + ALARM_TIME;     // write new value to TAR to clear TAF
+ 170              		.loc 1 78 0
+ 171 0014 144B     		ldr	r3, .L9
+ 172 0016 144A     		ldr	r2, .L9
+ 173 0018 9268     		ldr	r2, [r2, #8]
+ 174 001a 0532     		add	r2, r2, #5
+ 175 001c 9A60     		str	r2, [r3, #8]
+  79:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****       seconds_count++;
+ 176              		.loc 1 79 0
+ 177 001e 134B     		ldr	r3, .L9+4
+ 178 0020 1B68     		ldr	r3, [r3]
+ 179 0022 5A1C     		add	r2, r3, #1
+ 180 0024 114B     		ldr	r3, .L9+4
+ 181 0026 1A60     		str	r2, [r3]
+ 182              	.L6:
+  80:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****        
+  81:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****     }
+  82:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****     
+  83:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****     if(rtc_sr & RTC_SR_TOF_MASK) // RTC timer Overlow flag is set
+ 183              		.loc 1 83 0
+ 184 0028 7A68     		ldr	r2, [r7, #4]
+ 185 002a 0223     		mov	r3, #2
+ 186 002c 1340     		and	r3, r2
+ 187 002e 05D0     		beq	.L7
+  84:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****     {
+  85:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****      RTC_SR |= RTC_SR_TOF_MASK;
+ 188              		.loc 1 85 0
+ 189 0030 0D4B     		ldr	r3, .L9
+ 190 0032 0D4A     		ldr	r2, .L9
+ 191 0034 5269     		ldr	r2, [r2, #20]
+ 192 0036 0221     		mov	r1, #2
+ 193 0038 0A43     		orr	r2, r1
+ 194 003a 5A61     		str	r2, [r3, #20]
+ 195              	.L7:
+  86:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****     }
+  87:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** 
+  88:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****     
+  89:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****     if (rtc_sr & RTC_SR_TIF_MASK) // Timer Invalid flag
+ 196              		.loc 1 89 0
+ 197 003c 7A68     		ldr	r2, [r7, #4]
+ 198 003e 0123     		mov	r3, #1
+ 199 0040 1340     		and	r3, r2
+ 200 0042 0ED0     		beq	.L5
+  90:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****     {
+  91:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****         RTC_SR &= ~RTC_SR_TCE_MASK;  //Disable timer
+ 201              		.loc 1 91 0
+ 202 0044 084B     		ldr	r3, .L9
+ 203 0046 084A     		ldr	r2, .L9
+ 204 0048 5269     		ldr	r2, [r2, #20]
+ 205 004a 1021     		mov	r1, #16
+ 206 004c 8A43     		bic	r2, r1
+ 207 004e 5A61     		str	r2, [r3, #20]
+  92:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****         RTC_TSR = 0x00; // write to clear TOF or TIF
+ 208              		.loc 1 92 0
+ 209 0050 054B     		ldr	r3, .L9
+ 210 0052 0022     		mov	r2, #0
+ 211 0054 1A60     		str	r2, [r3]
+  93:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****         RTC_SR |= RTC_SR_TCE_MASK;   //re-enable timer
+ 212              		.loc 1 93 0
+ 213 0056 044B     		ldr	r3, .L9
+ 214 0058 034A     		ldr	r2, .L9
+ 215 005a 5269     		ldr	r2, [r2, #20]
+ 216 005c 1021     		mov	r1, #16
+ 217 005e 0A43     		orr	r2, r1
+ 218 0060 5A61     		str	r2, [r3, #20]
+ 219              	.L5:
+  94:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****     }
+  95:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** }
+ 220              		.loc 1 95 0
+ 221 0062 BD46     		mov	sp, r7
+ 222 0064 02B0     		add	sp, sp, #8
+ 223              		@ sp needed for prologue
+ 224 0066 80BD     		pop	{r7, pc}
+ 225              	.L10:
+ 226              		.align	2
+ 227              	.L9:
+ 228 0068 00D00340 		.word	1073991680
+ 229 006c 00000000 		.word	seconds_count
+ 230              		.cfi_endproc
+ 231              	.LFE2:
+ 233              		.section	.text.RTC_Seconds_IRQHandler,"ax",%progbits
+ 234              		.align	2
+ 235              		.global	RTC_Seconds_IRQHandler
+ 236              		.code	16
+ 237              		.thumb_func
+ 239              	RTC_Seconds_IRQHandler:
+ 240              	.LFB3:
+  96:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** 
+  97:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** #ifdef CMSIS
+  98:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** void RTC_Seconds_IRQHandler(void)
+  99:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** #else
+ 100:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** void RTC_Seconds_IRQHandler(void)
+ 101:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** #endif
+ 102:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** {
+ 241              		.loc 1 102 0
+ 242              		.cfi_startproc
+ 243 0000 80B5     		push	{r7, lr}
+ 244              	.LCFI7:
+ 245              		.cfi_def_cfa_offset 8
+ 246              		.cfi_offset 7, -8
+ 247              		.cfi_offset 14, -4
+ 248 0002 00AF     		add	r7, sp, #0
+ 249              	.LCFI8:
+ 250              		.cfi_def_cfa_register 7
+ 103:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c ****   rtc_seconds_isrv_count++;
+ 251              		.loc 1 103 0
+ 252 0004 034B     		ldr	r3, .L12
+ 253 0006 1B88     		ldrh	r3, [r3]
+ 254 0008 0133     		add	r3, r3, #1
+ 255 000a 9AB2     		uxth	r2, r3
+ 256 000c 014B     		ldr	r3, .L12
+ 257 000e 1A80     		strh	r2, [r3]
+ 104:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** 
+ 105:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/rtc\rtc.c **** }
+ 258              		.loc 1 105 0
+ 259 0010 BD46     		mov	sp, r7
+ 260              		@ sp needed for prologue
+ 261 0012 80BD     		pop	{r7, pc}
+ 262              	.L13:
+ 263              		.align	2
+ 264              	.L12:
+ 265 0014 00000000 		.word	rtc_seconds_isrv_count
+ 266              		.cfi_endproc
+ 267              	.LFE3:
+ 269              		.text
+ 270              	.Letext0:
+ 271              		.file 2 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu/arm_cm0.h"
+ 272              		.file 3 "C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint"
+ 273              		.file 4 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu/headers/MKL46Z4.
+ 274              		.file 5 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Dem
+DEFINED SYMBOLS
+                            *ABS*:00000000 rtc.c
+                            *COM*:00000004 seconds_count
+C:\Users\b01252\AppData\Local\Temp\ccyhizNb.s:19     .text.rtc_init:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccyhizNb.s:24     .text.rtc_init:00000000 rtc_init
+C:\Users\b01252\AppData\Local\Temp\ccyhizNb.s:104    .text.rtc_init:00000070 $d
+C:\Users\b01252\AppData\Local\Temp\ccyhizNb.s:113    .text.deinit_rtc:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccyhizNb.s:118    .text.deinit_rtc:00000000 deinit_rtc
+C:\Users\b01252\AppData\Local\Temp\ccyhizNb.s:141    .text.RTC_IRQHandler:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccyhizNb.s:146    .text.RTC_IRQHandler:00000000 RTC_IRQHandler
+C:\Users\b01252\AppData\Local\Temp\ccyhizNb.s:228    .text.RTC_IRQHandler:00000068 $d
+C:\Users\b01252\AppData\Local\Temp\ccyhizNb.s:234    .text.RTC_Seconds_IRQHandler:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccyhizNb.s:239    .text.RTC_Seconds_IRQHandler:00000000 RTC_Seconds_IRQHandler
+C:\Users\b01252\AppData\Local\Temp\ccyhizNb.s:265    .text.RTC_Seconds_IRQHandler:00000014 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+enable_irq
+disable_irq
+rtc_seconds_isrv_count

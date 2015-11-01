@@ -1,0 +1,297 @@
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"startup.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.common_startup,"ax",%progbits
+  18              		.align	2
+  19              		.global	common_startup
+  20              		.code	16
+  21              		.thumb_func
+  23              	common_startup:
+  24              	.LFB0:
+  25              		.file 1 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common/startup.c"
+   1:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** /*
+   2:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c ****  * File:    startup.c
+   3:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c ****  * Purpose: Generic Kinetis startup code
+   4:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c ****  *
+   5:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c ****  * Notes:
+   6:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c ****  */
+   7:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 
+   8:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** #include "common.h"
+   9:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 
+  10:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** #if (defined(IAR))
+  11:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** #pragma section = ".data"
+  12:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** #pragma section = ".data_init"
+  13:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** #pragma section = ".bss"
+  14:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** #pragma section = "CodeRelocate"
+  15:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** #pragma section = "CodeRelocateRam"
+  16:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** #endif
+  17:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 
+  18:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** /********************************************************************/
+  19:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** void common_startup(void) {
+  26              		.loc 1 19 0
+  27              		.cfi_startproc
+  28 0000 80B5     		push	{r7, lr}
+  29              	.LCFI0:
+  30              		.cfi_def_cfa_offset 8
+  31              		.cfi_offset 7, -8
+  32              		.cfi_offset 14, -4
+  33 0002 86B0     		sub	sp, sp, #24
+  34              	.LCFI1:
+  35              		.cfi_def_cfa_offset 32
+  36 0004 00AF     		add	r7, sp, #0
+  37              	.LCFI2:
+  38              		.cfi_def_cfa_register 7
+  20:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 
+  21:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** #if (defined(CW))	
+  22:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	extern char __START_BSS[];
+  23:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	extern char __END_BSS[];
+  24:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	extern uint32 __DATA_ROM[];
+  25:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	extern uint32 __DATA_RAM[];
+  26:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	extern char __DATA_END[];
+  27:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** #endif
+  28:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 
+  29:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	/* Declare a counter we'll use in all of the copy loops */
+  30:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	uint32 n;
+  31:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 
+  32:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** #ifndef KEIL
+  33:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	/* Declare pointers for various data sections. These pointers
+  34:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	 * are initialized using values pulled in from the linker file
+  35:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	 */
+  36:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	uint8 * data_ram, *data_rom, *data_rom_end;
+  37:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	uint8 * bss_start, *bss_end;
+  38:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** #endif
+  39:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 
+  40:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** #if (defined(KEIL))
+  41:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	extern uint32 Image$$VECTOR_ROM$$Base[];
+  42:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	extern uint32 Image$$VECTOR_RAM$$Base[];
+  43:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** #define __VECTOR_TABLE Image$$VECTOR_ROM$$Base  
+  44:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** #define __VECTOR_RAM Image$$VECTOR_RAM$$Base  
+  45:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** #elif (defined(IAR))
+  46:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	/* Addresses for VECTOR_TABLE and VECTOR_RAM come from the linker file */
+  47:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	extern uint32 __VECTOR_TABLE[];
+  48:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	extern uint32 __VECTOR_RAM[];
+  49:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** #elif (defined(CW))
+  50:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** #define __VECTOR_TABLE __vector_table  
+  51:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** #define __VECTOR_RAM   __vector_ram
+  52:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	extern uint32 __VECTOR_TABLE[];
+  53:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	extern uint32 __VECTOR_RAM[];
+  54:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** #endif
+  55:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 
+  56:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	/* Copy the vector table to RAM */
+  57:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	if (__VECTOR_RAM != __VECTOR_TABLE) {
+  39              		.loc 1 57 0
+  40 0006 294A     		ldr	r2, .L9
+  41 0008 294B     		ldr	r3, .L9+4
+  42 000a 9A42     		cmp	r2, r3
+  43 000c 11D0     		beq	.L2
+  58:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 		for (n = 0; n < 0x104; n++)
+  44              		.loc 1 58 0
+  45 000e 0023     		mov	r3, #0
+  46 0010 7B61     		str	r3, [r7, #20]
+  47 0012 0AE0     		b	.L3
+  48              	.L4:
+  59:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 			__VECTOR_RAM[n] = __VECTOR_TABLE[n];
+  49              		.loc 1 59 0
+  50 0014 264B     		ldr	r3, .L9+4
+  51 0016 7A69     		ldr	r2, [r7, #20]
+  52 0018 9200     		lsl	r2, r2, #2
+  53 001a D158     		ldr	r1, [r2, r3]
+  54 001c 234B     		ldr	r3, .L9
+  55 001e 7A69     		ldr	r2, [r7, #20]
+  56 0020 9200     		lsl	r2, r2, #2
+  57 0022 D150     		str	r1, [r2, r3]
+  58:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 		for (n = 0; n < 0x104; n++)
+  58              		.loc 1 58 0
+  59 0024 7B69     		ldr	r3, [r7, #20]
+  60 0026 0133     		add	r3, r3, #1
+  61 0028 7B61     		str	r3, [r7, #20]
+  62              	.L3:
+  58:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 		for (n = 0; n < 0x104; n++)
+  63              		.loc 1 58 0 is_stmt 0
+  64 002a 7A69     		ldr	r2, [r7, #20]
+  65 002c 214B     		ldr	r3, .L9+8
+  66 002e 9A42     		cmp	r2, r3
+  67 0030 F0D9     		bls	.L4
+  68              	.L2:
+  60:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	}
+  61:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	/* Point the VTOR to the new copy of the vector table */
+  62:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	write_vtor((uint32) __VECTOR_RAM);
+  69              		.loc 1 62 0 is_stmt 1
+  70 0032 1E4B     		ldr	r3, .L9
+  71 0034 181C     		mov	r0, r3
+  72 0036 FFF7FEFF 		bl	write_vtor
+  63:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 
+  64:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	/* Get the addresses for the .data section (initialized data section) */
+  65:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** #if (defined(CW))
+  66:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	data_ram = (uint8 *) __DATA_RAM;
+  73              		.loc 1 66 0
+  74 003a 1F4B     		ldr	r3, .L9+12
+  75 003c 3B61     		str	r3, [r7, #16]
+  67:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	data_rom = (uint8 *) __DATA_ROM;
+  76              		.loc 1 67 0
+  77 003e 1F4B     		ldr	r3, .L9+16
+  78 0040 FB60     		str	r3, [r7, #12]
+  68:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	data_rom_end = (uint8 *) __DATA_END; /* This is actually a RAM address in CodeWarrior */
+  79              		.loc 1 68 0
+  80 0042 1F4B     		ldr	r3, .L9+20
+  81 0044 7B60     		str	r3, [r7, #4]
+  69:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	n = data_rom_end - data_ram;
+  82              		.loc 1 69 0
+  83 0046 7A68     		ldr	r2, [r7, #4]
+  84 0048 3B69     		ldr	r3, [r7, #16]
+  85 004a D31A     		sub	r3, r2, r3
+  86 004c 7B61     		str	r3, [r7, #20]
+  70:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** #elif (defined(IAR))
+  71:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	data_ram = __section_begin(".data");
+  72:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	data_rom = __section_begin(".data_init");
+  73:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	data_rom_end = __section_end(".data_init");
+  74:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	n = data_rom_end - data_rom;
+  75:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** #endif		
+  76:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 
+  77:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** #ifndef __CC_ARM
+  78:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 
+  79:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	/* Copy initialized data from ROM to RAM */
+  80:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	while (n--)
+  87              		.loc 1 80 0
+  88 004e 09E0     		b	.L5
+  89              	.L6:
+  81:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 		*data_ram++ = *data_rom++;
+  90              		.loc 1 81 0
+  91 0050 FB68     		ldr	r3, [r7, #12]
+  92 0052 1A78     		ldrb	r2, [r3]
+  93 0054 3B69     		ldr	r3, [r7, #16]
+  94 0056 1A70     		strb	r2, [r3]
+  95 0058 3B69     		ldr	r3, [r7, #16]
+  96 005a 0133     		add	r3, r3, #1
+  97 005c 3B61     		str	r3, [r7, #16]
+  98 005e FB68     		ldr	r3, [r7, #12]
+  99 0060 0133     		add	r3, r3, #1
+ 100 0062 FB60     		str	r3, [r7, #12]
+ 101              	.L5:
+  80:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	while (n--)
+ 102              		.loc 1 80 0
+ 103 0064 7B69     		ldr	r3, [r7, #20]
+ 104 0066 5A1E     		sub	r2, r3, #1
+ 105 0068 9341     		sbc	r3, r3, r2
+ 106 006a DBB2     		uxtb	r3, r3
+ 107 006c 7A69     		ldr	r2, [r7, #20]
+ 108 006e 013A     		sub	r2, r2, #1
+ 109 0070 7A61     		str	r2, [r7, #20]
+ 110 0072 002B     		cmp	r3, #0
+ 111 0074 ECD1     		bne	.L6
+  82:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 
+  83:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	/* Get the addresses for the .bss section (zero-initialized data) */
+  84:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** #if (defined(CW))
+  85:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	bss_start = (uint8 *) __START_BSS;
+ 112              		.loc 1 85 0
+ 113 0076 134B     		ldr	r3, .L9+24
+ 114 0078 BB60     		str	r3, [r7, #8]
+  86:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	bss_end = (uint8 *) __END_BSS;
+ 115              		.loc 1 86 0
+ 116 007a 134B     		ldr	r3, .L9+28
+ 117 007c 3B60     		str	r3, [r7]
+  87:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** #elif (defined(IAR))
+  88:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	bss_start = __section_begin(".bss");
+  89:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	bss_end = __section_end(".bss");
+  90:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** #endif
+  91:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 
+  92:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	/* Clear the zero-initialized data section */
+  93:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	n = bss_end - bss_start;
+ 118              		.loc 1 93 0
+ 119 007e 3A68     		ldr	r2, [r7]
+ 120 0080 BB68     		ldr	r3, [r7, #8]
+ 121 0082 D31A     		sub	r3, r2, r3
+ 122 0084 7B61     		str	r3, [r7, #20]
+  94:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	while (n--)
+ 123              		.loc 1 94 0
+ 124 0086 05E0     		b	.L7
+ 125              	.L8:
+  95:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 		*bss_start++ = 0;
+ 126              		.loc 1 95 0
+ 127 0088 BB68     		ldr	r3, [r7, #8]
+ 128 008a 0022     		mov	r2, #0
+ 129 008c 1A70     		strb	r2, [r3]
+ 130 008e BB68     		ldr	r3, [r7, #8]
+ 131 0090 0133     		add	r3, r3, #1
+ 132 0092 BB60     		str	r3, [r7, #8]
+ 133              	.L7:
+  94:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	while (n--)
+ 134              		.loc 1 94 0
+ 135 0094 7B69     		ldr	r3, [r7, #20]
+ 136 0096 5A1E     		sub	r2, r3, #1
+ 137 0098 9341     		sbc	r3, r3, r2
+ 138 009a DBB2     		uxtb	r3, r3
+ 139 009c 7A69     		ldr	r2, [r7, #20]
+ 140 009e 013A     		sub	r2, r2, #1
+ 141 00a0 7A61     		str	r2, [r7, #20]
+ 142 00a2 002B     		cmp	r3, #0
+ 143 00a4 F0D1     		bne	.L8
+  96:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** #endif
+  97:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 
+  98:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	/* Get addresses for any code sections that need to be copied from ROM to RAM.
+  99:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	 * The IAR tools have a predefined keyword that can be used to mark individual
+ 100:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	 * functions for execution from RAM. Add "__ramfunc" before the return type in
+ 101:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	 * the function prototype for any routines you need to execute from RAM instead
+ 102:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	 * of ROM. ex: __ramfunc void foo(void);
+ 103:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	 */
+ 104:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** #if (defined(IAR))
+ 105:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	uint8* code_relocate_ram = __section_begin("CodeRelocateRam");
+ 106:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	uint8* code_relocate = __section_begin("CodeRelocate");
+ 107:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	uint8* code_relocate_end = __section_end("CodeRelocate");
+ 108:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 
+ 109:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	/* Copy functions from ROM to RAM */
+ 110:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	n = code_relocate_end - code_relocate;
+ 111:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	while (n--)
+ 112:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** 	*code_relocate_ram++ = *code_relocate++;
+ 113:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** #endif
+ 114:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\startup.c **** }
+ 144              		.loc 1 114 0
+ 145 00a6 BD46     		mov	sp, r7
+ 146 00a8 06B0     		add	sp, sp, #24
+ 147              		@ sp needed for prologue
+ 148 00aa 80BD     		pop	{r7, pc}
+ 149              	.L10:
+ 150              		.align	2
+ 151              	.L9:
+ 152 00ac 00000000 		.word	__vector_ram
+ 153 00b0 00000000 		.word	__vector_table
+ 154 00b4 03010000 		.word	259
+ 155 00b8 00000000 		.word	__DATA_RAM
+ 156 00bc 00000000 		.word	__DATA_ROM
+ 157 00c0 00000000 		.word	__DATA_END
+ 158 00c4 00000000 		.word	__START_BSS
+ 159 00c8 00000000 		.word	__END_BSS
+ 160              		.cfi_endproc
+ 161              	.LFE0:
+ 163              		.text
+ 164              	.Letext0:
+ 165              		.file 2 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu/arm_cm0.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 startup.c
+C:\Users\b01252\AppData\Local\Temp\ccrFaUzv.s:18     .text.common_startup:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccrFaUzv.s:23     .text.common_startup:00000000 common_startup
+C:\Users\b01252\AppData\Local\Temp\ccrFaUzv.s:152    .text.common_startup:000000ac $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+write_vtor
+__vector_ram
+__vector_table
+__DATA_RAM
+__DATA_ROM
+__DATA_END
+__START_BSS
+__END_BSS

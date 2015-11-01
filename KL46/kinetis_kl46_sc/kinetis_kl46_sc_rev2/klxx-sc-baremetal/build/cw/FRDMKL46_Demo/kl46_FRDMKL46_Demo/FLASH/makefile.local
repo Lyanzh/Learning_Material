@@ -1,0 +1,32 @@
+################################################################################
+# These macros are used by makefiles and argument files.
+# When a space is included in the path and quotes (") cannot be used,
+# a _ESCAPE version of the macro is added that escapes the space with backslash (\).
+################################################################################
+
+export PMC=C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/pmc
+export ADC_TEST=C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc_test
+export GNU_Make_Install_DirEnv=$(CWInstallLocationEnv)/gnu/bin
+export ProjDirPath=C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/build/cw/FRDMKL46_Demo/kl46_FRDMKL46_Demo
+export CWInstallLocationEnv=C:/Freescale/CW MCU v10.4
+export ADC16=C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/adc16
+export TASK_MGR=C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/task_mgr
+export CPU=C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu
+export UART=C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/uart
+export PIT=C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/pit
+export LPTMR=C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/lptmr
+export RCM=C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/rcm
+export ARMSourceryDirEnv=$(CWInstallLocationEnv)/Cross_Tools/arm-none-eabi-gcc-4_7_3/bin
+export ANGLE_CALCULATION=C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/angle_calculation
+export MEDIAN=C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/median
+export MCG=C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/mcg
+export FRDMKL46_DEMO=C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo
+export BSP=C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/bsp
+export SMC=C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/smc
+export LLWU=C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/drivers/llwu
+export TSI=C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/tsi
+export LCD=C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/lcd
+export COMMON=C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common
+export USB=C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/usb
+export ECOMPASS=C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/ecompass
+export I2C=C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/I2C

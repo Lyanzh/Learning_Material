@@ -1,0 +1,16 @@
+queue.o: ..\..\..\src\common\queue.c
+queue.o: ..\..\..\src\common\common.h
+queue.o: ..\..\..\src\platforms\tower.h
+queue.o: ..\..\..\src\drivers\mcg\mcg.h
+queue.o: ..\..\..\src\cpu\headers\MKL46Z4_CMSIS.h
+queue.o: ..\..\..\src\cpu\headers\core_cm0plus.h
+queue.o: C:\Keil\ARM\ARMCC\bin\..\include\stdint.h
+queue.o: ..\..\..\src\cpu\headers\core_cmInstr.h
+queue.o: ..\..\..\src\cpu\headers\core_cmFunc.h
+queue.o: ..\..\..\src\cpu\system_MKL46Z4.h
+queue.o: ..\..\..\src\common\assert.h
+queue.o: ..\..\..\src\common\io.h
+queue.o: ..\..\..\src\common\startup.h
+queue.o: ..\..\..\src\common\stdlib.h
+queue.o: ..\..\..\src\cpu\headers\MemMapPtr_KL46Z4.h
+queue.o: ..\..\..\src\common\queue.h

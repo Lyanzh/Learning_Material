@@ -1,0 +1,603 @@
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"angle_cal.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.comm	X_acc,4,4
+  18              		.comm	Y_acc,4,4
+  19              		.comm	Z_acc,4,4
+  20              		.comm	xy_mag,4,4
+  21              		.comm	xz_mag,4,4
+  22              		.comm	yz_mag,4,4
+  23              		.comm	xy_angle,4,4
+  24              		.comm	xz_angle,4,4
+  25              		.comm	yz_angle,4,4
+  26              		.comm	arr_medianas2,108,4
+  27              		.comm	cat,4,4
+  28              		.comm	offset,4,4
+  29              		.comm	fall_input,1,1
+  30              		.global	__aeabi_uidiv
+  31              		.section	.text.angle_calculation,"ax",%progbits
+  32              		.align	2
+  33              		.global	angle_calculation
+  34              		.code	16
+  35              		.thumb_func
+  37              	angle_calculation:
+  38              	.LFB0:
+  39              		.file 1 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Dem
+   1:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** /* 
+   2:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** 
+   3:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** accelerometer apps 
+   4:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** Process information from accelerometer
+   5:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** and calculates tilt angle
+   6:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** 
+   7:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** 
+   8:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** */
+   9:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** #include "common.h"
+  10:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** #include "sqrt16.h"
+  11:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** #include "median.h"
+  12:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** #include "asin.h"
+  13:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** #include "global.h"
+  14:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** #include "task_mgr.h"
+  15:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** 
+  16:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** 
+  17:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** extern signed short Aresultx, Aresulty, Aresultz;
+  18:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** 
+  19:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** /*Acceleration  RAM */
+  20:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** signed int X_acc;
+  21:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** signed int Y_acc;
+  22:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** signed int Z_acc;
+  23:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** 
+  24:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** unsigned int xy_mag;
+  25:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** unsigned int xz_mag;
+  26:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** unsigned int yz_mag;
+  27:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** 
+  28:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** signed  int xy_angle;
+  29:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** signed  int xz_angle;
+  30:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** signed  int yz_angle;
+  31:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** 
+  32:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** 
+  33:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** struct mediana_type arr_medianas2[3];
+  34:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** unsigned int cat;
+  35:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** unsigned int offset;
+  36:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** unsigned char fall_input;
+  37:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** 
+  38:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** 
+  39:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** 
+  40:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** 
+  41:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** /*
+  42:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****  The angle calculation 
+  43:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****  
+  44:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    mag = sqrt(X^2 + Y^2)
+  45:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    
+  46:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    sin(alpha) = CO/hip;
+  47:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    
+  48:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    alpha = asin(CO/hip);
+  49:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    
+  50:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    where CO  cateto opuesto
+  51:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    hip = hipotenusa= magnitud
+  52:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    the other way can be
+  53:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    
+  54:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    
+  55:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    // to check what is better
+  56:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    atan = y/x
+  57:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    
+  58:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    where x/y can take values from -inf to + inf
+  59:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    
+  60:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****      and for´
+  61:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****      
+  62:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****      
+  63:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    Note: Direct calculos based on  angle = asin(x/g) 
+  64:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    is possible but is only valid when plane XY is the in the same line of G
+  65:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    
+  66:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    no accept small tilt of the board.
+  67:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****     
+  68:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** 
+  69:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** */
+  70:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** 
+  71:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** void angle_calculation(void)
+  72:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****  {
+  40              		.loc 1 72 0
+  41              		.cfi_startproc
+  42 0000 80B5     		push	{r7, lr}
+  43              	.LCFI0:
+  44              		.cfi_def_cfa_offset 8
+  45              		.cfi_offset 7, -8
+  46              		.cfi_offset 14, -4
+  47 0002 84B0     		sub	sp, sp, #16
+  48              	.LCFI1:
+  49              		.cfi_def_cfa_offset 24
+  50 0004 00AF     		add	r7, sp, #0
+  51              	.LCFI2:
+  52              		.cfi_def_cfa_register 7
+  73:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    signed int nv, x2, y2, z2;
+  74:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** 
+  75:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****  /*  if (accel_count != 0) return;
+  76:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    accel_count = 60; //60 msec
+  77:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    */
+  78:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    
+  79:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    nv = (signed char)(Aresultx);
+  53              		.loc 1 79 0
+  54 0006 7B4B     		ldr	r3, .L14
+  55 0008 1B88     		ldrh	r3, [r3]
+  56 000a DBB2     		uxtb	r3, r3
+  57 000c 5BB2     		sxtb	r3, r3
+  58 000e FB60     		str	r3, [r7, #12]
+  80:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    X_acc = median(nv, &arr_medianas2[0]);
+  59              		.loc 1 80 0
+  60 0010 FA68     		ldr	r2, [r7, #12]
+  61 0012 794B     		ldr	r3, .L14+4
+  62 0014 101C     		mov	r0, r2
+  63 0016 191C     		mov	r1, r3
+  64 0018 FFF7FEFF 		bl	median
+  65 001c 021C     		mov	r2, r0
+  66 001e 774B     		ldr	r3, .L14+8
+  67 0020 1A60     		str	r2, [r3]
+  81:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    
+  82:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    
+  83:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    nv = (signed char)(Aresulty);
+  68              		.loc 1 83 0
+  69 0022 774B     		ldr	r3, .L14+12
+  70 0024 1B88     		ldrh	r3, [r3]
+  71 0026 DBB2     		uxtb	r3, r3
+  72 0028 5BB2     		sxtb	r3, r3
+  73 002a FB60     		str	r3, [r7, #12]
+  84:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    Y_acc = median(nv, &arr_medianas2[1]);
+  74              		.loc 1 84 0
+  75 002c FA68     		ldr	r2, [r7, #12]
+  76 002e 754B     		ldr	r3, .L14+16
+  77 0030 101C     		mov	r0, r2
+  78 0032 191C     		mov	r1, r3
+  79 0034 FFF7FEFF 		bl	median
+  80 0038 021C     		mov	r2, r0
+  81 003a 734B     		ldr	r3, .L14+20
+  82 003c 1A60     		str	r2, [r3]
+  85:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    
+  86:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    nv = (signed char)(Aresultz);  
+  83              		.loc 1 86 0
+  84 003e 734B     		ldr	r3, .L14+24
+  85 0040 1B88     		ldrh	r3, [r3]
+  86 0042 DBB2     		uxtb	r3, r3
+  87 0044 5BB2     		sxtb	r3, r3
+  88 0046 FB60     		str	r3, [r7, #12]
+  87:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    Z_acc = median(nv, &arr_medianas2[2]);
+  89              		.loc 1 87 0
+  90 0048 FA68     		ldr	r2, [r7, #12]
+  91 004a 714B     		ldr	r3, .L14+28
+  92 004c 101C     		mov	r0, r2
+  93 004e 191C     		mov	r1, r3
+  94 0050 FFF7FEFF 		bl	median
+  95 0054 021C     		mov	r2, r0
+  96 0056 6F4B     		ldr	r3, .L14+32
+  97 0058 1A60     		str	r2, [r3]
+  88:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** 
+  89:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    x2        = X_acc*X_acc;
+  98              		.loc 1 89 0
+  99 005a 684B     		ldr	r3, .L14+8
+ 100 005c 1A68     		ldr	r2, [r3]
+ 101 005e 674B     		ldr	r3, .L14+8
+ 102 0060 1B68     		ldr	r3, [r3]
+ 103 0062 5343     		mul	r3, r2
+ 104 0064 BB60     		str	r3, [r7, #8]
+  90:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    y2        = Y_acc*Y_acc;
+ 105              		.loc 1 90 0
+ 106 0066 684B     		ldr	r3, .L14+20
+ 107 0068 1A68     		ldr	r2, [r3]
+ 108 006a 674B     		ldr	r3, .L14+20
+ 109 006c 1B68     		ldr	r3, [r3]
+ 110 006e 5343     		mul	r3, r2
+ 111 0070 7B60     		str	r3, [r7, #4]
+  91:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** 
+  92:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    xy_mag   = sqrt_16(x2 + y2);
+ 112              		.loc 1 92 0
+ 113 0072 BA68     		ldr	r2, [r7, #8]
+ 114 0074 7B68     		ldr	r3, [r7, #4]
+ 115 0076 D318     		add	r3, r2, r3
+ 116 0078 181C     		mov	r0, r3
+ 117 007a FFF7FEFF 		bl	sqrt_16
+ 118 007e 021C     		mov	r2, r0
+ 119 0080 654B     		ldr	r3, .L14+36
+ 120 0082 1A60     		str	r2, [r3]
+  93:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****   
+  94:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    if (Y_acc<0) cat = -Y_acc; else cat = Y_acc;
+ 121              		.loc 1 94 0
+ 122 0084 604B     		ldr	r3, .L14+20
+ 123 0086 1B68     		ldr	r3, [r3]
+ 124 0088 002B     		cmp	r3, #0
+ 125 008a 06DA     		bge	.L2
+ 126              		.loc 1 94 0 is_stmt 0
+ 127 008c 5E4B     		ldr	r3, .L14+20
+ 128 008e 1B68     		ldr	r3, [r3]
+ 129 0090 5B42     		neg	r3, r3
+ 130 0092 1A1C     		mov	r2, r3
+ 131 0094 614B     		ldr	r3, .L14+40
+ 132 0096 1A60     		str	r2, [r3]
+ 133 0098 04E0     		b	.L3
+ 134              	.L2:
+ 135              		.loc 1 94 0
+ 136 009a 5B4B     		ldr	r3, .L14+20
+ 137 009c 1B68     		ldr	r3, [r3]
+ 138 009e 1A1C     		mov	r2, r3
+ 139 00a0 5E4B     		ldr	r3, .L14+40
+ 140 00a2 1A60     		str	r2, [r3]
+ 141              	.L3:
+  95:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    
+  96:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    offset = (unsigned int)(cat<<7)/(unsigned int)xy_mag;
+ 142              		.loc 1 96 0 is_stmt 1
+ 143 00a4 5D4B     		ldr	r3, .L14+40
+ 144 00a6 1B68     		ldr	r3, [r3]
+ 145 00a8 DA01     		lsl	r2, r3, #7
+ 146 00aa 5B4B     		ldr	r3, .L14+36
+ 147 00ac 1B68     		ldr	r3, [r3]
+ 148 00ae 101C     		mov	r0, r2
+ 149 00b0 191C     		mov	r1, r3
+ 150 00b2 FFF7FEFF 		bl	__aeabi_uidiv
+ 151 00b6 031C     		mov	r3, r0
+ 152 00b8 1A1C     		mov	r2, r3
+ 153 00ba 594B     		ldr	r3, .L14+44
+ 154 00bc 1A60     		str	r2, [r3]
+  97:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    if (offset>127) offset = 127;    
+ 155              		.loc 1 97 0
+ 156 00be 584B     		ldr	r3, .L14+44
+ 157 00c0 1B68     		ldr	r3, [r3]
+ 158 00c2 7F2B     		cmp	r3, #127
+ 159 00c4 02D9     		bls	.L4
+ 160              		.loc 1 97 0 is_stmt 0
+ 161 00c6 564B     		ldr	r3, .L14+44
+ 162 00c8 7F22     		mov	r2, #127
+ 163 00ca 1A60     		str	r2, [r3]
+ 164              	.L4:
+  98:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    xy_angle = myasin[offset];
+ 165              		.loc 1 98 0 is_stmt 1
+ 166 00cc 544B     		ldr	r3, .L14+44
+ 167 00ce 1A68     		ldr	r2, [r3]
+ 168 00d0 544B     		ldr	r3, .L14+48
+ 169 00d2 9200     		lsl	r2, r2, #2
+ 170 00d4 D258     		ldr	r2, [r2, r3]
+ 171 00d6 544B     		ldr	r3, .L14+52
+ 172 00d8 1A60     		str	r2, [r3]
+  99:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    
+ 100:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    if (Y_acc>0)  xy_angle = -xy_angle;
+ 173              		.loc 1 100 0
+ 174 00da 4B4B     		ldr	r3, .L14+20
+ 175 00dc 1B68     		ldr	r3, [r3]
+ 176 00de 002B     		cmp	r3, #0
+ 177 00e0 04DD     		ble	.L5
+ 178              		.loc 1 100 0 is_stmt 0
+ 179 00e2 514B     		ldr	r3, .L14+52
+ 180 00e4 1B68     		ldr	r3, [r3]
+ 181 00e6 5A42     		neg	r2, r3
+ 182 00e8 4F4B     		ldr	r3, .L14+52
+ 183 00ea 1A60     		str	r2, [r3]
+ 184              	.L5:
+ 101:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    
+ 102:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****  
+ 103:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    /////////   
+ 104:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    
+ 105:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    z2        = Z_acc*Z_acc;   
+ 185              		.loc 1 105 0 is_stmt 1
+ 186 00ec 494B     		ldr	r3, .L14+32
+ 187 00ee 1A68     		ldr	r2, [r3]
+ 188 00f0 484B     		ldr	r3, .L14+32
+ 189 00f2 1B68     		ldr	r3, [r3]
+ 190 00f4 5343     		mul	r3, r2
+ 191 00f6 3B60     		str	r3, [r7]
+ 106:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    xz_mag    = sqrt_16(x2 + z2);
+ 192              		.loc 1 106 0
+ 193 00f8 BA68     		ldr	r2, [r7, #8]
+ 194 00fa 3B68     		ldr	r3, [r7]
+ 195 00fc D318     		add	r3, r2, r3
+ 196 00fe 181C     		mov	r0, r3
+ 197 0100 FFF7FEFF 		bl	sqrt_16
+ 198 0104 021C     		mov	r2, r0
+ 199 0106 494B     		ldr	r3, .L14+56
+ 200 0108 1A60     		str	r2, [r3]
+ 107:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    if (X_acc<0) cat = -X_acc; else cat = X_acc;
+ 201              		.loc 1 107 0
+ 202 010a 3C4B     		ldr	r3, .L14+8
+ 203 010c 1B68     		ldr	r3, [r3]
+ 204 010e 002B     		cmp	r3, #0
+ 205 0110 06DA     		bge	.L6
+ 206              		.loc 1 107 0 is_stmt 0
+ 207 0112 3A4B     		ldr	r3, .L14+8
+ 208 0114 1B68     		ldr	r3, [r3]
+ 209 0116 5B42     		neg	r3, r3
+ 210 0118 1A1C     		mov	r2, r3
+ 211 011a 404B     		ldr	r3, .L14+40
+ 212 011c 1A60     		str	r2, [r3]
+ 213 011e 04E0     		b	.L7
+ 214              	.L6:
+ 215              		.loc 1 107 0
+ 216 0120 364B     		ldr	r3, .L14+8
+ 217 0122 1B68     		ldr	r3, [r3]
+ 218 0124 1A1C     		mov	r2, r3
+ 219 0126 3D4B     		ldr	r3, .L14+40
+ 220 0128 1A60     		str	r2, [r3]
+ 221              	.L7:
+ 108:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    offset = (unsigned int)(cat<<7)/(unsigned int)xz_mag;
+ 222              		.loc 1 108 0 is_stmt 1
+ 223 012a 3C4B     		ldr	r3, .L14+40
+ 224 012c 1B68     		ldr	r3, [r3]
+ 225 012e DA01     		lsl	r2, r3, #7
+ 226 0130 3E4B     		ldr	r3, .L14+56
+ 227 0132 1B68     		ldr	r3, [r3]
+ 228 0134 101C     		mov	r0, r2
+ 229 0136 191C     		mov	r1, r3
+ 230 0138 FFF7FEFF 		bl	__aeabi_uidiv
+ 231 013c 031C     		mov	r3, r0
+ 232 013e 1A1C     		mov	r2, r3
+ 233 0140 374B     		ldr	r3, .L14+44
+ 234 0142 1A60     		str	r2, [r3]
+ 109:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    if (offset>127) offset = 127;    
+ 235              		.loc 1 109 0
+ 236 0144 364B     		ldr	r3, .L14+44
+ 237 0146 1B68     		ldr	r3, [r3]
+ 238 0148 7F2B     		cmp	r3, #127
+ 239 014a 02D9     		bls	.L8
+ 240              		.loc 1 109 0 is_stmt 0
+ 241 014c 344B     		ldr	r3, .L14+44
+ 242 014e 7F22     		mov	r2, #127
+ 243 0150 1A60     		str	r2, [r3]
+ 244              	.L8:
+ 110:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    xz_angle = myasin[offset];
+ 245              		.loc 1 110 0 is_stmt 1
+ 246 0152 334B     		ldr	r3, .L14+44
+ 247 0154 1A68     		ldr	r2, [r3]
+ 248 0156 334B     		ldr	r3, .L14+48
+ 249 0158 9200     		lsl	r2, r2, #2
+ 250 015a D258     		ldr	r2, [r2, r3]
+ 251 015c 344B     		ldr	r3, .L14+60
+ 252 015e 1A60     		str	r2, [r3]
+ 111:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    
+ 112:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    if (X_acc>0)  xz_angle = -xz_angle;
+ 253              		.loc 1 112 0
+ 254 0160 264B     		ldr	r3, .L14+8
+ 255 0162 1B68     		ldr	r3, [r3]
+ 256 0164 002B     		cmp	r3, #0
+ 257 0166 04DD     		ble	.L9
+ 258              		.loc 1 112 0 is_stmt 0
+ 259 0168 314B     		ldr	r3, .L14+60
+ 260 016a 1B68     		ldr	r3, [r3]
+ 261 016c 5A42     		neg	r2, r3
+ 262 016e 304B     		ldr	r3, .L14+60
+ 263 0170 1A60     		str	r2, [r3]
+ 264              	.L9:
+ 113:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    
+ 114:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** 
+ 115:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    yz_mag    = sqrt_16(y2 + z2);
+ 265              		.loc 1 115 0 is_stmt 1
+ 266 0172 7A68     		ldr	r2, [r7, #4]
+ 267 0174 3B68     		ldr	r3, [r7]
+ 268 0176 D318     		add	r3, r2, r3
+ 269 0178 181C     		mov	r0, r3
+ 270 017a FFF7FEFF 		bl	sqrt_16
+ 271 017e 021C     		mov	r2, r0
+ 272 0180 2C4B     		ldr	r3, .L14+64
+ 273 0182 1A60     		str	r2, [r3]
+ 116:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    if (Y_acc<0) cat = -Y_acc; else cat = Y_acc;
+ 274              		.loc 1 116 0
+ 275 0184 204B     		ldr	r3, .L14+20
+ 276 0186 1B68     		ldr	r3, [r3]
+ 277 0188 002B     		cmp	r3, #0
+ 278 018a 06DA     		bge	.L10
+ 279              		.loc 1 116 0 is_stmt 0
+ 280 018c 1E4B     		ldr	r3, .L14+20
+ 281 018e 1B68     		ldr	r3, [r3]
+ 282 0190 5B42     		neg	r3, r3
+ 283 0192 1A1C     		mov	r2, r3
+ 284 0194 214B     		ldr	r3, .L14+40
+ 285 0196 1A60     		str	r2, [r3]
+ 286 0198 04E0     		b	.L11
+ 287              	.L10:
+ 288              		.loc 1 116 0
+ 289 019a 1B4B     		ldr	r3, .L14+20
+ 290 019c 1B68     		ldr	r3, [r3]
+ 291 019e 1A1C     		mov	r2, r3
+ 292 01a0 1E4B     		ldr	r3, .L14+40
+ 293 01a2 1A60     		str	r2, [r3]
+ 294              	.L11:
+ 117:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    offset = (unsigned int)(cat<<7)/(unsigned int)yz_mag;
+ 295              		.loc 1 117 0 is_stmt 1
+ 296 01a4 1D4B     		ldr	r3, .L14+40
+ 297 01a6 1B68     		ldr	r3, [r3]
+ 298 01a8 DA01     		lsl	r2, r3, #7
+ 299 01aa 224B     		ldr	r3, .L14+64
+ 300 01ac 1B68     		ldr	r3, [r3]
+ 301 01ae 101C     		mov	r0, r2
+ 302 01b0 191C     		mov	r1, r3
+ 303 01b2 FFF7FEFF 		bl	__aeabi_uidiv
+ 304 01b6 031C     		mov	r3, r0
+ 305 01b8 1A1C     		mov	r2, r3
+ 306 01ba 194B     		ldr	r3, .L14+44
+ 307 01bc 1A60     		str	r2, [r3]
+ 118:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    if (offset>127) offset = 127;    
+ 308              		.loc 1 118 0
+ 309 01be 184B     		ldr	r3, .L14+44
+ 310 01c0 1B68     		ldr	r3, [r3]
+ 311 01c2 7F2B     		cmp	r3, #127
+ 312 01c4 02D9     		bls	.L12
+ 313              		.loc 1 118 0 is_stmt 0
+ 314 01c6 164B     		ldr	r3, .L14+44
+ 315 01c8 7F22     		mov	r2, #127
+ 316 01ca 1A60     		str	r2, [r3]
+ 317              	.L12:
+ 119:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    yz_angle = myasin[offset];
+ 318              		.loc 1 119 0 is_stmt 1
+ 319 01cc 144B     		ldr	r3, .L14+44
+ 320 01ce 1A68     		ldr	r2, [r3]
+ 321 01d0 144B     		ldr	r3, .L14+48
+ 322 01d2 9200     		lsl	r2, r2, #2
+ 323 01d4 D258     		ldr	r2, [r2, r3]
+ 324 01d6 184B     		ldr	r3, .L14+68
+ 325 01d8 1A60     		str	r2, [r3]
+ 120:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    if (Y_acc>0)  yz_angle = -yz_angle;
+ 326              		.loc 1 120 0
+ 327 01da 0B4B     		ldr	r3, .L14+20
+ 328 01dc 1B68     		ldr	r3, [r3]
+ 329 01de 002B     		cmp	r3, #0
+ 330 01e0 04DD     		ble	.L1
+ 331              		.loc 1 120 0 is_stmt 0
+ 332 01e2 154B     		ldr	r3, .L14+68
+ 333 01e4 1B68     		ldr	r3, [r3]
+ 334 01e6 5A42     		neg	r2, r3
+ 335 01e8 134B     		ldr	r3, .L14+68
+ 336 01ea 1A60     		str	r2, [r3]
+ 337              	.L1:
+ 121:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****     
+ 122:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****  }
+ 338              		.loc 1 122 0 is_stmt 1
+ 339 01ec BD46     		mov	sp, r7
+ 340 01ee 04B0     		add	sp, sp, #16
+ 341              		@ sp needed for prologue
+ 342 01f0 80BD     		pop	{r7, pc}
+ 343              	.L15:
+ 344 01f2 C046     		.align	2
+ 345              	.L14:
+ 346 01f4 00000000 		.word	Aresultx
+ 347 01f8 00000000 		.word	arr_medianas2
+ 348 01fc 00000000 		.word	X_acc
+ 349 0200 00000000 		.word	Aresulty
+ 350 0204 24000000 		.word	arr_medianas2+36
+ 351 0208 00000000 		.word	Y_acc
+ 352 020c 00000000 		.word	Aresultz
+ 353 0210 48000000 		.word	arr_medianas2+72
+ 354 0214 00000000 		.word	Z_acc
+ 355 0218 00000000 		.word	xy_mag
+ 356 021c 00000000 		.word	cat
+ 357 0220 00000000 		.word	offset
+ 358 0224 00000000 		.word	myasin
+ 359 0228 00000000 		.word	xy_angle
+ 360 022c 00000000 		.word	xz_mag
+ 361 0230 00000000 		.word	xz_angle
+ 362 0234 00000000 		.word	yz_mag
+ 363 0238 00000000 		.word	yz_angle
+ 364              		.cfi_endproc
+ 365              	.LFE0:
+ 367              		.section	.text.detect_fall_detection,"ax",%progbits
+ 368              		.align	2
+ 369              		.global	detect_fall_detection
+ 370              		.code	16
+ 371              		.thumb_func
+ 373              	detect_fall_detection:
+ 374              	.LFB1:
+ 123:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** 
+ 124:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** 
+ 125:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    /*Fall detection*/
+ 126:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** #define FALL_LIMIT  45//50
+ 127:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** void detect_fall_detection(void)
+ 128:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** {
+ 375              		.loc 1 128 0
+ 376              		.cfi_startproc
+ 377 0000 80B5     		push	{r7, lr}
+ 378              	.LCFI3:
+ 379              		.cfi_def_cfa_offset 8
+ 380              		.cfi_offset 7, -8
+ 381              		.cfi_offset 14, -4
+ 382 0002 00AF     		add	r7, sp, #0
+ 383              	.LCFI4:
+ 384              		.cfi_def_cfa_register 7
+ 129:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    if (xy_mag<FALL_LIMIT && xz_mag < FALL_LIMIT && yz_mag < FALL_LIMIT  && !ti_fall) 
+ 385              		.loc 1 129 0
+ 386 0004 0D4B     		ldr	r3, .L19
+ 387 0006 1B68     		ldr	r3, [r3]
+ 388 0008 2C2B     		cmp	r3, #44
+ 389 000a 0FD8     		bhi	.L17
+ 390              		.loc 1 129 0 is_stmt 0
+ 391 000c 0C4B     		ldr	r3, .L19+4
+ 392 000e 1B68     		ldr	r3, [r3]
+ 393 0010 2C2B     		cmp	r3, #44
+ 394 0012 0BD8     		bhi	.L17
+ 395 0014 0B4B     		ldr	r3, .L19+8
+ 396 0016 1B68     		ldr	r3, [r3]
+ 397 0018 2C2B     		cmp	r3, #44
+ 398 001a 07D8     		bhi	.L17
+ 399 001c 0A4B     		ldr	r3, .L19+12
+ 400 001e 1B88     		ldrh	r3, [r3]
+ 401 0020 002B     		cmp	r3, #0
+ 402 0022 03D1     		bne	.L17
+ 130:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****     fall_input=1;
+ 403              		.loc 1 130 0 is_stmt 1
+ 404 0024 094B     		ldr	r3, .L19+16
+ 405 0026 0122     		mov	r2, #1
+ 406 0028 1A70     		strb	r2, [r3]
+ 407 002a 05E0     		b	.L16
+ 408              	.L17:
+ 131:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    else 
+ 132:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    {
+ 133:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****      fall_input = 0;
+ 409              		.loc 1 133 0
+ 410 002c 074B     		ldr	r3, .L19+16
+ 411 002e 0022     		mov	r2, #0
+ 412 0030 1A70     		strb	r2, [r3]
+ 134:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****      ti_fall = 10;
+ 413              		.loc 1 134 0
+ 414 0032 054B     		ldr	r3, .L19+12
+ 415 0034 0A22     		mov	r2, #10
+ 416 0036 1A80     		strh	r2, [r3]
+ 417              	.L16:
+ 135:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****     }
+ 136:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c ****    
+ 137:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/angle_calculation\angle_cal.c **** }
+ 418              		.loc 1 137 0
+ 419 0038 BD46     		mov	sp, r7
+ 420              		@ sp needed for prologue
+ 421 003a 80BD     		pop	{r7, pc}
+ 422              	.L20:
+ 423              		.align	2
+ 424              	.L19:
+ 425 003c 00000000 		.word	xy_mag
+ 426 0040 00000000 		.word	xz_mag
+ 427 0044 00000000 		.word	yz_mag
+ 428 0048 00000000 		.word	ti_fall
+ 429 004c 00000000 		.word	fall_input
+ 430              		.cfi_endproc
+ 431              	.LFE1:
+ 433              		.text
+ 434              	.Letext0:
+ 435              		.file 2 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Dem
+ 436              		.file 3 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Dem
+ 437              		.file 4 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Dem
+ 438              		.file 5 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu/arm_cm0.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 angle_cal.c
+                            *COM*:00000004 X_acc
+                            *COM*:00000004 Y_acc
+                            *COM*:00000004 Z_acc
+                            *COM*:00000004 xy_mag
+                            *COM*:00000004 xz_mag
+                            *COM*:00000004 yz_mag
+                            *COM*:00000004 xy_angle
+                            *COM*:00000004 xz_angle
+                            *COM*:00000004 yz_angle
+                            *COM*:0000006c arr_medianas2
+                            *COM*:00000004 cat
+                            *COM*:00000004 offset
+                            *COM*:00000001 fall_input
+C:\Users\b01252\AppData\Local\Temp\ccm65fVm.s:32     .text.angle_calculation:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccm65fVm.s:37     .text.angle_calculation:00000000 angle_calculation
+C:\Users\b01252\AppData\Local\Temp\ccm65fVm.s:346    .text.angle_calculation:000001f4 $d
+C:\Users\b01252\AppData\Local\Temp\ccm65fVm.s:368    .text.detect_fall_detection:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccm65fVm.s:373    .text.detect_fall_detection:00000000 detect_fall_detection
+C:\Users\b01252\AppData\Local\Temp\ccm65fVm.s:425    .text.detect_fall_detection:0000003c $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+__aeabi_uidiv
+median
+sqrt_16
+Aresultx
+Aresulty
+Aresultz
+myasin
+ti_fall

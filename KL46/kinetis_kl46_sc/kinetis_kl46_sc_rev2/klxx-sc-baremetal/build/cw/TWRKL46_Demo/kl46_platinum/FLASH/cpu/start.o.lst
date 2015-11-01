@@ -1,0 +1,1260 @@
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"start.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.rodata
+  18              		.align	2
+  19              	.LC0:
+  20 0000 0A0D0A0D 		.ascii	"\012\015\012\015\000"
+  20      00
+  21              		.section	.text.start,"ax",%progbits
+  22              		.align	2
+  23              		.global	start
+  24              		.code	16
+  25              		.thumb_func
+  27              	start:
+  28              	.LFB0:
+  29              		.file 1 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu/start.c"
+   1:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** /*
+   2:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****  * File:	start.c
+   3:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****  * Purpose:	Kinetis L Family start up routines. 
+   4:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****  *
+   5:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****  * Notes:		
+   6:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****  */
+   7:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 
+   8:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** #include "start.h"
+   9:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** #include "common.h"
+  10:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** #include "sysinit.h"
+  11:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** #include "rcm.h"
+  12:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 
+  13:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** /********************************************************************/
+  14:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** /*!
+  15:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****  * \brief   Kinetis L Family Start
+  16:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****  * \return  None
+  17:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****  *
+  18:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****  * This function calls all of the necessary startup routines and then 
+  19:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****  * branches to the main process.
+  20:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****  */
+  21:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** void start(void)
+  22:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** { 
+  30              		.loc 1 22 0
+  31              		.cfi_startproc
+  32 0000 80B5     		push	{r7, lr}
+  33              	.LCFI0:
+  34              		.cfi_def_cfa_offset 8
+  35              		.cfi_offset 7, -8
+  36              		.cfi_offset 14, -4
+  37 0002 00AF     		add	r7, sp, #0
+  38              	.LCFI1:
+  39              		.cfi_def_cfa_register 7
+  23:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 		/* Disable the watchdog timer */
+  24:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     SIM_COPC = 0x00;
+  40              		.loc 1 24 0
+  41 0004 094A     		ldr	r2, .L3
+  42 0006 8823     		mov	r3, #136
+  43 0008 5B01     		lsl	r3, r3, #5
+  44 000a 0021     		mov	r1, #0
+  45 000c D150     		str	r1, [r2, r3]
+  25:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** #ifndef CMSIS    // If conforming to CMSIS, we do not need to perform this code
+  26:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 
+  27:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 
+  28:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 	/* Copy any vector or data sections that need to be in RAM */
+  29:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 	common_startup();
+  46              		.loc 1 29 0
+  47 000e FFF7FEFF 		bl	common_startup
+  30:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** #endif
+  31:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 
+  32:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 	/* Perform clock initialization, default UART initialization,
+  33:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****          * initializes clock out function, and enables the abort button
+  34:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****          */
+  35:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 			// common_startup();
+  36:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 	     sysinit();
+  48              		.loc 1 36 0
+  49 0012 FFF7FEFF 		bl	sysinit
+  37:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****         
+  38:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****         printf("\n\r\n\r");
+  50              		.loc 1 38 0
+  51 0016 064B     		ldr	r3, .L3+4
+  52 0018 181C     		mov	r0, r3
+  53 001a FFF7FEFF 		bl	printf
+  39:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 	
+  40:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 	/* Determine the last cause(s) of reset */
+  41:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 	outSRS();	
+  54              		.loc 1 41 0
+  55 001e FFF7FEFF 		bl	outSRS
+  42:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 	
+  43:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 	/* Determine specific Kinetis L Family device and revision */
+  44:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 	cpu_identify();
+  56              		.loc 1 44 0
+  57 0022 FFF7FEFF 		bl	cpu_identify
+  45:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 	
+  46:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** #ifndef CMSIS    // If conforming to CMSIS, we do not need to perform this code
+  47:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 	/* Jump to main process */
+  48:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 	main();
+  58              		.loc 1 48 0
+  59 0026 FFF7FEFF 		bl	main
+  60              	.L2:
+  49:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 
+  50:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 	/* No actions to perform after this so wait forever */
+  51:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 	while(1);
+  61              		.loc 1 51 0
+  62 002a FEE7     		b	.L2
+  63              	.L4:
+  64              		.align	2
+  65              	.L3:
+  66 002c 00700440 		.word	1074032640
+  67 0030 00000000 		.word	.LC0
+  68              		.cfi_endproc
+  69              	.LFE0:
+  71              		.section	.rodata
+  72 0005 000000   		.align	2
+  73              	.LC3:
+  74 0008 0A0D4B4C 		.ascii	"\012\015KL0\000"
+  74      3000
+  75 000e 0000     		.align	2
+  76              	.LC5:
+  77 0010 0A0D4B4C 		.ascii	"\012\015KL1\000"
+  77      3100
+  78 0016 0000     		.align	2
+  79              	.LC7:
+  80 0018 0A0D4B4C 		.ascii	"\012\015KL2\000"
+  80      3200
+  81 001e 0000     		.align	2
+  82              	.LC9:
+  83 0020 0A0D4B4C 		.ascii	"\012\015KL3\000"
+  83      3300
+  84 0026 0000     		.align	2
+  85              	.LC11:
+  86 0028 0A0D4B4C 		.ascii	"\012\015KL4\000"
+  86      3400
+  87 002e 0000     		.align	2
+  88              	.LC13:
+  89 0030 0A0D556E 		.ascii	"\012\015Unrecognized Kinetis family device.\012\015"
+  89      7265636F 
+  89      676E697A 
+  89      6564204B 
+  89      696E6574 
+  90 0057 00       		.ascii	"\000"
+  91              		.align	2
+  92              	.LC15:
+  93 0058 0A0D556E 		.ascii	"\012\015Unrecognized Kinetis sub-family device.\012"
+  93      7265636F 
+  93      676E697A 
+  93      6564204B 
+  93      696E6574 
+  94 0082 0D00     		.ascii	"\015\000"
+  95              		.align	2
+  96              	.LC18:
+  97 0084 31367069 		.ascii	"16pin       \000"
+  97      6E202020 
+  97      20202020 
+  97      00
+  98 0091 000000   		.align	2
+  99              	.LC20:
+ 100 0094 32347069 		.ascii	"24pin       \000"
+ 100      6E202020 
+ 100      20202020 
+ 100      00
+ 101 00a1 000000   		.align	2
+ 102              	.LC22:
+ 103 00a4 33327069 		.ascii	"32pin      \000"
+ 103      6E202020 
+ 103      20202000 
+ 104              		.align	2
+ 105              	.LC24:
+ 106 00b0 34387069 		.ascii	"48pin      \000"
+ 106      6E202020 
+ 106      20202000 
+ 107              		.align	2
+ 108              	.LC26:
+ 109 00bc 36347069 		.ascii	"64pin      \000"
+ 109      6E202020 
+ 109      20202000 
+ 110              		.align	2
+ 111              	.LC28:
+ 112 00c8 38307069 		.ascii	"80pin      \000"
+ 112      6E202020 
+ 112      20202000 
+ 113              		.align	2
+ 114              	.LC30:
+ 115 00d4 31303070 		.ascii	"100pin      \000"
+ 115      696E2020 
+ 115      20202020 
+ 115      00
+ 116 00e1 000000   		.align	2
+ 117              	.LC32:
+ 118 00e4 0A0D556E 		.ascii	"\012\015Unrecognized Kinetis package code.      \000"
+ 118      7265636F 
+ 118      676E697A 
+ 118      6564204B 
+ 118      696E6574 
+ 119 010f 00       		.align	2
+ 120              	.LC34:
+ 121 0110 0A0D4C6F 		.ascii	"\012\015Low Power Line with Cortex M0+\012\015\012\015"
+ 121      7720506F 
+ 121      77657220 
+ 121      4C696E65 
+ 121      20776974 
+ 122 0134 00       		.ascii	"\000"
+ 123 0135 000000   		.align	2
+ 124              	.LC36:
+ 125 0138 0A0D556E 		.ascii	"\012\015Unrecognized Kinetis family attribute.\012\015"
+ 125      7265636F 
+ 125      676E697A 
+ 125      6564204B 
+ 125      696E6574 
+ 126 0162 00       		.ascii	"\000"
+ 127 0163 00       		.align	2
+ 128              	.LC39:
+ 129 0164 5352414D 		.ascii	"SRAM Size: 0.5 KB\012\015\000"
+ 129      2053697A 
+ 129      653A2030 
+ 129      2E35204B 
+ 129      420A0D00 
+ 130              		.align	2
+ 131              	.LC41:
+ 132 0178 5352414D 		.ascii	"SRAM Size:  1 KB\012\015\000"
+ 132      2053697A 
+ 132      653A2020 
+ 132      31204B42 
+ 132      0A0D00
+ 133 018b 00       		.align	2
+ 134              	.LC43:
+ 135 018c 5352414D 		.ascii	"SRAM Size:  2 KB\012\015\000"
+ 135      2053697A 
+ 135      653A2020 
+ 135      32204B42 
+ 135      0A0D00
+ 136 019f 00       		.align	2
+ 137              	.LC45:
+ 138 01a0 5352414D 		.ascii	"SRAM Size:  4 KB\012\015\000"
+ 138      2053697A 
+ 138      653A2020 
+ 138      34204B42 
+ 138      0A0D00
+ 139 01b3 00       		.align	2
+ 140              	.LC47:
+ 141 01b4 5352414D 		.ascii	"SRAM Size:  8 KB\012\015\000"
+ 141      2053697A 
+ 141      653A2020 
+ 141      38204B42 
+ 141      0A0D00
+ 142 01c7 00       		.align	2
+ 143              	.LC49:
+ 144 01c8 5352414D 		.ascii	"SRAM Size:  16 KB\012\015\000"
+ 144      2053697A 
+ 144      653A2020 
+ 144      3136204B 
+ 144      420A0D00 
+ 145              		.align	2
+ 146              	.LC51:
+ 147 01dc 5352414D 		.ascii	"SRAM Size:  32 KB\012\015\000"
+ 147      2053697A 
+ 147      653A2020 
+ 147      3332204B 
+ 147      420A0D00 
+ 148              		.align	2
+ 149              	.LC53:
+ 150 01f0 5352414D 		.ascii	"SRAM Size:  64 KB\012\015\000"
+ 150      2053697A 
+ 150      653A2020 
+ 150      3634204B 
+ 150      420A0D00 
+ 151              		.align	2
+ 152              	.LC55:
+ 153 0204 0A0D556E 		.ascii	"\012\015Unrecognized SRAM Size.\012\015\000"
+ 153      7265636F 
+ 153      676E697A 
+ 153      65642053 
+ 153      52414D20 
+ 154              		.align	2
+ 155              	.LC57:
+ 156 0220 53696C69 		.ascii	"Silicon rev %d\012\015 \000"
+ 156      636F6E20 
+ 156      72657620 
+ 156      25640A0D 
+ 156      2000
+ 157 0232 0000     		.align	2
+ 158              	.LC60:
+ 159 0234 466C6173 		.ascii	"Flash size:  8 KB program flash, 0.25 KB protection"
+ 159      68207369 
+ 159      7A653A20 
+ 159      2038204B 
+ 159      42207072 
+ 160 0267 20726567 		.ascii	" region\000"
+ 160      696F6E00 
+ 161 026f 00       		.align	2
+ 162              	.LC62:
+ 163 0270 466C6173 		.ascii	"Flash size:  16 KB program flash, 0.5 KB protection"
+ 163      68207369 
+ 163      7A653A20 
+ 163      20313620 
+ 163      4B422070 
+ 164 02a3 20726567 		.ascii	" region\011\000"
+ 164      696F6E09 
+ 164      00
+ 165              		.align	2
+ 166              	.LC64:
+ 167 02ac 466C6173 		.ascii	"Flash size:  32 KB program flash, 1 KB protection r"
+ 167      68207369 
+ 167      7A653A20 
+ 167      20333220 
+ 167      4B422070 
+ 168 02df 6567696F 		.ascii	"egion\011\000"
+ 168      6E0900
+ 169 02e6 0000     		.align	2
+ 170              	.LC66:
+ 171 02e8 466C6173 		.ascii	"Flash size:  64 KB program flash, 2 KB protection r"
+ 171      68207369 
+ 171      7A653A20 
+ 171      20363420 
+ 171      4B422070 
+ 172 031b 6567696F 		.ascii	"egion\011\000"
+ 172      6E0900
+ 173 0322 0000     		.align	2
+ 174              	.LC68:
+ 175 0324 466C6173 		.ascii	"Flash size:  128 KB program flash, 4 KB protection "
+ 175      68207369 
+ 175      7A653A20 
+ 175      20313238 
+ 175      204B4220 
+ 176 0357 72656769 		.ascii	"region\011\000"
+ 176      6F6E0900 
+ 177 035f 00       		.align	2
+ 178              	.LC70:
+ 179 0360 466C6173 		.ascii	"Flash size:  256 KB program flash, 4 KB protection "
+ 179      68207369 
+ 179      7A653A20 
+ 179      20323536 
+ 179      204B4220 
+ 180 0393 72656769 		.ascii	"region\011\000"
+ 180      6F6E0900 
+ 181 039b 00       		.align	2
+ 182              	.LC72:
+ 183 039c 45525221 		.ascii	"ERR!! Undefined flash size\012\015\000"
+ 183      2120556E 
+ 183      64656669 
+ 183      6E656420 
+ 183      666C6173 
+ 184              		.section	.text.cpu_identify,"ax",%progbits
+ 185              		.align	2
+ 186              		.global	cpu_identify
+ 187              		.code	16
+ 188              		.thumb_func
+ 190              	cpu_identify:
+ 191              	.LFB1:
+  52:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** #endif 
+  53:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** }
+  54:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** /********************************************************************/
+  55:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** /*!
+  56:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****  * \brief   Kinetis L Family Identify
+  57:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****  * \return  None
+  58:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****  *
+  59:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****  * This is primarly a reporting function that displays information
+  60:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****  * about the specific CPU to the default terminal including:
+  61:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****  * - Kinetis family
+  62:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****  * - package
+  63:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****  * - die revision
+  64:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****  * - P-flash size
+  65:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****  * - Ram size
+  66:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****  */
+  67:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** void cpu_identify (void)
+  68:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** {
+ 192              		.loc 1 68 0
+ 193              		.cfi_startproc
+ 194 0000 80B5     		push	{r7, lr}
+ 195              	.LCFI2:
+ 196              		.cfi_def_cfa_offset 8
+ 197              		.cfi_offset 7, -8
+ 198              		.cfi_offset 14, -4
+ 199 0002 82B0     		sub	sp, sp, #8
+ 200              	.LCFI3:
+ 201              		.cfi_def_cfa_offset 16
+ 202 0004 00AF     		add	r7, sp, #0
+ 203              	.LCFI4:
+ 204              		.cfi_def_cfa_register 7
+  69:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****   uint16 temp;
+  70:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     /* Determine the Kinetis family */
+  71:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     switch((SIM_SDID & SIM_SDID_FAMID(0x7))>>SIM_SDID_FAMID_SHIFT) 
+ 205              		.loc 1 71 0
+ 206 0006 854A     		ldr	r2, .L54
+ 207 0008 854B     		ldr	r3, .L54+4
+ 208 000a D258     		ldr	r2, [r2, r3]
+ 209 000c E023     		mov	r3, #224
+ 210 000e DB05     		lsl	r3, r3, #23
+ 211 0010 1340     		and	r3, r2
+ 212 0012 1B0F     		lsr	r3, r3, #28
+ 213 0014 042B     		cmp	r3, #4
+ 214 0016 1DD8     		bhi	.L6
+ 215 0018 9A00     		lsl	r2, r3, #2
+ 216 001a 824B     		ldr	r3, .L54+8
+ 217 001c D318     		add	r3, r2, r3
+ 218 001e 1B68     		ldr	r3, [r3]
+ 219 0020 9F46     		mov	pc, r3
+ 220              		.section	.rodata.cpu_identify,"a",%progbits
+ 221              		.align	2
+ 222              	.L12:
+ 223 0000 22000000 		.word	.L7
+ 224 0004 2C000000 		.word	.L8
+ 225 0008 36000000 		.word	.L9
+ 226 000c 40000000 		.word	.L10
+ 227 0010 4A000000 		.word	.L11
+ 228              		.section	.text.cpu_identify
+ 229              	.L7:
+  72:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     {  
+  73:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     	case 0x0:
+  74:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     		printf("\n\rKL0");
+ 230              		.loc 1 74 0
+ 231 0022 814B     		ldr	r3, .L54+12
+ 232 0024 181C     		mov	r0, r3
+ 233 0026 FFF7FEFF 		bl	printf
+  75:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     		break;
+ 234              		.loc 1 75 0
+ 235 002a 18E0     		b	.L13
+ 236              	.L8:
+  76:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     	case 0x1:
+  77:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     		printf("\n\rKL1");
+ 237              		.loc 1 77 0
+ 238 002c 7F4B     		ldr	r3, .L54+16
+ 239 002e 181C     		mov	r0, r3
+ 240 0030 FFF7FEFF 		bl	printf
+  78:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     		break;
+ 241              		.loc 1 78 0
+ 242 0034 13E0     		b	.L13
+ 243              	.L9:
+  79:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     	case 0x2:
+  80:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     		printf("\n\rKL2");
+ 244              		.loc 1 80 0
+ 245 0036 7E4B     		ldr	r3, .L54+20
+ 246 0038 181C     		mov	r0, r3
+ 247 003a FFF7FEFF 		bl	printf
+  81:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     		break;
+ 248              		.loc 1 81 0
+ 249 003e 0EE0     		b	.L13
+ 250              	.L10:
+  82:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     	case 0x3:
+  83:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     		printf("\n\rKL3");
+ 251              		.loc 1 83 0
+ 252 0040 7C4B     		ldr	r3, .L54+24
+ 253 0042 181C     		mov	r0, r3
+ 254 0044 FFF7FEFF 		bl	printf
+  84:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     		break;
+ 255              		.loc 1 84 0
+ 256 0048 09E0     		b	.L13
+ 257              	.L11:
+  85:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     	case 0x4:
+  86:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     		printf("\n\rKL4");
+ 258              		.loc 1 86 0
+ 259 004a 7B4B     		ldr	r3, .L54+28
+ 260 004c 181C     		mov	r0, r3
+ 261 004e FFF7FEFF 		bl	printf
+  87:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     		break;
+ 262              		.loc 1 87 0
+ 263 0052 04E0     		b	.L13
+ 264              	.L6:
+  88:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 	default:
+  89:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 		printf("\n\rUnrecognized Kinetis family device.\n\r");  
+ 265              		.loc 1 89 0
+ 266 0054 794B     		ldr	r3, .L54+32
+ 267 0056 181C     		mov	r0, r3
+ 268 0058 FFF7FEFF 		bl	printf
+  90:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 		break;  	
+ 269              		.loc 1 90 0
+ 270 005c C046     		mov	r8, r8
+ 271              	.L13:
+  91:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     }
+  92:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     
+  93:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     /* Determine Sub-Family ID */
+  94:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     switch((SIM_SDID & SIM_SDID_SUBFAMID(0x7))>>SIM_SDID_SUBFAMID_SHIFT) 
+ 272              		.loc 1 94 0
+ 273 005e 6F4A     		ldr	r2, .L54
+ 274 0060 6F4B     		ldr	r3, .L54+4
+ 275 0062 D258     		ldr	r2, [r2, r3]
+ 276 0064 E023     		mov	r3, #224
+ 277 0066 DB04     		lsl	r3, r3, #19
+ 278 0068 1340     		and	r3, r2
+ 279 006a 1B0E     		lsr	r3, r3, #24
+ 280 006c 042B     		cmp	r3, #4
+ 281 006e 02D0     		beq	.L15
+ 282 0070 052B     		cmp	r3, #5
+ 283 0072 04D0     		beq	.L16
+ 284 0074 07E0     		b	.L52
+ 285              	.L15:
+  95:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     {  
+  96:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     	case 0x4:
+  97:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     		printf("4");
+ 286              		.loc 1 97 0
+ 287 0076 3420     		mov	r0, #52
+ 288 0078 FFF7FEFF 		bl	putchar
+  98:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     		break;
+ 289              		.loc 1 98 0
+ 290 007c 08E0     		b	.L17
+ 291              	.L16:
+  99:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     	case 0x5:
+ 100:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     		printf("5");
+ 292              		.loc 1 100 0
+ 293 007e 3520     		mov	r0, #53
+ 294 0080 FFF7FEFF 		bl	putchar
+ 101:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     		break;
+ 295              		.loc 1 101 0
+ 296 0084 04E0     		b	.L17
+ 297              	.L52:
+ 102:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 	default:
+ 103:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 		printf("\n\rUnrecognized Kinetis sub-family device.\n\r");  
+ 298              		.loc 1 103 0
+ 299 0086 6E4B     		ldr	r3, .L54+36
+ 300 0088 181C     		mov	r0, r3
+ 301 008a FFF7FEFF 		bl	printf
+ 104:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 		break;  	
+ 302              		.loc 1 104 0
+ 303 008e C046     		mov	r8, r8
+ 304              	.L17:
+ 105:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     }
+ 106:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     
+ 107:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     /* Determine the package size */
+ 108:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     switch((SIM_SDID & SIM_SDID_PINID(0xF))>>SIM_SDID_PINID_SHIFT) 
+ 305              		.loc 1 108 0
+ 306 0090 624A     		ldr	r2, .L54
+ 307 0092 634B     		ldr	r3, .L54+4
+ 308 0094 D258     		ldr	r2, [r2, r3]
+ 309 0096 0F23     		mov	r3, #15
+ 310 0098 1340     		and	r3, r2
+ 311 009a 082B     		cmp	r3, #8
+ 312 009c 25D8     		bhi	.L18
+ 313 009e 9A00     		lsl	r2, r3, #2
+ 314 00a0 684B     		ldr	r3, .L54+40
+ 315 00a2 D318     		add	r3, r2, r3
+ 316 00a4 1B68     		ldr	r3, [r3]
+ 317 00a6 9F46     		mov	pc, r3
+ 318              		.section	.rodata.cpu_identify
+ 319              		.align	2
+ 320              	.L26:
+ 321 0014 A8000000 		.word	.L19
+ 322 0018 B2000000 		.word	.L20
+ 323 001c BC000000 		.word	.L21
+ 324 0020 EA000000 		.word	.L18
+ 325 0024 C6000000 		.word	.L22
+ 326 0028 D0000000 		.word	.L23
+ 327 002c D8000000 		.word	.L24
+ 328 0030 EA000000 		.word	.L18
+ 329 0034 E0000000 		.word	.L25
+ 330              		.section	.text.cpu_identify
+ 331              	.L19:
+ 109:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     {  
+ 110:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     	case 0x0:
+ 111:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     		printf("16pin       ");
+ 332              		.loc 1 111 0
+ 333 00a8 674B     		ldr	r3, .L54+44
+ 334 00aa 181C     		mov	r0, r3
+ 335 00ac FFF7FEFF 		bl	printf
+ 112:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     		break;
+ 336              		.loc 1 112 0
+ 337 00b0 20E0     		b	.L27
+ 338              	.L20:
+ 113:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     	case 0x1:
+ 114:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     		printf("24pin       ");
+ 339              		.loc 1 114 0
+ 340 00b2 664B     		ldr	r3, .L54+48
+ 341 00b4 181C     		mov	r0, r3
+ 342 00b6 FFF7FEFF 		bl	printf
+ 115:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     		break;
+ 343              		.loc 1 115 0
+ 344 00ba 1BE0     		b	.L27
+ 345              	.L21:
+ 116:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     	case 0x2:
+ 117:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     		printf("32pin      ");
+ 346              		.loc 1 117 0
+ 347 00bc 644B     		ldr	r3, .L54+52
+ 348 00be 181C     		mov	r0, r3
+ 349 00c0 FFF7FEFF 		bl	printf
+ 118:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     		break;
+ 350              		.loc 1 118 0
+ 351 00c4 16E0     		b	.L27
+ 352              	.L22:
+ 119:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     	case 0x4:
+ 120:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     		printf("48pin      ");
+ 353              		.loc 1 120 0
+ 354 00c6 634B     		ldr	r3, .L54+56
+ 355 00c8 181C     		mov	r0, r3
+ 356 00ca FFF7FEFF 		bl	printf
+ 121:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     		break;
+ 357              		.loc 1 121 0
+ 358 00ce 11E0     		b	.L27
+ 359              	.L23:
+ 122:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     	case 0x5:
+ 123:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     		printf("64pin      ");
+ 360              		.loc 1 123 0
+ 361 00d0 614B     		ldr	r3, .L54+60
+ 362 00d2 181C     		mov	r0, r3
+ 363 00d4 FFF7FEFF 		bl	printf
+ 364              	.L24:
+ 124:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****         case 0x6:
+ 125:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     		printf("80pin      ");
+ 365              		.loc 1 125 0
+ 366 00d8 604B     		ldr	r3, .L54+64
+ 367 00da 181C     		mov	r0, r3
+ 368 00dc FFF7FEFF 		bl	printf
+ 369              	.L25:
+ 126:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****         case 0x8:
+ 127:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     		printf("100pin      ");        
+ 370              		.loc 1 127 0
+ 371 00e0 5F4B     		ldr	r3, .L54+68
+ 372 00e2 181C     		mov	r0, r3
+ 373 00e4 FFF7FEFF 		bl	printf
+ 128:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     		break;
+ 374              		.loc 1 128 0
+ 375 00e8 04E0     		b	.L27
+ 376              	.L18:
+ 129:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 	default:
+ 130:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 		printf("\n\rUnrecognized Kinetis package code.      ");  
+ 377              		.loc 1 130 0
+ 378 00ea 5E4B     		ldr	r3, .L54+72
+ 379 00ec 181C     		mov	r0, r3
+ 380 00ee FFF7FEFF 		bl	printf
+ 131:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 		break;  	
+ 381              		.loc 1 131 0
+ 382 00f2 C046     		mov	r8, r8
+ 383              	.L27:
+ 132:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     }
+ 133:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     
+ 134:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     /* Determine Attribute ID */
+ 135:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     switch((SIM_SDID & SIM_SDID_SERIESID(0x7))>>SIM_SDID_SERIESID_SHIFT) 
+ 384              		.loc 1 135 0
+ 385 00f4 494A     		ldr	r2, .L54
+ 386 00f6 4A4B     		ldr	r3, .L54+4
+ 387 00f8 D258     		ldr	r2, [r2, r3]
+ 388 00fa E023     		mov	r3, #224
+ 389 00fc DB03     		lsl	r3, r3, #15
+ 390 00fe 1340     		and	r3, r2
+ 391 0100 1B0D     		lsr	r3, r3, #20
+ 392 0102 012B     		cmp	r3, #1
+ 393 0104 04D1     		bne	.L53
+ 394              	.L29:
+ 136:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     {  
+ 137:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     	case 0x1:
+ 138:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     		printf("\n\rLow Power Line with Cortex M0+\n\r\n\r");
+ 395              		.loc 1 138 0
+ 396 0106 584B     		ldr	r3, .L54+76
+ 397 0108 181C     		mov	r0, r3
+ 398 010a FFF7FEFF 		bl	printf
+ 139:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     		break;
+ 399              		.loc 1 139 0
+ 400 010e 04E0     		b	.L30
+ 401              	.L53:
+ 140:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 	default:
+ 141:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 		printf("\n\rUnrecognized Kinetis family attribute.\n\r");  
+ 402              		.loc 1 141 0
+ 403 0110 564B     		ldr	r3, .L54+80
+ 404 0112 181C     		mov	r0, r3
+ 405 0114 FFF7FEFF 		bl	printf
+ 142:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 		break;  	
+ 406              		.loc 1 142 0
+ 407 0118 C046     		mov	r8, r8
+ 408              	.L30:
+ 143:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     }
+ 144:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     
+ 145:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     /* Determine the System SRAM Size */
+ 146:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     switch((SIM_SDID & SIM_SDID_SRAMSIZE(0x7))>>SIM_SDID_SRAMSIZE_SHIFT) 
+ 409              		.loc 1 146 0
+ 410 011a 404A     		ldr	r2, .L54
+ 411 011c 404B     		ldr	r3, .L54+4
+ 412 011e D258     		ldr	r2, [r2, r3]
+ 413 0120 E023     		mov	r3, #224
+ 414 0122 DB02     		lsl	r3, r3, #11
+ 415 0124 1340     		and	r3, r2
+ 416 0126 1B0C     		lsr	r3, r3, #16
+ 417 0128 072B     		cmp	r3, #7
+ 418 012a 2CD8     		bhi	.L31
+ 419 012c 9A00     		lsl	r2, r3, #2
+ 420 012e 504B     		ldr	r3, .L54+84
+ 421 0130 D318     		add	r3, r2, r3
+ 422 0132 1B68     		ldr	r3, [r3]
+ 423 0134 9F46     		mov	pc, r3
+ 424              		.section	.rodata.cpu_identify
+ 425              		.align	2
+ 426              	.L40:
+ 427 0038 36010000 		.word	.L32
+ 428 003c 40010000 		.word	.L33
+ 429 0040 4A010000 		.word	.L34
+ 430 0044 54010000 		.word	.L35
+ 431 0048 5E010000 		.word	.L36
+ 432 004c 68010000 		.word	.L37
+ 433 0050 72010000 		.word	.L38
+ 434 0054 7C010000 		.word	.L39
+ 435              		.section	.text.cpu_identify
+ 436              	.L32:
+ 147:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     {  
+ 148:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     	case 0x0:
+ 149:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****           printf("SRAM Size: 0.5 KB\n\r");
+ 437              		.loc 1 149 0
+ 438 0136 4F4B     		ldr	r3, .L54+88
+ 439 0138 181C     		mov	r0, r3
+ 440 013a FFF7FEFF 		bl	printf
+ 150:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     		break;
+ 441              		.loc 1 150 0
+ 442 013e 27E0     		b	.L41
+ 443              	.L33:
+ 151:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****         case 0x1:
+ 152:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****           printf("SRAM Size:  1 KB\n\r");
+ 444              		.loc 1 152 0
+ 445 0140 4D4B     		ldr	r3, .L54+92
+ 446 0142 181C     		mov	r0, r3
+ 447 0144 FFF7FEFF 		bl	printf
+ 153:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****           break;
+ 448              		.loc 1 153 0
+ 449 0148 22E0     		b	.L41
+ 450              	.L34:
+ 154:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****         case 0x2:
+ 155:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****           printf("SRAM Size:  2 KB\n\r");
+ 451              		.loc 1 155 0
+ 452 014a 4C4B     		ldr	r3, .L54+96
+ 453 014c 181C     		mov	r0, r3
+ 454 014e FFF7FEFF 		bl	printf
+ 156:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****           break;
+ 455              		.loc 1 156 0
+ 456 0152 1DE0     		b	.L41
+ 457              	.L35:
+ 157:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****         case 0x3:
+ 158:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****           printf("SRAM Size:  4 KB\n\r");
+ 458              		.loc 1 158 0
+ 459 0154 4A4B     		ldr	r3, .L54+100
+ 460 0156 181C     		mov	r0, r3
+ 461 0158 FFF7FEFF 		bl	printf
+ 159:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****           break;
+ 462              		.loc 1 159 0
+ 463 015c 18E0     		b	.L41
+ 464              	.L36:
+ 160:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****         case 0x4:
+ 161:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****           printf("SRAM Size:  8 KB\n\r");
+ 465              		.loc 1 161 0
+ 466 015e 494B     		ldr	r3, .L54+104
+ 467 0160 181C     		mov	r0, r3
+ 468 0162 FFF7FEFF 		bl	printf
+ 162:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****           break;
+ 469              		.loc 1 162 0
+ 470 0166 13E0     		b	.L41
+ 471              	.L37:
+ 163:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****         case 0x5:
+ 164:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****           printf("SRAM Size:  16 KB\n\r");
+ 472              		.loc 1 164 0
+ 473 0168 474B     		ldr	r3, .L54+108
+ 474 016a 181C     		mov	r0, r3
+ 475 016c FFF7FEFF 		bl	printf
+ 165:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****           break;
+ 476              		.loc 1 165 0
+ 477 0170 0EE0     		b	.L41
+ 478              	.L38:
+ 166:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****         case 0x6:
+ 167:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****           printf("SRAM Size:  32 KB\n\r");
+ 479              		.loc 1 167 0
+ 480 0172 464B     		ldr	r3, .L54+112
+ 481 0174 181C     		mov	r0, r3
+ 482 0176 FFF7FEFF 		bl	printf
+ 168:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****           break;
+ 483              		.loc 1 168 0
+ 484 017a 09E0     		b	.L41
+ 485              	.L39:
+ 169:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****         case 0x7:
+ 170:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****           printf("SRAM Size:  64 KB\n\r");
+ 486              		.loc 1 170 0
+ 487 017c 444B     		ldr	r3, .L54+116
+ 488 017e 181C     		mov	r0, r3
+ 489 0180 FFF7FEFF 		bl	printf
+ 171:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****           break;
+ 490              		.loc 1 171 0
+ 491 0184 04E0     		b	.L41
+ 492              	.L31:
+ 172:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 	default:
+ 173:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 		printf("\n\rUnrecognized SRAM Size.\n\r");  
+ 493              		.loc 1 173 0
+ 494 0186 434B     		ldr	r3, .L54+120
+ 495 0188 181C     		mov	r0, r3
+ 496 018a FFF7FEFF 		bl	printf
+ 174:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 		break;  	
+ 497              		.loc 1 174 0
+ 498 018e C046     		mov	r8, r8
+ 499              	.L41:
+ 175:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     }                
+ 176:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 
+ 177:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     /* Determine the revision ID */
+ 178:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     temp = ((SIM_SDID_REVID(0xF))>>SIM_SDID_REVID_SHIFT);
+ 500              		.loc 1 178 0
+ 501 0190 BB1D     		add	r3, r7, #6
+ 502 0192 0F22     		mov	r2, #15
+ 503 0194 1A80     		strh	r2, [r3]
+ 179:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     printf("Silicon rev %d\n\r ", temp);
+ 504              		.loc 1 179 0
+ 505 0196 BB1D     		add	r3, r7, #6
+ 506 0198 1B88     		ldrh	r3, [r3]
+ 507 019a 3F4A     		ldr	r2, .L54+124
+ 508 019c 101C     		mov	r0, r2
+ 509 019e 191C     		mov	r1, r3
+ 510 01a0 FFF7FEFF 		bl	printf
+ 180:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     
+ 181:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     /* Determine the flash revision */
+ 182:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     flash_identify();    
+ 511              		.loc 1 182 0
+ 512 01a4 FFF7FEFF 		bl	flash_identify
+ 183:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     
+ 184:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     /* Determine the P-flash size */
+ 185:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****   switch((SIM_FCFG1 & SIM_FCFG1_PFSIZE(0xF))>>SIM_FCFG1_PFSIZE_SHIFT)
+ 513              		.loc 1 185 0
+ 514 01a8 1C4A     		ldr	r2, .L54
+ 515 01aa 3C4B     		ldr	r3, .L54+128
+ 516 01ac D258     		ldr	r2, [r2, r3]
+ 517 01ae F023     		mov	r3, #240
+ 518 01b0 1B05     		lsl	r3, r3, #20
+ 519 01b2 1340     		and	r3, r2
+ 520 01b4 1B0E     		lsr	r3, r3, #24
+ 521 01b6 0F2B     		cmp	r3, #15
+ 522 01b8 27D8     		bhi	.L42
+ 523 01ba 9A00     		lsl	r2, r3, #2
+ 524 01bc 384B     		ldr	r3, .L54+132
+ 525 01be D318     		add	r3, r2, r3
+ 526 01c0 1B68     		ldr	r3, [r3]
+ 527 01c2 9F46     		mov	pc, r3
+ 528              		.section	.rodata.cpu_identify
+ 529              		.align	2
+ 530              	.L50:
+ 531 0058 C4010000 		.word	.L43
+ 532 005c CE010000 		.word	.L44
+ 533 0060 0A020000 		.word	.L42
+ 534 0064 D8010000 		.word	.L45
+ 535 0068 0A020000 		.word	.L42
+ 536 006c E2010000 		.word	.L46
+ 537 0070 0A020000 		.word	.L42
+ 538 0074 EC010000 		.word	.L47
+ 539 0078 0A020000 		.word	.L42
+ 540 007c F6010000 		.word	.L48
+ 541 0080 0A020000 		.word	.L42
+ 542 0084 0A020000 		.word	.L42
+ 543 0088 0A020000 		.word	.L42
+ 544 008c 0A020000 		.word	.L42
+ 545 0090 0A020000 		.word	.L42
+ 546 0094 00020000 		.word	.L49
+ 547              		.section	.text.cpu_identify
+ 548              	.L43:
+ 186:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     {
+ 187:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****   	case 0x0:
+ 188:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     		printf("Flash size:  8 KB program flash, 0.25 KB protection region");
+ 549              		.loc 1 188 0
+ 550 01c4 374B     		ldr	r3, .L54+136
+ 551 01c6 181C     		mov	r0, r3
+ 552 01c8 FFF7FEFF 		bl	printf
+ 189:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     		break;
+ 553              		.loc 1 189 0
+ 554 01cc 22E0     		b	.L5
+ 555              	.L44:
+ 190:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     	case 0x1:
+ 191:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     		printf("Flash size:  16 KB program flash, 0.5 KB protection region	");
+ 556              		.loc 1 191 0
+ 557 01ce 364B     		ldr	r3, .L54+140
+ 558 01d0 181C     		mov	r0, r3
+ 559 01d2 FFF7FEFF 		bl	printf
+ 192:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     		break;
+ 560              		.loc 1 192 0
+ 561 01d6 1DE0     		b	.L5
+ 562              	.L45:
+ 193:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****         case 0x3:
+ 194:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     		printf("Flash size:  32 KB program flash, 1 KB protection region	");
+ 563              		.loc 1 194 0
+ 564 01d8 344B     		ldr	r3, .L54+144
+ 565 01da 181C     		mov	r0, r3
+ 566 01dc FFF7FEFF 		bl	printf
+ 195:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     		break;
+ 567              		.loc 1 195 0
+ 568 01e0 18E0     		b	.L5
+ 569              	.L46:
+ 196:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     	case 0x5:
+ 197:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     		printf("Flash size:  64 KB program flash, 2 KB protection region	");
+ 570              		.loc 1 197 0
+ 571 01e2 334B     		ldr	r3, .L54+148
+ 572 01e4 181C     		mov	r0, r3
+ 573 01e6 FFF7FEFF 		bl	printf
+ 198:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     		break;
+ 574              		.loc 1 198 0
+ 575 01ea 13E0     		b	.L5
+ 576              	.L47:
+ 199:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****         case 0x7:
+ 200:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     		printf("Flash size:  128 KB program flash, 4 KB protection region	");
+ 577              		.loc 1 200 0
+ 578 01ec 314B     		ldr	r3, .L54+152
+ 579 01ee 181C     		mov	r0, r3
+ 580 01f0 FFF7FEFF 		bl	printf
+ 201:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     		break;
+ 581              		.loc 1 201 0
+ 582 01f4 0EE0     		b	.L5
+ 583              	.L48:
+ 202:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****         case 0x9:
+ 203:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     		printf("Flash size:  256 KB program flash, 4 KB protection region	");
+ 584              		.loc 1 203 0
+ 585 01f6 304B     		ldr	r3, .L54+156
+ 586 01f8 181C     		mov	r0, r3
+ 587 01fa FFF7FEFF 		bl	printf
+ 204:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     		break;
+ 588              		.loc 1 204 0
+ 589 01fe 09E0     		b	.L5
+ 590              	.L49:
+ 205:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****         case 0xF:
+ 206:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     		printf("Flash size:  128 KB program flash, 4 KB protection region	");
+ 591              		.loc 1 206 0
+ 592 0200 2C4B     		ldr	r3, .L54+152
+ 593 0202 181C     		mov	r0, r3
+ 594 0204 FFF7FEFF 		bl	printf
+ 207:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     		break;
+ 595              		.loc 1 207 0
+ 596 0208 04E0     		b	.L5
+ 597              	.L42:
+ 208:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 	default:
+ 209:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 		printf("ERR!! Undefined flash size\n\r");  
+ 598              		.loc 1 209 0
+ 599 020a 2C4B     		ldr	r3, .L54+160
+ 600 020c 181C     		mov	r0, r3
+ 601 020e FFF7FEFF 		bl	printf
+ 210:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 		break;  	  		
+ 602              		.loc 1 210 0
+ 603 0212 C046     		mov	r8, r8
+ 604              	.L5:
+ 211:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     }
+ 212:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** }
+ 605              		.loc 1 212 0
+ 606 0214 BD46     		mov	sp, r7
+ 607 0216 02B0     		add	sp, sp, #8
+ 608              		@ sp needed for prologue
+ 609 0218 80BD     		pop	{r7, pc}
+ 610              	.L55:
+ 611 021a C046     		.align	2
+ 612              	.L54:
+ 613 021c 00700440 		.word	1074032640
+ 614 0220 24100000 		.word	4132
+ 615 0224 00000000 		.word	.L12
+ 616 0228 08000000 		.word	.LC3
+ 617 022c 10000000 		.word	.LC5
+ 618 0230 18000000 		.word	.LC7
+ 619 0234 20000000 		.word	.LC9
+ 620 0238 28000000 		.word	.LC11
+ 621 023c 30000000 		.word	.LC13
+ 622 0240 58000000 		.word	.LC15
+ 623 0244 14000000 		.word	.L26
+ 624 0248 84000000 		.word	.LC18
+ 625 024c 94000000 		.word	.LC20
+ 626 0250 A4000000 		.word	.LC22
+ 627 0254 B0000000 		.word	.LC24
+ 628 0258 BC000000 		.word	.LC26
+ 629 025c C8000000 		.word	.LC28
+ 630 0260 D4000000 		.word	.LC30
+ 631 0264 E4000000 		.word	.LC32
+ 632 0268 10010000 		.word	.LC34
+ 633 026c 38010000 		.word	.LC36
+ 634 0270 38000000 		.word	.L40
+ 635 0274 64010000 		.word	.LC39
+ 636 0278 78010000 		.word	.LC41
+ 637 027c 8C010000 		.word	.LC43
+ 638 0280 A0010000 		.word	.LC45
+ 639 0284 B4010000 		.word	.LC47
+ 640 0288 C8010000 		.word	.LC49
+ 641 028c DC010000 		.word	.LC51
+ 642 0290 F0010000 		.word	.LC53
+ 643 0294 04020000 		.word	.LC55
+ 644 0298 20020000 		.word	.LC57
+ 645 029c 4C100000 		.word	4172
+ 646 02a0 58000000 		.word	.L50
+ 647 02a4 34020000 		.word	.LC60
+ 648 02a8 70020000 		.word	.LC62
+ 649 02ac AC020000 		.word	.LC64
+ 650 02b0 E8020000 		.word	.LC66
+ 651 02b4 24030000 		.word	.LC68
+ 652 02b8 60030000 		.word	.LC70
+ 653 02bc 9C030000 		.word	.LC72
+ 654              		.cfi_endproc
+ 655              	.LFE1:
+ 657              		.section	.rodata
+ 658 03b9 000000   		.align	2
+ 659              	.LC74:
+ 660 03bc 466C6173 		.ascii	"Flash parameter version %d \000"
+ 660      68207061 
+ 660      72616D65 
+ 660      74657220 
+ 660      76657273 
+ 661              		.align	2
+ 662              	.LC76:
+ 663 03d8 20256420 		.ascii	" %d \000"
+ 663      00
+ 664 03dd 000000   		.align	2
+ 665              	.LC78:
+ 666 03e0 2025640A 		.ascii	" %d\012\015\000"
+ 666      0D00
+ 667 03e6 0000     		.align	2
+ 668              	.LC80:
+ 669 03e8 466C6173 		.ascii	"Flash version ID %d \000"
+ 669      68207665 
+ 669      7273696F 
+ 669      6E204944 
+ 669      20256420 
+ 670 03fd 000000   		.align	2
+ 671              	.LC82:
+ 672 0400 20256400 		.ascii	" %d\000"
+ 673              		.align	2
+ 674              	.LC84:
+ 675 0404 25640A0D 		.ascii	"%d\012\015\000"
+ 675      00
+ 676 0409 000000   		.section	.text.flash_identify,"ax",%progbits
+ 677              		.align	2
+ 678              		.global	flash_identify
+ 679              		.code	16
+ 680              		.thumb_func
+ 682              	flash_identify:
+ 683              	.LFB2:
+ 213:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** /********************************************************************/
+ 214:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** /*!
+ 215:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****  * \brief   flash Identify
+ 216:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****  * \return  None
+ 217:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****  *
+ 218:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****  * This is primarly a reporting function that displays information
+ 219:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****  * about the specific flash parameters and flash version ID for 
+ 220:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****  * the current device. These parameters are obtained using a special
+ 221:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****  * flash command call "read resource." The first four bytes returned
+ 222:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****  * are the flash parameter revision, and the second four bytes are
+ 223:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****  * the flash version ID.
+ 224:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****  */
+ 225:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** void flash_identify (void)
+ 226:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** {
+ 684              		.loc 1 226 0
+ 685              		.cfi_startproc
+ 686 0000 80B5     		push	{r7, lr}
+ 687              	.LCFI5:
+ 688              		.cfi_def_cfa_offset 8
+ 689              		.cfi_offset 7, -8
+ 690              		.cfi_offset 14, -4
+ 691 0002 00AF     		add	r7, sp, #0
+ 692              	.LCFI6:
+ 693              		.cfi_def_cfa_register 7
+ 227:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     /* Get the flash parameter version */
+ 228:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 
+ 229:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     /* Write the flash FCCOB registers with the values for a read resource command */
+ 230:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     FTFA_FCCOB0 = 0x03;
+ 694              		.loc 1 230 0
+ 695 0004 3A4B     		ldr	r3, .L59
+ 696 0006 0322     		mov	r2, #3
+ 697 0008 DA71     		strb	r2, [r3, #7]
+ 231:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     FTFA_FCCOB1 = 0x00;
+ 698              		.loc 1 231 0
+ 699 000a 394B     		ldr	r3, .L59
+ 700 000c 0022     		mov	r2, #0
+ 701 000e 9A71     		strb	r2, [r3, #6]
+ 232:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     FTFA_FCCOB2 = 0x00;
+ 702              		.loc 1 232 0
+ 703 0010 374B     		ldr	r3, .L59
+ 704 0012 0022     		mov	r2, #0
+ 705 0014 5A71     		strb	r2, [r3, #5]
+ 233:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     FTFA_FCCOB3 = 0x00;
+ 706              		.loc 1 233 0
+ 707 0016 364B     		ldr	r3, .L59
+ 708 0018 0022     		mov	r2, #0
+ 709 001a 1A71     		strb	r2, [r3, #4]
+ 234:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     FTFA_FCCOB8 = 0x01;
+ 710              		.loc 1 234 0
+ 711 001c 344B     		ldr	r3, .L59
+ 712 001e 0122     		mov	r2, #1
+ 713 0020 DA73     		strb	r2, [r3, #15]
+ 235:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 
+ 236:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     /* All required FCCOBx registers are written, so launch the command */
+ 237:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     FTFA_FSTAT = FTFA_FSTAT_CCIF_MASK;
+ 714              		.loc 1 237 0
+ 715 0022 334B     		ldr	r3, .L59
+ 716 0024 8022     		mov	r2, #128
+ 717 0026 1A70     		strb	r2, [r3]
+ 238:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 
+ 239:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     /* Wait for the command to complete */
+ 240:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     while(!(FTFA_FSTAT & FTFA_FSTAT_CCIF_MASK));
+ 718              		.loc 1 240 0
+ 719 0028 C046     		mov	r8, r8
+ 720              	.L57:
+ 721              		.loc 1 240 0 is_stmt 0
+ 722 002a 314B     		ldr	r3, .L59
+ 723 002c 1B78     		ldrb	r3, [r3]
+ 724 002e DBB2     		uxtb	r3, r3
+ 725 0030 DBB2     		uxtb	r3, r3
+ 726 0032 5BB2     		sxtb	r3, r3
+ 727 0034 002B     		cmp	r3, #0
+ 728 0036 F8DA     		bge	.L57
+ 241:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     
+ 242:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     printf("Flash parameter version %d ",FTFA_FCCOB4);
+ 729              		.loc 1 242 0 is_stmt 1
+ 730 0038 2D4B     		ldr	r3, .L59
+ 731 003a DB7A     		ldrb	r3, [r3, #11]
+ 732 003c DBB2     		uxtb	r3, r3
+ 733 003e 2D4A     		ldr	r2, .L59+4
+ 734 0040 101C     		mov	r0, r2
+ 735 0042 191C     		mov	r1, r3
+ 736 0044 FFF7FEFF 		bl	printf
+ 243:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     printf(" %d ",FTFA_FCCOB5);
+ 737              		.loc 1 243 0
+ 738 0048 294B     		ldr	r3, .L59
+ 739 004a 9B7A     		ldrb	r3, [r3, #10]
+ 740 004c DBB2     		uxtb	r3, r3
+ 741 004e 2A4A     		ldr	r2, .L59+8
+ 742 0050 101C     		mov	r0, r2
+ 743 0052 191C     		mov	r1, r3
+ 744 0054 FFF7FEFF 		bl	printf
+ 244:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     printf(" %d ",FTFA_FCCOB6);
+ 745              		.loc 1 244 0
+ 746 0058 254B     		ldr	r3, .L59
+ 747 005a 5B7A     		ldrb	r3, [r3, #9]
+ 748 005c DBB2     		uxtb	r3, r3
+ 749 005e 264A     		ldr	r2, .L59+8
+ 750 0060 101C     		mov	r0, r2
+ 751 0062 191C     		mov	r1, r3
+ 752 0064 FFF7FEFF 		bl	printf
+ 245:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     printf(" %d\n\r",FTFA_FCCOB7);
+ 753              		.loc 1 245 0
+ 754 0068 214B     		ldr	r3, .L59
+ 755 006a 1B7A     		ldrb	r3, [r3, #8]
+ 756 006c DBB2     		uxtb	r3, r3
+ 757 006e 234A     		ldr	r2, .L59+12
+ 758 0070 101C     		mov	r0, r2
+ 759 0072 191C     		mov	r1, r3
+ 760 0074 FFF7FEFF 		bl	printf
+ 246:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 
+ 247:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     /* Get the flash version ID */   
+ 248:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 
+ 249:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     /* Write the flash FCCOB registers with the values for a read resource command */
+ 250:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     FTFA_FCCOB0 = 0x03;
+ 761              		.loc 1 250 0
+ 762 0078 1D4B     		ldr	r3, .L59
+ 763 007a 0322     		mov	r2, #3
+ 764 007c DA71     		strb	r2, [r3, #7]
+ 251:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     FTFA_FCCOB1 = 0x00;
+ 765              		.loc 1 251 0
+ 766 007e 1C4B     		ldr	r3, .L59
+ 767 0080 0022     		mov	r2, #0
+ 768 0082 9A71     		strb	r2, [r3, #6]
+ 252:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     FTFA_FCCOB2 = 0x00;
+ 769              		.loc 1 252 0
+ 770 0084 1A4B     		ldr	r3, .L59
+ 771 0086 0022     		mov	r2, #0
+ 772 0088 5A71     		strb	r2, [r3, #5]
+ 253:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     FTFA_FCCOB3 = 0x04;
+ 773              		.loc 1 253 0
+ 774 008a 194B     		ldr	r3, .L59
+ 775 008c 0422     		mov	r2, #4
+ 776 008e 1A71     		strb	r2, [r3, #4]
+ 254:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     FTFA_FCCOB8 = 0x01;
+ 777              		.loc 1 254 0
+ 778 0090 174B     		ldr	r3, .L59
+ 779 0092 0122     		mov	r2, #1
+ 780 0094 DA73     		strb	r2, [r3, #15]
+ 255:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 
+ 256:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     /* All required FCCOBx registers are written, so launch the command */
+ 257:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     FTFA_FSTAT = FTFA_FSTAT_CCIF_MASK;
+ 781              		.loc 1 257 0
+ 782 0096 164B     		ldr	r3, .L59
+ 783 0098 8022     		mov	r2, #128
+ 784 009a 1A70     		strb	r2, [r3]
+ 258:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 
+ 259:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     /* Wait for the command to complete */
+ 260:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     while(!(FTFA_FSTAT & FTFA_FSTAT_CCIF_MASK));
+ 785              		.loc 1 260 0
+ 786 009c C046     		mov	r8, r8
+ 787              	.L58:
+ 788              		.loc 1 260 0 is_stmt 0
+ 789 009e 144B     		ldr	r3, .L59
+ 790 00a0 1B78     		ldrb	r3, [r3]
+ 791 00a2 DBB2     		uxtb	r3, r3
+ 792 00a4 DBB2     		uxtb	r3, r3
+ 793 00a6 5BB2     		sxtb	r3, r3
+ 794 00a8 002B     		cmp	r3, #0
+ 795 00aa F8DA     		bge	.L58
+ 261:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** 
+ 262:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     printf("Flash version ID %d ",FTFA_FCCOB4);  
+ 796              		.loc 1 262 0 is_stmt 1
+ 797 00ac 104B     		ldr	r3, .L59
+ 798 00ae DB7A     		ldrb	r3, [r3, #11]
+ 799 00b0 DBB2     		uxtb	r3, r3
+ 800 00b2 134A     		ldr	r2, .L59+16
+ 801 00b4 101C     		mov	r0, r2
+ 802 00b6 191C     		mov	r1, r3
+ 803 00b8 FFF7FEFF 		bl	printf
+ 263:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     printf(" %d",FTFA_FCCOB5);  
+ 804              		.loc 1 263 0
+ 805 00bc 0C4B     		ldr	r3, .L59
+ 806 00be 9B7A     		ldrb	r3, [r3, #10]
+ 807 00c0 DBB2     		uxtb	r3, r3
+ 808 00c2 104A     		ldr	r2, .L59+20
+ 809 00c4 101C     		mov	r0, r2
+ 810 00c6 191C     		mov	r1, r3
+ 811 00c8 FFF7FEFF 		bl	printf
+ 264:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     printf(" %d ",FTFA_FCCOB6);  
+ 812              		.loc 1 264 0
+ 813 00cc 084B     		ldr	r3, .L59
+ 814 00ce 5B7A     		ldrb	r3, [r3, #9]
+ 815 00d0 DBB2     		uxtb	r3, r3
+ 816 00d2 094A     		ldr	r2, .L59+8
+ 817 00d4 101C     		mov	r0, r2
+ 818 00d6 191C     		mov	r1, r3
+ 819 00d8 FFF7FEFF 		bl	printf
+ 265:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c ****     printf("%d\n\r",FTFA_FCCOB7);  
+ 820              		.loc 1 265 0
+ 821 00dc 044B     		ldr	r3, .L59
+ 822 00de 1B7A     		ldrb	r3, [r3, #8]
+ 823 00e0 DBB2     		uxtb	r3, r3
+ 824 00e2 094A     		ldr	r2, .L59+24
+ 825 00e4 101C     		mov	r0, r2
+ 826 00e6 191C     		mov	r1, r3
+ 827 00e8 FFF7FEFF 		bl	printf
+ 266:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu\start.c **** }
+ 828              		.loc 1 266 0
+ 829 00ec BD46     		mov	sp, r7
+ 830              		@ sp needed for prologue
+ 831 00ee 80BD     		pop	{r7, pc}
+ 832              	.L60:
+ 833              		.align	2
+ 834              	.L59:
+ 835 00f0 00000240 		.word	1073872896
+ 836 00f4 BC030000 		.word	.LC74
+ 837 00f8 D8030000 		.word	.LC76
+ 838 00fc E0030000 		.word	.LC78
+ 839 0100 E8030000 		.word	.LC80
+ 840 0104 00040000 		.word	.LC82
+ 841 0108 04040000 		.word	.LC84
+ 842              		.cfi_endproc
+ 843              	.LFE2:
+ 845              		.text
+ 846              	.Letext0:
+ 847              		.file 2 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu/arm_cm0.h"
+ 848              		.file 3 "C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint"
+ 849              		.file 4 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu/headers/MKL46Z4.
+DEFINED SYMBOLS
+                            *ABS*:00000000 start.c
+C:\Users\b01252\AppData\Local\Temp\cceE1A3O.s:18     .rodata:00000000 $d
+C:\Users\b01252\AppData\Local\Temp\cceE1A3O.s:22     .text.start:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\cceE1A3O.s:27     .text.start:00000000 start
+C:\Users\b01252\AppData\Local\Temp\cceE1A3O.s:190    .text.cpu_identify:00000000 cpu_identify
+C:\Users\b01252\AppData\Local\Temp\cceE1A3O.s:66     .text.start:0000002c $d
+C:\Users\b01252\AppData\Local\Temp\cceE1A3O.s:185    .text.cpu_identify:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\cceE1A3O.s:221    .rodata.cpu_identify:00000000 $d
+C:\Users\b01252\AppData\Local\Temp\cceE1A3O.s:682    .text.flash_identify:00000000 flash_identify
+C:\Users\b01252\AppData\Local\Temp\cceE1A3O.s:613    .text.cpu_identify:0000021c $d
+C:\Users\b01252\AppData\Local\Temp\cceE1A3O.s:677    .text.flash_identify:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\cceE1A3O.s:835    .text.flash_identify:000000f0 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+common_startup
+sysinit
+printf
+outSRS
+main
+putchar

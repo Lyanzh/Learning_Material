@@ -1,0 +1,6 @@
+-c --cpu Cortex-M0+ -g -O0 --apcs=interwork -I..\ -I..\..\BSP -I..\..\BSP\KeilMDK -I..\..\BSP\OS\uCOS-III -I..\..\BSP\Freescale -I..\..\..\..\..\Software\uC-CPU -I..\..\..\..\..\Software\uC-CPU\ARM-Cortex-M0\RealView -I..\..\..\..\..\Software\uC-LIB -I..\..\..\..\..\Software\uC-LIB\Ports\ARM-Cortex-M0\Generic\RealView -I..\..\..\..\..\Software\uCOS-III\Source -I..\..\..\..\..\Software\uCOS-III\Ports\ARM-Cortex-M0\Generic\RealView
+-I "F:\MyFiles\learning\KL46\Micrium\Examples\Freescale\FRDM-KL46Z\OS3\Keil MDK\RTE"
+-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include
+-I C:\Keil_v5\ARM\PACK\Keil\Kinetis_KLxx_DFP\1.6.0\Device\Include
+-D__UVISION_VERSION="515" -D_RTE_ -DMKL46Z256xxx4
+-o .\output\app.o --omf_browse .\output\app.crf --depend .\output\app.d "..\app.c"

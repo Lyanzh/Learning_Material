@@ -1,0 +1,283 @@
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"usb_reg.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.rodata
+  18              		.align	2
+  19              	.LC0:
+  20 0000 0A205265 		.ascii	"\012 Regulator is Disabled\000"
+  20      67756C61 
+  20      746F7220 
+  20      69732044 
+  20      69736162 
+  21              		.align	2
+  22              	.LC2:
+  23 0018 20507265 		.ascii	" Press any key to continue \000"
+  23      73732061 
+  23      6E79206B 
+  23      65792074 
+  23      6F20636F 
+  24              		.align	2
+  25              	.LC4:
+  26 0034 0A205265 		.ascii	"\012 Regulator is in Run mode\000"
+  26      67756C61 
+  26      746F7220 
+  26      69732069 
+  26      6E205275 
+  27 004f 00       		.align	2
+  28              	.LC6:
+  29 0050 0A20456E 		.ascii	"\012 End of Regulator enable Stop,VLPS,LLS,VLLSx,  "
+  29      64206F66 
+  29      20526567 
+  29      756C6174 
+  29      6F722065 
+  30 0080 564C5052 		.ascii	"VLPR, VLPW \000"
+  30      2C20564C 
+  30      50572000 
+  31              		.section	.text.USBReg_Testing,"ax",%progbits
+  32              		.align	2
+  33              		.global	USBReg_Testing
+  34              		.code	16
+  35              		.thumb_func
+  37              	USBReg_Testing:
+  38              	.LFB0:
+  39              		.file 1 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_De
+   1:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/usb\usb_reg.c **** #include "usb_reg.h"
+   2:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/usb\usb_reg.c **** //#include "low_power.h"
+   3:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/usb\usb_reg.c **** 
+   4:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/usb\usb_reg.c **** /*****************************************************/
+   5:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/usb\usb_reg.c **** void USBReg_Testing(void)
+   6:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/usb\usb_reg.c **** {
+  40              		.loc 1 6 0
+  41              		.cfi_startproc
+  42 0000 80B5     		push	{r7, lr}
+  43              	.LCFI0:
+  44              		.cfi_def_cfa_offset 8
+  45              		.cfi_offset 7, -8
+  46              		.cfi_offset 14, -4
+  47 0002 00AF     		add	r7, sp, #0
+  48              	.LCFI1:
+  49              		.cfi_def_cfa_register 7
+   7:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/usb\usb_reg.c ****   
+   8:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/usb\usb_reg.c ****     USB_REG_CLEAR_ENABLE;
+  50              		.loc 1 8 0
+  51 0004 494B     		ldr	r3, .L2
+  52 0006 494A     		ldr	r2, .L2
+  53 0008 5268     		ldr	r2, [r2, #4]
+  54 000a 8021     		mov	r1, #128
+  55 000c 4904     		lsl	r1, r1, #17
+  56 000e 0A43     		orr	r2, r1
+  57 0010 5A60     		str	r2, [r3, #4]
+  58 0012 464B     		ldr	r3, .L2
+  59 0014 454A     		ldr	r2, .L2
+  60 0016 1268     		ldr	r2, [r2]
+  61 0018 5200     		lsl	r2, r2, #1
+  62 001a 5208     		lsr	r2, r2, #1
+  63 001c 1A60     		str	r2, [r3]
+   9:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/usb\usb_reg.c ****     USB_REG_CLEAR_STDBY_STOP;   
+  64              		.loc 1 9 0
+  65 001e 434B     		ldr	r3, .L2
+  66 0020 424A     		ldr	r2, .L2
+  67 0022 5268     		ldr	r2, [r2, #4]
+  68 0024 8021     		mov	r1, #128
+  69 0026 C904     		lsl	r1, r1, #19
+  70 0028 0A43     		orr	r2, r1
+  71 002a 5A60     		str	r2, [r3, #4]
+  72 002c 3F4B     		ldr	r3, .L2
+  73 002e 3F4A     		ldr	r2, .L2
+  74 0030 1168     		ldr	r1, [r2]
+  75 0032 3F4A     		ldr	r2, .L2+4
+  76 0034 0A40     		and	r2, r1
+  77 0036 1A60     		str	r2, [r3]
+  10:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/usb\usb_reg.c ****     USB_REG_CLEAR_STDBY_VLPx;  
+  78              		.loc 1 10 0
+  79 0038 3C4B     		ldr	r3, .L2
+  80 003a 3C4A     		ldr	r2, .L2
+  81 003c 5268     		ldr	r2, [r2, #4]
+  82 003e 8021     		mov	r1, #128
+  83 0040 8904     		lsl	r1, r1, #18
+  84 0042 0A43     		orr	r2, r1
+  85 0044 5A60     		str	r2, [r3, #4]
+  86 0046 394B     		ldr	r3, .L2
+  87 0048 384A     		ldr	r2, .L2
+  88 004a 1168     		ldr	r1, [r2]
+  89 004c 394A     		ldr	r2, .L2+8
+  90 004e 0A40     		and	r2, r1
+  91 0050 1A60     		str	r2, [r3]
+  11:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/usb\usb_reg.c ****     printf("\n Regulator is Disabled\n");    
+  92              		.loc 1 11 0
+  93 0052 394B     		ldr	r3, .L2+12
+  94 0054 181C     		mov	r0, r3
+  95 0056 FFF7FEFF 		bl	puts
+  12:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/usb\usb_reg.c ****     printf (" Press any key to continue ");
+  96              		.loc 1 12 0
+  97 005a 384B     		ldr	r3, .L2+16
+  98 005c 181C     		mov	r0, r3
+  99 005e FFF7FEFF 		bl	printf
+  13:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/usb\usb_reg.c ****     (void)in_char();
+ 100              		.loc 1 13 0
+ 101 0062 FFF7FEFF 		bl	in_char
+  14:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/usb\usb_reg.c ****     //char_present();
+  15:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/usb\usb_reg.c ****     
+  16:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/usb\usb_reg.c ****     USB_REG_SET_ENABLE;
+ 102              		.loc 1 16 0
+ 103 0066 314B     		ldr	r3, .L2
+ 104 0068 304A     		ldr	r2, .L2
+ 105 006a 5268     		ldr	r2, [r2, #4]
+ 106 006c 8021     		mov	r1, #128
+ 107 006e 4904     		lsl	r1, r1, #17
+ 108 0070 0A43     		orr	r2, r1
+ 109 0072 5A60     		str	r2, [r3, #4]
+ 110 0074 2D4B     		ldr	r3, .L2
+ 111 0076 2D4A     		ldr	r2, .L2
+ 112 0078 1268     		ldr	r2, [r2]
+ 113 007a 8021     		mov	r1, #128
+ 114 007c 0906     		lsl	r1, r1, #24
+ 115 007e 0A43     		orr	r2, r1
+ 116 0080 1A60     		str	r2, [r3]
+  17:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/usb\usb_reg.c ****     USB_REG_CLEAR_STDBY_STOP;   
+ 117              		.loc 1 17 0
+ 118 0082 2A4B     		ldr	r3, .L2
+ 119 0084 294A     		ldr	r2, .L2
+ 120 0086 5268     		ldr	r2, [r2, #4]
+ 121 0088 8021     		mov	r1, #128
+ 122 008a C904     		lsl	r1, r1, #19
+ 123 008c 0A43     		orr	r2, r1
+ 124 008e 5A60     		str	r2, [r3, #4]
+ 125 0090 264B     		ldr	r3, .L2
+ 126 0092 264A     		ldr	r2, .L2
+ 127 0094 1168     		ldr	r1, [r2]
+ 128 0096 264A     		ldr	r2, .L2+4
+ 129 0098 0A40     		and	r2, r1
+ 130 009a 1A60     		str	r2, [r3]
+  18:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/usb\usb_reg.c ****     USB_REG_CLEAR_STDBY_VLPx;
+ 131              		.loc 1 18 0
+ 132 009c 234B     		ldr	r3, .L2
+ 133 009e 234A     		ldr	r2, .L2
+ 134 00a0 5268     		ldr	r2, [r2, #4]
+ 135 00a2 8021     		mov	r1, #128
+ 136 00a4 8904     		lsl	r1, r1, #18
+ 137 00a6 0A43     		orr	r2, r1
+ 138 00a8 5A60     		str	r2, [r3, #4]
+ 139 00aa 204B     		ldr	r3, .L2
+ 140 00ac 1F4A     		ldr	r2, .L2
+ 141 00ae 1168     		ldr	r1, [r2]
+ 142 00b0 204A     		ldr	r2, .L2+8
+ 143 00b2 0A40     		and	r2, r1
+ 144 00b4 1A60     		str	r2, [r3]
+  19:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/usb\usb_reg.c ****     printf("\n Regulator is in Run mode\n");
+ 145              		.loc 1 19 0
+ 146 00b6 224B     		ldr	r3, .L2+20
+ 147 00b8 181C     		mov	r0, r3
+ 148 00ba FFF7FEFF 		bl	puts
+  20:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/usb\usb_reg.c ****     printf (" Press any key to continue \n");
+ 149              		.loc 1 20 0
+ 150 00be 1F4B     		ldr	r3, .L2+16
+ 151 00c0 181C     		mov	r0, r3
+ 152 00c2 FFF7FEFF 		bl	puts
+  21:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/usb\usb_reg.c ****     (void)in_char();    
+ 153              		.loc 1 21 0
+ 154 00c6 FFF7FEFF 		bl	in_char
+  22:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/usb\usb_reg.c ****     
+  23:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/usb\usb_reg.c **** 
+  24:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/usb\usb_reg.c ****     USB_REG_SET_ENABLE;
+ 155              		.loc 1 24 0
+ 156 00ca 184B     		ldr	r3, .L2
+ 157 00cc 174A     		ldr	r2, .L2
+ 158 00ce 5268     		ldr	r2, [r2, #4]
+ 159 00d0 8021     		mov	r1, #128
+ 160 00d2 4904     		lsl	r1, r1, #17
+ 161 00d4 0A43     		orr	r2, r1
+ 162 00d6 5A60     		str	r2, [r3, #4]
+ 163 00d8 144B     		ldr	r3, .L2
+ 164 00da 144A     		ldr	r2, .L2
+ 165 00dc 1268     		ldr	r2, [r2]
+ 166 00de 8021     		mov	r1, #128
+ 167 00e0 0906     		lsl	r1, r1, #24
+ 168 00e2 0A43     		orr	r2, r1
+ 169 00e4 1A60     		str	r2, [r3]
+  25:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/usb\usb_reg.c ****     USB_REG_SET_STDBY_STOP;   
+ 170              		.loc 1 25 0
+ 171 00e6 114B     		ldr	r3, .L2
+ 172 00e8 104A     		ldr	r2, .L2
+ 173 00ea 5268     		ldr	r2, [r2, #4]
+ 174 00ec 8021     		mov	r1, #128
+ 175 00ee C904     		lsl	r1, r1, #19
+ 176 00f0 0A43     		orr	r2, r1
+ 177 00f2 5A60     		str	r2, [r3, #4]
+ 178 00f4 0D4B     		ldr	r3, .L2
+ 179 00f6 0D4A     		ldr	r2, .L2
+ 180 00f8 1268     		ldr	r2, [r2]
+ 181 00fa 8021     		mov	r1, #128
+ 182 00fc C905     		lsl	r1, r1, #23
+ 183 00fe 0A43     		orr	r2, r1
+ 184 0100 1A60     		str	r2, [r3]
+  26:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/usb\usb_reg.c ****     USB_REG_SET_STDBY_VLPx;
+ 185              		.loc 1 26 0
+ 186 0102 0A4B     		ldr	r3, .L2
+ 187 0104 094A     		ldr	r2, .L2
+ 188 0106 5268     		ldr	r2, [r2, #4]
+ 189 0108 8021     		mov	r1, #128
+ 190 010a 8904     		lsl	r1, r1, #18
+ 191 010c 0A43     		orr	r2, r1
+ 192 010e 5A60     		str	r2, [r3, #4]
+ 193 0110 064B     		ldr	r3, .L2
+ 194 0112 064A     		ldr	r2, .L2
+ 195 0114 1268     		ldr	r2, [r2]
+ 196 0116 8021     		mov	r1, #128
+ 197 0118 8905     		lsl	r1, r1, #22
+ 198 011a 0A43     		orr	r2, r1
+ 199 011c 1A60     		str	r2, [r3]
+  27:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/usb\usb_reg.c ****     printf("\n End of Regulator enable Stop,VLPS,LLS,VLLSx,  VLPR, VLPW \n");
+ 200              		.loc 1 27 0
+ 201 011e 094B     		ldr	r3, .L2+24
+ 202 0120 181C     		mov	r0, r3
+ 203 0122 FFF7FEFF 		bl	puts
+  28:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/usb\usb_reg.c ****     //vfnLowPowerInit();
+  29:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/usb\usb_reg.c ****     //vfnLowPowerTest();
+  30:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/usb\usb_reg.c **** 
+  31:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/FRDMKL46_Demo/usb\usb_reg.c **** }...
+ 204              		.loc 1 31 0
+ 205 0126 BD46     		mov	sp, r7
+ 206              		@ sp needed for prologue
+ 207 0128 80BD     		pop	{r7, pc}
+ 208              	.L3:
+ 209 012a C046     		.align	2
+ 210              	.L2:
+ 211 012c 00700440 		.word	1074032640
+ 212 0130 FFFFFFBF 		.word	-1073741825
+ 213 0134 FFFFFFDF 		.word	-536870913
+ 214 0138 00000000 		.word	.LC0
+ 215 013c 18000000 		.word	.LC2
+ 216 0140 34000000 		.word	.LC4
+ 217 0144 50000000 		.word	.LC6
+ 218              		.cfi_endproc
+ 219              	.LFE0:
+ 221              		.text
+ 222              	.Letext0:
+ 223              		.file 2 "C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint"
+ 224              		.file 3 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu/headers/MKL46Z4.
+DEFINED SYMBOLS
+                            *ABS*:00000000 usb_reg.c
+C:\Users\b01252\AppData\Local\Temp\ccKLMrPh.s:18     .rodata:00000000 $d
+C:\Users\b01252\AppData\Local\Temp\ccKLMrPh.s:32     .text.USBReg_Testing:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccKLMrPh.s:37     .text.USBReg_Testing:00000000 USBReg_Testing
+C:\Users\b01252\AppData\Local\Temp\ccKLMrPh.s:211    .text.USBReg_Testing:0000012c $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+puts
+printf
+in_char

@@ -1,0 +1,116 @@
+\t (00:00:02) allegro_free_viewer 16.5 S006 (v16-5-13S) i86
+\t (00:00:02)     Journal start - Fri Jul 05 17:51:36 2013
+\t (00:00:02)         Host=B01252-01 User=B01252 Pid=7332 CPUs=4
+\t (00:00:02) 
+\t (00:00:02) Opening existing design...
+\d (00:00:03) Database opened: C:/Users/b01252/Documents/Freescale/L4K/hardware/FRDM-KL46Z/hardware design package/FRDM-KL46Z-PWB/LAY-27822_B.brd
+\i (00:00:04) trapsize 20256
+\i (00:00:04) trapsize 19419
+\i (00:00:04) trapsize 18603
+\i (00:00:04) trapsize 16330
+\i (00:00:04) trapsize 18603
+\i (00:00:06) show element 
+\i (00:00:12) setwindow form.find
+\i (00:00:12) FORM find find_name R24 
+\i (00:00:16) setwindow pcb
+\i (00:00:16) zoom in 1 
+\i (00:00:16) setwindow pcb
+\i (00:00:16) zoom in -184.20 -284.89
+\i (00:00:16) trapsize 9302
+\i (00:00:16) zoom in 1 
+\i (00:00:16) setwindow pcb
+\i (00:00:16) zoom in -184.20 -266.28
+\i (00:00:16) trapsize 4651
+\i (00:00:22) setwindow form.vf_vis
+\i (00:00:22) FORM vf_vis colorview_list Film: pss.art 
+\i (00:00:29) setwindow form.find
+\i (00:00:29) FORM find name_type Comp (or Pin) 
+\i (00:00:32) FORM find find_name R24 
+\i (00:00:32) setwindow pcb
+\i (00:00:32) trapsize 159
+\i (00:00:36) setwindow text
+\i (00:00:36) close 
+\i (00:00:36) setwindow pcb
+\i (00:00:36) zoom out 1 
+\i (00:00:36) setwindow pcb
+\i (00:00:36) zoom out 227.25 646.48
+\i (00:00:36) trapsize 318
+\i (00:00:40) setwindow form.vf_vis
+\i (00:00:40) FORM vf_vis all_via_visible YES 
+\i (00:00:42) FORM vf_vis all_etch_visible YES 
+\i (00:00:43) FORM vf_vis all_etch_visible NO 
+\i (00:00:44) FORM vf_vis all_pin_visible YES 
+\i (00:00:50) setwindow pcb
+\i (00:00:50) zoom out 1 
+\i (00:00:50) setwindow pcb
+\i (00:00:50) zoom out 302.32 706.29
+\i (00:00:50) trapsize 636
+\i (00:00:51) zoom in 1 
+\i (00:00:51) setwindow pcb
+\i (00:00:51) zoom in 302.33 706.29
+\i (00:00:51) trapsize 318
+\i (00:00:52) zoom out 1 
+\i (00:00:52) setwindow pcb
+\i (00:00:52) zoom out 302.33 706.29
+\i (00:00:52) trapsize 636
+\i (00:00:53) zoom in 1 
+\i (00:00:53) setwindow pcb
+\i (00:00:53) zoom in 183.99 665.57
+\i (00:00:53) trapsize 318
+\i (00:00:53) zoom in 1 
+\i (00:00:53) setwindow pcb
+\i (00:00:53) zoom in 183.35 665.57
+\i (00:00:53) trapsize 159
+\i (00:00:54) pick grid 174.76 673.85
+\t (00:00:54) last pick:  174.76  673.85
+\i (00:00:55) pick grid 174.44 673.53
+\t (00:00:55) last pick:  174.44  673.53
+\i (00:00:55) pick grid 174.76 674.48
+\t (00:00:55) last pick:  174.76  674.48
+\i (00:00:56) zoom out 1 
+\i (00:00:56) setwindow pcb
+\i (00:00:56) zoom out 174.13 678.30
+\i (00:00:56) trapsize 318
+\i (00:00:56) zoom in 1 
+\i (00:00:56) setwindow pcb
+\i (00:00:56) zoom in 174.12 678.30
+\i (00:00:56) trapsize 159
+\i (00:00:57) prepopup 170.31 674.48
+\i (00:00:58) pick grid 168.72 674.80
+\t (00:00:58) last pick:  168.72  674.80
+\i (00:00:58) zoom out 1 
+\i (00:00:58) setwindow pcb
+\i (00:00:58) zoom out 168.72 674.80
+\i (00:00:58) trapsize 318
+\i (00:01:02) zoom out 1 
+\i (00:01:02) setwindow pcb
+\i (00:01:02) zoom out 168.72 674.80
+\i (00:01:02) trapsize 636
+\i (00:01:03) zoom in 1 
+\i (00:01:03) setwindow pcb
+\i (00:01:03) zoom in 168.71 674.80
+\i (00:01:03) trapsize 318
+\i (00:01:05) zoom out 1 
+\i (00:01:05) setwindow pcb
+\i (00:01:05) zoom out 179.53 649.98
+\i (00:01:05) trapsize 636
+\i (00:01:05) zoom in 1 
+\i (00:01:05) setwindow pcb
+\i (00:01:05) zoom in 176.99 652.53
+\i (00:01:05) trapsize 318
+\i (00:01:17) hilight 
+\i (00:01:22) setwindow form.find
+\i (00:01:22) FORM find find_name R24 
+\i (00:01:22) setwindow pcb
+\i (00:01:22) trapsize 159
+\t (00:01:22) Symbol "R24" highlighted.
+\i (00:01:33) zoom out 1 
+\i (00:01:33) setwindow pcb
+\i (00:01:33) zoom out 261.61 659.52
+\i (00:01:33) trapsize 318
+\i (00:01:33) zoom out 1 
+\i (00:01:33) setwindow pcb
+\i (00:01:33) zoom out 261.60 659.53
+\i (00:01:33) trapsize 636
+\i (00:25:44) exit 
+\t (00:25:45)     Journal end - Fri Jul 05 18:17:19 2013

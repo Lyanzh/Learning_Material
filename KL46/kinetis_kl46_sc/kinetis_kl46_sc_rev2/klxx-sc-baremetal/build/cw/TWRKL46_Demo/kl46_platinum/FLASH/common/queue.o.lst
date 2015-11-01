@@ -1,0 +1,446 @@
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"queue.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.queue_init,"ax",%progbits
+  18              		.align	2
+  19              		.global	queue_init
+  20              		.code	16
+  21              		.thumb_func
+  23              	queue_init:
+  24              	.LFB0:
+  25              		.file 1 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common/queue.c"
+   1:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c **** /*
+   2:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  * File:    queue.c
+   3:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  * Purpose: Implement a first in, first out linked list
+   4:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  *
+   5:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  * Notes:   
+   6:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  */
+   7:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c **** 
+   8:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c **** #include "common.h"
+   9:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c **** #include "queue.h"
+  10:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c **** 
+  11:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c **** /********************************************************************/
+  12:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c **** /* 
+  13:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  * Initialize the specified queue to an empty state
+  14:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  * 
+  15:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  * Parameters:
+  16:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  *  q   Pointer to queue structure
+  17:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  */
+  18:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c **** void
+  19:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c **** queue_init(QUEUE *q)
+  20:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c **** {
+  26              		.loc 1 20 0
+  27              		.cfi_startproc
+  28 0000 80B5     		push	{r7, lr}
+  29              	.LCFI0:
+  30              		.cfi_def_cfa_offset 8
+  31              		.cfi_offset 7, -8
+  32              		.cfi_offset 14, -4
+  33 0002 82B0     		sub	sp, sp, #8
+  34              	.LCFI1:
+  35              		.cfi_def_cfa_offset 16
+  36 0004 00AF     		add	r7, sp, #0
+  37              	.LCFI2:
+  38              		.cfi_def_cfa_register 7
+  39 0006 7860     		str	r0, [r7, #4]
+  21:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****     q->head = NULL;
+  40              		.loc 1 21 0
+  41 0008 7B68     		ldr	r3, [r7, #4]
+  42 000a 0022     		mov	r2, #0
+  43 000c 1A60     		str	r2, [r3]
+  22:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c **** }
+  44              		.loc 1 22 0
+  45 000e BD46     		mov	sp, r7
+  46 0010 02B0     		add	sp, sp, #8
+  47              		@ sp needed for prologue
+  48 0012 80BD     		pop	{r7, pc}
+  49              		.cfi_endproc
+  50              	.LFE0:
+  52              		.section	.text.queue_isempty,"ax",%progbits
+  53              		.align	2
+  54              		.global	queue_isempty
+  55              		.code	16
+  56              		.thumb_func
+  58              	queue_isempty:
+  59              	.LFB1:
+  23:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c **** /********************************************************************/
+  24:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c **** /* 
+  25:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  * Check for an empty queue
+  26:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  *
+  27:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  * Parameters:
+  28:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  *  q       Pointer to queue structure
+  29:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  * 
+  30:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  * Return Value:
+  31:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  *  1 if Queue is empty
+  32:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  *  0 otherwise
+  33:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  */
+  34:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c **** int
+  35:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c **** queue_isempty(QUEUE *q)
+  36:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c **** {
+  60              		.loc 1 36 0
+  61              		.cfi_startproc
+  62 0000 80B5     		push	{r7, lr}
+  63              	.LCFI3:
+  64              		.cfi_def_cfa_offset 8
+  65              		.cfi_offset 7, -8
+  66              		.cfi_offset 14, -4
+  67 0002 82B0     		sub	sp, sp, #8
+  68              	.LCFI4:
+  69              		.cfi_def_cfa_offset 16
+  70 0004 00AF     		add	r7, sp, #0
+  71              	.LCFI5:
+  72              		.cfi_def_cfa_register 7
+  73 0006 7860     		str	r0, [r7, #4]
+  37:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****     return (q->head == NULL);
+  74              		.loc 1 37 0
+  75 0008 7B68     		ldr	r3, [r7, #4]
+  76 000a 1B68     		ldr	r3, [r3]
+  77 000c 5A42     		neg	r2, r3
+  78 000e 5341     		adc	r3, r3, r2
+  79 0010 DBB2     		uxtb	r3, r3
+  38:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c **** }
+  80              		.loc 1 38 0
+  81 0012 181C     		mov	r0, r3
+  82 0014 BD46     		mov	sp, r7
+  83 0016 02B0     		add	sp, sp, #8
+  84              		@ sp needed for prologue
+  85 0018 80BD     		pop	{r7, pc}
+  86              		.cfi_endproc
+  87              	.LFE1:
+  89 001a C046     		.section	.text.queue_add,"ax",%progbits
+  90              		.align	2
+  91              		.global	queue_add
+  92              		.code	16
+  93              		.thumb_func
+  95              	queue_add:
+  96              	.LFB2:
+  39:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c **** /********************************************************************/
+  40:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c **** /* 
+  41:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  * Add an item to the end of the queue 
+  42:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  *
+  43:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  * Parameters:
+  44:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  *  q       Pointer to queue structure
+  45:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  *  node    New node to add to the queue
+  46:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  */
+  47:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c **** void
+  48:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c **** queue_add(QUEUE *q, QNODE *node)
+  49:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c **** {
+  97              		.loc 1 49 0
+  98              		.cfi_startproc
+  99 0000 80B5     		push	{r7, lr}
+ 100              	.LCFI6:
+ 101              		.cfi_def_cfa_offset 8
+ 102              		.cfi_offset 7, -8
+ 103              		.cfi_offset 14, -4
+ 104 0002 82B0     		sub	sp, sp, #8
+ 105              	.LCFI7:
+ 106              		.cfi_def_cfa_offset 16
+ 107 0004 00AF     		add	r7, sp, #0
+ 108              	.LCFI8:
+ 109              		.cfi_def_cfa_register 7
+ 110 0006 7860     		str	r0, [r7, #4]
+ 111 0008 3960     		str	r1, [r7]
+  50:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****     if (queue_isempty(q))
+ 112              		.loc 1 50 0
+ 113 000a 7B68     		ldr	r3, [r7, #4]
+ 114 000c 181C     		mov	r0, r3
+ 115 000e FFF7FEFF 		bl	queue_isempty
+ 116 0012 031C     		mov	r3, r0
+ 117 0014 002B     		cmp	r3, #0
+ 118 0016 07D0     		beq	.L5
+  51:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****     {
+  52:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****         q->head = q->tail = node;
+ 119              		.loc 1 52 0
+ 120 0018 7B68     		ldr	r3, [r7, #4]
+ 121 001a 3A68     		ldr	r2, [r7]
+ 122 001c 5A60     		str	r2, [r3, #4]
+ 123 001e 7B68     		ldr	r3, [r7, #4]
+ 124 0020 5A68     		ldr	r2, [r3, #4]
+ 125 0022 7B68     		ldr	r3, [r7, #4]
+ 126 0024 1A60     		str	r2, [r3]
+ 127 0026 06E0     		b	.L6
+ 128              	.L5:
+  53:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****     }
+  54:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****     else
+  55:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****     {
+  56:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****         q->tail->next = node;
+ 129              		.loc 1 56 0
+ 130 0028 7B68     		ldr	r3, [r7, #4]
+ 131 002a 5B68     		ldr	r3, [r3, #4]
+ 132 002c 3A68     		ldr	r2, [r7]
+ 133 002e 1A60     		str	r2, [r3]
+  57:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****         q->tail = node;
+ 134              		.loc 1 57 0
+ 135 0030 7B68     		ldr	r3, [r7, #4]
+ 136 0032 3A68     		ldr	r2, [r7]
+ 137 0034 5A60     		str	r2, [r3, #4]
+ 138              	.L6:
+  58:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****     }
+  59:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****     
+  60:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****     node->next = NULL;
+ 139              		.loc 1 60 0
+ 140 0036 3B68     		ldr	r3, [r7]
+ 141 0038 0022     		mov	r2, #0
+ 142 003a 1A60     		str	r2, [r3]
+  61:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c **** }
+ 143              		.loc 1 61 0
+ 144 003c BD46     		mov	sp, r7
+ 145 003e 02B0     		add	sp, sp, #8
+ 146              		@ sp needed for prologue
+ 147 0040 80BD     		pop	{r7, pc}
+ 148              		.cfi_endproc
+ 149              	.LFE2:
+ 151 0042 C046     		.section	.text.queue_remove,"ax",%progbits
+ 152              		.align	2
+ 153              		.global	queue_remove
+ 154              		.code	16
+ 155              		.thumb_func
+ 157              	queue_remove:
+ 158              	.LFB3:
+  62:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c **** 
+  63:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c **** /********************************************************************/
+  64:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c **** /* 
+  65:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  * Remove and return first (oldest) entry from the specified queue 
+  66:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  *
+  67:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  * Parameters:
+  68:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  *  q       Pointer to queue structure
+  69:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  *
+  70:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  * Return Value:
+  71:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  *  Node at head of queue - NULL if queue is empty
+  72:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  */
+  73:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c **** QNODE*
+  74:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c **** queue_remove(QUEUE *q)
+  75:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c **** {
+ 159              		.loc 1 75 0
+ 160              		.cfi_startproc
+ 161 0000 80B5     		push	{r7, lr}
+ 162              	.LCFI9:
+ 163              		.cfi_def_cfa_offset 8
+ 164              		.cfi_offset 7, -8
+ 165              		.cfi_offset 14, -4
+ 166 0002 84B0     		sub	sp, sp, #16
+ 167              	.LCFI10:
+ 168              		.cfi_def_cfa_offset 24
+ 169 0004 00AF     		add	r7, sp, #0
+ 170              	.LCFI11:
+ 171              		.cfi_def_cfa_register 7
+ 172 0006 7860     		str	r0, [r7, #4]
+  76:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****     QNODE *oldest;
+  77:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****     
+  78:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****     if (queue_isempty(q))
+ 173              		.loc 1 78 0
+ 174 0008 7B68     		ldr	r3, [r7, #4]
+ 175 000a 181C     		mov	r0, r3
+ 176 000c FFF7FEFF 		bl	queue_isempty
+ 177 0010 031C     		mov	r3, r0
+ 178 0012 002B     		cmp	r3, #0
+ 179 0014 01D0     		beq	.L8
+  79:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****         return NULL;
+ 180              		.loc 1 79 0
+ 181 0016 0023     		mov	r3, #0
+ 182 0018 07E0     		b	.L9
+ 183              	.L8:
+  80:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****     
+  81:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****     oldest = q->head;
+ 184              		.loc 1 81 0
+ 185 001a 7B68     		ldr	r3, [r7, #4]
+ 186 001c 1B68     		ldr	r3, [r3]
+ 187 001e FB60     		str	r3, [r7, #12]
+  82:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****     q->head = oldest->next;
+ 188              		.loc 1 82 0
+ 189 0020 FB68     		ldr	r3, [r7, #12]
+ 190 0022 1A68     		ldr	r2, [r3]
+ 191 0024 7B68     		ldr	r3, [r7, #4]
+ 192 0026 1A60     		str	r2, [r3]
+  83:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****     return oldest;
+ 193              		.loc 1 83 0
+ 194 0028 FB68     		ldr	r3, [r7, #12]
+ 195              	.L9:
+  84:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c **** }
+ 196              		.loc 1 84 0
+ 197 002a 181C     		mov	r0, r3
+ 198 002c BD46     		mov	sp, r7
+ 199 002e 04B0     		add	sp, sp, #16
+ 200              		@ sp needed for prologue
+ 201 0030 80BD     		pop	{r7, pc}
+ 202              		.cfi_endproc
+ 203              	.LFE3:
+ 205 0032 C046     		.section	.text.queue_peek,"ax",%progbits
+ 206              		.align	2
+ 207              		.global	queue_peek
+ 208              		.code	16
+ 209              		.thumb_func
+ 211              	queue_peek:
+ 212              	.LFB4:
+  85:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c **** /********************************************************************/
+  86:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c **** /* 
+  87:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  * Peek into the queue and return pointer to first (oldest) entry.
+  88:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  * The queue is not modified
+  89:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  *
+  90:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  * Parameters:
+  91:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  *  q       Pointer to queue structure
+  92:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  *
+  93:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  * Return Value:
+  94:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  *  Node at head of queue - NULL if queue is empty
+  95:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  */
+  96:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c **** QNODE*
+  97:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c **** queue_peek(QUEUE *q)
+  98:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c **** {
+ 213              		.loc 1 98 0
+ 214              		.cfi_startproc
+ 215 0000 80B5     		push	{r7, lr}
+ 216              	.LCFI12:
+ 217              		.cfi_def_cfa_offset 8
+ 218              		.cfi_offset 7, -8
+ 219              		.cfi_offset 14, -4
+ 220 0002 82B0     		sub	sp, sp, #8
+ 221              	.LCFI13:
+ 222              		.cfi_def_cfa_offset 16
+ 223 0004 00AF     		add	r7, sp, #0
+ 224              	.LCFI14:
+ 225              		.cfi_def_cfa_register 7
+ 226 0006 7860     		str	r0, [r7, #4]
+  99:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****     return q->head;
+ 227              		.loc 1 99 0
+ 228 0008 7B68     		ldr	r3, [r7, #4]
+ 229 000a 1B68     		ldr	r3, [r3]
+ 100:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c **** }
+ 230              		.loc 1 100 0
+ 231 000c 181C     		mov	r0, r3
+ 232 000e BD46     		mov	sp, r7
+ 233 0010 02B0     		add	sp, sp, #8
+ 234              		@ sp needed for prologue
+ 235 0012 80BD     		pop	{r7, pc}
+ 236              		.cfi_endproc
+ 237              	.LFE4:
+ 239              		.section	.text.queue_move,"ax",%progbits
+ 240              		.align	2
+ 241              		.global	queue_move
+ 242              		.code	16
+ 243              		.thumb_func
+ 245              	queue_move:
+ 246              	.LFB5:
+ 101:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c **** /********************************************************************/
+ 102:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c **** /* 
+ 103:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  * Move entire contents of one queue to the other
+ 104:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  *
+ 105:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  * Parameters:
+ 106:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  *  src     Pointer to source queue
+ 107:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  *  dst     Pointer to destination queue
+ 108:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****  */
+ 109:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c **** void
+ 110:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c **** queue_move(QUEUE *dst, QUEUE *src)
+ 111:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c **** {
+ 247              		.loc 1 111 0
+ 248              		.cfi_startproc
+ 249 0000 80B5     		push	{r7, lr}
+ 250              	.LCFI15:
+ 251              		.cfi_def_cfa_offset 8
+ 252              		.cfi_offset 7, -8
+ 253              		.cfi_offset 14, -4
+ 254 0002 82B0     		sub	sp, sp, #8
+ 255              	.LCFI16:
+ 256              		.cfi_def_cfa_offset 16
+ 257 0004 00AF     		add	r7, sp, #0
+ 258              	.LCFI17:
+ 259              		.cfi_def_cfa_register 7
+ 260 0006 7860     		str	r0, [r7, #4]
+ 261 0008 3960     		str	r1, [r7]
+ 112:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****     if (queue_isempty(src))
+ 262              		.loc 1 112 0
+ 263 000a 3B68     		ldr	r3, [r7]
+ 264 000c 181C     		mov	r0, r3
+ 265 000e FFF7FEFF 		bl	queue_isempty
+ 266 0012 031C     		mov	r3, r0
+ 267 0014 002B     		cmp	r3, #0
+ 268 0016 19D1     		bne	.L17
+ 269              	.L13:
+ 113:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****         return;
+ 114:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****     
+ 115:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****     if (queue_isempty(dst))
+ 270              		.loc 1 115 0
+ 271 0018 7B68     		ldr	r3, [r7, #4]
+ 272 001a 181C     		mov	r0, r3
+ 273 001c FFF7FEFF 		bl	queue_isempty
+ 274 0020 031C     		mov	r3, r0
+ 275 0022 002B     		cmp	r3, #0
+ 276 0024 04D0     		beq	.L15
+ 116:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****         dst->head = src->head;
+ 277              		.loc 1 116 0
+ 278 0026 3B68     		ldr	r3, [r7]
+ 279 0028 1A68     		ldr	r2, [r3]
+ 280 002a 7B68     		ldr	r3, [r7, #4]
+ 281 002c 1A60     		str	r2, [r3]
+ 282 002e 04E0     		b	.L16
+ 283              	.L15:
+ 117:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****     else
+ 118:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****         dst->tail->next = src->head;
+ 284              		.loc 1 118 0
+ 285 0030 7B68     		ldr	r3, [r7, #4]
+ 286 0032 5B68     		ldr	r3, [r3, #4]
+ 287 0034 3A68     		ldr	r2, [r7]
+ 288 0036 1268     		ldr	r2, [r2]
+ 289 0038 1A60     		str	r2, [r3]
+ 290              	.L16:
+ 119:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c **** 
+ 120:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****     dst->tail = src->tail;
+ 291              		.loc 1 120 0
+ 292 003a 3B68     		ldr	r3, [r7]
+ 293 003c 5A68     		ldr	r2, [r3, #4]
+ 294 003e 7B68     		ldr	r3, [r7, #4]
+ 295 0040 5A60     		str	r2, [r3, #4]
+ 121:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****     src->head = NULL;
+ 296              		.loc 1 121 0
+ 297 0042 3B68     		ldr	r3, [r7]
+ 298 0044 0022     		mov	r2, #0
+ 299 0046 1A60     		str	r2, [r3]
+ 122:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****     return;
+ 300              		.loc 1 122 0
+ 301 0048 C046     		mov	r8, r8
+ 302 004a 00E0     		b	.L12
+ 303              	.L17:
+ 113:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c ****         return;
+ 304              		.loc 1 113 0
+ 305 004c C046     		mov	r8, r8
+ 306              	.L12:
+ 123:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common\queue.c **** }
+ 307              		.loc 1 123 0
+ 308 004e BD46     		mov	sp, r7
+ 309 0050 02B0     		add	sp, sp, #8
+ 310              		@ sp needed for prologue
+ 311 0052 80BD     		pop	{r7, pc}
+ 312              		.cfi_endproc
+ 313              	.LFE5:
+ 315              		.text
+ 316              	.Letext0:
+ 317              		.file 2 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/common/queue.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 queue.c
+C:\Users\b01252\AppData\Local\Temp\ccRD1PJZ.s:18     .text.queue_init:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccRD1PJZ.s:23     .text.queue_init:00000000 queue_init
+C:\Users\b01252\AppData\Local\Temp\ccRD1PJZ.s:53     .text.queue_isempty:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccRD1PJZ.s:58     .text.queue_isempty:00000000 queue_isempty
+C:\Users\b01252\AppData\Local\Temp\ccRD1PJZ.s:90     .text.queue_add:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccRD1PJZ.s:95     .text.queue_add:00000000 queue_add
+C:\Users\b01252\AppData\Local\Temp\ccRD1PJZ.s:152    .text.queue_remove:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccRD1PJZ.s:157    .text.queue_remove:00000000 queue_remove
+C:\Users\b01252\AppData\Local\Temp\ccRD1PJZ.s:206    .text.queue_peek:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccRD1PJZ.s:211    .text.queue_peek:00000000 queue_peek
+C:\Users\b01252\AppData\Local\Temp\ccRD1PJZ.s:240    .text.queue_move:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccRD1PJZ.s:245    .text.queue_move:00000000 queue_move
+                     .debug_frame:00000010 $d
+
+NO UNDEFINED SYMBOLS

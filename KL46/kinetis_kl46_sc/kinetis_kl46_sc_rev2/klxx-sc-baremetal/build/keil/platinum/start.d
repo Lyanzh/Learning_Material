@@ -1,0 +1,15 @@
+start.o: ..\..\..\src\cpu\start.c
+start.o: ..\..\..\src\cpu\start.h
+start.o: ..\..\..\src\common\common.h
+start.o: ..\..\..\src\platforms\tower.h
+start.o: ..\..\..\src\drivers\mcg\mcg.h
+start.o: ..\..\..\src\cpu\headers\MKL46Z4_CMSIS.h
+start.o: ..\..\..\src\cpu\headers\core_cm0plus.h
+start.o: C:\Keil\ARM\ARMCC\bin\..\include\stdint.h
+start.o: ..\..\..\src\cpu\headers\core_cmInstr.h
+start.o: ..\..\..\src\cpu\headers\core_cmFunc.h
+start.o: ..\..\..\src\cpu\system_MKL46Z4.h
+start.o: ..\..\..\src\common\assert.h
+start.o: ..\..\..\src\common\io.h
+start.o: ..\..\..\src\common\startup.h
+start.o: ..\..\..\src\common\stdlib.h

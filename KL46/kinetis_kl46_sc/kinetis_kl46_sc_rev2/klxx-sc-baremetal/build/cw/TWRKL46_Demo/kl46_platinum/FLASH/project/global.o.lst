@@ -1,0 +1,53 @@
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"global.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.comm	pit1_isrv_count,2,2
+  18              		.comm	base_time125m,2,2
+  19              		.comm	ti_task,2,2
+  20              		.comm	ti_fall,2,2
+  21              		.comm	ti_accel_sampling,2,2
+  22              		.comm	ti_delay,2,2
+  23              		.comm	ti_print,2,2
+  24              		.comm	ti_console,2,2
+  25              		.comm	ti_led,2,2
+  26              		.comm	ti_tsi0,2,2
+  27              		.comm	ti_tsi1,2,2
+  28              		.comm	ti_test_adc,2,2
+  29              		.comm	adc_sample,2,2
+  30              		.comm	rtc_seconds_isrv_count,2,2
+  31              		.comm	ti_tsi_multiplexing,2,2
+  32              	.Letext0:
+  33              		.file 1 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Dem
+  34              		.file 2 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu/arm_cm0.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 global.c
+                            *COM*:00000002 pit1_isrv_count
+                            *COM*:00000002 base_time125m
+                            *COM*:00000002 ti_task
+                            *COM*:00000002 ti_fall
+                            *COM*:00000002 ti_accel_sampling
+                            *COM*:00000002 ti_delay
+                            *COM*:00000002 ti_print
+                            *COM*:00000002 ti_console
+                            *COM*:00000002 ti_led
+                            *COM*:00000002 ti_tsi0
+                            *COM*:00000002 ti_tsi1
+                            *COM*:00000002 ti_test_adc
+                            *COM*:00000002 adc_sample
+                            *COM*:00000002 rtc_seconds_isrv_count
+                            *COM*:00000002 ti_tsi_multiplexing
+
+NO UNDEFINED SYMBOLS

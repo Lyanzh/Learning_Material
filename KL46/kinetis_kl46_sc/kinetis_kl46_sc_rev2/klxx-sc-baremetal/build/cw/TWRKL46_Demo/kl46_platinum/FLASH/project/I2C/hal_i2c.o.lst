@@ -1,0 +1,860 @@
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"hal_i2c.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.i2c_set_tx_mode,"ax",%progbits
+  18              		.align	2
+  19              		.global	i2c_set_tx_mode
+  20              		.code	16
+  21              		.thumb_func
+  23              	i2c_set_tx_mode:
+  24              	.LFB0:
+  25              		.file 1 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Dem
+   1:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** 
+   2:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** #include "common.h"
+   3:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** 
+   4:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** 
+   5:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** void i2c_set_tx_mode(I2C_MemMapPtr p)
+   6:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** {
+  26              		.loc 1 6 0
+  27              		.cfi_startproc
+  28 0000 80B5     		push	{r7, lr}
+  29              	.LCFI0:
+  30              		.cfi_def_cfa_offset 8
+  31              		.cfi_offset 7, -8
+  32              		.cfi_offset 14, -4
+  33 0002 82B0     		sub	sp, sp, #8
+  34              	.LCFI1:
+  35              		.cfi_def_cfa_offset 16
+  36 0004 00AF     		add	r7, sp, #0
+  37              	.LCFI2:
+  38              		.cfi_def_cfa_register 7
+  39 0006 7860     		str	r0, [r7, #4]
+   7:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****     p->C1 |= I2C_C1_TX_MASK;
+  40              		.loc 1 7 0
+  41 0008 7B68     		ldr	r3, [r7, #4]
+  42 000a 9B78     		ldrb	r3, [r3, #2]
+  43 000c DBB2     		uxtb	r3, r3
+  44 000e 1022     		mov	r2, #16
+  45 0010 1343     		orr	r3, r2
+  46 0012 DAB2     		uxtb	r2, r3
+  47 0014 7B68     		ldr	r3, [r7, #4]
+  48 0016 9A70     		strb	r2, [r3, #2]
+   8:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** 
+   9:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** }
+  49              		.loc 1 9 0
+  50 0018 BD46     		mov	sp, r7
+  51 001a 02B0     		add	sp, sp, #8
+  52              		@ sp needed for prologue
+  53 001c 80BD     		pop	{r7, pc}
+  54              		.cfi_endproc
+  55              	.LFE0:
+  57 001e C046     		.section	.text.i2c_set_rx_mode,"ax",%progbits
+  58              		.align	2
+  59              		.global	i2c_set_rx_mode
+  60              		.code	16
+  61              		.thumb_func
+  63              	i2c_set_rx_mode:
+  64              	.LFB1:
+  10:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** void i2c_set_rx_mode(I2C_MemMapPtr p)
+  11:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** {
+  65              		.loc 1 11 0
+  66              		.cfi_startproc
+  67 0000 80B5     		push	{r7, lr}
+  68              	.LCFI3:
+  69              		.cfi_def_cfa_offset 8
+  70              		.cfi_offset 7, -8
+  71              		.cfi_offset 14, -4
+  72 0002 82B0     		sub	sp, sp, #8
+  73              	.LCFI4:
+  74              		.cfi_def_cfa_offset 16
+  75 0004 00AF     		add	r7, sp, #0
+  76              	.LCFI5:
+  77              		.cfi_def_cfa_register 7
+  78 0006 7860     		str	r0, [r7, #4]
+  12:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****     p->C1 &= ~I2C_C1_TX_MASK;
+  79              		.loc 1 12 0
+  80 0008 7B68     		ldr	r3, [r7, #4]
+  81 000a 9B78     		ldrb	r3, [r3, #2]
+  82 000c DBB2     		uxtb	r3, r3
+  83 000e 1022     		mov	r2, #16
+  84 0010 9343     		bic	r3, r2
+  85 0012 DAB2     		uxtb	r2, r3
+  86 0014 7B68     		ldr	r3, [r7, #4]
+  87 0016 9A70     		strb	r2, [r3, #2]
+  13:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** }
+  88              		.loc 1 13 0
+  89 0018 BD46     		mov	sp, r7
+  90 001a 02B0     		add	sp, sp, #8
+  91              		@ sp needed for prologue
+  92 001c 80BD     		pop	{r7, pc}
+  93              		.cfi_endproc
+  94              	.LFE1:
+  96 001e C046     		.section	.text.i2c_set_slave_mode,"ax",%progbits
+  97              		.align	2
+  98              		.global	i2c_set_slave_mode
+  99              		.code	16
+ 100              		.thumb_func
+ 102              	i2c_set_slave_mode:
+ 103              	.LFB2:
+  14:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** 
+  15:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** void i2c_set_slave_mode(I2C_MemMapPtr p)
+  16:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** {
+ 104              		.loc 1 16 0
+ 105              		.cfi_startproc
+ 106 0000 80B5     		push	{r7, lr}
+ 107              	.LCFI6:
+ 108              		.cfi_def_cfa_offset 8
+ 109              		.cfi_offset 7, -8
+ 110              		.cfi_offset 14, -4
+ 111 0002 82B0     		sub	sp, sp, #8
+ 112              	.LCFI7:
+ 113              		.cfi_def_cfa_offset 16
+ 114 0004 00AF     		add	r7, sp, #0
+ 115              	.LCFI8:
+ 116              		.cfi_def_cfa_register 7
+ 117 0006 7860     		str	r0, [r7, #4]
+  17:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****     p->C1  &= ~I2C_C1_MST_MASK;
+ 118              		.loc 1 17 0
+ 119 0008 7B68     		ldr	r3, [r7, #4]
+ 120 000a 9B78     		ldrb	r3, [r3, #2]
+ 121 000c DBB2     		uxtb	r3, r3
+ 122 000e 2022     		mov	r2, #32
+ 123 0010 9343     		bic	r3, r2
+ 124 0012 DAB2     		uxtb	r2, r3
+ 125 0014 7B68     		ldr	r3, [r7, #4]
+ 126 0016 9A70     		strb	r2, [r3, #2]
+  18:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** }
+ 127              		.loc 1 18 0
+ 128 0018 BD46     		mov	sp, r7
+ 129 001a 02B0     		add	sp, sp, #8
+ 130              		@ sp needed for prologue
+ 131 001c 80BD     		pop	{r7, pc}
+ 132              		.cfi_endproc
+ 133              	.LFE2:
+ 135 001e C046     		.section	.text.i2c_set_master_mode,"ax",%progbits
+ 136              		.align	2
+ 137              		.global	i2c_set_master_mode
+ 138              		.code	16
+ 139              		.thumb_func
+ 141              	i2c_set_master_mode:
+ 142              	.LFB3:
+  19:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** void i2c_set_master_mode(I2C_MemMapPtr p)
+  20:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** {
+ 143              		.loc 1 20 0
+ 144              		.cfi_startproc
+ 145 0000 80B5     		push	{r7, lr}
+ 146              	.LCFI9:
+ 147              		.cfi_def_cfa_offset 8
+ 148              		.cfi_offset 7, -8
+ 149              		.cfi_offset 14, -4
+ 150 0002 82B0     		sub	sp, sp, #8
+ 151              	.LCFI10:
+ 152              		.cfi_def_cfa_offset 16
+ 153 0004 00AF     		add	r7, sp, #0
+ 154              	.LCFI11:
+ 155              		.cfi_def_cfa_register 7
+ 156 0006 7860     		str	r0, [r7, #4]
+  21:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****     p->C1  |=  I2C_C1_MST_MASK;
+ 157              		.loc 1 21 0
+ 158 0008 7B68     		ldr	r3, [r7, #4]
+ 159 000a 9B78     		ldrb	r3, [r3, #2]
+ 160 000c DBB2     		uxtb	r3, r3
+ 161 000e 2022     		mov	r2, #32
+ 162 0010 1343     		orr	r3, r2
+ 163 0012 DAB2     		uxtb	r2, r3
+ 164 0014 7B68     		ldr	r3, [r7, #4]
+ 165 0016 9A70     		strb	r2, [r3, #2]
+  22:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** }
+ 166              		.loc 1 22 0
+ 167 0018 BD46     		mov	sp, r7
+ 168 001a 02B0     		add	sp, sp, #8
+ 169              		@ sp needed for prologue
+ 170 001c 80BD     		pop	{r7, pc}
+ 171              		.cfi_endproc
+ 172              	.LFE3:
+ 174 001e C046     		.section	.text.i2c_give_nack,"ax",%progbits
+ 175              		.align	2
+ 176              		.global	i2c_give_nack
+ 177              		.code	16
+ 178              		.thumb_func
+ 180              	i2c_give_nack:
+ 181              	.LFB4:
+  23:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** 
+  24:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** // i2c general
+  25:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** 
+  26:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** void i2c_give_nack(I2C_MemMapPtr p)
+  27:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** {
+ 182              		.loc 1 27 0
+ 183              		.cfi_startproc
+ 184 0000 80B5     		push	{r7, lr}
+ 185              	.LCFI12:
+ 186              		.cfi_def_cfa_offset 8
+ 187              		.cfi_offset 7, -8
+ 188              		.cfi_offset 14, -4
+ 189 0002 82B0     		sub	sp, sp, #8
+ 190              	.LCFI13:
+ 191              		.cfi_def_cfa_offset 16
+ 192 0004 00AF     		add	r7, sp, #0
+ 193              	.LCFI14:
+ 194              		.cfi_def_cfa_register 7
+ 195 0006 7860     		str	r0, [r7, #4]
+  28:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****     p->C1 |= I2C_C1_TXAK_MASK;
+ 196              		.loc 1 28 0
+ 197 0008 7B68     		ldr	r3, [r7, #4]
+ 198 000a 9B78     		ldrb	r3, [r3, #2]
+ 199 000c DBB2     		uxtb	r3, r3
+ 200 000e 0822     		mov	r2, #8
+ 201 0010 1343     		orr	r3, r2
+ 202 0012 DAB2     		uxtb	r2, r3
+ 203 0014 7B68     		ldr	r3, [r7, #4]
+ 204 0016 9A70     		strb	r2, [r3, #2]
+  29:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** }
+ 205              		.loc 1 29 0
+ 206 0018 BD46     		mov	sp, r7
+ 207 001a 02B0     		add	sp, sp, #8
+ 208              		@ sp needed for prologue
+ 209 001c 80BD     		pop	{r7, pc}
+ 210              		.cfi_endproc
+ 211              	.LFE4:
+ 213 001e C046     		.section	.text.i2c_give_ack,"ax",%progbits
+ 214              		.align	2
+ 215              		.global	i2c_give_ack
+ 216              		.code	16
+ 217              		.thumb_func
+ 219              	i2c_give_ack:
+ 220              	.LFB5:
+  30:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** void i2c_give_ack(I2C_MemMapPtr p)
+  31:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** {
+ 221              		.loc 1 31 0
+ 222              		.cfi_startproc
+ 223 0000 80B5     		push	{r7, lr}
+ 224              	.LCFI15:
+ 225              		.cfi_def_cfa_offset 8
+ 226              		.cfi_offset 7, -8
+ 227              		.cfi_offset 14, -4
+ 228 0002 82B0     		sub	sp, sp, #8
+ 229              	.LCFI16:
+ 230              		.cfi_def_cfa_offset 16
+ 231 0004 00AF     		add	r7, sp, #0
+ 232              	.LCFI17:
+ 233              		.cfi_def_cfa_register 7
+ 234 0006 7860     		str	r0, [r7, #4]
+  32:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****     p->C1 &= ~I2C_C1_TXAK_MASK;
+ 235              		.loc 1 32 0
+ 236 0008 7B68     		ldr	r3, [r7, #4]
+ 237 000a 9B78     		ldrb	r3, [r3, #2]
+ 238 000c DBB2     		uxtb	r3, r3
+ 239 000e 0822     		mov	r2, #8
+ 240 0010 9343     		bic	r3, r2
+ 241 0012 DAB2     		uxtb	r2, r3
+ 242 0014 7B68     		ldr	r3, [r7, #4]
+ 243 0016 9A70     		strb	r2, [r3, #2]
+  33:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** }
+ 244              		.loc 1 33 0
+ 245 0018 BD46     		mov	sp, r7
+ 246 001a 02B0     		add	sp, sp, #8
+ 247              		@ sp needed for prologue
+ 248 001c 80BD     		pop	{r7, pc}
+ 249              		.cfi_endproc
+ 250              	.LFE5:
+ 252 001e C046     		.section	.text.i2c_repeated_start,"ax",%progbits
+ 253              		.align	2
+ 254              		.global	i2c_repeated_start
+ 255              		.code	16
+ 256              		.thumb_func
+ 258              	i2c_repeated_start:
+ 259              	.LFB6:
+  34:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** void i2c_repeated_start(I2C_MemMapPtr p)
+  35:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** {
+ 260              		.loc 1 35 0
+ 261              		.cfi_startproc
+ 262 0000 80B5     		push	{r7, lr}
+ 263              	.LCFI18:
+ 264              		.cfi_def_cfa_offset 8
+ 265              		.cfi_offset 7, -8
+ 266              		.cfi_offset 14, -4
+ 267 0002 82B0     		sub	sp, sp, #8
+ 268              	.LCFI19:
+ 269              		.cfi_def_cfa_offset 16
+ 270 0004 00AF     		add	r7, sp, #0
+ 271              	.LCFI20:
+ 272              		.cfi_def_cfa_register 7
+ 273 0006 7860     		str	r0, [r7, #4]
+  36:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****     p->C1     |= 0x04;
+ 274              		.loc 1 36 0
+ 275 0008 7B68     		ldr	r3, [r7, #4]
+ 276 000a 9B78     		ldrb	r3, [r3, #2]
+ 277 000c DBB2     		uxtb	r3, r3
+ 278 000e 0422     		mov	r2, #4
+ 279 0010 1343     		orr	r3, r2
+ 280 0012 DAB2     		uxtb	r2, r3
+ 281 0014 7B68     		ldr	r3, [r7, #4]
+ 282 0016 9A70     		strb	r2, [r3, #2]
+  37:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** }
+ 283              		.loc 1 37 0
+ 284 0018 BD46     		mov	sp, r7
+ 285 001a 02B0     		add	sp, sp, #8
+ 286              		@ sp needed for prologue
+ 287 001c 80BD     		pop	{r7, pc}
+ 288              		.cfi_endproc
+ 289              	.LFE6:
+ 291 001e C046     		.section	.text.i2c_write_byte,"ax",%progbits
+ 292              		.align	2
+ 293              		.global	i2c_write_byte
+ 294              		.code	16
+ 295              		.thumb_func
+ 297              	i2c_write_byte:
+ 298              	.LFB7:
+  38:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** void i2c_write_byte(I2C_MemMapPtr p, uint8 data)
+  39:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** {
+ 299              		.loc 1 39 0
+ 300              		.cfi_startproc
+ 301 0000 80B5     		push	{r7, lr}
+ 302              	.LCFI21:
+ 303              		.cfi_def_cfa_offset 8
+ 304              		.cfi_offset 7, -8
+ 305              		.cfi_offset 14, -4
+ 306 0002 82B0     		sub	sp, sp, #8
+ 307              	.LCFI22:
+ 308              		.cfi_def_cfa_offset 16
+ 309 0004 00AF     		add	r7, sp, #0
+ 310              	.LCFI23:
+ 311              		.cfi_def_cfa_register 7
+ 312 0006 7860     		str	r0, [r7, #4]
+ 313 0008 0A1C     		mov	r2, r1
+ 314 000a FB1C     		add	r3, r7, #3
+ 315 000c 1A70     		strb	r2, [r3]
+  40:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****     p->D = data;
+ 316              		.loc 1 40 0
+ 317 000e 7B68     		ldr	r3, [r7, #4]
+ 318 0010 FA1C     		add	r2, r7, #3
+ 319 0012 1278     		ldrb	r2, [r2]
+ 320 0014 1A71     		strb	r2, [r3, #4]
+  41:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** }
+ 321              		.loc 1 41 0
+ 322 0016 BD46     		mov	sp, r7
+ 323 0018 02B0     		add	sp, sp, #8
+ 324              		@ sp needed for prologue
+ 325 001a 80BD     		pop	{r7, pc}
+ 326              		.cfi_endproc
+ 327              	.LFE7:
+ 329              		.section	.text.i2c_read_byte,"ax",%progbits
+ 330              		.align	2
+ 331              		.global	i2c_read_byte
+ 332              		.code	16
+ 333              		.thumb_func
+ 335              	i2c_read_byte:
+ 336              	.LFB8:
+  42:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** uint8 i2c_read_byte(I2C_MemMapPtr p)
+  43:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** {
+ 337              		.loc 1 43 0
+ 338              		.cfi_startproc
+ 339 0000 80B5     		push	{r7, lr}
+ 340              	.LCFI24:
+ 341              		.cfi_def_cfa_offset 8
+ 342              		.cfi_offset 7, -8
+ 343              		.cfi_offset 14, -4
+ 344 0002 82B0     		sub	sp, sp, #8
+ 345              	.LCFI25:
+ 346              		.cfi_def_cfa_offset 16
+ 347 0004 00AF     		add	r7, sp, #0
+ 348              	.LCFI26:
+ 349              		.cfi_def_cfa_register 7
+ 350 0006 7860     		str	r0, [r7, #4]
+  44:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****     return p->D;
+ 351              		.loc 1 44 0
+ 352 0008 7B68     		ldr	r3, [r7, #4]
+ 353 000a 1B79     		ldrb	r3, [r3, #4]
+ 354 000c DBB2     		uxtb	r3, r3
+  45:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** }
+ 355              		.loc 1 45 0
+ 356 000e 181C     		mov	r0, r3
+ 357 0010 BD46     		mov	sp, r7
+ 358 0012 02B0     		add	sp, sp, #8
+ 359              		@ sp needed for prologue
+ 360 0014 80BD     		pop	{r7, pc}
+ 361              		.cfi_endproc
+ 362              	.LFE8:
+ 364 0016 C046     		.section	.text.i2c_start,"ax",%progbits
+ 365              		.align	2
+ 366              		.global	i2c_start
+ 367              		.code	16
+ 368              		.thumb_func
+ 370              	i2c_start:
+ 371              	.LFB9:
+  46:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** void i2c_start(I2C_MemMapPtr p)
+  47:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** {
+ 372              		.loc 1 47 0
+ 373              		.cfi_startproc
+ 374 0000 80B5     		push	{r7, lr}
+ 375              	.LCFI27:
+ 376              		.cfi_def_cfa_offset 8
+ 377              		.cfi_offset 7, -8
+ 378              		.cfi_offset 14, -4
+ 379 0002 82B0     		sub	sp, sp, #8
+ 380              	.LCFI28:
+ 381              		.cfi_def_cfa_offset 16
+ 382 0004 00AF     		add	r7, sp, #0
+ 383              	.LCFI29:
+ 384              		.cfi_def_cfa_register 7
+ 385 0006 7860     		str	r0, [r7, #4]
+  48:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****     i2c_set_master_mode(p);
+ 386              		.loc 1 48 0
+ 387 0008 7B68     		ldr	r3, [r7, #4]
+ 388 000a 181C     		mov	r0, r3
+ 389 000c FFF7FEFF 		bl	i2c_set_master_mode
+  49:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****     i2c_set_tx_mode(p);
+ 390              		.loc 1 49 0
+ 391 0010 7B68     		ldr	r3, [r7, #4]
+ 392 0012 181C     		mov	r0, r3
+ 393 0014 FFF7FEFF 		bl	i2c_set_tx_mode
+  50:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** }
+ 394              		.loc 1 50 0
+ 395 0018 BD46     		mov	sp, r7
+ 396 001a 02B0     		add	sp, sp, #8
+ 397              		@ sp needed for prologue
+ 398 001c 80BD     		pop	{r7, pc}
+ 399              		.cfi_endproc
+ 400              	.LFE9:
+ 402 001e C046     		.section	.text.i2c_stop,"ax",%progbits
+ 403              		.align	2
+ 404              		.global	i2c_stop
+ 405              		.code	16
+ 406              		.thumb_func
+ 408              	i2c_stop:
+ 409              	.LFB10:
+  51:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** void i2c_stop(I2C_MemMapPtr p)
+  52:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** {
+ 410              		.loc 1 52 0
+ 411              		.cfi_startproc
+ 412 0000 80B5     		push	{r7, lr}
+ 413              	.LCFI30:
+ 414              		.cfi_def_cfa_offset 8
+ 415              		.cfi_offset 7, -8
+ 416              		.cfi_offset 14, -4
+ 417 0002 82B0     		sub	sp, sp, #8
+ 418              	.LCFI31:
+ 419              		.cfi_def_cfa_offset 16
+ 420 0004 00AF     		add	r7, sp, #0
+ 421              	.LCFI32:
+ 422              		.cfi_def_cfa_register 7
+ 423 0006 7860     		str	r0, [r7, #4]
+  53:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****     i2c_set_slave_mode(p);
+ 424              		.loc 1 53 0
+ 425 0008 7B68     		ldr	r3, [r7, #4]
+ 426 000a 181C     		mov	r0, r3
+ 427 000c FFF7FEFF 		bl	i2c_set_slave_mode
+  54:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****     i2c_set_rx_mode(p);
+ 428              		.loc 1 54 0
+ 429 0010 7B68     		ldr	r3, [r7, #4]
+ 430 0012 181C     		mov	r0, r3
+ 431 0014 FFF7FEFF 		bl	i2c_set_rx_mode
+  55:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** }
+ 432              		.loc 1 55 0
+ 433 0018 BD46     		mov	sp, r7
+ 434 001a 02B0     		add	sp, sp, #8
+ 435              		@ sp needed for prologue
+ 436 001c 80BD     		pop	{r7, pc}
+ 437              		.cfi_endproc
+ 438              	.LFE10:
+ 440 001e C046     		.section	.text.i2c_wait,"ax",%progbits
+ 441              		.align	2
+ 442              		.global	i2c_wait
+ 443              		.code	16
+ 444              		.thumb_func
+ 446              	i2c_wait:
+ 447              	.LFB11:
+  56:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** void i2c_wait(I2C_MemMapPtr p)
+  57:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** {
+ 448              		.loc 1 57 0
+ 449              		.cfi_startproc
+ 450 0000 80B5     		push	{r7, lr}
+ 451              	.LCFI33:
+ 452              		.cfi_def_cfa_offset 8
+ 453              		.cfi_offset 7, -8
+ 454              		.cfi_offset 14, -4
+ 455 0002 82B0     		sub	sp, sp, #8
+ 456              	.LCFI34:
+ 457              		.cfi_def_cfa_offset 16
+ 458 0004 00AF     		add	r7, sp, #0
+ 459              	.LCFI35:
+ 460              		.cfi_def_cfa_register 7
+ 461 0006 7860     		str	r0, [r7, #4]
+  58:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****     // wait flag
+  59:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****     while((p->S & I2C_S_IICIF_MASK)==0);
+ 462              		.loc 1 59 0
+ 463 0008 C046     		mov	r8, r8
+ 464              	.L14:
+ 465              		.loc 1 59 0 is_stmt 0
+ 466 000a 7B68     		ldr	r3, [r7, #4]
+ 467 000c DB78     		ldrb	r3, [r3, #3]
+ 468 000e DBB2     		uxtb	r3, r3
+ 469 0010 1A1C     		mov	r2, r3
+ 470 0012 0223     		mov	r3, #2
+ 471 0014 1340     		and	r3, r2
+ 472 0016 F8D0     		beq	.L14
+  60:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****     // clear flag
+  61:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****     p->S |= I2C_S_IICIF_MASK;
+ 473              		.loc 1 61 0 is_stmt 1
+ 474 0018 7B68     		ldr	r3, [r7, #4]
+ 475 001a DB78     		ldrb	r3, [r3, #3]
+ 476 001c DBB2     		uxtb	r3, r3
+ 477 001e 0222     		mov	r2, #2
+ 478 0020 1343     		orr	r3, r2
+ 479 0022 DAB2     		uxtb	r2, r3
+ 480 0024 7B68     		ldr	r3, [r7, #4]
+ 481 0026 DA70     		strb	r2, [r3, #3]
+  62:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** }
+ 482              		.loc 1 62 0
+ 483 0028 BD46     		mov	sp, r7
+ 484 002a 02B0     		add	sp, sp, #8
+ 485              		@ sp needed for prologue
+ 486 002c 80BD     		pop	{r7, pc}
+ 487              		.cfi_endproc
+ 488              	.LFE11:
+ 490 002e C046     		.section	.text.i2c_get_ack,"ax",%progbits
+ 491              		.align	2
+ 492              		.global	i2c_get_ack
+ 493              		.code	16
+ 494              		.thumb_func
+ 496              	i2c_get_ack:
+ 497              	.LFB12:
+  63:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** uint16 i2c_get_ack(I2C_MemMapPtr p)
+  64:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** {
+ 498              		.loc 1 64 0
+ 499              		.cfi_startproc
+ 500 0000 80B5     		push	{r7, lr}
+ 501              	.LCFI36:
+ 502              		.cfi_def_cfa_offset 8
+ 503              		.cfi_offset 7, -8
+ 504              		.cfi_offset 14, -4
+ 505 0002 82B0     		sub	sp, sp, #8
+ 506              	.LCFI37:
+ 507              		.cfi_def_cfa_offset 16
+ 508 0004 00AF     		add	r7, sp, #0
+ 509              	.LCFI38:
+ 510              		.cfi_def_cfa_register 7
+ 511 0006 7860     		str	r0, [r7, #4]
+  65:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****     if((p->S & I2C_S_RXAK_MASK) == 0)
+ 512              		.loc 1 65 0
+ 513 0008 7B68     		ldr	r3, [r7, #4]
+ 514 000a DB78     		ldrb	r3, [r3, #3]
+ 515 000c DBB2     		uxtb	r3, r3
+ 516 000e 1A1C     		mov	r2, r3
+ 517 0010 0123     		mov	r3, #1
+ 518 0012 1340     		and	r3, r2
+ 519 0014 01D1     		bne	.L16
+  66:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****         return TRUE;
+ 520              		.loc 1 66 0
+ 521 0016 0123     		mov	r3, #1
+ 522 0018 00E0     		b	.L17
+ 523              	.L16:
+  67:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****     else
+  68:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****         return FALSE;
+ 524              		.loc 1 68 0
+ 525 001a 0023     		mov	r3, #0
+ 526              	.L17:
+  69:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** }
+ 527              		.loc 1 69 0
+ 528 001c 181C     		mov	r0, r3
+ 529 001e BD46     		mov	sp, r7
+ 530 0020 02B0     		add	sp, sp, #8
+ 531              		@ sp needed for prologue
+ 532 0022 80BD     		pop	{r7, pc}
+ 533              		.cfi_endproc
+ 534              	.LFE12:
+ 536              		.section	.text.hal_i2c0_init,"ax",%progbits
+ 537              		.align	2
+ 538              		.global	hal_i2c0_init
+ 539              		.code	16
+ 540              		.thumb_func
+ 542              	hal_i2c0_init:
+ 543              	.LFB13:
+  70:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** 
+  71:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** // -------------------------------------------------
+  72:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** void hal_i2c0_init(I2C_MemMapPtr p)   //Acelerometro
+  73:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** {
+ 544              		.loc 1 73 0
+ 545              		.cfi_startproc
+ 546 0000 80B5     		push	{r7, lr}
+ 547              	.LCFI39:
+ 548              		.cfi_def_cfa_offset 8
+ 549              		.cfi_offset 7, -8
+ 550              		.cfi_offset 14, -4
+ 551 0002 82B0     		sub	sp, sp, #8
+ 552              	.LCFI40:
+ 553              		.cfi_def_cfa_offset 16
+ 554 0004 00AF     		add	r7, sp, #0
+ 555              	.LCFI41:
+ 556              		.cfi_def_cfa_register 7
+ 557 0006 7860     		str	r0, [r7, #4]
+  74:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****    // SIM_SCGC4 |= SIM_SCGC4_I2C1_MASK;
+  75:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** 
+  76:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****    SIM_SCGC4 |= SIM_SCGC4_I2C0_MASK;
+ 558              		.loc 1 76 0
+ 559 0008 104A     		ldr	r2, .L19
+ 560 000a 1049     		ldr	r1, .L19
+ 561 000c 104B     		ldr	r3, .L19+4
+ 562 000e CB58     		ldr	r3, [r1, r3]
+ 563 0010 4021     		mov	r1, #64
+ 564 0012 1943     		orr	r1, r3
+ 565 0014 0E4B     		ldr	r3, .L19+4
+ 566 0016 D150     		str	r1, [r2, r3]
+  77:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****    SIM_SCGC5 |= SIM_SCGC5_PORTC_MASK;
+ 567              		.loc 1 77 0
+ 568 0018 0C4A     		ldr	r2, .L19
+ 569 001a 0C49     		ldr	r1, .L19
+ 570 001c 0D4B     		ldr	r3, .L19+8
+ 571 001e CB58     		ldr	r3, [r1, r3]
+ 572 0020 8021     		mov	r1, #128
+ 573 0022 0901     		lsl	r1, r1, #4
+ 574 0024 1943     		orr	r1, r3
+ 575 0026 0B4B     		ldr	r3, .L19+8
+ 576 0028 D150     		str	r1, [r2, r3]
+  78:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****     
+  79:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****       // configure GPIO for I2C function
+  80:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****     //PORTE_PCR24 = PORT_PCR_MUX(5);
+  81:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****     //PORTE_PCR25 = PORT_PCR_MUX(5);
+  82:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** 
+  83:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****     PORTC_PCR8 = PORT_PCR_MUX(2);
+ 577              		.loc 1 83 0
+ 578 002a 0B4B     		ldr	r3, .L19+12
+ 579 002c 8022     		mov	r2, #128
+ 580 002e 9200     		lsl	r2, r2, #2
+ 581 0030 1A62     		str	r2, [r3, #32]
+  84:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****     PORTC_PCR9 = PORT_PCR_MUX(2);
+ 582              		.loc 1 84 0
+ 583 0032 094B     		ldr	r3, .L19+12
+ 584 0034 8022     		mov	r2, #128
+ 585 0036 9200     		lsl	r2, r2, #2
+ 586 0038 5A62     		str	r2, [r3, #36]
+  85:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** 
+  86:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****     
+  87:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****     p->F  = 0x14; // baudrate
+ 587              		.loc 1 87 0
+ 588 003a 7B68     		ldr	r3, [r7, #4]
+ 589 003c 1422     		mov	r2, #20
+ 590 003e 5A70     		strb	r2, [r3, #1]
+  88:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****     p->C1 = 0x80; // enable IIC
+ 591              		.loc 1 88 0
+ 592 0040 7B68     		ldr	r3, [r7, #4]
+ 593 0042 8022     		mov	r2, #128
+ 594 0044 9A70     		strb	r2, [r3, #2]
+  89:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** }
+ 595              		.loc 1 89 0
+ 596 0046 BD46     		mov	sp, r7
+ 597 0048 02B0     		add	sp, sp, #8
+ 598              		@ sp needed for prologue
+ 599 004a 80BD     		pop	{r7, pc}
+ 600              	.L20:
+ 601              		.align	2
+ 602              	.L19:
+ 603 004c 00700440 		.word	1074032640
+ 604 0050 34100000 		.word	4148
+ 605 0054 38100000 		.word	4152
+ 606 0058 00B00440 		.word	1074049024
+ 607              		.cfi_endproc
+ 608              	.LFE13:
+ 610              		.section	.text.hal_i2c_deinit,"ax",%progbits
+ 611              		.align	2
+ 612              		.global	hal_i2c_deinit
+ 613              		.code	16
+ 614              		.thumb_func
+ 616              	hal_i2c_deinit:
+ 617              	.LFB14:
+  90:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** 
+  91:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** void hal_i2c_deinit(I2C_MemMapPtr p)
+  92:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** {
+ 618              		.loc 1 92 0
+ 619              		.cfi_startproc
+ 620 0000 80B5     		push	{r7, lr}
+ 621              	.LCFI42:
+ 622              		.cfi_def_cfa_offset 8
+ 623              		.cfi_offset 7, -8
+ 624              		.cfi_offset 14, -4
+ 625 0002 82B0     		sub	sp, sp, #8
+ 626              	.LCFI43:
+ 627              		.cfi_def_cfa_offset 16
+ 628 0004 00AF     		add	r7, sp, #0
+ 629              	.LCFI44:
+ 630              		.cfi_def_cfa_register 7
+ 631 0006 7860     		str	r0, [r7, #4]
+  93:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****     p->C1 = 0x00;
+ 632              		.loc 1 93 0
+ 633 0008 7B68     		ldr	r3, [r7, #4]
+ 634 000a 0022     		mov	r2, #0
+ 635 000c 9A70     		strb	r2, [r3, #2]
+  94:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****     
+  95:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****     SIM_SCGC4 &= ~SIM_SCGC4_I2C1_MASK;
+ 636              		.loc 1 95 0
+ 637 000e 064A     		ldr	r2, .L22
+ 638 0010 0549     		ldr	r1, .L22
+ 639 0012 064B     		ldr	r3, .L22+4
+ 640 0014 CB58     		ldr	r3, [r1, r3]
+ 641 0016 8021     		mov	r1, #128
+ 642 0018 181C     		mov	r0, r3
+ 643 001a 8843     		bic	r0, r1
+ 644 001c 011C     		mov	r1, r0
+ 645 001e 034B     		ldr	r3, .L22+4
+ 646 0020 D150     		str	r1, [r2, r3]
+  96:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** }
+ 647              		.loc 1 96 0
+ 648 0022 BD46     		mov	sp, r7
+ 649 0024 02B0     		add	sp, sp, #8
+ 650              		@ sp needed for prologue
+ 651 0026 80BD     		pop	{r7, pc}
+ 652              	.L23:
+ 653              		.align	2
+ 654              	.L22:
+ 655 0028 00700440 		.word	1074032640
+ 656 002c 34100000 		.word	4148
+ 657              		.cfi_endproc
+ 658              	.LFE14:
+ 660              		.section	.text.hal_i2c1_init,"ax",%progbits
+ 661              		.align	2
+ 662              		.global	hal_i2c1_init
+ 663              		.code	16
+ 664              		.thumb_func
+ 666              	hal_i2c1_init:
+ 667              	.LFB15:
+  97:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** 
+  98:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** 
+  99:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** void hal_i2c1_init(I2C_MemMapPtr p)   //I2C1 tower board
+ 100:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** {
+ 668              		.loc 1 100 0
+ 669              		.cfi_startproc
+ 670 0000 80B5     		push	{r7, lr}
+ 671              	.LCFI45:
+ 672              		.cfi_def_cfa_offset 8
+ 673              		.cfi_offset 7, -8
+ 674              		.cfi_offset 14, -4
+ 675 0002 82B0     		sub	sp, sp, #8
+ 676              	.LCFI46:
+ 677              		.cfi_def_cfa_offset 16
+ 678 0004 00AF     		add	r7, sp, #0
+ 679              	.LCFI47:
+ 680              		.cfi_def_cfa_register 7
+ 681 0006 7860     		str	r0, [r7, #4]
+ 101:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****     SIM_SCGC4 |= SIM_SCGC4_I2C1_MASK;
+ 682              		.loc 1 101 0
+ 683 0008 104A     		ldr	r2, .L25
+ 684 000a 1049     		ldr	r1, .L25
+ 685 000c 104B     		ldr	r3, .L25+4
+ 686 000e CB58     		ldr	r3, [r1, r3]
+ 687 0010 8021     		mov	r1, #128
+ 688 0012 1943     		orr	r1, r3
+ 689 0014 0E4B     		ldr	r3, .L25+4
+ 690 0016 D150     		str	r1, [r2, r3]
+ 102:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****     SIM_SCGC5 |= SIM_SCGC5_PORTC_MASK;
+ 691              		.loc 1 102 0
+ 692 0018 0C4A     		ldr	r2, .L25
+ 693 001a 0C49     		ldr	r1, .L25
+ 694 001c 0D4B     		ldr	r3, .L25+8
+ 695 001e CB58     		ldr	r3, [r1, r3]
+ 696 0020 8021     		mov	r1, #128
+ 697 0022 0901     		lsl	r1, r1, #4
+ 698 0024 1943     		orr	r1, r3
+ 699 0026 0B4B     		ldr	r3, .L25+8
+ 700 0028 D150     		str	r1, [r2, r3]
+ 103:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****     
+ 104:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****       // configure GPIO for I2C function
+ 105:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****     //PORTE_PCR24 = PORT_PCR_MUX(5);
+ 106:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****     //PORTE_PCR25 = PORT_PCR_MUX(5);
+ 107:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** 
+ 108:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****     PORTC_PCR10 = PORT_PCR_MUX(2);
+ 701              		.loc 1 108 0
+ 702 002a 0B4B     		ldr	r3, .L25+12
+ 703 002c 8022     		mov	r2, #128
+ 704 002e 9200     		lsl	r2, r2, #2
+ 705 0030 9A62     		str	r2, [r3, #40]
+ 109:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****     PORTC_PCR11 = PORT_PCR_MUX(2);
+ 706              		.loc 1 109 0
+ 707 0032 094B     		ldr	r3, .L25+12
+ 708 0034 8022     		mov	r2, #128
+ 709 0036 9200     		lsl	r2, r2, #2
+ 710 0038 DA62     		str	r2, [r3, #44]
+ 110:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** 
+ 111:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****     
+ 112:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****     p->F  = 0x14; // baudrate
+ 711              		.loc 1 112 0
+ 712 003a 7B68     		ldr	r3, [r7, #4]
+ 713 003c 1422     		mov	r2, #20
+ 714 003e 5A70     		strb	r2, [r3, #1]
+ 113:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c ****     p->C1 = 0x80; // enable IIC
+ 715              		.loc 1 113 0
+ 716 0040 7B68     		ldr	r3, [r7, #4]
+ 717 0042 8022     		mov	r2, #128
+ 718 0044 9A70     		strb	r2, [r3, #2]
+ 114:C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/projects/TWRKL46_Demo/I2C\hal_i2c.c **** }
+ 719              		.loc 1 114 0
+ 720 0046 BD46     		mov	sp, r7
+ 721 0048 02B0     		add	sp, sp, #8
+ 722              		@ sp needed for prologue
+ 723 004a 80BD     		pop	{r7, pc}
+ 724              	.L26:
+ 725              		.align	2
+ 726              	.L25:
+ 727 004c 00700440 		.word	1074032640
+ 728 0050 34100000 		.word	4148
+ 729 0054 38100000 		.word	4152
+ 730 0058 00B00440 		.word	1074049024
+ 731              		.cfi_endproc
+ 732              	.LFE15:
+ 734              		.text
+ 735              	.Letext0:
+ 736              		.file 2 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu/arm_cm0.h"
+ 737              		.file 3 "C:/Freescale/CW MCU v10.4/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint"
+ 738              		.file 4 "C:/Users/b01252/Documents/Freescale/L4K/software/kinetis_kl46_sc/src/cpu/headers/MKL46Z4.
+DEFINED SYMBOLS
+                            *ABS*:00000000 hal_i2c.c
+C:\Users\b01252\AppData\Local\Temp\ccb25GXl.s:18     .text.i2c_set_tx_mode:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccb25GXl.s:23     .text.i2c_set_tx_mode:00000000 i2c_set_tx_mode
+C:\Users\b01252\AppData\Local\Temp\ccb25GXl.s:58     .text.i2c_set_rx_mode:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccb25GXl.s:63     .text.i2c_set_rx_mode:00000000 i2c_set_rx_mode
+C:\Users\b01252\AppData\Local\Temp\ccb25GXl.s:97     .text.i2c_set_slave_mode:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccb25GXl.s:102    .text.i2c_set_slave_mode:00000000 i2c_set_slave_mode
+C:\Users\b01252\AppData\Local\Temp\ccb25GXl.s:136    .text.i2c_set_master_mode:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccb25GXl.s:141    .text.i2c_set_master_mode:00000000 i2c_set_master_mode
+C:\Users\b01252\AppData\Local\Temp\ccb25GXl.s:175    .text.i2c_give_nack:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccb25GXl.s:180    .text.i2c_give_nack:00000000 i2c_give_nack
+C:\Users\b01252\AppData\Local\Temp\ccb25GXl.s:214    .text.i2c_give_ack:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccb25GXl.s:219    .text.i2c_give_ack:00000000 i2c_give_ack
+C:\Users\b01252\AppData\Local\Temp\ccb25GXl.s:253    .text.i2c_repeated_start:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccb25GXl.s:258    .text.i2c_repeated_start:00000000 i2c_repeated_start
+C:\Users\b01252\AppData\Local\Temp\ccb25GXl.s:292    .text.i2c_write_byte:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccb25GXl.s:297    .text.i2c_write_byte:00000000 i2c_write_byte
+C:\Users\b01252\AppData\Local\Temp\ccb25GXl.s:330    .text.i2c_read_byte:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccb25GXl.s:335    .text.i2c_read_byte:00000000 i2c_read_byte
+C:\Users\b01252\AppData\Local\Temp\ccb25GXl.s:365    .text.i2c_start:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccb25GXl.s:370    .text.i2c_start:00000000 i2c_start
+C:\Users\b01252\AppData\Local\Temp\ccb25GXl.s:403    .text.i2c_stop:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccb25GXl.s:408    .text.i2c_stop:00000000 i2c_stop
+C:\Users\b01252\AppData\Local\Temp\ccb25GXl.s:441    .text.i2c_wait:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccb25GXl.s:446    .text.i2c_wait:00000000 i2c_wait
+C:\Users\b01252\AppData\Local\Temp\ccb25GXl.s:491    .text.i2c_get_ack:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccb25GXl.s:496    .text.i2c_get_ack:00000000 i2c_get_ack
+C:\Users\b01252\AppData\Local\Temp\ccb25GXl.s:537    .text.hal_i2c0_init:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccb25GXl.s:542    .text.hal_i2c0_init:00000000 hal_i2c0_init
+C:\Users\b01252\AppData\Local\Temp\ccb25GXl.s:603    .text.hal_i2c0_init:0000004c $d
+C:\Users\b01252\AppData\Local\Temp\ccb25GXl.s:611    .text.hal_i2c_deinit:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccb25GXl.s:616    .text.hal_i2c_deinit:00000000 hal_i2c_deinit
+C:\Users\b01252\AppData\Local\Temp\ccb25GXl.s:655    .text.hal_i2c_deinit:00000028 $d
+C:\Users\b01252\AppData\Local\Temp\ccb25GXl.s:661    .text.hal_i2c1_init:00000000 $t
+C:\Users\b01252\AppData\Local\Temp\ccb25GXl.s:666    .text.hal_i2c1_init:00000000 hal_i2c1_init
+C:\Users\b01252\AppData\Local\Temp\ccb25GXl.s:727    .text.hal_i2c1_init:0000004c $d
+                     .debug_frame:00000010 $d
+
+NO UNDEFINED SYMBOLS
